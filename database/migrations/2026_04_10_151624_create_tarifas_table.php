@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('titulo')->unique();
             $table->decimal('precio', 8, 2);
-            $table->string('tipo');              
+            $table->string('tipo');
             $table->text('descripcion');
-            $table->foreignId('centro_id')->constrained('centros')->onDelete('cascade'); 
+            $table->foreignId('centro_id')->constrained('centros')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -6,23 +6,28 @@ use Illuminate\Database\Eloquent\Model;
 
 class Centro extends Model
 {
-    protected $fillable = ['nombre', 'telefono', 'email', 'direccion', 'imagen', 'ubicacion'];  
+    protected $fillable = ['nombre', 'telefono', 'email', 'direccion', 'imagen', 'ubicacion'];
 
-    public function valoraciones(){
+    public function valoraciones()
+    {
         return $this->hasMany(Valoracion::class);
     }
 
-    public function redesSociales(){
+    public function redesSociales()
+    {
         return $this->hasMany(RedSocial::class);
     }
 
-    public function cursos(){
+    public function cursos()
+    {
         return $this->belongsToMany(Curso::class, 'centro_curso', 'centro_id', 'curso_id');
     }
 
-    public function instalaciones(){
+    public function instalaciones()
+    {
         return $this->belongsToMany(Instalacion::class, 'centro_instalacion', 'centro_id', 'instalacion_id');
     }
+
     public function tarifas()
     {
         return $this->hasMany(Tarifa::class);
@@ -31,5 +36,5 @@ class Centro extends Model
     public function usuarios()
     {
         return $this->belongsToMany(User::class, 'inscripcion', 'centro_id', 'user_id')->withTimestamps()->withPivot('fecha_alta');
-    }   
+    }
 }

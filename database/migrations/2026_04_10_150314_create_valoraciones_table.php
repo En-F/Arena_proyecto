@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('titulo');
             $table->text('comentario')->nullable();
-            $table->decimal('puntuacion',2,2);
+            $table->decimal('puntuacion', 2, 2);
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('curso_id')->constrained('cursos')->onDelete('cascade');
             $table->timestamps();

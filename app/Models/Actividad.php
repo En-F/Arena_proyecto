@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Actividad extends Model
 {
-    protected $table = 'actividades';  
+    protected $table = 'actividades';
 
     protected $fillable = ['titulo', 'duracion', 'nivel', 'descripcion', 'imagen', 'video'];
 
@@ -19,10 +19,9 @@ class Actividad extends Model
     {
         return $this->belongsToMany(User::class, 'favorito', 'actividad_id', 'user_id');
     }
+
     public function sesiones()
     {
-        return $this->hasMany(Sesion::class, 'actividad_id'); 
+        return $this->hasMany(Sesion::class, 'actividad_id');
     }
-    
-
 }

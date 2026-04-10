@@ -37,6 +37,7 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Rol::class, 'usuario_rol', 'user_id', 'rol_id');
     }
+
     public function noticias()
     {
         return $this->hasMany(Noticia::class);
@@ -46,9 +47,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Valoracion::class);
     }
+
     public function centros()
     {
-        return $this->belongsToMany(Centro::class, 'inscripcion', 'user_id', 'centro_id')->withPivot('fecha_alta')->withTimestamps();   
+        return $this->belongsToMany(Centro::class, 'inscripcion', 'user_id', 'centro_id')->withPivot('fecha_alta')->withTimestamps();
     }
 
     public function favoritos()

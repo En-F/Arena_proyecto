@@ -7,10 +7,9 @@ import '../../css/mainlayouts.css';
 interface Props {
     children: React.ReactNode;
     title?: string;
-    description?: string;
 }
 
-export default function MainLayout({ children, title, description }: Props) {
+export default function MainLayout({ children, title }: Props) {
     return (
         <div className="main-container">
             <Navbar />
