@@ -1,6 +1,5 @@
 // resources/js/Layouts/MainLayout.jsx
-import { Link } from '@inertiajs/react';
-import React, { ReactNode } from 'react';
+import React from 'react';
 import Footer from '@/components/Layouts/Footer';
 import Navbar from '@/components/Layouts/Navbar';
 import '../../css/mainlayouts.css';

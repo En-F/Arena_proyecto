@@ -1,9 +1,9 @@
-import { Head, Link } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 import React from 'react';
 import '../../../css/inicio.css';
 import AppLayout from '@/layouts/app-layout';
-import CartaActividad from '@/components/CartaActividad';
-import CartaNoticia from '@/components/CartaNoticia';
+// import CartaActividad from '@/components/CartaActividad';
+// import CartaNoticia from '@/components/CartaNoticia';
 import MainLayout from '@/Layouts/MainLayout';
 import Footer from '@/components/Layouts/Footer';
 import Navbar from '@/components/Layouts/Navbar';
