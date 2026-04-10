@@ -1,0 +1,125 @@
+:root {
+    --main-bg: #7092be;
+    --nav-blue: #0070f3;
+    --neon-green: #66ff66;
+    --card-white: #ffffff;
+    --text-principal: black;
+    --fondo-nav: #4a979c;
+    --fondo-main: #f3f5f7;
+    --color-boton: #ff652a;
+    --fondo: #ffff;
+}
+/* --- SECCIÓN NAVEGACIÓN --- */
+.navbar {
+    background-color: var(--nav-blue);
+    padding: 11px 32px;
+    color: black;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.botones-acceso {
+    margin: 0 0 0 12px;
+    display: flex;
+    position: relative;
+}
+.botones-acceso a {
+    display: flex;
+}
+.botones-acceso .boton {
+    margin: 0;
+    flex: 1;
+    justify-content: center;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    background: transparent;
+    text-decoration: none;
+    letter-spacing: -0.11px;
+}
+.botones-acceso a:first-child .boton {
+    border-radius: 20px 0 0 20px;
+    margin-right: 0;
+    padding: 6px 14px;
+    background-color: #f38200;
+}
+.botones-acceso a:last-child .boton {
+    border-radius: 0px 20px 20px 0px;
+    margin-left: 0;
+    padding: 6px 14px;
+}
+.botones-acceso .boton:hover {
+    opacity: 0.6;
+}
+/* Hazte socio */
+.botones-acceso .boton.socio {
+    color: var(--card-white);
+    line-height: 21px;
+}
+/* Iniciar sesión */
+.botones-acceso .boton.login {
+    display: flex;
+    align-items: center;
+    background-color: #f3f5f7;
+    color: #626a73;
+    justify-content: center;
+}
+
+.nav-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.nav-links a {
+    font-family: 'Inter';
+    padding: 10px 10px;
+    margin: 0 15px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    color: var(--nav-black);
+}
+
+.logo {
+    width: 70px;
+    object-fit: contain;
+    display: block;
+    border-radius: 20px;
+}
+
+.logo img {
+    width: 70px;
+    object-fit: contain;
+    display: block;
+    border-radius: 13px;
+}
+
+.nav-icons {
+    display: flex;
+    gap: 30px;
+}
+
+.icono-login {
+    width: 18px;
+    height: 18px;
+    margin-right: 8px;
+    object-fit: contain;
+    display: block;
+}
+
+.botones-acceso .boton.login::before {
+    content: none !important;
+    display: none !important;
+    background-image: none !important;
+}

@@ -1,0 +1,15 @@
+:root {
+    --main-bg: #7092be;
+    --nav-blue: #0070f3;
+    --neon-green: #66ff66;
+    --card-white: #ffffff;
+    --text-principal: black;
+    --fondo-nav: #4a979c;
+    --fondo-main: #f3f5f7;
+}
+.main-container {
+    background-color: var(--fondo-main);
+    min-height: 100vh;
+    font-family: 'Arial', sans-serif;
+    color: var(--text-principal);
+}

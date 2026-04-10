@@ -1,0 +1,302 @@
+:root {
+    --main-bg: #7092be;
+    --nav-blue: #0070f3;
+    --neon-green: #66ff66;
+    --card-white: #ffffff;
+    --nav-black: #000;
+    --soft-green: #0722bb;
+}
+
+main {
+    flex: 1;
+}
+
+.main-container {
+    background-color: var(--main-bg);
+    min-height: 100vh;
+    font-family: 'Arial', sans-serif;
+    padding-top: 80px;
+    display: flex;
+    flex-direction: column;
+}
+
+.title-black {
+    color: var(--neon-green);
+    text-align: center;
+    margin: 2rem 0;
+    font-size: 2rem;
+    color: var(--text-principal);
+    font-family: 'Kanit';
+}
+
+/* --- SECCIÓN CENTROS --- */
+.grid-centros {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    padding: 20px;
+}
+
+.img-card-circle {
+    width: 200px;
+    height: 250px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+    transition: transform 0.3s ease;
+}
+
+.img-card-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.img-card-circle:hover {
+    transform: scale(1.03);
+}
+
+/* --- SECCIÓN NOTICIAS --- */
+.noticia-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 1rem;
+    border-radius: 10px;
+    margin: 0 2rem;
+}
+
+.news-card {
+    background: white;
+    color: black;
+    border-radius: 10px;
+    padding: 1rem;
+    width: 250px;
+    margin: 0 10px;
+}
+
+/* --- SECCIÓN INSCRIPCIÓN --- */
+.banner-cta {
+    display: flex;
+    justify-content: center;
+    padding: 60px 20px;
+}
+
+.banner-content {
+    display: flex;
+    width: 90%;
+    background: white;
+    color: rgb(250, 250, 250);
+    border-radius: 10px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.banner-image {
+    flex: 1;
+    min-height: 400px;
+}
+
+.banner-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.9);
+}
+
+.banner-text-box {
+    padding: 4rem;
+    background-color: #1a2a3a;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+}
+
+.banner-text-box h3 {
+    font-size: 2.2rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    line-height: 1.1;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.banner-text-box p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin-bottom: 2rem;
+}
+
+.btn-inscripcion {
+    background-color: var(--neon-green);
+    color: #1a2a3a;
+    border: none;
+    padding: 15px 45px;
+    border-radius: 20px;
+    font-weight: 900;
+    margin-top: 4rem;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-inscripcion:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(102, 255, 102, 0.7);
+    background-color: #ffffff;
+}
+
+/* --- SECCIÓN ACTIVIDADES --- */
+.section-actividades {
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.activities-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+    margin: 0 auto;
+}
+
+.activity-card {
+    cursor: pointer;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.activity-img-wrapper {
+    position: relative;
+    width: 200px;
+    height: 250px;
+    border: 6px solid var(--card-white);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.activity-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.activity-title {
+    margin-top: 15px;
+    color: white;
+    font-size: 1.3rem;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+.activity-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.activity-explore {
+    color: var(--neon-green);
+    border: 2px solid var(--neon-green);
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    transform: translateY(15px);
+    transition: transform 0.3s ease;
+}
+
+.activity-img-wrapper:hover {
+    transform: scale(1.03);
+}
+
+.activity-card:hover {
+    transform: translateY(-10px);
+}
+
+.activity-card:hover .activity-img {
+    transform: scale(1.1);
+}
+
+.activity-card:hover .activity-overlay {
+    opacity: 1;
+}
+
+.activity-card:hover .activity-explore {
+    transform: translateY(0);
+}
+
+.activity-card:hover .activity-title {
+    color: var(--neon-green);
+}
+
+/* --- SECCIÓN RESPONSIVE --- */
+/*Tablet*/
+@media (max-width: 1024px) {
+    .grid-centros,
+    .news-grid,
+    .activities-grid {
+        gap: 15px;
+        padding: 10px;
+    }
+    .banner-content {
+        flex-direction: column;
+    }
+    .banner-image {
+        min-height: 250px;
+    }
+    .banner-text-box {
+        padding: 3rem 1.5rem;
+    }
+}
+
+/*Movil*/
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+
+    .grid-centros,
+    .news-grid,
+    .activities-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        justify-items: center;
+    }
+
+    .banner-image,
+    .banner-text-box {
+        width: 100%;
+    }
+
+    .title-green {
+        font-size: 1.5rem;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        gap: 2rem;
+        text-align: center;
+    }
+
+    .activity-img-wrapper {
+        gap: 15px;
+    }
+}
