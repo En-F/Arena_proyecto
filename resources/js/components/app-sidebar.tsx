@@ -1,5 +1,4 @@
-import { Link, router } from '@inertiajs/react';
-import { route } from 'ziggy-js';
+import { Link } from '@inertiajs/react';
 import { BookOpen, FolderGit2, LayoutGrid, House } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavFooter } from '@/components/nav-footer';

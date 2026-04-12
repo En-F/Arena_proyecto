@@ -2,25 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Actividad;
-use App\Models\Centro;
-use App\Models\Inicio;
-use App\Models\Noticia;
+use App\Models\Video;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 
-class InicioController extends Controller
+class VideoController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return Inertia::render('Inicio/index',[
-        'centros' => Centro::all(),
-        'noticias' => Noticia::all(),
-        'actividades' => Actividad::all(),
-    ]);
+        //
     }
 
     /**
@@ -42,7 +34,7 @@ class InicioController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Inicio $inicio)
+    public function show(Video $video)
     {
         //
     }
@@ -50,7 +42,7 @@ class InicioController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Inicio $inicio)
+    public function edit(Video $video)
     {
         //
     }
@@ -58,7 +50,7 @@ class InicioController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Inicio $inicio)
+    public function update(Request $request, Video $video)
     {
         //
     }
@@ -66,7 +58,7 @@ class InicioController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Inicio $inicio)
+    public function destroy(Video $video)
     {
         //
     }

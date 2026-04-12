@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use DB;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -16,11 +17,100 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-            'password' => Hash::make('test'),
+        $user_id = DB::table('users')->insertGetId([
+            'name' => 'Admin',
+            'email' => 'admin@admin.com',
+            'password' => Hash::make('admin'),
             'dni' => '12345678A',
+        ]);
+
+
+        /////////// CENTROS //////////
+        $centro_1 = DB::table('centros')->insertGetId([
+            'nombre' => 'Centro de Aguas Libres',
+            'descripcion' => 'Un centro de aguas libres con instalaciones modernas y un equipo de entrenadores profesionales para ayudarte a alcanzar tus objetivos de fitness.',
+            'direccion' => 'Calle del Natación, 789, Ciudad',
+            'telefono' => '234857432',
+            'imagen' => '/images/centros/1.jpg',
+            'email' => 'piscina@olimpiica.com'    
+        ]);
+
+        $centro_2 = DB::table('centros')->insertGetId([
+            'nombre' => 'Gimnasio',
+            'descripcion' => 'Un gimnasio equipado con las últimas máquinas de entrenamiento y un equipo de entrenadores profesionales para ayudarte a alcanzar tus objetivos de fitness.',
+            'direccion' => 'Avenida del Deporte, 456, Ciudad',
+            'telefono' => '987654321',
+            'imagen' => '/images/centros/2.jpg',
+            'email' => 'gimnasio@gim.com'   
+        ]);
+
+        $centro_3 = DB::table('centros')->insertGetId([
+            'nombre' => 'Centro de Actividades al aire libre',
+            'descripcion' => 'Un centro de actividades al aire libre con una amplia variedad de actividades para disfrutar en la naturaleza, como senderismo, ciclismo y escalada.',
+            'direccion' => 'Parque Natural, 123, Ciudad',
+            'telefono' => '345678901',
+            'imagen' => '/images/centros/3.jpg',
+            'email' => 'airelibre@actividades.com'   
+        ]);
+
+        $centro_4 = DB::table('centros')->insertGetId([
+            'nombre' => 'Centro de Atletismo',
+            'descripcion' => 'Un centro de atletismo con instalaciones modernas y un equipo de entrenadores profesionales para ayudarte a alcanzar tus objetivos de fitness.',
+            'direccion' => 'Calle del Atletismo, 456, Ciudad',
+            'telefono' => '987958421',
+            'imagen' => '/images/centros/4.jpg',
+            'email' => 'atletismo@atletismo.com'   
+        ]);
+
+
+
+
+        /////////// ACTIVIDADES //////////
+
+        $actividad_1 = DB::table('actividades')->insertGetId([
+            'titulo' => 'Natación',
+            'descripcion' => 'Una actividad acuática que consiste en nadar en una piscina o en aguas abiertas.',
+            'imagen' => '/images/actividades/1.jpg',
+            'duracion' => 60,
+            'nivel' => 'Medio'
+        ]);
+
+        $actividad_2= DB::table('actividades')->insertGetId([
+            'titulo' => 'Ciclismo',
+            'descripcion' => 'Una actividad que consiste en pedalear en una bicicleta.',
+            'imagen' => '/images/actividades/2.jpg',
+            'duracion' => 30,
+            'nivel' => 'Principiante'
+        ]);
+
+        $actividad_3= DB::table('actividades')->insertGetId([
+            'titulo' => 'Futbol',
+            'descripcion' => 'Una actividad que consiste en jugar al futbol.',
+            'imagen' => '/images/actividades/3.jpg',
+            'duracion' => 90,
+            'nivel' => 'Medio'
+        ]);
+
+        $actividad_4= DB::table('actividades')->insertGetId([
+            'titulo' => 'Atletismo',
+            'descripcion' => 'Una actividad que consiste en practicar atletismo.',
+            'imagen' => '/images/actividades/4.jpg',
+            'duracion' => 60,
+            'nivel' => 'Principiante'
+        ]);
+
+        $noticia_1 = DB::table('noticias')->insertGetId([
+            'titulo' => 'Nueva piscina olímpica en la ciudad',
+            'contenido' => 'La ciudad ha inaugurado una nueva piscina olímpica que cuenta con instalaciones de última generación y un equipo de entrenadores profesionales para ayudar a los nadadores a alcanzar sus objetivos de fitness.',
+            'imagen' => '/images/noticias/1.jpg',
+            'user_id' => 1
+        ]);
+
+        $noticia_2 = DB::table('noticias')->insertGetId([
+            'titulo' => 'Nuevo gimnasio en el centro de la ciudad',
+            'contenido' => 'La ciudad ha inaugurado un nuevo gimnasio en el centro de la ciudad que cuenta con instalaciones de última generación y un equipo de entrenadores profesionales para ayudar a los clientes a alcanzar sus objetivos de fitness.',
+            'imagen' => '/images/noticias/2.jpg',
+            'user_id' => 1
         ]);
     }
 }

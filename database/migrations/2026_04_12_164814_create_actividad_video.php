@@ -11,14 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('centros', function (Blueprint $table) {
+        Schema::create('actividad_video', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre')->unique();
-            $table->string('telefono');
-            $table->string('email');
-            $table->string('direccion');
-            $table->string('imagen');
-            $table->text('descripcion');
+            $table->foreignId('actividad_id')->constrained('actividades')->onDelete('cascade');
+            $table->foreignId('video_id')->constrained('videos')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -28,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('centros');
+        Schema::dropIfExists('actividad_video');
     }
 };

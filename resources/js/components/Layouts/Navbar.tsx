@@ -7,15 +7,15 @@ const Navbar = () => {
         <nav className="navbar">
             <div className="nav-content">
                 <div className="logo">
-                    <Link href={'/'}>
-                        <img src="/images/otros/logo.png" alt="Arena" />
+                    <Link href={'/inicio'}>
+                        <img src="/images/otros/logo.jpg" alt="Arena" />
                     </Link>
                 </div>
                 <div className="nav-links">
-                    <Link href="#">Cursos y tarifas</Link>
-                    <Link href="#">Actividades</Link>
-                    <Link href="#">Centro</Link>
-                    <Link href="#">Horario</Link>
+                    <Link href={'/centro'}>Centros y tarifas</Link>
+                    <Link href={'/actividades'}>Actividades</Link>
+                    <Link href={'/cursos'}>Cursos</Link>
+                    <Link href={'/horario'}>Horario</Link>
                 </div>
                 <div className="botones-acceso">
                     <Link href={'/socio'}>
@@ -24,7 +24,7 @@ const Navbar = () => {
                     <Link href={'/login'}>
                         <button className="boton login">
                             <img
-                                src="images/otros/usuario.png"
+                                src="images/otros/persona.jpg"
                                 alt="Usuario"
                                 className="icono-login"
                             />

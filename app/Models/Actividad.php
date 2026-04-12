@@ -24,4 +24,9 @@ class Actividad extends Model
     {
         return $this->hasMany(Sesion::class, 'actividad_id');
     }
+
+    public function videos()
+    {
+        return $this->belongsToMany(Video::class, 'actividad_video', 'actividad_id', 'video_id');
+    }
 }

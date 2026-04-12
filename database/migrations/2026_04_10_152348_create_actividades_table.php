@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('nivel');
             $table->text('descripcion');
             $table->string('imagen')->nullable();
-            $table->string('video')->nullable();
             $table->timestamps();
         });
     }
