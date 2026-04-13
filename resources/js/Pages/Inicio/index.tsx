@@ -15,17 +15,28 @@ export default function Inicio({ centros, noticias, actividades }: Props) {
                 {/* --- SECCIÓN CENTROS --- */}
                 <section className="section-centros">
                     <h2 className="title-black">Nuestros Centros</h2>
+                    <p className="descripcion-centros">
+                        Conoce nuestro centro, un espacio diseñado para
+                        motivarte, acompañarte y ayudarte a superar tus límites
+                        con instalaciones modernas, entrenadores profesionales y
+                        un ambiente único en el que cada detalle está pensado
+                        para tu bienestar.
+                    </p>
+
                     <div className="grid-centros">
-                        {centros.map((centro) => (
+                        {centros.slice(0, 4).map((centro) => (
                             <Link
                                 key={centro.id}
                                 href={`/centros/${centro.id}`}
-                                className="img-card-circle"
+                                className="centro-item"
                             >
-                                <img
-                                    src={`/images/centros/${centro.id}.jpg`}
-                                    alt={centro.nombre}
-                                />
+                                <div className="img-card-container">
+                                    <img
+                                        src={`/images/centros/${centro.id}.jpg`}
+                                        alt={centro.nombre}
+                                    />
+                                </div>
+                                <p className="centro-title">{centro.nombre}</p>
                             </Link>
                         ))}
                     </div>
@@ -79,7 +90,7 @@ export default function Inicio({ centros, noticias, actividades }: Props) {
                                     </div>
                                 </div>
                                 <p className="activity-title">
-                                    {actividad.nombre}
+                                    {actividad.titulo}
                                 </p>
                             </Link>
                         ))}
@@ -116,12 +127,3 @@ export default function Inicio({ centros, noticias, actividades }: Props) {
         </>
     );
 }
-
-Inicio.layout = {
-    breadcrumbs: [
-        {
-            title: 'Inicio',
-            href: '/inicio',
-        },
-    ],
-};

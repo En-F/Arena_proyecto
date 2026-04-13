@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Centro;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class CentroController extends Controller
 {
@@ -12,7 +13,10 @@ class CentroController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('Centro/index',
+        [
+            'centros' => Centro::all()
+        ]);
     }
 
     /**
@@ -36,7 +40,10 @@ class CentroController extends Controller
      */
     public function show(Centro $centro)
     {
-        //
+        return Inertia::render('Centro/show',
+        [
+            'centro' => $centro
+        ]);
     }
 
     /**

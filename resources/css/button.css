@@ -1,0 +1,22 @@
+.btn-crud {
+    padding: 6px 72px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-family: sans-serif;
+}
+
+.btn-volver {
+    background-color: #72f178;
+    color: #000;
+    border-radius: 12px;
+}
+.btn-volver:hover {
+    background-color: #5ce062;
+    transform: translateY(-2px);
+}

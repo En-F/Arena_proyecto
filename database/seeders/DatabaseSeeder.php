@@ -27,19 +27,19 @@ class DatabaseSeeder extends Seeder
 
         /////////// CENTROS //////////
         $centro_1 = DB::table('centros')->insertGetId([
-            'nombre' => 'Centro de Aguas Libres',
+            'nombre' => 'Centro Ok+',
             'descripcion' => 'Un centro de aguas libres con instalaciones modernas y un equipo de entrenadores profesionales para ayudarte a alcanzar tus objetivos de fitness.',
-            'direccion' => 'Calle del Natación, 789, Ciudad',
+            'direccion' => 'Avenida de la Rondeña, s/n',
             'telefono' => '234857432',
             'imagen' => '/images/centros/1.jpg',
             'email' => 'piscina@olimpiica.com'    
         ]);
 
         $centro_2 = DB::table('centros')->insertGetId([
-            'nombre' => 'Gimnasio',
+            'nombre' => 'Gimnasio FitLife',
             'descripcion' => 'Un gimnasio equipado con las últimas máquinas de entrenamiento y un equipo de entrenadores profesionales para ayudarte a alcanzar tus objetivos de fitness.',
-            'direccion' => 'Avenida del Deporte, 456, Ciudad',
-            'telefono' => '987654321',
+            'direccion' => 'Avenida del Deporte, 456',
+            'telefono' => '989384321',
             'imagen' => '/images/centros/2.jpg',
             'email' => 'gimnasio@gim.com'   
         ]);
@@ -47,19 +47,37 @@ class DatabaseSeeder extends Seeder
         $centro_3 = DB::table('centros')->insertGetId([
             'nombre' => 'Centro de Actividades al aire libre',
             'descripcion' => 'Un centro de actividades al aire libre con una amplia variedad de actividades para disfrutar en la naturaleza, como senderismo, ciclismo y escalada.',
-            'direccion' => 'Parque Natural, 123, Ciudad',
+            'direccion' => 'Parque Natural, 123',
             'telefono' => '345678901',
             'imagen' => '/images/centros/3.jpg',
             'email' => 'airelibre@actividades.com'   
         ]);
 
         $centro_4 = DB::table('centros')->insertGetId([
-            'nombre' => 'Centro de Atletismo',
+            'nombre' => 'Centro de Atletismo Alberto Nuñez',
             'descripcion' => 'Un centro de atletismo con instalaciones modernas y un equipo de entrenadores profesionales para ayudarte a alcanzar tus objetivos de fitness.',
-            'direccion' => 'Calle del Atletismo, 456, Ciudad',
-            'telefono' => '987958421',
+            'direccion' => 'Calle del Atletismo, 456',
+            'telefono' => '127958421',
             'imagen' => '/images/centros/4.jpg',
             'email' => 'atletismo@atletismo.com'   
+        ]);
+
+        $centro_5 = DB::table('centros')->insertGetId([
+            'nombre' => 'Centro de pilates Maria Luisa',
+            'descripcion' => 'Un centro de pilates con instalaciones modernas y un equipo de entrenadores profesionales para ayudarte a alcanzar tus objetivos de fitness.',
+            'direccion' => 'Calle del Pilates, 456',
+            'telefono' => '987958121',
+            'imagen' => '/images/centros/5.jpg',
+            'email' => 'pilates@pilates.com'   
+        ]);
+
+        $centro_6 = DB::table('centros')->insertGetId([
+            'nombre' => 'Polideportivo Marco Aurelio',
+            'descripcion' => 'Polideportivo que ofrece una amplia variedad de instalaciones deportes para todos los niveles y para todas las edades.',
+            'direccion' => 'Calle del Atletismo, 456, Ciudad',
+            'telefono' => '981258421',
+            'imagen' => '/images/centros/6.jpg',
+            'email' => 'polideportivo@polideportivo.com'   
         ]);
 
 
@@ -99,6 +117,10 @@ class DatabaseSeeder extends Seeder
             'nivel' => 'Principiante'
         ]);
 
+        
+
+
+        /////////// NOTICIAS //////////
         $noticia_1 = DB::table('noticias')->insertGetId([
             'titulo' => 'Nueva piscina olímpica en la ciudad',
             'contenido' => 'La ciudad ha inaugurado una nueva piscina olímpica que cuenta con instalaciones de última generación y un equipo de entrenadores profesionales para ayudar a los nadadores a alcanzar sus objetivos de fitness.',

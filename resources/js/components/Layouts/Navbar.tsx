@@ -12,9 +12,9 @@ const Navbar = () => {
                     </Link>
                 </div>
                 <div className="nav-links">
-                    <Link href={'/centro'}>Centros y tarifas</Link>
+                    <Link href={'/centros'}>Centros y tarifas</Link>
                     <Link href={'/actividades'}>Actividades</Link>
-                    <Link href={'/cursos'}>Cursos</Link>
+                    <Link href={'/noticias'}>Noticias</Link>
                     <Link href={'/horario'}>Horario</Link>
                 </div>
                 <div className="botones-acceso">

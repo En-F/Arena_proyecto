@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\ActividadController;
+use App\Http\Controllers\CentroController;
 use App\Http\Controllers\InicioController;
+use App\Http\Controllers\NoticiaController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 
@@ -13,5 +16,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 Route::get('/inicio', [InicioController::class, 'index'])->name('inicio.index');
+
+Route::resource('centros', CentroController::class);
+Route::resource('actividades', ActividadController::class);
+Route::resource('noticias', NoticiaController::class);
 
 require __DIR__.'/settings.php';
