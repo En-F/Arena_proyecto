@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Curso;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class CursoController extends Controller
 {
@@ -12,7 +13,10 @@ class CursoController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('Curso/index',
+        [
+            'cursos' => Curso::all()
+        ]);
     }
 
     /**

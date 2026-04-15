@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('actividad_video', function (Blueprint $table) {
+        Schema::create('videoables', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('actividad_id')->constrained('actividades')->onDelete('cascade');
             $table->foreignId('video_id')->constrained('videos')->onDelete('cascade');
             $table->timestamps();
+            $table->morphs('videoable');
         });
     }
 
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('actividad_video');
+        Schema::dropIfExists('videoables');
     }
 };

@@ -8,13 +8,13 @@ const Navbar = () => {
             <div className="nav-content">
                 <div className="logo">
                     <Link href={'/inicio'}>
-                        <img src="/images/otros/logo.jpg" alt="Arena" />
+                        <img src="/storage/otros/logo.jpg" alt="Arena" />
                     </Link>
                 </div>
                 <div className="nav-links">
                     <Link href={'/centros'}>Centros y tarifas</Link>
                     <Link href={'/actividades'}>Actividades</Link>
-                    <Link href={'/noticias'}>Noticias</Link>
+                    <Link href={'/cursos'}>Cursos</Link>
                     <Link href={'/horario'}>Horario</Link>
                 </div>
                 <div className="botones-acceso">
@@ -24,7 +24,7 @@ const Navbar = () => {
                     <Link href={'/login'}>
                         <button className="boton login">
                             <img
-                                src="images/otros/persona.jpg"
+                                src="/storage/otros/persona.jpg"
                                 alt="Usuario"
                                 className="icono-login"
                             />

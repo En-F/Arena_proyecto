@@ -68,8 +68,6 @@ const Footer = () => {
 
                 <div className="footer__barra_inferior">
                     <p className="footer__copyright">
-                        © Arena Deportiva 2026. Todos los derechos reservados.
-                        <br />
                         Desarrollado por Enrique Franco Ulric para la ayuda de
                         la gestión de un centro de deporte.
                     </p>

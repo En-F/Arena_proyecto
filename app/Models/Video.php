@@ -8,10 +8,15 @@ class Video extends Model
 {
     protected $table = 'videos';
 
-    protected $fillable = ['url'];
+    protected $fillable = ['titulo', 'url', 'videoable_id', 'videoable_type'];
+
+    public function cursos()
+    {
+        return $this->morphedByMany(Curso::class, 'videoable');
+    }
 
     public function actividades()
     {
-        return $this->belongsToMany(Actividad::class, 'actividad_video', 'video_id', 'actividad_id');
-    }   
+        return $this->morphedByMany(Actividad::class, 'videoable');
+    }
 }

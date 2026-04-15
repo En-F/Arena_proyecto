@@ -22,4 +22,9 @@ class Curso extends Model
     {
         return $this->belongsToMany(Actividad::class, 'actividad_curso', 'curso_id', 'actividad_id');
     }
+
+    public function videos()
+{
+    return $this->morphToMany(Video::class, 'videoable');
+}
 }

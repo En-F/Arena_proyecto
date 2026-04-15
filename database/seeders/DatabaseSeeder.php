@@ -2,137 +2,125 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use DB;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // User::factory(10)->create();
-
+        // --- USUARIO ---
         $user_id = DB::table('users')->insertGetId([
             'name' => 'Admin',
             'email' => 'admin@admin.com',
             'password' => Hash::make('admin'),
             'dni' => '12345678A',
+            'created_at' => now(),
         ]);
 
-
-        /////////// CENTROS //////////
+        // --- CENTROS ---
         $centro_1 = DB::table('centros')->insertGetId([
-            'nombre' => 'Centro Ok+',
-            'descripcion' => 'Un centro de aguas libres con instalaciones modernas y un equipo de entrenadores profesionales para ayudarte a alcanzar tus objetivos de fitness.',
-            'direccion' => 'Avenida de la Rondeña, s/n',
+            'nombre' => 'Centro de Aguas Libres',
+            'descripcion' => 'Ubicado en la costa, nuestro centro ofrece un entorno privilegiado para el entrenamiento acuático con piscina climatizada de alto rendimiento.',
+            'direccion' => 'Calle del Natación, 789, Ciudad',
             'telefono' => '234857432',
-            'imagen' => '/images/centros/1.jpg',
-            'email' => 'piscina@olimpiica.com'    
+            'email' => 'piscina@olimpica.com'
         ]);
+        DB::table('centros')->where('id', $centro_1)->update(['imagen' => "centros/{$centro_1}.jpg"]);
 
         $centro_2 = DB::table('centros')->insertGetId([
-            'nombre' => 'Gimnasio FitLife',
-            'descripcion' => 'Un gimnasio equipado con las últimas máquinas de entrenamiento y un equipo de entrenadores profesionales para ayudarte a alcanzar tus objetivos de fitness.',
-            'direccion' => 'Avenida del Deporte, 456',
-            'telefono' => '989384321',
-            'imagen' => '/images/centros/2.jpg',
-            'email' => 'gimnasio@gim.com'   
+            'nombre' => 'Gimnasio Core Fitness',
+            'descripcion' => 'Un gimnasio equipado con las últimas máquinas de entrenamiento y un equipo de entrenadores profesionales de élite.',
+            'direccion' => 'Avenida del Deporte, 456, Ciudad',
+            'telefono' => '987654321',
+            'email' => 'gimnasio@gim.com'
         ]);
+        DB::table('centros')->where('id', $centro_2)->update(['imagen' => "centros/{$centro_2}.jpg"]);
 
         $centro_3 = DB::table('centros')->insertGetId([
-            'nombre' => 'Centro de Actividades al aire libre',
-            'descripcion' => 'Un centro de actividades al aire libre con una amplia variedad de actividades para disfrutar en la naturaleza, como senderismo, ciclismo y escalada.',
-            'direccion' => 'Parque Natural, 123',
+            'nombre' => 'Adventure Hub Aire Libre',
+            'descripcion' => 'Variedad de actividades para disfrutar en la naturaleza, como senderismo, ciclismo y escalada profesional.',
+            'direccion' => 'Parque Natural, 123, Ciudad',
             'telefono' => '345678901',
-            'imagen' => '/images/centros/3.jpg',
-            'email' => 'airelibre@actividades.com'   
+            'email' => 'airelibre@actividades.com'
         ]);
+        DB::table('centros')->where('id', $centro_3)->update(['imagen' => "centros/{$centro_3}.jpg"]);
 
         $centro_4 = DB::table('centros')->insertGetId([
-            'nombre' => 'Centro de Atletismo Alberto Nuñez',
-            'descripcion' => 'Un centro de atletismo con instalaciones modernas y un equipo de entrenadores profesionales para ayudarte a alcanzar tus objetivos de fitness.',
-            'direccion' => 'Calle del Atletismo, 456',
-            'telefono' => '127958421',
-            'imagen' => '/images/centros/4.jpg',
-            'email' => 'atletismo@atletismo.com'   
-        ]);
-
-        $centro_5 = DB::table('centros')->insertGetId([
-            'nombre' => 'Centro de pilates Maria Luisa',
-            'descripcion' => 'Un centro de pilates con instalaciones modernas y un equipo de entrenadores profesionales para ayudarte a alcanzar tus objetivos de fitness.',
-            'direccion' => 'Calle del Pilates, 456',
-            'telefono' => '987958121',
-            'imagen' => '/images/centros/5.jpg',
-            'email' => 'pilates@pilates.com'   
-        ]);
-
-        $centro_6 = DB::table('centros')->insertGetId([
-            'nombre' => 'Polideportivo Marco Aurelio',
-            'descripcion' => 'Polideportivo que ofrece una amplia variedad de instalaciones deportes para todos los niveles y para todas las edades.',
+            'nombre' => 'Centro de Atletismo Municipal',
+            'descripcion' => 'Instalaciones modernas con pista de tartán y equipo técnico especializado en alto rendimiento.',
             'direccion' => 'Calle del Atletismo, 456, Ciudad',
-            'telefono' => '981258421',
-            'imagen' => '/images/centros/6.jpg',
-            'email' => 'polideportivo@polideportivo.com'   
+            'telefono' => '987958421',
+            'email' => 'atletismo@atletismo.com'
         ]);
+        DB::table('centros')->where('id', $centro_4)->update(['imagen' => "centros/{$centro_4}.jpg"]);
 
-
-
-
-        /////////// ACTIVIDADES //////////
-
+        // --- ACTIVIDADES ---
         $actividad_1 = DB::table('actividades')->insertGetId([
             'titulo' => 'Natación',
-            'descripcion' => 'Una actividad acuática que consiste en nadar en una piscina o en aguas abiertas.',
-            'imagen' => '/images/actividades/1.jpg',
-            'duracion' => 60,
-            'nivel' => 'Medio'
+            'descripcion' => 'Disciplina acuática integral que combina resistencia y fuerza. Ideal para fortalecer el sistema cardiovascular en un entorno de bajo impacto articular.',            'nivel' => 'Medio',
+            'tipo' => 'Acuática'
         ]);
+        DB::table('actividades')->where('id', $actividad_1)->update(['imagen' => "actividades/{$actividad_1}.jpg"]);
 
-        $actividad_2= DB::table('actividades')->insertGetId([
+        $actividad_2 = DB::table('actividades')->insertGetId([
             'titulo' => 'Ciclismo',
-            'descripcion' => 'Una actividad que consiste en pedalear en una bicicleta.',
-            'imagen' => '/images/actividades/2.jpg',
-            'duracion' => 30,
-            'nivel' => 'Principiante'
+            'descripcion' => 'Mejora tu capacidad aeróbica sobre ruedas. Trabajo de potencia en el tren inferior y resistencia metabólica en sesiones dinámicas.',
+            'nivel' => 'Principiante',
+            'tipo' => 'Cardio'
         ]);
+        DB::table('actividades')->where('id', $actividad_2)->update(['imagen' => "actividades/{$actividad_2}.jpg"]);
 
-        $actividad_3= DB::table('actividades')->insertGetId([
-            'titulo' => 'Futbol',
-            'descripcion' => 'Una actividad que consiste en jugar al futbol.',
-            'imagen' => '/images/actividades/3.jpg',
-            'duracion' => 90,
-            'nivel' => 'Medio'
+        $actividad_3 = DB::table('actividades')->insertGetId([
+            'titulo' => 'Fútbol',
+            'descripcion' => 'Estrategia grupal, potencia explosiva y agilidad. Participa en entrenamientos diseñados para mejorar tu coordinación táctica y velocidad.',
+            'nivel' => 'Medio',
+            'tipo' => 'Cardio'
         ]);
+        DB::table('actividades')->where('id', $actividad_3)->update(['imagen' => "actividades/{$actividad_3}.jpg"]);
 
-        $actividad_4= DB::table('actividades')->insertGetId([
+        $actividad_4 = DB::table('actividades')->insertGetId([
             'titulo' => 'Atletismo',
-            'descripcion' => 'Una actividad que consiste en practicar atletismo.',
-            'imagen' => '/images/actividades/4.jpg',
-            'duracion' => 60,
-            'nivel' => 'Principiante'
+            'descripcion' => 'Fundamentos del movimiento: carrera, saltos y lanzamientos. Perfecciona tu técnica de zancada y economía de carrera.',
+            'nivel' => 'Principiante',
+            'tipo' => 'Cardio'
         ]);
+        DB::table('actividades')->where('id', $actividad_4)->update(['imagen' => "actividades/{$actividad_4}.jpg"]);
 
-        
-
-
-        /////////// NOTICIAS //////////
+        // --- NOTICIAS ---
         $noticia_1 = DB::table('noticias')->insertGetId([
             'titulo' => 'Nueva piscina olímpica en la ciudad',
-            'contenido' => 'La ciudad ha inaugurado una nueva piscina olímpica que cuenta con instalaciones de última generación y un equipo de entrenadores profesionales para ayudar a los nadadores a alcanzar sus objetivos de fitness.',
-            'imagen' => '/images/noticias/1.jpg',
-            'user_id' => 1
+            'contenido' => 'Inauguración de instalaciones de última generación con equipo de entrenadores profesionales para todos los niveles.',
+            'user_id' => $user_id,
+            'created_at' => now(),
         ]);
+        DB::table('noticias')->where('id', $noticia_1)->update(['imagen' => "noticias/{$noticia_1}.jpg"]);
 
         $noticia_2 = DB::table('noticias')->insertGetId([
-            'titulo' => 'Nuevo gimnasio en el centro de la ciudad',
-            'contenido' => 'La ciudad ha inaugurado un nuevo gimnasio en el centro de la ciudad que cuenta con instalaciones de última generación y un equipo de entrenadores profesionales para ayudar a los clientes a alcanzar sus objetivos de fitness.',
-            'imagen' => '/images/noticias/2.jpg',
-            'user_id' => 1
+            'titulo' => 'Nuevo gimnasio en el centro',
+            'contenido' => 'Apertura de un centro deportivo premium con maquinaria de vanguardia y programas personalizados.',
+            'user_id' => $user_id,
+            'created_at' => now(),
         ]);
+        DB::table('noticias')->where('id', $noticia_2)->update(['imagen' => "noticias/{$noticia_2}.jpg"]);
+
+        // --- CURSOS ---
+        $curso_1 = DB::table('cursos')->insertGetId([
+            'titulo' => 'Yoga para principiantes',
+            'descripcion' => 'Introducción al yoga con ejercicios básicos y técnicas de respiración.',
+            'tipo' => 'Flexibilidad'
+        ]);
+        DB::table('cursos')->where('id', $curso_1)->update(['imagen' => "cursos/{$curso_1}.jpg"]);
+
+        $curso_2 = DB::table('cursos')->insertGetId([
+            'titulo' => 'Entrenamiento funcional',
+            'descripcion' => 'Ejercicios que imitan movimientos diarios para mejorar la fuerza y resistencia.',
+            'tipo' => 'Cardio'
+        ]);
+        DB::table('cursos')->where('id', $curso_2)->update(['imagen' => "cursos/{$curso_2}.jpg"]);
+
+
     }
+
 }

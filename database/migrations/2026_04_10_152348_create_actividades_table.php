@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('actividades', function (Blueprint $table) {
             $table->id();
             $table->string('titulo')->unique();
-            $table->integer('duracion');
             $table->string('nivel');
             $table->text('descripcion');
             $table->string('imagen')->nullable();
+            $table->string('tipo');
             $table->timestamps();
         });
     }

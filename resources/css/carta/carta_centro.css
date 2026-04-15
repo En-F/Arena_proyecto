@@ -1,0 +1,51 @@
+.section-centros {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 40px 20px;
+}
+.grid-centros {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    padding: 20px;
+}
+
+.centro-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    gap: 15px;
+    transition: transform 0.3s ease;
+}
+
+.img-card-container {
+    width: 200px;
+    height: 250px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+}
+
+.img-card-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.centro-item:hover {
+    transform: scale(1.03);
+}
+
+.centro-title {
+    color: var(--nav-black);
+    font-weight: 600;
+    margin: 0;
+    text-align: center;
+    width: 200px;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}

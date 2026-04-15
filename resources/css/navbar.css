@@ -9,7 +9,17 @@
     --color-boton: #ff652a;
     --fondo: #ffff;
 }
+
+@font-face {
+    font-family: 'Oswald';
+    src: url('../font/Oswald-Bold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 /* --- SECCIÓN NAVEGACIÓN --- */
+
 .navbar {
     background-color: var(--nav-blue);
     padding: 11px 32px;
@@ -81,13 +91,13 @@
 }
 
 .nav-links a {
-    font-family: 'Inter';
+    font-family: 'Oswald';
     padding: 10px 10px;
     margin: 0 15px;
+    font-size: 24px;
     color: white;
     text-decoration: none;
     font-weight: bold;
-    color: var(--nav-black);
 }
 
 .logo {

@@ -15,9 +15,7 @@ export default function AppLayout({
             <div className="flex min-h-screen flex-col">
                 <Navbar />
 
-                <main className="flex-1">
-                    {children} {/* Aquí se cargará Inicio, Dashboard, etc. */}
-                </main>
+                <main className="flex-1">{children}</main>
 
                 <Footer />
             </div>

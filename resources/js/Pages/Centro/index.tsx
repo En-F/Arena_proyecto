@@ -1,6 +1,8 @@
 import { Head, Link } from '@inertiajs/react';
-import '../../../css/inicio.css';
+import '../../../css/centro/inicio.css';
 import Button from '@/components/Layouts/Button';
+import CartaCentro from '@/components/carta/CartaCentro';
+
 interface Props {
     centros: any[];
 }
@@ -10,7 +12,6 @@ export default function Inicio({ centros }: Props) {
         <>
             <Head title="Inicio " />
             <div className="main-container">
-                {/* --- SECCIÓN CENTROS --- */}
                 <section className="section-centros">
                     <h2 className="title-black">Nuestros Centros</h2>
                     <p className="descripcion-centros">
@@ -49,19 +50,11 @@ export default function Inicio({ centros }: Props) {
                     </div>
                     <div className="grid-centros">
                         {centros.map((centro) => (
-                            <Link
-                                key={centro.id}
-                                href={`/centros/${centro.id}`}
-                                className="centro-item"
-                            >
-                                <div className="img-card-container">
-                                    <img
-                                        src={`/images/centros/${centro.id}.jpg`}
-                                        alt={centro.nombre}
-                                    />
-                                </div>
-                                <p className="centro-title">{centro.nombre}</p>
-                            </Link>
+                            <CartaCentro
+                                id={centro.id}
+                                nombre={centro.nombre}
+                                imagen={centro.imagen}
+                            />
                         ))}
                     </div>
                     <Button href="/inicio" className="btn-volver btn-crud">

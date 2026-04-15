@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Actividad;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class ActividadController extends Controller
 {
@@ -12,7 +13,9 @@ class ActividadController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('Actividad/index', [
+            'actividades' => Actividad::all(),
+        ]);
     }
 
     /**
@@ -36,7 +39,10 @@ class ActividadController extends Controller
      */
     public function show(Actividad $actividad)
     {
-        //
+
+        return Inertia::render('Actividad/show', [
+            'actividad' => $actividad,
+        ]);
     }
 
     /**
