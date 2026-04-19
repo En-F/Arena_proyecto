@@ -1,8 +1,10 @@
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import React from 'react';
 import '../../../css/navbar.css';
 
 const Navbar = () => {
+    const { auth } = usePage().props;
+
     return (
         <nav className="navbar">
             <div className="nav-content">
@@ -12,7 +14,7 @@ const Navbar = () => {
                     </Link>
                 </div>
                 <div className="nav-links">
-                    <Link href={'/centros'}>Centros y tarifas</Link>
+                    <Link href={'/centros'}>Centros</Link>
                     <Link href={'/actividades'}>Actividades</Link>
                     <Link href={'/cursos'}>Cursos</Link>
                     <Link href={'/horario'}>Horario</Link>
@@ -28,7 +30,7 @@ const Navbar = () => {
                                 alt="Usuario"
                                 className="icono-login"
                             />
-                            Iniciar sesión
+                            {auth.user ? auth.user.name : 'Iniciar sesión'}
                         </button>
                     </Link>
                 </div>

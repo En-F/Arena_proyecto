@@ -29,4 +29,8 @@ class Actividad extends Model
     {
         return $this->morphToMany(Video::class, 'videoable');
     }
+
+    public function tipo(){
+        return $this->belongsTo(Tipo::class, 'tipos_id');
+    }
 }   

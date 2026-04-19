@@ -1,6 +1,61 @@
 .descripcion-actividad {
     max-width: 800px;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
     line-height: 1.6;
     color: #555;
+}
+
+.elementos {
+    display: flex;
+    width: 100%;
+    max-width: 1250px;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding-bottom: 50px;
+}
+
+.select-deporte {
+    flex: 1 1 auto;
+    min-width: 150px;
+    max-width: 250px;
+    width: auto;
+    font-family:
+        'Inter',
+        -apple-system,
+        BlinkMacSystemFont,
+        sans-serif;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    appearance: none;
+    background-color: #ffffff;
+    border: 1px solid #1a202c;
+    border-radius: 10px;
+    padding: 8px 18px;
+    font-size: 14px;
+    color: #2d3748;
+    cursor: pointer;
+    outline: none;
+    white-space: normal;
+    overflow: hidden;
+    transition:
+        background 0.2s,
+        color 0.7s;
+    text-overflow: ellipsis;
+}
+
+.select-deporte:hover {
+    background-color: #a4aab6;
+    color: #000000;
+}
+
+@media (max-width: 600px) {
+    .elementos {
+        gap: 10px;
+        padding-bottom: 20px;
+    }
+
+    .select-deporte {
+        min-width: 90%;
+    }
 }

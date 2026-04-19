@@ -5,12 +5,13 @@ interface Props {
     href: string;
     children: React.ReactNode;
     className: string;
+    type: string;
 }
 
-export default function Button({ href, children, className }: Props) {
+export default function Button({ type, href, children, className }: Props) {
     return (
         <>
-            <Link href={href} className={className}>
+            <Link href={href} className={className} type={type}>
                 {children}
             </Link>
         </>

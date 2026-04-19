@@ -2,21 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Centro;
+use App\Models\Tipo;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 
-class CentroController extends Controller
+class TipoController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return Inertia::render('Centro/index',
-        [
-            'centros' => Centro::all()
-        ]);
+        //
     }
 
     /**
@@ -38,18 +34,15 @@ class CentroController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Centro $centro)
+    public function show(Tipo $tipo)
     {
-        return Inertia::render('Centro/show',
-        [
-            'centro' => $centro
-        ]);
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Centro $centro)
+    public function edit(Tipo $tipo)
     {
         //
     }
@@ -57,7 +50,7 @@ class CentroController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Centro $centro)
+    public function update(Request $request, Tipo $tipo)
     {
         //
     }
@@ -65,16 +58,8 @@ class CentroController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Centro $centro)
+    public function destroy(Tipo $tipo)
     {
         //
-    }
-    public function buscar(Request $request)
-    {
-        $consulta = $request->query('q');
-
-        $centros = Centro::where('nombre','ilike','%' . $consulta . '%')->get();
-
-        return response()->json($centros);
     }
 }

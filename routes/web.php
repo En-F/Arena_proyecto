@@ -20,8 +20,17 @@ Route::inertia('dashboard', 'dashboard')->name('dashboard');
 
 Route::get('/inicio', [InicioController::class, 'index'])->name('inicio.index');
 
+
+Route::get('/centros/buscar',[CentroController::class,'buscar'])->name('centros.buscar');
 Route::resource('centros', CentroController::class);
+
+
+
+
+Route::get('/actividades/buscar',[ActividadController::class,'buscar'])->name('actividades.buscar');
 Route::resource('actividades', ActividadController::class)->parameter('actividades', 'actividad');
+
+
 Route::resource('noticias', NoticiaController::class);
 Route::resource('cursos', CursoController::class);
 Route::resource('horarios', HorarioController::class);

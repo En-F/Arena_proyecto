@@ -7,7 +7,14 @@
     font-display: swap;
 }
 
-/* Contenedor principal con el fondo azul de la imagen */
+@font-face {
+    font-family: 'Compaq';
+    src: url('../../font/Garp\ Sans\ Compaq\ Italic.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 .activity-detail-page {
     background-color: #ffffff;
     min-height: 100vh;
@@ -20,7 +27,7 @@
 
 /* --- TARJETA HERO --- */
 .activity-hero-card {
-    background-color: #d1d1d1; /* Gris claro de la imagen */
+    background-color: #d1d1d1;
     border-radius: 50px;
     display: flex;
     max-width: 1000px;
@@ -41,7 +48,7 @@
 
 .hero-title {
     font-size: 3rem;
-    color: #333;
+    color: #000000;
     margin-bottom: 1rem;
     font-weight: 600;
     font-family: 'News of the World';
@@ -71,7 +78,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 40px; /* Imagen interna redondeada */
+    border-radius: 40px;
 }
 
 /* --- SECCIÓN VIDEOS --- */
@@ -83,8 +90,9 @@
 }
 
 .sub-activities-title {
-    color: #39ff14; /* Verde neón */
-    font-size: 2rem;
+    font-family: 'Compaq';
+    color: #000000;
+    font-size: 3rem;
     margin-bottom: 3rem;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
@@ -96,83 +104,6 @@
     margin-bottom: 3rem;
 }
 
-.video-card-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.video-card {
-    position: relative;
-    background: white;
-    padding: 10px;
-    border-radius: 20px;
-    width: 100%;
-    aspect-ratio: 16/9;
-    overflow: hidden;
-    cursor: pointer;
-}
-
-.video-card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 12px;
-}
-
-.play-button-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.play-icon {
-    width: 60px;
-    height: 40px;
-    background-color: red;
-    border-radius: 10px;
-    position: relative;
-}
-
-.play-icon::after {
-    content: '';
-    position: absolute;
-    border-left: 15px solid white;
-    border-top: 10px solid transparent;
-    border-bottom: 10px solid transparent;
-    top: 10px;
-    left: 25px;
-}
-
-.video-footer-title {
-    margin-top: 10px;
-    color: #333;
-    font-size: 0.8rem;
-}
-
-/* --- BOTÓN VOLVER --- */
-.btn-volver {
-    background-color: #6eff7e;
-    color: #333;
-    padding: 0.8rem 4rem;
-    border-radius: 10px;
-    text-decoration: none;
-    font-weight: bold;
-    display: inline-block;
-    transition: transform 0.2s;
-}
-
-.btn-volver:hover {
-    transform: scale(1.05);
-    background-color: #39ff14;
-}
-
-/* Responsive */
 @media (max-width: 768px) {
     .activity-hero-card {
         flex-direction: column;

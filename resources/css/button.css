@@ -39,3 +39,16 @@
     box-shadow: 0 0 15px rgba(102, 255, 102, 0.7);
     background-color: #ffffff;
 }
+
+.btn-filtrar {
+    padding: 0.5rem 13px;
+    background-color: #ff8a8a;
+    color: #000;
+    border-radius: 12px;
+    margin-top: 0px;
+    margin-left: 50px;
+}
+.btn-filtrar:hover {
+    background-color: #ff0000;
+    transform: translateY(-1px);
+}

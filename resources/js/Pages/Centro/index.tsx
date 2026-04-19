@@ -2,12 +2,44 @@ import { Head, Link } from '@inertiajs/react';
 import '../../../css/centro/inicio.css';
 import Button from '@/components/Layouts/Button';
 import CartaCentro from '@/components/carta/CartaCentro';
+import { useEffect, useState } from 'react';
+
+interface Centro {
+    id: number;
+    nombre: string;
+    imagen: string;
+}
 
 interface Props {
-    centros: any[];
+    centros: Centro[];
 }
 
 export default function Inicio({ centros }: Props) {
+    const [busqueda, setBusqueda] = useState('');
+    const [resultado, setResultado] = useState<Centro[]>([]);
+
+    useEffect(() => {
+        const buscarAsincrono = async () => {
+            if (busqueda.trim() === '') {
+                setResultado([]);
+                return;
+            }
+            try {
+                const response = await fetch(
+                    `/centros/buscar?q=${encodeURIComponent(busqueda)}`,
+                );
+                const data = await response.json();
+                console.log('Datos del buscador:', data);
+                setResultado(data);
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        };
+        buscarAsincrono();
+    }, [busqueda]);
+
+    const centrosAMostrar = busqueda.trim() !== '' ? resultado : centros;
+
     return (
         <>
             <Head title="Inicio " />
@@ -44,12 +76,14 @@ export default function Inicio({ centros }: Props) {
                                     id="buscar"
                                     type="text"
                                     placeholder="Nombre de un centro"
+                                    value={busqueda}
+                                    onChange={(e)=>setBusqueda(e.target.value)}
                                 />
                             </div>
                         </label>
                     </div>
                     <div className="grid-centros">
-                        {centros.map((centro) => (
+                        {centrosAMostrar.map((centro) => (
                             <CartaCentro
                                 id={centro.id}
                                 nombre={centro.nombre}

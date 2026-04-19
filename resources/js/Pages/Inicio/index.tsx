@@ -21,7 +21,7 @@ export default function Inicio({ centros, noticias, actividades }: Props) {
                     <h2 className="title-black">Nuestros Centros</h2>
 
                     <div className="grid-centros">
-                        {centros.slice(0, 4).map((centro) => (
+                        {centros.slice(0, 3).map((centro) => (
                             <CartaCentro
                                 id={centro.id}
                                 nombre={centro.nombre}
@@ -48,7 +48,7 @@ export default function Inicio({ centros, noticias, actividades }: Props) {
                         Actividades Deportivas
                     </h2>
                     <div className="activities-grid">
-                        {actividades.slice(0, 4).map((actividad) => (
+                        {actividades.slice(0, 3).map((actividad) => (
                             <CartaActividad
                                 id={actividad.id}
                                 titulo={actividad.titulo}
