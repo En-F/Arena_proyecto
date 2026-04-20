@@ -1,0 +1,253 @@
+/* ===================== PÁGINA ===================== */
+.login-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #5b87c5;
+    padding: 2rem;
+}
+
+/* ===================== TARJETA ===================== */
+.login-card {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    max-width: 1000px;
+    min-height: 550px;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: #f0f2f5;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
+}
+
+/* ===================== COLUMNA IMAGEN ===================== */
+.login-card__image-col {
+    width: 45%;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.login-card__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+/* ===================== COLUMNA FORMULARIO ===================== */
+.login-card__form-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 49px 75px;
+    background-color: #f0f2f5;
+}
+
+/* ===================== FORMULARIO ===================== */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    margin-top: 3rem;
+}
+
+.login-form__contenedor {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* ===================== CAMPO ===================== */
+.login-form__contenido {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.login-form__label__socio {
+    font-size: 19px;
+    font-weight: 500;
+    color: #444;
+    margin-bottom: 12px;
+}
+
+.login-form__input {
+    background-color: white !important;
+    border: 1px solid #dde1e7 !important;
+    border-radius: 0.5rem !important;
+    height: 2.6rem;
+    font-size: 0.9rem;
+    color: #333;
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.login-form__input:focus {
+    border-color: #5b87c5 !important;
+    box-shadow: 0 0 0 3px rgba(91, 135, 197, 0.15) !important;
+    outline: none;
+}
+
+/* ===================== RECORDAR ===================== */
+.login-form__remember {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 0.7rem;
+}
+
+.checkbox-input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: #444;
+    user-select: none;
+}
+
+.checkbox-box {
+    height: 20px;
+    width: 20px;
+    background-color: #fff;
+    border: 2px solid #e1e3e6;
+    border-radius: 6px;
+    margin-right: 10px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.checkbox-box::after {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg) scale(0);
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.checkbox-input:checked ~ .checkbox-label .checkbox-box {
+    background-color: #2a93ff;
+    border-color: #2a93ff;
+}
+
+.checkbox-input:checked ~ .checkbox-label .checkbox-box::after {
+    transform: rotate(45deg) scale(1);
+}
+
+.checkbox-label:hover .checkbox-box {
+    border-color: #2a93ff;
+}
+
+/* ===================== BOTÓN SUBMIT ===================== */
+.login-form__submit-btn {
+    height: 2.8rem;
+    background-color: #2a93ff !important;
+    color: white !important;
+    border-radius: 0.5rem !important;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: none !important;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    transition:
+        background-color 0.2s ease,
+        transform 0.1s ease;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.login-form__submit-btn:hover:not(:disabled) {
+    background-color: #333 !important;
+}
+
+.login-form__submit-btn:active:not(:disabled) {
+    transform: scale(0.98);
+}
+
+.login-form__submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* ===================== FOOTER LINKS ===================== */
+
+.footer__barra_inferior {
+    margin-top: 19px;
+    border-top: 1px solid rgba(0, 0, 0, 0.19);
+
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.login-form__footer-links {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-start;
+    margin-top: 1rem;
+    gap: 1rem;
+}
+
+.login-form__footer-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.78rem;
+    color: #5b87c5 !important;
+    text-decoration: none !important;
+    text-align: center;
+    transition: color 0.2s ease;
+}
+
+.login-form__footer-link:hover {
+    color: #3a6aab !important;
+}
+
+.login-form__footer-icon {
+    width: 1.8rem;
+    height: 1.8rem;
+    stroke: #5b87c5;
+}
+
+/* ===================== STATUS ===================== */
+.login-form__status {
+    margin-top: 1rem;
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #16a34a;
+}
+
+/* ===================== RESPONSIVE ===================== */
+@media (max-width: 540px) {
+    .login-card {
+        flex-direction: column;
+    }
+
+    .login-card__image-col {
+        width: 100%;
+        height: 180px;
+    }
+
+    .login-card__form-col {
+        padding: 1.75rem 1.5rem;
+    }
+}

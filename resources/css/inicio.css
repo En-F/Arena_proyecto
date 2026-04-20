@@ -1,0 +1,111 @@
+:root {
+    --fondo_bg: #86868b;
+    --nav-blue: #0070f3;
+    --neon-green: #66ff66;
+    --card-white: #ffffff;
+    --nav-black: #000;
+    --soft-green: #0722bb;
+    --fondo_noticia: #5ca8ff;
+}
+
+main {
+    flex: 1;
+}
+
+@font-face {
+    font-family: 'Compaq';
+    src: url('../font/Garp\ Sans\ Compaq.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+.main-container {
+    background-color: var(--card-white);
+    min-height: 100vh;
+    font-family: 'Arial', sans-serif;
+    padding-top: 20px;
+    flex-direction: column;
+}
+
+.title-black {
+    color: var(--neon-green);
+    text-align: center;
+    margin: 2rem 0;
+    font-size: 3.5rem;
+    color: var(--text-principal);
+    font-family: 'Compaq';
+}
+
+.section-actividades {
+    overflow: hidden;
+    flex-direction: flex;
+    align-items: center;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.activities-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+    margin: 0 auto;
+    overflow-x: auto;
+    padding-top: 30px;
+}
+
+
+/* --- SECCIÓN RESPONSIVE --- */
+/*Tablet*/
+@media (max-width: 1024px) {
+    .grid-centros,
+    .news-grid,
+    .activities-grid {
+        gap: 15px;
+        padding: 10px;
+    }
+    .banner-content {
+        flex-direction: column;
+    }
+    .banner-image {
+        min-height: 250px;
+    }
+    .banner-text-box {
+        padding: 3rem 1.5rem;
+    }
+}
+
+/*Movil*/
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+
+    .grid-centros,
+    .news-grid,
+    .activities-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        justify-items: center;
+    }
+
+    .banner-image,
+    .banner-text-box {
+        width: 100%;
+    }
+
+    .title-green {
+        font-size: 1.5rem;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        gap: 2rem;
+        text-align: center;
+    }
+
+    .activity-img-wrapper {
+        gap: 15px;
+    }
+}

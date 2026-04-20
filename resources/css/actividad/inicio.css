@@ -1,0 +1,114 @@
+.descripcion-actividad {
+    max-width: 800px;
+    margin: 0 auto 20px auto;
+    line-height: 1.6;
+    color: #555;
+    padding: 0 1rem;
+}
+
+.elementos {
+    display: flex;
+    width: 100%;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding-bottom: 50px;
+}
+
+.select-deporte {
+    min-width: 150px;
+    max-width: 250px;
+    width: 100%;
+    margin: auto;
+    font-family:
+        'Inter',
+        -apple-system,
+        BlinkMacSystemFont,
+        sans-serif;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    appearance: none;
+    background-color: #ffffff;
+    border: 1px solid #1a202c;
+    border-radius: 10px;
+    padding: 8px 18px;
+    font-size: 14px;
+    color: #2d3748;
+    cursor: pointer;
+    outline: none;
+    white-space: normal;
+    overflow: hidden;
+    transition:
+        background 0.2s,
+        color 0.7s;
+    text-overflow: ellipsis;
+}
+
+.select-deporte:hover {
+    background-color: #a4aab6;
+    color: #000000;
+}
+
+.sin-centro-msg {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    text-transform: uppercase;
+
+    width: 40%;
+    padding: 2rem 1rem;
+    margin: 1rem auto;
+
+    background-color: #1e1e2e;
+    border-radius: 12px;
+
+    color: #ffffff;
+    font-size: 1.1rem;
+    text-align: center;
+    font-weight: 800;
+
+    opacity: 0.45;
+}
+
+@media (max-width: 1024px) {
+    .elementos {
+        gap: 10px;
+    }
+
+    .select-deporte {
+        max-width: 200px;
+    }
+
+    .sin-centro-msg {
+        width: 60%;
+    }
+}
+
+@media (max-width: 480px) {
+    .descripcion-actividad {
+        font-size: 0.9rem;
+        text-align: center;
+    }
+
+    .elementos {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+        padding-bottom: 20px;
+    }
+
+    .select-deporte {
+        min-width: 100%;
+        max-width: 100%;
+        font-size: 13px;
+        padding: 10px 14px;
+    }
+
+    .sin-centro-msg {
+        width: 90%;
+        font-size: 0.95rem;
+        padding: 1.5rem 1rem;
+    }
+}

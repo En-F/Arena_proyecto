@@ -1,0 +1,111 @@
+@font-face {
+    font-family: 'News of the World';
+    src: url('../../font/News\ of\ the\ World\ wide\ italic.ttf')
+        format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Compaq';
+    src: url('../../font/Garp\ Sans\ Compaq\ Italic.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+.activity-detail-page {
+    background-color: #ffffff;
+    min-height: 100vh;
+    padding: 4rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 90px;
+}
+
+/* --- TARJETA HERO --- */
+.activity-hero-card {
+    background-color: #d1d1d1;
+    border-radius: 50px;
+    display: flex;
+    max-width: 1000px;
+    width: 100%;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.hero-content-text {
+    flex: 1;
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.hero-title {
+    font-size: 3rem;
+    color: #000000;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    font-family: 'News of the World';
+}
+
+.hero-meta {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    color: #444;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+}
+
+.hero-description {
+    line-height: 1.6;
+    color: #333;
+    font-size: 0.95rem;
+}
+
+.hero-image-container {
+    flex: 1;
+    padding: 20px;
+}
+
+.hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 40px;
+}
+
+/* --- SECCIÓN VIDEOS --- */
+.sub-activities-section {
+    width: 100%;
+    max-width: 1100px;
+    margin-top: 4rem;
+    text-align: center;
+}
+
+.sub-activities-title {
+    font-family: 'Compaq';
+    color: #000000;
+    font-size: 3rem;
+    margin-bottom: 3rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.videos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2.5rem;
+    margin-bottom: 3rem;
+}
+
+@media (max-width: 768px) {
+    .activity-hero-card {
+        flex-direction: column;
+    }
+}
