@@ -1,0 +1,8 @@
+ id |            nombre             | telefono  |           email           |            direccion             |    imagen     |                                                                  descripcion                                                                   | created_at | updated_at 
+----+-------------------------------+-----------+---------------------------+----------------------------------+---------------+------------------------------------------------------------------------------------------------------------------------------------------------+------------+------------
+  1 | Centro de Aguas Libres        | 234857432 | piscina@olimpica.com      | Calle del Natación, 789, Ciudad  | centros/1.jpg | Ubicado en la costa, nuestro centro ofrece un entorno privilegiado para el entrenamiento acuático con piscina climatizada de alto rendimiento. |            | 
+  2 | Gimnasio Core Fitness         | 987654321 | gimnasio@gim.com          | Avenida del Deporte, 456, Ciudad | centros/2.jpg | Un gimnasio equipado con las últimas máquinas de entrenamiento y un equipo de entrenadores profesionales de élite.                             |            | 
+  3 | Adventure Hub Aire Libre      | 345678901 | airelibre@actividades.com | Parque Natural, 123, Ciudad      | centros/3.jpg | Variedad de actividades para disfrutar en la naturaleza, como senderismo, ciclismo y escalada profesional.                                     |            | 
+  4 | Centro de Atletismo Municipal | 987958421 | atletismo@atletismo.com   | Calle del Atletismo, 456, Ciudad | centros/4.jpg | Instalaciones modernas con pista de tartán y equipo técnico especializado en alto rendimiento.                                                 |            | 
+(4 rows)
+

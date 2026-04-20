@@ -7,7 +7,13 @@ use App\Models\Centro;
 use App\Models\Inicio;
 use App\Models\Noticia;
 use Illuminate\Http\Request;
+<<<<<<< HEAD
 use Inertia\Inertia;
+=======
+use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
+use Nette\Utils\Json;
+>>>>>>> fb55ae0 (Intregración de las cookies)
 
 class InicioController extends Controller
 {
@@ -16,10 +22,20 @@ class InicioController extends Controller
      */
     public function index()
     {
+<<<<<<< HEAD
+=======
+
+        $esAdmin = Auth::check() ? Auth::user()->tienePermiso() : false;
+
+>>>>>>> fb55ae0 (Intregración de las cookies)
         return Inertia::render('Inicio/index',[
         'centros' => Centro::all(),
         'noticias' => Noticia::all(),
         'actividades' => Actividad::all(),
+<<<<<<< HEAD
+=======
+        'esAdmin' => $esAdmin
+>>>>>>> fb55ae0 (Intregración de las cookies)
     ]);
     }
 
@@ -70,4 +86,16 @@ class InicioController extends Controller
     {
         //
     }
+<<<<<<< HEAD
+=======
+
+    public function register(Request $request)
+    {
+
+        return Inertia::render('Inicio/register');
+
+        return response()->json($request,200);
+
+    }
+>>>>>>> fb55ae0 (Intregración de las cookies)
 }

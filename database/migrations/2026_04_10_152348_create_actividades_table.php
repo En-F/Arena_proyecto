@@ -17,7 +17,11 @@ return new class extends Migration
             $table->string('nivel');
             $table->text('descripcion');
             $table->string('imagen')->nullable();
+<<<<<<< HEAD
             $table->foreignId('tipos_id')->constrained('tipos')->onDelete('cascade');
+=======
+            $table->foreignId('tipo_id')->constrained('tipos')->onDelete('cascade');
+>>>>>>> fb55ae0 (Intregración de las cookies)
             $table->timestamps();
         });
     }

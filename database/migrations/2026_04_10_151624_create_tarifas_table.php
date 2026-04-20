@@ -15,7 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('titulo')->unique();
             $table->decimal('precio', 8, 2);
+<<<<<<< HEAD
             $table->string('tipo');
+=======
+>>>>>>> fb55ae0 (Intregración de las cookies)
             $table->text('descripcion');
             $table->foreignId('centro_id')->constrained('centros')->onDelete('cascade');
             $table->timestamps();

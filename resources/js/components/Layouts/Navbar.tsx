@@ -20,7 +20,11 @@ const Navbar = () => {
                     <Link href={'/horario'}>Horario</Link>
                 </div>
                 <div className="botones-acceso">
+<<<<<<< HEAD
                     <Link href={'/socio'}>
+=======
+                    <Link href={'/register'}>
+>>>>>>> fb55ae0 (Intregración de las cookies)
                         <button className="boton socio">Hazte socio</button>
                     </Link>
                     <Link href={'/login'}>

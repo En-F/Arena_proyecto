@@ -6,9 +6,32 @@ interface Props {
     titulo: string;
     imagen: string;
     contenido: string;
+<<<<<<< HEAD
 }
 
 export default function CartaNoticia({ id, titulo, imagen, contenido }: Props) {
+=======
+    esCrear?: boolean;
+}
+
+export default function CartaNoticia({
+    id,
+    titulo,
+    imagen,
+    contenido,
+    esCrear = false,
+}: Props) {
+    if (esCrear) {
+        return (
+            <Link href="/noticias/create" className="centro-item">
+                <div className="img-card-container carta-crear">
+                    <span className="carta-crear-plus">+</span>
+                </div>
+            </Link>
+        );
+    }
+    
+>>>>>>> fb55ae0 (Intregración de las cookies)
     return (
         <Link key={id} href={`/noticias/${id}`} className="news-card">
             <div className="news-img-wrapper">

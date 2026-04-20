@@ -49,3 +49,36 @@
     overflow-wrap: break-word;
     word-wrap: break-word;
 }
+<<<<<<< HEAD
+=======
+
+.carta-crear {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border: 2.5px dashed #aaa;
+    box-shadow: none;
+    transition:
+        border-color 0.3s ease,
+        background-color 0.3s ease;
+}
+
+.carta-crear:hover {
+    border-color: #0070f3;
+    background-color: rgba(0, 112, 243, 0.05);
+}
+
+.carta-crear-plus {
+    font-size: 3rem;
+    color: #aaa;
+    line-height: 1;
+    transition: color 0.3s ease;
+    user-select: none;
+}
+
+.centro-item:hover .carta-crear-plus {
+    color: #0070f3;
+}
+
+>>>>>>> fb55ae0 (Intregración de las cookies)

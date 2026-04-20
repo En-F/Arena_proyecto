@@ -40,6 +40,14 @@ class CentroController extends Controller
      */
     public function show(Centro $centro)
     {
+<<<<<<< HEAD
+=======
+
+        $instalaciones = $centro->instalaciones()->get();
+        $tarifas = $centro->tarifas()->get();
+        $resenas = $centro->valoraciones()->get();
+
+>>>>>>> fb55ae0 (Intregración de las cookies)
         return Inertia::render('Centro/show',
         [
             'centro' => $centro

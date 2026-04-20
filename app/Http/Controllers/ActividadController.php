@@ -2,13 +2,23 @@
 
 namespace App\Http\Controllers;
 
+<<<<<<< HEAD
+=======
+use App\Models\User;
+>>>>>>> fb55ae0 (Intregración de las cookies)
 use App\Models\Actividad;
 use App\Models\Centro;
 use App\Models\Curso;
 use App\Models\Tipo;
+<<<<<<< HEAD
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+=======
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Illuminate\Support\Facades\Auth;
+>>>>>>> fb55ae0 (Intregración de las cookies)
 
 class ActividadController extends Controller
 {
@@ -18,11 +28,21 @@ class ActividadController extends Controller
     public function index(Request $request)
     {
         $usuario = Auth::user();
+<<<<<<< HEAD
         
         if($usuario) {
             $centros_activos = $usuario->centros;
 
             if ($centros_activos->isEmpty()) {
+=======
+        $esAdmin = $usuario?->tienePermiso() ?? false;
+
+        if($usuario) {
+            $centros_activos = $esAdmin ? Centro::all() : $usuario->centros;
+            
+
+            if ($centros_activos->isEmpty() && !$esAdmin) {
+>>>>>>> fb55ae0 (Intregración de las cookies)
                 return Inertia::render('Actividad/index', [
                     'actividades'       => [],
                     'centros'           => [],
@@ -32,15 +52,27 @@ class ActividadController extends Controller
                     'cursoSeleccionado' => null,
                     'tipoSeleccionado'  => null,
                     'estaAutenticado'   => true,
+<<<<<<< HEAD
                     'sinCentro'         => true, 
+=======
+                    'sinCentro'         => true,
+                    'esAdmin'           => false,
+>>>>>>> fb55ae0 (Intregración de las cookies)
                 ]);
             }
 
             $centroSeleccionado= $request->input('centro_id',$centros_activos->first()->id);
+<<<<<<< HEAD
             
 
             //Comprovacion de URL
             if(!$centros_activos->pluck('id')->contains($centroSeleccionado)) {
+=======
+
+
+            //Comprovacion de URL
+            if(!$esAdmin && !$centros_activos->pluck('id')->contains($centroSeleccionado)) {
+>>>>>>> fb55ae0 (Intregración de las cookies)
                 $centroSeleccionado = $centros_activos->first()->id;
             }
 
@@ -71,7 +103,11 @@ class ActividadController extends Controller
 
             $actividades = $query->get();
 
+<<<<<<< HEAD
             return Inertia::render('Actividad/Inicio', [
+=======
+            return Inertia::render('Actividad/index', [
+>>>>>>> fb55ae0 (Intregración de las cookies)
                 'actividades'        => $actividades,
                 'centros'            => $centros_activos,
                 'cursos'             => $cursos_activos,
@@ -81,6 +117,10 @@ class ActividadController extends Controller
                 'tipoSeleccionado'   => $tipoSeleccionado  ? (int) $tipoSeleccionado  : null,
                 'estaAutenticado'    => true,
                 'sinCentro'          => false,
+<<<<<<< HEAD
+=======
+                'esAdmin'            => $esAdmin,
+>>>>>>> fb55ae0 (Intregración de las cookies)
             ]);
         }  else {
             $centroId = $request->input('centro_id');
@@ -95,7 +135,11 @@ class ActividadController extends Controller
                 : Curso::all();
 
             // N:M Curso ↔ Actividad
+<<<<<<< HEAD
               $query = Actividad::with(['cursos', 'tipo']);
+=======
+            $query = Actividad::with(['cursos', 'tipo']);
+>>>>>>> fb55ae0 (Intregración de las cookies)
 
               if ($centroId) {
                 // Actividad → Curso → Centro
@@ -126,9 +170,15 @@ class ActividadController extends Controller
                 'tipoSeleccionado'   => $tipoId   ? (int) $tipoId   : null,
                 'estaAutenticado'    => false,
                 'sinCentro'          => false,
+<<<<<<< HEAD
             ]);
         }     
 
+=======
+                'esAdmin'            => false,
+            ]);
+        }
+>>>>>>> fb55ae0 (Intregración de las cookies)
     }
 
     /**
@@ -153,12 +203,20 @@ class ActividadController extends Controller
     public function show(Actividad $actividad)
     {
         $id = $actividad->id;
+<<<<<<< HEAD
 
         $actividad_video=Actividad::with('videos')->findOrFail($id);
 
         return Inertia::render('Actividad/show', [
             'actividad' => $actividad,
             'videos' => $actividad_video->videos
+=======
+        $actividad_videos = Actividad::with('videos')->findOrFail($id);
+
+        return Inertia::render('Actividad/show', [
+            'actividad' => $actividad,
+            'videos'=>$actividad_videos->videos
+>>>>>>> fb55ae0 (Intregración de las cookies)
         ]);
     }
 
@@ -185,6 +243,7 @@ class ActividadController extends Controller
     {
         //
     }
+<<<<<<< HEAD
 
     public function buscar(Request $request)
     {
@@ -211,4 +270,6 @@ class ActividadController extends Controller
             'tipos' => $tipos,
         ]);
     }
+=======
+>>>>>>> fb55ae0 (Intregración de las cookies)
 }

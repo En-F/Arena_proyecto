@@ -37,6 +37,7 @@ main {
     font-family: 'Compaq';
 }
 
+<<<<<<< HEAD
 
 
 
@@ -45,6 +46,25 @@ main {
 
 
 
+=======
+.section-actividades {
+    overflow: hidden;
+    flex-direction: flex;
+    align-items: center;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.activities-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+    margin: 0 auto;
+    overflow-x: auto;
+    padding-top: 30px;
+}
+>>>>>>> fb55ae0 (Intregración de las cookies)
 
 
 /* --- SECCIÓN RESPONSIVE --- */
