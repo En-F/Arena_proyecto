@@ -10,11 +10,7 @@ use App\Models\Horario;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 
-<<<<<<< HEAD
-Route::inertia('/', 'welcome', [
-=======
 Route::inertia('/', 'Inicio/index', [
->>>>>>> fb55ae0 (Intregración de las cookies)
     'canRegister' => Features::enabled(Features::registration()),
 ])->name('home');
 
@@ -25,10 +21,6 @@ Route::inertia('dashboard', 'dashboard')->name('dashboard');
 Route::get('/inicio', [InicioController::class, 'index'])->name('inicio.index');
 
 
-<<<<<<< HEAD
-=======
-
->>>>>>> fb55ae0 (Intregración de las cookies)
 Route::get('/centros/buscar',[CentroController::class,'buscar'])->name('centros.buscar');
 Route::resource('centros', CentroController::class);
 

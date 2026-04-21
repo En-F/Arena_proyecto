@@ -73,11 +73,6 @@ return [
     |
     */
 
-<<<<<<< HEAD
-    'home' => '/dashboard',
-=======
-    'home' => '/Inicio/index',
->>>>>>> fb55ae0 (Intregración de las cookies)
 
     /*
     |--------------------------------------------------------------------------
