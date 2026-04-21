@@ -26,11 +26,7 @@ export default function BannerInscripcion({
                 <div className="banner-text-box">
                     <h3>{titulo}</h3>
                     <p>{descripcion}</p>
-<<<<<<< HEAD
-                    <Button href="/pendiente" className="btn-inscripcion">
-=======
                     <Button href={href} className="btn-inscripcion">
->>>>>>> fb55ae0 (Intregración de las cookies)
                         {textBoton}
                     </Button>
                 </div>

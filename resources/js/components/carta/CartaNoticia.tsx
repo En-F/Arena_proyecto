@@ -6,11 +6,6 @@ interface Props {
     titulo: string;
     imagen: string;
     contenido: string;
-<<<<<<< HEAD
-}
-
-export default function CartaNoticia({ id, titulo, imagen, contenido }: Props) {
-=======
     esCrear?: boolean;
 }
 
@@ -31,7 +26,6 @@ export default function CartaNoticia({
         );
     }
     
->>>>>>> fb55ae0 (Intregración de las cookies)
     return (
         <Link key={id} href={`/noticias/${id}`} className="news-card">
             <div className="news-img-wrapper">

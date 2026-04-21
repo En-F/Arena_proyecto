@@ -40,13 +40,9 @@ class CursoController extends Controller
      */
     public function show(Curso $curso)
     {
-<<<<<<< HEAD
-        //
-=======
-        return Inertia::render('Centro/show',[
-            'centro'=>$centro
+        return Inertia::render('Curso/show',[
+            'curso'=>$curso
         ]);
->>>>>>> fb55ae0 (Intregración de las cookies)
     }
 
     /**

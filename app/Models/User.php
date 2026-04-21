@@ -3,10 +3,6 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-<<<<<<< HEAD
-use Database\Factories\UserFactory;
-=======
->>>>>>> fb55ae0 (Intregración de las cookies)
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -41,14 +37,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Rol::class, 'usuario_rol', 'user_id', 'rol_id');
     }
 
-<<<<<<< HEAD
-=======
     public function tienePermiso(): bool
     {
         return $this->roles->contains('rol', 'admin');
     }
 
->>>>>>> fb55ae0 (Intregración de las cookies)
     public function noticias()
     {
         return $this->hasMany(Noticia::class);

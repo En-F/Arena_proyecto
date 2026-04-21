@@ -7,29 +7,6 @@
     font-display: swap;
 }
 /* --- SECCIÓN ACTIVIDADES --- */
-<<<<<<< HEAD
-.section-actividades {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding: 40px 20px;
-}
-
-.activities-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 40px;
-    margin: 0 auto;
-}
-
-.activity-card {
-    cursor: pointer;
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-=======
->>>>>>> fb55ae0 (Intregración de las cookies)
 
 .activity-img-wrapper {
     position: relative;
@@ -105,8 +82,6 @@
 .activity-card:hover .activity-title {
     color: var(--neon-green);
 }
-<<<<<<< HEAD
-=======
 
 .carta-crear {
     display: flex;
@@ -136,4 +111,3 @@
 .centro-item:hover .carta-crear-plus {
     color: #0070f3;
 }
->>>>>>> fb55ae0 (Intregración de las cookies)

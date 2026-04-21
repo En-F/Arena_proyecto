@@ -37,16 +37,6 @@ main {
     font-family: 'Compaq';
 }
 
-<<<<<<< HEAD
-
-
-
-
-
-
-
-
-=======
 .section-actividades {
     overflow: hidden;
     flex-direction: flex;
@@ -64,7 +54,6 @@ main {
     overflow-x: auto;
     padding-top: 30px;
 }
->>>>>>> fb55ae0 (Intregración de las cookies)
 
 
 /* --- SECCIÓN RESPONSIVE --- */

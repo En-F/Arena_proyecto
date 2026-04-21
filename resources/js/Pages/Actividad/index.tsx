@@ -1,14 +1,7 @@
-<<<<<<< HEAD
-import { Head, Link, router } from '@inertiajs/react';
-import '../../../css/actividad/inicio.css';
-import Button from '@/components/Layouts/Button';
-import CartaActividad from '@/components/carta/CartaActividad';
-=======
 import { Head, router } from '@inertiajs/react';
 import '../../../css/actividad/inicio.css';
 import Button from '@/components/Layouts/Button';
 import CartaActividad from '../../components/carta/CartaActividad';
->>>>>>> fb55ae0 (Intregración de las cookies)
 
 interface Centro {
     id: number;
@@ -37,10 +30,7 @@ interface Props {
     tipoSeleccionado: number | null;
     estaAutenticado: boolean;
     sinCentro: boolean;
-<<<<<<< HEAD
-=======
     esAdmin: boolean;
->>>>>>> fb55ae0 (Intregración de las cookies)
 }
 
 export default function Inicio({
@@ -53,25 +43,6 @@ export default function Inicio({
     tipoSeleccionado,
     estaAutenticado,
     sinCentro,
-<<<<<<< HEAD
-}: Props) {
-
-    // Cambiador del centro
-    const handleCentroChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const value = e.target.value;
-        router.get(
-            '/actividades',
-            {
-                centro_id: value || undefined,
-                curso_id: undefined,
-                tipo_id: tipoSeleccionado || undefined,
-            },
-            { preserveScroll: true },
-        );
-    };
-
-    // Cambiador del curso
-=======
     esAdmin
 }: Props) {
     //CAMBIARDOR DE CENTRO
@@ -85,7 +56,6 @@ export default function Inicio({
     };
 
     //CAMBIARDOR DE CURSO
->>>>>>> fb55ae0 (Intregración de las cookies)
     const handleCursoChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const value = e.target.value;
         router.get(
@@ -99,11 +69,7 @@ export default function Inicio({
         );
     };
 
-<<<<<<< HEAD
-    // Cambiador del tipo
-=======
     //CAMBIADOR DE TIPO
->>>>>>> fb55ae0 (Intregración de las cookies)
     const handleTipoChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const value = e.target.value;
         router.get(
@@ -117,20 +83,6 @@ export default function Inicio({
         );
     };
 
-<<<<<<< HEAD
-    return (
-        <>
-            <Head title="Inicio " />
-            {estaAutenticado && sinCentro ? (
-                // CASO 1: Autenticado pero sin centro asignado
-                <p className="sin-centro-msg">
-                    No estás inscrito en ningún centro. Contacta con un
-                    administrador para que te asigne uno.
-                </p>
-            ) : (<div className="elementos">
-                    {/* // SEGUIMOS MAÑANA */}
-                </div>)
-=======
     if (estaAutenticado && sinCentro) {
         return (
             <>
@@ -161,7 +113,6 @@ export default function Inicio({
     return (
         <>
             <Head title="Actividades" />
->>>>>>> fb55ae0 (Intregración de las cookies)
             <div className="main-container">
                 <section className="section-actividades">
                     <h2 className="title-black text-white">
@@ -174,72 +125,6 @@ export default function Inicio({
                         un ambiente único en el que cada detalle está pensado
                         para tu bienestar.
                     </p>
-<<<<<<< HEAD
-                    <form
-                        action="/actividades/buscar"
-                        method="get"
-                        className="form"
-                    >
-                        <div className="elementos">
-                            <select
-                                name="centros"
-                                id="centros"
-                                className="select-deporte"
-                            >
-                                <option selected value="0">
-                                    Seleccciona un centro
-                                </option>
-                                {centros.map((centro) => (
-                                    <option key={centro.id} value={centro.id}>
-                                        {centro.nombre}
-                                    </option>
-                                ))}
-                            </select>
-                            <select
-                                name="cursos"
-                                id="cursos"
-                                className="select-deporte"
-                            >
-                                <option selected value="0">
-                                    Seleccciona un curso
-                                </option>
-                                {cursos.map((curso) => (
-                                    <option key={curso.id} value={curso.id}>
-                                        {curso.titulo}
-                                    </option>
-                                ))}
-                            </select>
-                            <select
-                                name="tipos"
-                                id="tipos"
-                                className="select-deporte"
-                            >
-                                <option selected>Tipo</option>
-                                {tipos.map((tipo) => (
-                                    <option key={tipo.id} value={tipo.id}>
-                                        {tipo.tipo}
-                                    </option>
-                                ))}
-                            </select>
-                            <Button
-                                type="submit"
-                                className="btn-filtrar btn-crud"
-                                href=""
-                            >
-                                Filtrar
-                            </Button>
-                        </div>
-                    </form>
-                    <div className="activities-grid">
-                        {actividades.map((actividad) => (
-                            <CartaActividad
-                                key={actividad.id}
-                                id={actividad.id}
-                                titulo={actividad.titulo}
-                                imagen={actividad.imagen}
-                            />
-                        ))}
-=======
                     <div className="elementos">
                         <select
                             name="centros"
@@ -310,7 +195,6 @@ export default function Inicio({
                                 />
                             ))
                         )}
->>>>>>> fb55ae0 (Intregración de las cookies)
                     </div>
                     <Button
                         href="/inicio"

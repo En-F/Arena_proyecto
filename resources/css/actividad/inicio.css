@@ -1,41 +1,24 @@
 .descripcion-actividad {
     max-width: 800px;
-<<<<<<< HEAD
-    margin-bottom: 20px;
-    line-height: 1.6;
-    color: #555;
-=======
     margin: 0 auto 20px auto;
     line-height: 1.6;
     color: #555;
     padding: 0 1rem;
->>>>>>> fb55ae0 (Intregración de las cookies)
 }
 
 .elementos {
     display: flex;
     width: 100%;
-<<<<<<< HEAD
-    max-width: 1250px;
-=======
->>>>>>> fb55ae0 (Intregración de las cookies)
     gap: 12px;
     flex-wrap: wrap;
     padding-bottom: 50px;
 }
 
 .select-deporte {
-<<<<<<< HEAD
-    flex: 1 1 auto;
-    min-width: 150px;
-    max-width: 250px;
-    width: auto;
-=======
     min-width: 150px;
     max-width: 250px;
     width: 100%;
     margin: auto;
->>>>>>> fb55ae0 (Intregración de las cookies)
     font-family:
         'Inter',
         -apple-system,
@@ -66,11 +49,6 @@
     color: #000000;
 }
 
-<<<<<<< HEAD
-@media (max-width: 600px) {
-    .elementos {
-        gap: 10px;
-=======
 .sin-centro-msg {
     display: flex;
     flex-direction: column;
@@ -118,16 +96,10 @@
         flex-direction: column;
         align-items: stretch;
         gap: 8px;
->>>>>>> fb55ae0 (Intregración de las cookies)
         padding-bottom: 20px;
     }
 
     .select-deporte {
-<<<<<<< HEAD
-        min-width: 90%;
-    }
-}
-=======
         min-width: 100%;
         max-width: 100%;
         font-size: 13px;
@@ -140,4 +112,3 @@
         padding: 1.5rem 1rem;
     }
 }
->>>>>>> fb55ae0 (Intregración de las cookies)
