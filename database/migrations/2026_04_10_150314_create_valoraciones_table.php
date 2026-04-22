@@ -15,15 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('titulo');
             $table->text('comentario')->nullable();
-<<<<<<< HEAD
-            $table->decimal('puntuacion', 2, 2);
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('curso_id')->constrained('cursos')->onDelete('cascade');
-=======
             $table->unsignedTinyInteger('puntuacion');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('centro_id')->constrained('centros')->onDelete('cascade');
->>>>>>> fb55ae0 (Intregración de las cookies)
             $table->timestamps();
         });
     }

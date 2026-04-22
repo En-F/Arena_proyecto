@@ -5,6 +5,8 @@ import {
     LayoutGrid,
     House,
     Building,
+    Dumbbell,
+    User,
 } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavFooter } from '@/components/nav-footer';
@@ -34,9 +36,19 @@ const mainNavItems: NavItem[] = [
         icon: House,
     },
     {
-        title: 'Centros y tarifas',
+        title: 'Centros',
         href: '/centros',
         icon: Building,
+    },
+    {
+        title: 'Actividades',
+        href: '/actividades',
+        icon: Dumbbell,
+    },
+    {
+        title: 'Gestión de usuarios',
+        href: '/usuarios',
+        icon: User,
     },
 ];
 

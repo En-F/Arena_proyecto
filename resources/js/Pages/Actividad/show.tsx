@@ -1,8 +1,8 @@
-import { Head } from '@inertiajs/react';
-import Button from '@/components/Layouts/Button';
 import '../../../css/actividad/show.css';
 import CartaVideo from '@/components/carta/CartaVideo';
 import CartaActividadShow from '@/components/carta/CartaActividadShow';
+import Button from '@/components/Layouts/Button';
+import { Head } from '@inertiajs/react';
 
 interface Actividad {
     id: number;

@@ -13,11 +13,7 @@ return new class extends Migration
     {
         Schema::create('roles', function (Blueprint $table) {
             $table->id();
-<<<<<<< HEAD
-            $table->string('name')->unique();
-=======
             $table->string('rol')->unique();
->>>>>>> fb55ae0 (Intregración de las cookies)
             $table->string('description')->nullable();
             $table->timestamps();
         });

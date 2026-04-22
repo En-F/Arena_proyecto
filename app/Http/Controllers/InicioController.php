@@ -8,6 +8,8 @@ use App\Models\Inicio;
 use App\Models\Noticia;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Auth;
+
 
 class InicioController extends Controller
 {
@@ -16,10 +18,13 @@ class InicioController extends Controller
      */
     public function index()
     {
+        $esAdmin = Auth::check() ? Auth::user()->tienePermiso() : false;
+
         return Inertia::render('Inicio/index',[
         'centros' => Centro::all(),
         'noticias' => Noticia::all(),
         'actividades' => Actividad::all(),
+        'esAdmin' => $esAdmin
     ]);
     }
 
@@ -71,12 +76,4 @@ class InicioController extends Controller
         //
     }
 
-    public function register(Request $request)
-    {
-
-        return Inertia::render('Inicio/register');
-
-        return response()->json($request,200);
-
-    }
 }

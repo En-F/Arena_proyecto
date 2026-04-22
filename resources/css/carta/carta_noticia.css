@@ -68,9 +68,6 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
-<<<<<<< HEAD
-=======
-
 
 .carta-crear {
     display: flex;
@@ -100,4 +97,3 @@
 .centro-item:hover .carta-crear-plus {
     color: #0070f3;
 }
->>>>>>> fb55ae0 (Intregración de las cookies)

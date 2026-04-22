@@ -22,7 +22,7 @@ export default function Profile({
         <>
             <Head title="Profile settings" />
 
-            <h1 className="sr-only">Profile settings</h1>
+            <h1 className="sr-only">Configuracion del usuario</h1>
 
             <div className="space-y-6">
                 <Heading

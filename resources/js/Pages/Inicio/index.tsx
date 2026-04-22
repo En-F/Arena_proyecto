@@ -18,7 +18,6 @@ export default function Inicio({
     actividades,
     esAdmin,
 }: Props) {
-    console.log(esAdmin);
     const esCarrusel = actividades.length > 7;
 
     return (

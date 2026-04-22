@@ -7744,18 +7744,7 @@
         },
         {
             "name": "laravel/sail",
-<<<<<<< HEAD
-            "version": "v1.56.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laravel/sail.git",
-                "reference": "f43426bb42a1cb7a51a3861d9138063e54766d28"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laravel/sail/zipball/f43426bb42a1cb7a51a3861d9138063e54766d28",
-                "reference": "f43426bb42a1cb7a51a3861d9138063e54766d28",
-=======
+
             "version": "v1.57.0",
             "source": {
                 "type": "git",
@@ -7766,7 +7755,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/laravel/sail/zipball/fa8d057b6e9310380ccbc3a209ed7f927d54f648",
                 "reference": "fa8d057b6e9310380ccbc3a209ed7f927d54f648",
->>>>>>> fb55ae0 (Intregración de las cookies)
                 "shasum": ""
             },
             "require": {
@@ -7816,11 +7804,8 @@
                 "issues": "https://github.com/laravel/sail/issues",
                 "source": "https://github.com/laravel/sail"
             },
-<<<<<<< HEAD
-            "time": "2026-04-01T15:17:32+00:00"
-=======
+
             "time": "2026-04-14T13:32:04+00:00"
->>>>>>> fb55ae0 (Intregración de las cookies)
         },
         {
             "name": "mockery/mockery",
@@ -8181,18 +8166,6 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-<<<<<<< HEAD
-            "version": "12.5.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "b015312f28dd75b75d3422ca37dff2cd1a565e8d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/b015312f28dd75b75d3422ca37dff2cd1a565e8d",
-                "reference": "b015312f28dd75b75d3422ca37dff2cd1a565e8d",
-=======
             "version": "12.5.6",
             "source": {
                 "type": "git",
@@ -8203,7 +8176,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/876099a072646c7745f673d7aeab5382c4439691",
                 "reference": "876099a072646c7745f673d7aeab5382c4439691",
->>>>>>> fb55ae0 (Intregración de las cookies)
                 "shasum": ""
             },
             "require": {
@@ -8212,10 +8184,7 @@
                 "ext-xmlwriter": "*",
                 "nikic/php-parser": "^5.7.0",
                 "php": ">=8.3",
-<<<<<<< HEAD
                 "phpunit/php-file-iterator": "^6.0",
-=======
->>>>>>> fb55ae0 (Intregración de las cookies)
                 "phpunit/php-text-template": "^5.0",
                 "sebastian/complexity": "^5.0",
                 "sebastian/environment": "^8.0.3",
@@ -8262,11 +8231,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues",
                 "security": "https://github.com/sebastianbergmann/php-code-coverage/security/policy",
-<<<<<<< HEAD
-                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/12.5.3"
-=======
                 "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/12.5.6"
->>>>>>> fb55ae0 (Intregración de las cookies)
             },
             "funding": [
                 {
@@ -8286,11 +8251,7 @@
                     "type": "tidelift"
                 }
             ],
-<<<<<<< HEAD
-            "time": "2026-02-06T06:01:44+00:00"
-=======
             "time": "2026-04-15T08:23:17+00:00"
->>>>>>> fb55ae0 (Intregración de las cookies)
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -8551,18 +8512,6 @@
         },
         {
             "name": "phpunit/phpunit",
-<<<<<<< HEAD
-            "version": "12.5.17",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "85b62adab1a340982df64e66daa4a4435eb5723b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/85b62adab1a340982df64e66daa4a4435eb5723b",
-                "reference": "85b62adab1a340982df64e66daa4a4435eb5723b",
-=======
             "version": "12.5.23",
             "source": {
                 "type": "git",
@@ -8573,7 +8522,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c54fcf3d6bcb6e96ac2f7e40097dc37b5f139969",
                 "reference": "c54fcf3d6bcb6e96ac2f7e40097dc37b5f139969",
->>>>>>> fb55ae0 (Intregración de las cookies)
                 "shasum": ""
             },
             "require": {
@@ -8587,25 +8535,18 @@
                 "phar-io/manifest": "^2.0.4",
                 "phar-io/version": "^3.2.1",
                 "php": ">=8.3",
-<<<<<<< HEAD
-                "phpunit/php-code-coverage": "^12.5.3",
-=======
                 "phpunit/php-code-coverage": "^12.5.6",
->>>>>>> fb55ae0 (Intregración de las cookies)
                 "phpunit/php-file-iterator": "^6.0.1",
                 "phpunit/php-invoker": "^6.0.0",
                 "phpunit/php-text-template": "^5.0.0",
                 "phpunit/php-timer": "^8.0.0",
                 "sebastian/cli-parser": "^4.2.0",
-<<<<<<< HEAD
                 "sebastian/comparator": "^7.1.4",
                 "sebastian/diff": "^7.0.0",
                 "sebastian/environment": "^8.0.4",
-=======
                 "sebastian/comparator": "^7.1.6",
                 "sebastian/diff": "^7.0.0",
                 "sebastian/environment": "^8.1.0",
->>>>>>> fb55ae0 (Intregración de las cookies)
                 "sebastian/exporter": "^7.0.2",
                 "sebastian/global-state": "^8.0.2",
                 "sebastian/object-enumerator": "^7.0.0",
@@ -8652,11 +8593,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-<<<<<<< HEAD
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/12.5.17"
-=======
                 "source": "https://github.com/sebastianbergmann/phpunit/tree/12.5.23"
->>>>>>> fb55ae0 (Intregración de las cookies)
             },
             "funding": [
                 {
@@ -8664,11 +8601,7 @@
                     "type": "other"
                 }
             ],
-<<<<<<< HEAD
-            "time": "2026-04-08T03:04:19+00:00"
-=======
             "time": "2026-04-18T06:12:49+00:00"
->>>>>>> fb55ae0 (Intregración de las cookies)
         },
         {
             "name": "sebastian/cli-parser",

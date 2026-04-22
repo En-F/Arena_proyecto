@@ -82,12 +82,34 @@
     justify-content: center;
 }
 
+.boton-login-logeado{
+    display: flex;
+    padding: 9px 18px;
+    background-color: #f38200;
+    border-radius: 20px 20px 20px 20px;    
+    color: var(--card-white);
+    cursor: pointer;
+}
+
+.boton-login-logeado:hover{
+    opacity: 0.6;
+}
+
+.icono-login-logeado{
+    width: 18px;
+    margin-right: 8px;
+    object-fit: contain;
+    display: block;
+}
+
+
 .nav-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
     max-width: 1200px;
     margin: 0 auto;
+    
 }
 
 .nav-links a {

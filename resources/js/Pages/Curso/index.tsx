@@ -1,6 +1,7 @@
 import { Head, Link } from '@inertiajs/react';
 import Button from '@/components/Layouts/Button';
 import CartaCentro from '@/components/carta/CartaCentro';
+import '../../../css/centro/inicio.css';
 
 interface Props {
     cursos: any[];

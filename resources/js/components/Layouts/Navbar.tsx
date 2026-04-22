@@ -17,22 +17,42 @@ const Navbar = () => {
                     <Link href={'/centros'}>Centros</Link>
                     <Link href={'/actividades'}>Actividades</Link>
                     <Link href={'/cursos'}>Cursos</Link>
-                    <Link href={'/horario'}>Horario</Link>
+                    <Link href={'/horarios'}>Horario</Link>
+                    {auth.user && auth.user.roles?.some((r) => r.rol === 'admin' || r.rol === 'jefe') && (
+                        <Link href={'/usuarios'}>Usuarios</Link>
+                    )}
                 </div>
                 <div className="botones-acceso">
-                    <Link href={'/register'}>
-                        <button className="boton socio">Hazte socio</button>
-                    </Link>
-                    <Link href={'/login'}>
-                        <button className="boton login">
+                    {auth.user ? (
+                        /* --- ESTADO: LOGUEADO --- */
+                       <Link href={auth.user ? '/settings/profile' : '/login'}>
+                        <button className="boton-login-logeado">
                             <img
                                 src="/storage/otros/persona.jpg"
                                 alt="Usuario"
-                                className="icono-login"
+                                className="icono-login-logeado"
                             />
-                            {auth.user ? auth.user.name : 'Iniciar sesión'}
+                            { auth.user.name }
                         </button>
                     </Link>
+                    ) : (
+                    <>
+                        <Link href="/socio">
+                            <button className="boton socio">Hazte Socio</button>
+                        </Link>
+                        
+                        <Link href="/login">
+                            <button className="boton login">
+                                <img
+                                    src="/storage/otros/persona.jpg"
+                                    alt="Usuario"
+                                    className="icono-login"
+                                />
+                                Iniciar sesión
+                            </button>
+                        </Link>
+                    </>
+                    )}
                 </div>
             </div>
         </nav>
