@@ -19,7 +19,6 @@
     align-items: center;
     text-decoration: none;
     gap: 15px;
-    transition: transform 0.3s ease;
 }
 
 .img-card-container {
@@ -28,6 +27,8 @@
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+    transition: transform 0.3s ease;
+
 }
 
 .img-card-container img {
@@ -36,7 +37,7 @@
     object-fit: cover;
 }
 
-.centro-item:hover {
+.img-card-container:hover {
     transform: scale(1.03);
 }
 

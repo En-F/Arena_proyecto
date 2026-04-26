@@ -17,17 +17,16 @@ class DatabaseSeeder extends Seeder
             'rol' => 'admin',
             'description' => 'Administrador de la página web'
             ]);
-
         $rol_2=DB::table('roles')->insertGetId([
-            'rol' => 'Entrenador Personal',
-            'description' => 'Entrenador Personal que pertenece a un centro y va a poder gestionar las diferentes actividades'
+            'rol' => 'jefe de centro',
+            'description' => 'Es el que gestiona su centro'
+        ]);
+        $rol_3=DB::table('roles')->insertGetId([
+            'rol' => 'logeado',
+            'description' => 'Usuario logeado que tiene acceso a las reservas de las actividades'
         ]);
 
-        $rol_3=DB::table('roles')->insertGetId([
-            'rol' => 'Jefe de Arena',
-            'description' => 'Jefe del Arena'
-            ]);
-
+            
         // --- USUARIOS ---
         $admin = DB::table('users')->insertGetId([
             'name' => 'Admin',
@@ -41,16 +40,28 @@ class DatabaseSeeder extends Seeder
             'name' => 'Enrique',
             'email' => 'enrique@enrique.com',
             'password' => Hash::make('enrique'),
-            'dni' => '12345678A',
+            'dni' => '68957529X',
             'created_at' => now(),
         ]);
 
+        $usuario_2 = DB::table('users')->insertGetId([
+            'name' => 'usuario1',
+            'email' => 'usuario1@usuario1.com',
+            'password' => Hash::make('usuario1'),
+            'dni' => '83589575P',
+            'created_at' => now(),
+        ]);
+
+        $usuario_3 = DB::table('users')->insertGetId([
+            'name' => 'usuario2',
+            'email' => 'usuario2@usuario2.com',
+            'password' => Hash::make('usuario2'),
+            'dni' => '30179491H',
+            'created_at' => now(),
+            'activo'=> false
+        ]);
+
         
-
-
-
-
-
         //Tipos
         $tipo_1 = DB::table('tipos')->insertGetId([
             'tipo'=> 'Resistencia'
@@ -81,7 +92,7 @@ class DatabaseSeeder extends Seeder
             'descripcion' => 'Un gimnasio equipado con las últimas máquinas de entrenamiento y un equipo de entrenadores profesionales con piscina .',
             'direccion' => 'Av. de la Rondeña, S/N',
             'telefono' => '657 80 44 38',
-            'email' => 'info-sanlucar@okeymas.es'
+            'email' => 'info-sanlucar@gmail.es'
         ]);
         DB::table('centros')->where('id', $centro_2)->update(['imagen' => "centros/{$centro_2}.jpg"]);
 
@@ -90,7 +101,7 @@ class DatabaseSeeder extends Seeder
             'descripcion' => 'Variedad de actividades para disfrutar en la naturaleza, como senderismo, ciclismo y escalada profesional.',
             'direccion' => 'Parque Natural, 123, Ciudad',
             'telefono' => '345678901',
-            'email' => 'airelibre@actividades.com'
+            'email' => 'airelibre@gmail.com'
         ]);
         DB::table('centros')->where('id', $centro_3)->update(['imagen' => "centros/{$centro_3}.jpg"]);
 
@@ -99,12 +110,51 @@ class DatabaseSeeder extends Seeder
             'descripcion' => 'Instalaciones modernas con pista de tartán y equipo técnico especializado en alto rendimiento.',
             'direccion' => 'Calle del Atletismo, 456, Ciudad',
             'telefono' => '987958421',
-            'email' => 'atletismo@atletismo.com'
+            'email' => 'atletismo@gmail.com'
         ]);
         DB::table('centros')->where('id', $centro_4)->update(['imagen' => "centros/{$centro_4}.jpg"]);
 
+        $centro_5 = DB::table('centros')->insertGetId([
+            'nombre' => 'Pabellón Polideportivo Municipal Donostia',
+            'descripcion' => 'Instalación cubierta de alto nivel equipada con pistas de parqué multideporte, canastas retráctiles, porterías y gradas de gran capacidad para eventos deportivos.',
+            'direccion' => 'Calle de los Deportes, s/n, Zona Estadio',
+            'telefono' => '943001122',
+            'email' => 'pabellon_municipal@gmail.es'
+        ]);
+        DB::table('centros')->where('id', $centro_5)->update(['imagen' => "centros/{$centro_5}.jpg"]);
 
-        //Valoraicones
+        $centro_6 = DB::table('centros')->insertGetId([
+            'nombre' => 'Centro de Manolo Gallego',
+            'descripcion' => 'Instalaciones modernas para practicar Yoga deporte de fuerza y mantenerse en forma.',
+            'direccion' => 'Calle del Papeleo, 456, Ciudad',
+            'telefono' => '987958123',
+            'email' => 'centromano@gmail.com'
+        ]);
+        DB::table('centros')->where('id', $centro_6)->update(['imagen' => "centros/{$centro_6}.jpg"]);
+
+        $centro_7 = DB::table('centros')->insertGetId([
+            'nombre' => 'CAR Granada',
+            'descripcion' => 'Instalación técnica especializada diseñada para optimizar el desempeño de deportistas de élite. Su objetivo principal es ofrecer un entorno integral que combina entrenamiento de vanguardia, servicios médicos especializados y apoyo científico, permitiendo a los atletas prepararse para competiciones nacionales e internacionales en las mejores condiciones posibles. ',
+            'direccion' => 'Sierra Nevada',
+            'telefono' => '912111678',
+            'email' => 'CAR@gmail.com'
+        ]);
+        DB::table('centros')->where('id', $centro_7)->update(['imagen' => "centros/{$centro_7}.jpg"]);
+
+        $centro_8 = DB::table('centros')->insertGetId([
+            'nombre' => 'Centro Deportivo Municipal El Barrio',
+            'descripcion' => 'Complejo deportivo con campo de fútbol de césped artificial de última generación, zonas de entrenamiento al aire libre y vestuarios renovados.',
+            'direccion' => 'Calle de la Vecindad, 8, Distrito Centro',
+            'telefono' => '910000008',
+            'email' => 'elbarriodeportes@gmail.com'
+        ]);
+        DB::table('centros')->where('id', $centro_8)->update(['imagen' => "centros/{$centro_8}.jpg"]);
+
+
+
+
+
+        //---VALORACIONES---// 
         DB::table('valoraciones')->insert([
             'titulo' => 'Excelente centro',
             'comentario' => 'Me encanta entrenar aquí, las instalaciones son de primera y el personal es muy amable.',
@@ -398,6 +448,20 @@ class DatabaseSeeder extends Seeder
             'rol_id' => $rol_2,
             'created_at'=>now()
         ]);
+
+        DB::table('usuario_rol')->insert([
+            'user_id' => $usuario_2,
+            'rol_id' => $rol_3,
+            'created_at'=>now()
+        ]);
+
+        DB::table('usuario_rol')->insert([
+            'user_id' => $usuario_3,
+            'rol_id' => $rol_3,
+            'created_at'=>now()
+        ]);
+
+        
 
         DB::table('centro_instalacion')->insert([
             'centro_id' => $centro_1,

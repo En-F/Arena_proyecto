@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('direccion');
             $table->string('imagen')->nullable();
             $table->text('descripcion');
+            $table->boolean('es_activo')->default(true);
             $table->timestamps();
         });
     }

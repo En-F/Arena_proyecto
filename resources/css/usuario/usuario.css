@@ -1,0 +1,37 @@
+.encabezado{
+    font-size: 15px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.activo {
+    color: rgb(255, 255, 255);
+    background-color: green;
+    padding: 4px;
+    border-radius: 5px;
+        font-size: 15px;
+
+}
+
+.inactivo {
+    color: rgb(255, 255, 255);
+    background-color: rgb(255, 0, 0);
+    padding: 4px;
+    border-radius: 5px;
+    font-size: 15px;
+}
+
+.select-personalizado {
+    appearance: none;               
+    background-color: #ffffff;      
+    border-color: rgba(0, 0, 0, 0.2); 
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 0.5rem;          
+    padding-left: 1rem;
+    padding-right: 2.5rem;          
+    height: 3rem;                   
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    cursor: pointer;
+    transition: border-color 0.2s;  
+}

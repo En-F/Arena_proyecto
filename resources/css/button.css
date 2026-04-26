@@ -52,3 +52,17 @@
     background-color: #ff0000;
     transform: translateY(-1px);
 }
+
+.ocultar {
+    background-color: red;
+    padding: 5px;
+    border-radius: 7px;
+    cursor: pointer;
+
+}
+
+.ocultar:hover {
+    background-color: #c76262;
+    transform: scale(1.07);
+
+}

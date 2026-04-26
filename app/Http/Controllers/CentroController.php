@@ -77,4 +77,18 @@ class CentroController extends Controller
 
         return response()->json($centros);
     }
+
+    public function ocultar (Request $request) 
+    {
+        $id = $request->input('id');
+
+        $centro = Centro::find($id);
+
+        if ($centro) {
+            $centro->update([
+                'es_activo' => false
+            ]);
+    }
+        return back();
+    }
 }

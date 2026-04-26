@@ -27,7 +27,11 @@ Route::post('/login', [ControlController::class, 'store'])->name('login.store');
 
 
 Route::middleware(['auth', 'verified'])->group(function () {
+    //CENTROS
     Route::resource('centros', CentroController::class)->except(['index','show']);
+    Route::post('/centros/ocultar', [CentroController::class, 'ocultar']);
+
+
     Route::resource('cursos', CursoController::class)->except(['index','show']);
     Route::resource('horarios', HorarioController::class)->except(['index','show']);
     Route::resource('actividades', ActividadController::class)->parameter('actividades', 'actividad')->except(['index','show']);

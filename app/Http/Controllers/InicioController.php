@@ -9,7 +9,7 @@ use App\Models\Noticia;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\DB;
 
 class InicioController extends Controller
 {
@@ -18,10 +18,14 @@ class InicioController extends Controller
      */
     public function index()
     {
-        $esAdmin = Auth::check() ? Auth::user()->tienePermiso() : false;
-
+        $esAdmin = Auth::check() ? Auth::user()->Admin() : false;
+        $centros = DB::table('centros')
+        ->where('es_activo', '=', true)
+        ->inRandomOrder() 
+        ->get();
+        
         return Inertia::render('Inicio/index',[
-        'centros' => Centro::all(),
+        'centros' =>  $centros,
         'noticias' => Noticia::all(),
         'actividades' => Actividad::all(),
         'esAdmin' => $esAdmin

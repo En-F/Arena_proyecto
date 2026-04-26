@@ -1,30 +1,35 @@
 import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
+import '../../../css/usuario/usuario.css'
 
-interface Rol {
-    id: number;
-    rol: string;
-}
 
 interface Centro {
     id: number;
     nombre: string;
 }
 
+interface Rol {
+    id: number;
+    rol: string;
+}
+
 interface Usuario {
     id: number;
     name: string;
-    email: number;
+    email: string;
     dni: string;
+    activo: boolean;
     roles: Rol[];
     centros: Centro[];
 }
 
 interface Props {
     usuarios: Usuario[];
+    centros : Centro[];
+    roles: Rol[];
 }
 
-export default function Show({ usuarios }: Props) {
+export default function Show({ usuarios,centros,roles }: Props) {
     const [visibles, setVisibles] = useState<number[]>([]);
 
     const toggleVisibilidad = (id: number) => {
@@ -41,17 +46,53 @@ export default function Show({ usuarios }: Props) {
                 <table className="table">
                     <thead>
                         <tr>
-                            <th></th>
-                            <th>Nombre</th>
-                            <th>Email</th>
-                            <th>DNI</th>
-                            <th>Contraseña</th>
-                            <th>Rol</th>
-                            <th>Centro al que pertenece</th>
-                            <th>Acciones</th>
+                            <th className='encabezado'></th>
+                            <th className='encabezado'>Nombre</th>
+                            <th className='encabezado'>Email</th>
+                            <th className='encabezado'>DNI</th>
+                            <th className='encabezado'>Contraseña</th>
+                            <th className='encabezado'>Rol</th>
+                            <th className='encabezado'>Centro</th>
+                            <th className='encabezado'>Activo</th>
+                            <th className='encabezado'>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <select className="select-personalizado">
+                                    <option  selected value="">Todos los roles</option>
+                                    {roles.map((rol) => (
+                                        <option key={rol.id} value={rol.id}>
+                                            {rol.rol}
+                                        </option>
+                                    ))}
+                                </select>
+                            </td>
+                            <td>
+                                <select className="select-personalizado">
+                                    <option  selected value="">Todos los centros</option>
+                                    {centros.map((centro) => (
+                                        <option key={centro.id} value={centro.id}>
+                                            {centro.nombre}
+                                        </option>
+                                    ))}
+                                </select>
+                            </td>
+                            <td>
+                                <select className="select-personalizado ">
+                                    <option  selected value="">Todos</option>
+                                    <option  value="true">Activo</option>
+                                    <option value="false">Inactivo</option>
+                                </select>
+                            </td>
+                        </tr>
+                        
                         {usuarios.map((usuario, index) => {
                             const estaVisible = visibles.includes(usuario.id);
 
@@ -98,6 +139,13 @@ export default function Show({ usuarios }: Props) {
                                         {usuario.centros
                                             .map((centro) => centro.nombre)
                                             .join(', ')}
+                                    </td>
+                                    <td>
+                                        {usuario.activo ? (
+                                            <span className="activo">Activo</span>
+                                        ) : (
+                                            <span className="inactivo">Inactivo</span>
+                                        )}
                                     </td>
                                     <td className="flex justify-center gap-2">
                                         <button className="btn text-blue-500 btn-ghost btn-xs">

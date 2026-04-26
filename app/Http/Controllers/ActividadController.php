@@ -19,7 +19,7 @@ class ActividadController extends Controller
     public function index(Request $request)
     {
         $usuario = Auth::user();
-        $esAdmin = $usuario?->tienePermiso() ?? false;
+        $esAdmin = $usuario?->Admin() ?? false;
 
         if($usuario) {
             $centros_activos = $esAdmin ? Centro::all() : $usuario->centros;

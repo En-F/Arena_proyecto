@@ -34,12 +34,17 @@ class User extends Authenticatable
 
     public function roles()
     {
-        return $this->belongsToMany(Rol::class, 'usuario_rol', 'user_id', 'rol_id');
+        return $this->belongsToMany(Rol::class, 'usuario_rol', 'user_id', 'rol_id','activo');
     }
 
-    public function tienePermiso(): bool
+    public function Admin(): bool
     {
         return $this->roles->contains('rol', 'admin');
+    }
+
+    public function Jefe(): bool
+    {
+        return $this->roles->contains('rol', 'jefe de centro');
     }
 
     public function noticias()
