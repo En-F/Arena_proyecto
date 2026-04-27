@@ -1,5 +1,8 @@
-import { Link } from '@inertiajs/react';
+import { Link, router, usePage } from '@inertiajs/react';
 import '../../../css/carta/carta_actividad.css';
+import Button from '../Layouts/Button';
+import '../../../css/button.css';
+
 
 interface Props {
     id?: number;
@@ -14,6 +17,22 @@ export default function CartaActividad({
     imagen,
     esCrear = false,
 }: Props) {
+
+    const { auth } = usePage().props;
+    
+
+    const handleOcultarCentro = (e: React.MouseEvent) => {
+            e.stopPropagation();
+            e.preventDefault();
+    
+            if(confirm('¿Estás seguro de que quieres ocultar esta actividad?')) {
+                router.post('/actividades/ocultar',{id:id},{
+                    preserveScroll: true,
+                })
+            }
+    
+        }
+
     if (esCrear) {
         return (
             <Link href="/actividades/create" className="centro-item">
@@ -25,6 +44,7 @@ export default function CartaActividad({
     }
     
     return (
+        <div style={{ position: 'relative' }}>
         <Link key={id} href={`/actividades/${id}`} className="activity-card">
             <div className="activity-img-wrapper">
                 <img
@@ -38,5 +58,17 @@ export default function CartaActividad({
             </div>
             <p className="activity-title">{titulo}</p>
         </Link>
+        {auth.user && (auth.user.is_admin || auth.user.is_jefe) && (
+            <div className="admin-controls">
+                <Button
+                    type="button"
+                    onClick={handleOcultarCentro}
+                    className="btn-crud ocultar"
+                >
+                    Ocultar
+                </Button>
+            </div>
+        )}
+        </div>
     );
 }

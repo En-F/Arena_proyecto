@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Actividad;
 use App\Models\Centro;
 use App\Models\Inicio;
+use App\Models\User;
 use App\Models\Noticia;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -16,9 +17,8 @@ class InicioController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $esAdmin = Auth::check() ? Auth::user()->Admin() : false;
         $centros = DB::table('centros')
         ->where('es_activo', '=', true)
         ->inRandomOrder() 
@@ -28,7 +28,6 @@ class InicioController extends Controller
         'centros' =>  $centros,
         'noticias' => Noticia::all(),
         'actividades' => Actividad::all(),
-        'esAdmin' => $esAdmin
     ]);
     }
 

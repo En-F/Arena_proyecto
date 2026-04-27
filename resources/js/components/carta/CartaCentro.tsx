@@ -27,7 +27,6 @@ export default function CartaCentro({
                 preserveScroll: true,
             })
         }
-
     }
     
     if (esCrear) {
@@ -49,17 +48,17 @@ export default function CartaCentro({
                 <p className="centro-title">{nombre}</p>
             </Link>
 
-            {auth.user?.name === 'Admin' && (
-                <div className="admin-controls">
-                    <Button
-                        type="button"
-                        onClick={handleOcultarCentro}
-                        className="btn-crud ocultar"
-                    >
-                        Ocultar
-                    </Button>
-                </div>
-            )}
+            {auth.user?.is_admin && (
+            <div className="admin-controls">
+                <Button
+                    type="button"
+                    onClick={handleOcultarCentro}
+                    className="btn-crud ocultar"
+                >
+                    Ocultar
+                </Button>
+            </div>
+        )}
         </div>
     );
 }

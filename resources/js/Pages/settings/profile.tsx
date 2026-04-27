@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { edit } from '@/routes/profile';
 import { send } from '@/routes/verification';
-
+import Logout from '../settings/logout'
 export default function Profile({
     mustVerifyEmail,
     status,
@@ -116,8 +116,7 @@ export default function Profile({
                     )}
                 </Form>
             </div>
-
-            <DeleteUser />
+            <Logout/>
         </>
     );
 }

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text('descripcion');
             $table->string('imagen')->nullable();
             $table->foreignId('tipo_id')->constrained('tipos')->onDelete('cascade');
+            $table->boolean('es_activo')->default(true);
             $table->timestamps();
         });
     }

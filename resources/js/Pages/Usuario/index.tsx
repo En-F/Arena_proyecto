@@ -42,6 +42,7 @@ export default function Show({ usuarios,centros,roles }: Props) {
 
     return (
         <>
+            <h2 className="title-black">Gestión de Usuarios</h2>
             <div className="mt-10 mr-10 ml-10 overflow-x-auto rounded-box border border-base-content/5 bg-base-100">
                 <table className="table">
                     <thead>

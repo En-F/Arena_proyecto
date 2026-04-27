@@ -34,7 +34,7 @@ class User extends Authenticatable
 
     public function roles()
     {
-        return $this->belongsToMany(Rol::class, 'usuario_rol', 'user_id', 'rol_id','activo');
+        return $this->belongsToMany(Rol::class, 'usuario_rol', 'user_id', 'rol_id');
     }
 
     public function Admin(): bool
@@ -44,7 +44,7 @@ class User extends Authenticatable
 
     public function Jefe(): bool
     {
-        return $this->roles->contains('rol', 'jefe de centro');
+        return $this->roles->contains('rol', 'jefe');
     }
 
     public function noticias()
@@ -62,10 +62,6 @@ class User extends Authenticatable
         return $this->belongsToMany(Centro::class, 'inscripcion', 'user_id', 'centro_id')->withPivot('fecha_alta')->withTimestamps();
     }
 
-    public function favoritos()
-    {
-        return $this->belongsToMany(Actividad::class, 'favorito', 'user_id', 'actividad_id')->withTimestamps();
-    }
 
     public function reservas()
     {

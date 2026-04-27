@@ -189,4 +189,18 @@ class ActividadController extends Controller
     {
         //
     }
+
+    public function ocultar (Request $request) 
+    {
+        $id = $request->input('id');
+
+        $actividad = Actividad::find($id);
+
+        if ($actividad) {
+            $actividad->update([
+                'es_activo' => false
+            ]);
+    }
+        return back();
+    }
 }

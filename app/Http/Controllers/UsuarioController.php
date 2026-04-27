@@ -16,32 +16,31 @@ class UsuarioController extends Controller
     {
         $usuario = Auth::user();
 
-        $esAdmin = $usuario?->Admin() ?? false;
-        $esJefe = $usuario?->Jefe() ?? false;
+        $query = User::with(['roles', 'centros']);
+        
+        if($usuario->Admin()){
+                
+        } elseif($usuario->Jefe()){
 
-        $id_centros = $usuario->centros->pluck('id')->toArray();
+            $id_centros = $usuario->centros->pluck('id')->toArray();
+           
+            $query->whereHas('centros', function ($query) use ($id_centros) {
+                $query->whereIn('inscripcion.centro_id', $id_centros);
+            })
+            ->get();
 
-        if($esAdmin){
-            $usuarios =User::with('roles','centros')->get();
-            $centros = DB::table('centros')
-            ->where('es_activo', '=', true)
-        ->get();
-        } elseif ($esJefe){
-            $usuarios =User::with('roles','centros')->get();
             $centros = DB::table('centros')
             ->where('es_activo', '=', true)
             ->get();
+
+        } else {
+            abort(403);
         }
-
-
+        return Inertia::render('Usuario/index', [
+        'usuarios' => $query->get(),
+        'centros'  => Centro::where('es_activo', true)->get(), 
+        'roles'    => Rol::all(),
+    ]);
         
-
-        
-        return Inertia::render('Usuario/index',
-        [
-            'usuarios' => $usuarios,
-            'centros' =>$centros,
-            'roles'    => Rol::all(),
-        ]);
     }
 }

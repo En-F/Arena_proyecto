@@ -67,6 +67,7 @@ const Footer = () => {
                 </div>
 
                 <div className="footer__barra_inferior">
+                    
                     <p className="footer__copyright">
                         Desarrollado por Enrique Franco Ulric para la ayuda de
                         la gestión de un centro de deporte.

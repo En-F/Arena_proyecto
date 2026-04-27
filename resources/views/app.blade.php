@@ -42,6 +42,13 @@
         <x-inertia::head>
             <title>{{ config('app.name', 'Laravel') }}</title>
         </x-inertia::head>
+        <script>
+            window.UserWayConfig = {
+                position: 6,
+                size: 'medium',
+            };
+            </script>
+            <script src="https://cdn.userway.org/widget.js" async></script>
     </head>
     <body class="font-sans antialiased">
         <x-inertia::app />

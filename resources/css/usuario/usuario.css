@@ -35,3 +35,7 @@
     cursor: pointer;
     transition: border-color 0.2s;  
 }
+
+.table{
+    border: 1px solid silver;
+}

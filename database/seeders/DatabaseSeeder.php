@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
             'description' => 'Administrador de la página web'
             ]);
         $rol_2=DB::table('roles')->insertGetId([
-            'rol' => 'jefe de centro',
+            'rol' => 'jefe',
             'description' => 'Es el que gestiona su centro'
         ]);
         $rol_3=DB::table('roles')->insertGetId([
@@ -36,7 +36,7 @@ class DatabaseSeeder extends Seeder
             'created_at' => now(),
         ]);
 
-        $usuario_1 = DB::table('users')->insertGetId([
+        $jefe = DB::table('users')->insertGetId([
             'name' => 'Enrique',
             'email' => 'enrique@enrique.com',
             'password' => Hash::make('enrique'),
@@ -44,7 +44,7 @@ class DatabaseSeeder extends Seeder
             'created_at' => now(),
         ]);
 
-        $usuario_2 = DB::table('users')->insertGetId([
+        $usuario_1 = DB::table('users')->insertGetId([
             'name' => 'usuario1',
             'email' => 'usuario1@usuario1.com',
             'password' => Hash::make('usuario1'),
@@ -52,7 +52,7 @@ class DatabaseSeeder extends Seeder
             'created_at' => now(),
         ]);
 
-        $usuario_3 = DB::table('users')->insertGetId([
+        $usuario_2 = DB::table('users')->insertGetId([
             'name' => 'usuario2',
             'email' => 'usuario2@usuario2.com',
             'password' => Hash::make('usuario2'),
@@ -160,7 +160,7 @@ class DatabaseSeeder extends Seeder
             'comentario' => 'Me encanta entrenar aquí, las instalaciones son de primera y el personal es muy amable.',
             'puntuacion' => 8,
             'centro_id' => $centro_1,
-            'user_id' => $usuario_1,
+            'user_id' => $jefe,
             'created_at' => now(),
         ]);
         
@@ -169,7 +169,7 @@ class DatabaseSeeder extends Seeder
             'comentario' => 'El ambiente es muy motivador y las actividades son variadas. Lo recomiendo.',
             'puntuacion' => 8,
             'centro_id' => $centro_1,
-            'user_id' => $usuario_1,
+            'user_id' => $jefe,
             'created_at' => now(),
         ]);
 
@@ -421,7 +421,13 @@ class DatabaseSeeder extends Seeder
 
         DB::table('inscripcion')->insert([
             'centro_id'=> $centro_1,
-            'user_id'=> $usuario_1,
+            'user_id'=> $jefe,
+            'fecha_alta'=> now()
+        ]);
+
+        DB::table('inscripcion')->insert([
+            'centro_id'=> $centro_2,
+            'user_id'=> $jefe,
             'fecha_alta'=> now()
         ]);
 
@@ -432,8 +438,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         DB::table('inscripcion')->insert([
-            'centro_id'=> $centro_3,
-            'user_id'=> $usuario_1,
+            'centro_id'=> $centro_1,
+            'user_id'=> $usuario_2,
             'fecha_alta'=> now()
         ]);
 
@@ -444,19 +450,19 @@ class DatabaseSeeder extends Seeder
         ]);
 
         DB::table('usuario_rol')->insert([
-            'user_id' => $usuario_1,
+            'user_id' => $jefe,
             'rol_id' => $rol_2,
             'created_at'=>now()
         ]);
 
         DB::table('usuario_rol')->insert([
-            'user_id' => $usuario_2,
+            'user_id' => $usuario_1,
             'rol_id' => $rol_3,
             'created_at'=>now()
         ]);
 
         DB::table('usuario_rol')->insert([
-            'user_id' => $usuario_3,
+            'user_id' => $usuario_2,
             'rol_id' => $rol_3,
             'created_at'=>now()
         ]);

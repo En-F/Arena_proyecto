@@ -1,4 +1,5 @@
 import { Head } from '@inertiajs/react';
+import { usePage } from '@inertiajs/react';
 import '../../../css/inicio.css';
 import CartaNoticia from '@/components/carta/CartaNoticia';
 import BannerInscripcion from '../../components/banner/BannerInscripcion';
@@ -9,16 +10,18 @@ interface Props {
     centros: any[];
     noticias: any[];
     actividades: any[];
-    esAdmin?: boolean;
 }
 
 export default function Inicio({
     centros,
     noticias,
     actividades,
-    esAdmin,
 }: Props) {
     const esCarrusel = actividades.length > 7;
+    
+    const { auth } = usePage().props as any;
+    const is_admin = auth.user?.is_admin || false;
+    const is_jefe = auth.user?.is_jefe || false;
 
     return (
         <>
@@ -37,7 +40,7 @@ export default function Inicio({
                                 imagen={centro.imagen}
                             />
                         ))}
-                        {esAdmin && <CartaCentro esCrear />}
+                        {is_admin  && <CartaActividad esCrear />}
                     </div>
                 </section>
 
@@ -82,7 +85,7 @@ export default function Inicio({
                                     esCrear={false}
                                 />
                             ))}
-                            {esAdmin && <CartaActividad esCrear />}
+                            {(is_admin || is_jefe) && <CartaActividad esCrear />}
                         </div>
                     )}
                 </section>
@@ -101,7 +104,7 @@ export default function Inicio({
                                 esCrear={false}
                             />
                         ))}
-                        {esAdmin && <CartaNoticia esCrear />}
+                       {(is_admin || is_jefe) && <CartaActividad esCrear />}
                     </div>
                 </section>
             </div>

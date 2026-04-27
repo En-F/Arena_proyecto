@@ -20,6 +20,11 @@ const sidebarNavItems: NavItem[] = [
         href: editSecurity(),
         icon: null,
     },
+    {
+        title: 'Historial de actividades',
+        href: '',
+        icon: null,
+    },
 ];
 
 export default function SettingsLayout({ children }: PropsWithChildren) {
