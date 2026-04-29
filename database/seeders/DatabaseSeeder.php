@@ -61,6 +61,15 @@ class DatabaseSeeder extends Seeder
             'activo'=> false
         ]);
 
+        $usuario_3 = DB::table('users')->insertGetId([
+            'name' => 'usuario3',
+            'email' => 'usuario3@usuario3.com',
+            'password' => Hash::make('usuario3'),
+            'dni' => '66981463N',
+            'created_at' => now(),
+            'activo'=> false
+        ]);
+
         
         //Tipos
         $tipo_1 = DB::table('tipos')->insertGetId([
@@ -306,7 +315,7 @@ class DatabaseSeeder extends Seeder
             'descripcion' => 'Introducción al yoga con ejercicios básicos y técnicas de respiración.',
             'tipo' => 'Flexibilidad'
         ]);
-        DB::table('cursos')->where('id', $curso_1)->update(['imagen' => "cursos/{$curso_2}.jpg"]);
+        DB::table('cursos')->where('id', $curso_2)->update(['imagen' => "cursos/{$curso_2}.jpg"]);
 
         $curso_3 = DB::table('cursos')->insertGetId([
             'titulo' => 'Entrenamiento funcional',
@@ -425,6 +434,7 @@ class DatabaseSeeder extends Seeder
             'fecha_alta'=> now()
         ]);
 
+
         DB::table('inscripcion')->insert([
             'centro_id'=> $centro_2,
             'user_id'=> $jefe,
@@ -440,6 +450,12 @@ class DatabaseSeeder extends Seeder
         DB::table('inscripcion')->insert([
             'centro_id'=> $centro_1,
             'user_id'=> $usuario_2,
+            'fecha_alta'=> now()
+        ]);
+
+        DB::table('inscripcion')->insert([
+            'centro_id'=> $centro_3,
+            'user_id'=> $usuario_3,
             'fecha_alta'=> now()
         ]);
 
@@ -463,6 +479,12 @@ class DatabaseSeeder extends Seeder
 
         DB::table('usuario_rol')->insert([
             'user_id' => $usuario_2,
+            'rol_id' => $rol_3,
+            'created_at'=>now()
+        ]);
+
+        DB::table('usuario_rol')->insert([
+            'user_id' => $usuario_3,
             'rol_id' => $rol_3,
             'created_at'=>now()
         ]);

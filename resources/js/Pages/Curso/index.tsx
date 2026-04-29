@@ -1,18 +1,49 @@
-import { Head, Link } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
+import { useEffect, useState } from 'react';
 import Button from '@/components/Layouts/Button';
 import CartaCentro from '@/components/carta/CartaCentro';
 import '../../../css/centro/inicio.css';
+import Carta from '@/components/carta/Cartagenerica';
+
+interface Curso {
+    id: number;
+    titulo: string;
+    imagen: string;
+}
 
 interface Props {
-    cursos: any[];
+    cursos: Curso[];
 }
 
 export default function Inicio({ cursos }: Props) {
+    const [busqueda, setBusqueda] = useState('');
+    const [resultado, setResultado] = useState<Curso[]>([]);
+
+    useEffect(() => {
+        const buscarAsincrono = async () => {
+            if (busqueda.trim() === '') {
+                setResultado([]);
+                return;
+            }
+            try {
+                const response = await fetch(
+                    `/cursos/buscar?q=${encodeURIComponent(busqueda)}`,
+                );
+                const data = await response.json();
+                setResultado(data);
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        };
+        buscarAsincrono();
+    }, [busqueda]);
+
+    const cursosAMostrar = busqueda.trim() !== '' ? resultado : cursos;
+
     return (
         <>
             <Head title="Inicio " />
             <div className="main-container">
-                {/* --- SECCIÓN CENTROS --- */}
                 <section className="section-centros">
                     <h2 className="title-black">Nuestros Cursos</h2>
                     <p className="descripcion-centros">
@@ -27,21 +58,50 @@ export default function Inicio({ cursos }: Props) {
                         o cualquier otra disciplina, tenemos el curso perfecto
                         para ti.
                     </p>
-                    <div className="grid-centros">
-                        {cursos.map((curso) => (
-                            <Link
-                                key={curso.id}
-                                href={`/cursos/${curso.id}`}
-                                className="centro-item"
-                            >
-                                <div className="img-card-container">
-                                    <img
-                                        src={`/images/cursos/${curso.id}.jpg`}
-                                        alt={curso.nombre}
+
+                    <div className="buscador_centro">
+                        <label htmlFor="buscar">
+                            Buscador de Cursos:
+                            <div className="input-wrapper">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    strokeWidth={1.5}
+                                    stroke="currentColor"
+                                    className="input-icon"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
                                     />
-                                </div>
-                                <p className="centro-title">{curso.titulo}</p>
-                            </Link>
+                                </svg>
+                                <input
+                                    id="buscar"
+                                    type="text"
+                                    placeholder="Nombre de un curso"
+                                    value={busqueda}
+                                    onChange={(e) =>
+                                        setBusqueda(e.target.value)
+                                    }
+                                />
+                            </div>
+                        </label>
+                    </div>
+                    <div className="grid-centros">
+                        {cursosAMostrar.map((curso) => (
+                            <Carta
+                                key={curso.id}
+                                id={curso.id}
+                                nombre={curso.titulo}
+                                imagen={curso.imagen}
+                                tipo="curso"
+                                rutaDetalle="/cursos"
+                                rutaOcultar="/cursos/ocultar"
+                                textoOcultar="Ocultar"
+                                textoConfirmacion="¿Estás seguro de que quieres ocultar este curso?"
+                            />
                         ))}
                     </div>
                     <Button href="/inicio" className="btn-volver btn-crud">

@@ -1,7 +1,7 @@
 import { Head } from '@inertiajs/react';
 import '../../../css/centro/inicio.css';
 import Button from '@/components/Layouts/Button';
-import CartaCentro from '@/components/carta/CartaCentro';
+import Carta from '@/components/carta/Cartagenerica';
 import { useEffect, useState } from 'react';
 
 interface Centro {
@@ -29,7 +29,6 @@ export default function Inicio({ centros }: Props) {
                     `/centros/buscar?q=${encodeURIComponent(busqueda)}`,
                 );
                 const data = await response.json();
-                console.log('Datos del buscador:', data);
                 setResultado(data);
             } catch (error) {
                 console.error('Error:', error);
@@ -77,17 +76,24 @@ export default function Inicio({ centros }: Props) {
                                     type="text"
                                     placeholder="Nombre de un centro"
                                     value={busqueda}
-                                    onChange={(e)=>setBusqueda(e.target.value)}
+                                    onChange={(e) =>
+                                        setBusqueda(e.target.value)
+                                    }
                                 />
                             </div>
                         </label>
                     </div>
                     <div className="grid-centros">
                         {centrosAMostrar.map((centro) => (
-                            <CartaCentro
+                            <Carta
+                                key={centro.id}
                                 id={centro.id}
                                 nombre={centro.nombre}
                                 imagen={centro.imagen}
+                                tipo="centro"
+                                rutaDetalle="/centros"
+                                rutaOcultar="/centros/ocultar"
+                                textoOcultar="Ocultar"
                             />
                         ))}
                     </div>

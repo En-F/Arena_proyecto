@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('imagen')->nullable();
             $table->string('video')->nullable();
             $table->string('tipo');
+            $table->boolean('es_activo')->default(true);
             $table->timestamps();
         });
     }

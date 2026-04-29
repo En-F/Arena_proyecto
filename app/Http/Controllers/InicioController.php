@@ -23,11 +23,21 @@ class InicioController extends Controller
         ->where('es_activo', '=', true)
         ->inRandomOrder() 
         ->get();
+
+
+        $actividades = DB::table('actividades')
+        ->where('es_activo', '=', true)
+        ->inRandomOrder() 
+        ->get();
+
+        $noticias = DB::table('noticias')
+        ->inRandomOrder() 
+        ->get();
         
         return Inertia::render('Inicio/index',[
         'centros' =>  $centros,
-        'noticias' => Noticia::all(),
-        'actividades' => Actividad::all(),
+        'noticias' =>$noticias,
+        'actividades' => $actividades,
     ]);
     }
 

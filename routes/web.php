@@ -30,13 +30,21 @@ Route::post('/login', [ControlController::class, 'store'])->name('login.store');
 
 //Admin y jefe
 Route::middleware(['auth', 'role:admin,jefe'])->group(function () {
+
+    //Usuario
+    Route::get('/usuarios/buscar',[UsuarioController::class,'buscar']);
     Route::resource('usuarios', UsuarioController::class);
+
+    //Curso
+    Route::post('/cursos/ocultar', [CursoController::class, 'ocultar']);
     Route::resource('cursos', CursoController::class)->except(['index','show']);
+
+
     Route::resource('horarios', HorarioController::class)->except(['index','show']);
 
     //Actividad
-    Route::resource('actividades', ActividadController::class)->parameter('actividades', 'actividad')->except(['index','show']);
     Route::post('/actividades/ocultar', [ActividadController::class, 'ocultar']);
+    Route::resource('actividades', ActividadController::class)->parameter('actividades', 'actividad')->except(['index','show']);
     
     Route::resource('noticias', NoticiaController::class)->except(['index','show']);
 });
@@ -44,11 +52,12 @@ Route::middleware(['auth', 'role:admin,jefe'])->group(function () {
 
 //Admin
 Route::middleware(['auth', 'role:admin'])->group(function () {
+
+
     Route::post('/centros/ocultar', [CentroController::class, 'ocultar']);
     Route::resource('centros', CentroController::class)->except(['index','show']);
 
 });
-    
        
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [ControlController::class, 'logout'])->name('logout');;
@@ -71,6 +80,7 @@ Route::resource('actividades', ActividadController::class)->parameter('actividad
 Route::resource('noticias', NoticiaController::class)->only(['index']);
 
 //Cursos
+Route::get('/cursos/buscar', [CursoController::class, 'buscar'])->name('centros.buscar');;
 Route::resource('cursos', CursoController::class)->only(['index', 'show']);
 
 //Horarios

@@ -4,7 +4,7 @@ import '../../../css/inicio.css';
 import CartaNoticia from '@/components/carta/CartaNoticia';
 import BannerInscripcion from '../../components/banner/BannerInscripcion';
 import CartaActividad from '../../components/carta/CartaActividad';
-import CartaCentro from '../../components/carta/CartaCentro';
+import Carta from '@/components/carta/Cartagenerica';
 
 interface Props {
     centros: any[];
@@ -12,13 +12,9 @@ interface Props {
     actividades: any[];
 }
 
-export default function Inicio({
-    centros,
-    noticias,
-    actividades,
-}: Props) {
+export default function Inicio({ centros, noticias, actividades }: Props) {
     const esCarrusel = actividades.length > 7;
-    
+
     const { auth } = usePage().props as any;
     const is_admin = auth.user?.is_admin || false;
     const is_jefe = auth.user?.is_jefe || false;
@@ -33,14 +29,18 @@ export default function Inicio({
 
                     <div className="grid-centros">
                         {centros.slice(0, 4).map((centro) => (
-                            <CartaCentro
+                            <Carta
                                 key={centro.id}
                                 id={centro.id}
                                 nombre={centro.nombre}
                                 imagen={centro.imagen}
+                                tipo="centro"
+                                rutaDetalle="/centros"
+                                rutaOcultar="/centros/ocultar"
+                                textoOcultar="Ocultar"
                             />
                         ))}
-                        {is_admin  && <CartaActividad esCrear />}
+                        {is_admin && <CartaActividad esCrear />}
                     </div>
                 </section>
 
@@ -85,7 +85,9 @@ export default function Inicio({
                                     esCrear={false}
                                 />
                             ))}
-                            {(is_admin || is_jefe) && <CartaActividad esCrear />}
+                            {(is_admin || is_jefe) && (
+                                <CartaActividad esCrear />
+                            )}
                         </div>
                     )}
                 </section>
@@ -104,7 +106,7 @@ export default function Inicio({
                                 esCrear={false}
                             />
                         ))}
-                       {(is_admin || is_jefe) && <CartaActividad esCrear />}
+                        {(is_admin || is_jefe) && <CartaActividad esCrear />}
                     </div>
                 </section>
             </div>

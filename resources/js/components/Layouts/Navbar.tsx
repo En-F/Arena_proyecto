@@ -4,7 +4,6 @@ import '../../../css/navbar.css';
 
 const Navbar = () => {
     const { auth } = usePage().props;
-    console.log(auth.user);
     return (
         <nav className="navbar">
             <div className="nav-content">
