@@ -142,3 +142,11 @@
         @apply bg-background text-foreground;
     }
 }
+
+#userwayAccessibilityIcon {
+    position: fixed !important;
+    left: auto !important;
+    float: left !important;
+    top: 88vh;
+    margin-right: 60px;
+}

@@ -43,7 +43,7 @@ export default function Inicio({
     tipoSeleccionado,
     estaAutenticado,
     sinCentro,
-    esAdmin
+    esAdmin,
 }: Props) {
     //CAMBIARDOR DE CENTRO
     const handleCentroChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -55,7 +55,7 @@ export default function Inicio({
         });
     };
 
-    //CAMBIARDOR DE CURSO
+    //CAMBIADOR DE CURSO
     const handleCursoChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const value = e.target.value;
         router.get(
@@ -181,9 +181,9 @@ export default function Inicio({
                             </p>
                         ) : actividades.length === 0 ? (
                             <p className="sin-centro-msg">
-                                {cursoSeleccionado 
-                                    ? "No hay actividades para el curso seleccionado." 
-                                    : "No hay actividades para el centro seleccionado."}
+                                {cursoSeleccionado
+                                    ? 'No hay actividades para el curso seleccionado.'
+                                    : 'No hay actividades para el centro seleccionado.'}
                             </p>
                         ) : (
                             actividades.map((actividad) => (
@@ -192,6 +192,7 @@ export default function Inicio({
                                     id={actividad.id}
                                     titulo={actividad.titulo}
                                     imagen={actividad.imagen}
+                                    es_activo={actividad.es_activo}
                                 />
                             ))
                         )}

@@ -14,10 +14,21 @@ class CursoController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Curso/index',
-        [
-            'cursos' => Curso::all()
+
+        $user = Auth::user();
+
+        if($user && $user->Admin()) {
+            $cursos = Curso::all();
+        } elseif($user && $user->Jefe()){
+            $cursos = Curso::with('centros')->get();
+        } else {
+            $cursos = Curso::where('es_activo', true)->get();
+        }
+
+        return Inertia::render('Curso/index', [
+            'cursos' => $cursos
         ]);
+
     }
 
     /**
@@ -81,12 +92,12 @@ class CursoController extends Controller
     public function ocultar(Request $request)
 {
     $request->validate(['id' => 'required|exists:cursos,id']);
-    
+
     $user = Auth::user();
     $curso = Curso::findOrFail($request->id);
 
     if ($user->Admin()) {
-        $curso->update(['es_activo' => false]);
+        $curso->update(['es_activo' => !$curso->es_activo]);
         return back()->with('success', 'Curso ocultado correctamente.');
     }
 
@@ -98,8 +109,8 @@ class CursoController extends Controller
                               ->exists();
 
         if ($tienePermiso) {
-            $curso->update(['es_activo' => false]);
-            return back()->with('success', 'Curso ocultado.');
+            $curso->update(['es_activo' => !$curso->es_activo]);
+            return back();
         }
     }
 

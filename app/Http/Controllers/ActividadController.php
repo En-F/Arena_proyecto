@@ -23,7 +23,7 @@ class ActividadController extends Controller
 
         if($usuario) {
             $centros_activos = $esAdmin ? Centro::all() : $usuario->centros;
-            
+
 
             if ($centros_activos->isEmpty() && !$esAdmin) {
                 return Inertia::render('Actividad/index', [
@@ -190,15 +190,17 @@ class ActividadController extends Controller
         //
     }
 
-    public function ocultar (Request $request) 
+    public function ocultar (Request $request)
     {
-        $id = $request->input('id');
+        $request->validate(['id' => 'required|exists:actividades,id']);
 
-        $actividad = Actividad::find($id);
+        $user = Auth::user();
+        $actividad = Actividad::findOrFail($request->id);
+
 
         if ($actividad) {
             $actividad->update([
-                'es_activo' => false
+                'es_activo' => !$actividad->es_activo
             ]);
     }
         return back();

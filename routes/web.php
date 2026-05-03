@@ -46,6 +46,8 @@ Route::middleware(['auth', 'role:admin,jefe'])->group(function () {
     Route::post('/actividades/ocultar', [ActividadController::class, 'ocultar']);
     Route::resource('actividades', ActividadController::class)->parameter('actividades', 'actividad')->except(['index','show']);
     
+    //Noticia
+    Route::post('/noticias/ocultar', [NoticiaController::class, 'ocultar']);
     Route::resource('noticias', NoticiaController::class)->except(['index','show']);
 });
 
@@ -77,7 +79,7 @@ Route::resource('actividades', ActividadController::class)->parameter('actividad
 
 
 //Noticias
-Route::resource('noticias', NoticiaController::class)->only(['index']);
+Route::resource('noticias', NoticiaController::class)->only(['index','show']);
 
 //Cursos
 Route::get('/cursos/buscar', [CursoController::class, 'buscar'])->name('centros.buscar');;

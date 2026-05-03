@@ -72,4 +72,8 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Actividad::class, 'favorito', 'user_id', 'actividad_id')->withTimestamps();
     }
+
+    static public function fecha_actual() {
+        return date('Y-m-d');
+    }
 }

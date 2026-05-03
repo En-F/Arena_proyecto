@@ -1,0 +1,161 @@
+.cn-page {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    background-color: #f9fafb;
+    padding: 2rem 1rem;
+    box-sizing: border-box;
+}
+
+.cn-wrap {
+    width: 100%;
+    max-width: 680px;
+}
+
+.cn-section-header {
+    border-top: 3px solid #2563eb;
+    padding-top: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.cn-section-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #111827;
+    margin: 0;
+}
+
+.cn-section-subtitle {
+    font-size: 13px;
+    color: #6b7280;
+    margin-top: 4px;
+    margin-bottom: 0;
+}
+
+.cn-divider {
+    border: none;
+    border-top: 1px solid #e5e7eb;
+    margin: 2rem 0;
+}
+
+.cn-field {
+    margin-bottom: 1.25rem;
+}
+
+.cn-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: #111827;
+    margin-bottom: 6px;
+}
+
+.cn-input,
+.cn-textarea {
+    width: 100%;
+    padding: 8px 12px;
+    font-size: 14px;
+    font-family: inherit;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    color: #111827;
+    background-color: #fff;
+    outline: none;
+    box-sizing: border-box;
+    transition:
+        border-color 0.15s,
+        box-shadow 0.15s;
+}
+
+.cn-input:focus,
+.cn-textarea:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.cn-textarea {
+    resize: vertical;
+    line-height: 1.6;
+}
+
+.cn-drop-zone {
+    border: 1.5px dashed #d1d5db;
+    border-radius: 8px;
+    padding: 2rem 1rem;
+    text-align: center;
+    cursor: pointer;
+    background-color: #fff;
+    transition:
+        border-color 0.15s,
+        background-color 0.15s;
+}
+
+.cn-drop-zone:hover {
+    border-color: #2563eb;
+    background-color: #f0f4ff;
+}
+
+.cn-drop-text {
+    font-size: 14px;
+    color: #6b7280;
+    margin: 0;
+}
+
+.cn-drop-filename {
+    color: #2563eb;
+    font-weight: 500;
+}
+
+.cn-drop-link {
+    color: #2563eb;
+    font-weight: 500;
+}
+
+.cn-drop-hint {
+    font-size: 12px;
+    color: #9ca3af;
+    margin-top: 4px;
+}
+
+.cn-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.cn-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+}
+
+.cn-btn-cancel,
+.cn-btn-save {
+    padding: 8px 20px;
+    font-size: 14px;
+    font-family: inherit;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.15s;
+}
+
+.cn-btn-cancel {
+    background: transparent;
+    border: 1px solid #d1d5db;
+    color: #6b7280;
+}
+
+.cn-btn-cancel:hover {
+    background-color: #f3f4f6;
+}
+
+.cn-btn-save {
+    background-color: #2563eb;
+    border: none;
+    color: #fff;
+    font-weight: 500;
+}
+
+.cn-btn-save:hover {
+    background-color: #1d4ed8;
+}

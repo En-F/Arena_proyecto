@@ -14,7 +14,7 @@ interface Props {
     rutaOcultar?: string;
     textoOcultar?: string;
     textoConfirmacion?: string;
-    mostrarBotones?: boolean;
+    es_activo?: boolean;
 }
 
 export default function Carta({
@@ -28,7 +28,7 @@ export default function Carta({
     rutaOcultar = '/centros/ocultar',
     textoOcultar = 'Ocultar',
     textoConfirmacion,
-    mostrarBotones = true,
+    es_activo = true,
 }: Props) {
     const { auth } = usePage().props;
 
@@ -40,14 +40,9 @@ export default function Carta({
         e.stopPropagation();
         e.preventDefault();
 
-        if (confirm(textoConfirmacionDefault)) {
-            router.post(
-                rutaOcultar,
-                { id: id },
-                {
-                    preserveScroll: true,
-                },
-            );
+        const accion = es_activo ? 'ocultar' : 'mostrar';
+        if (confirm(`¿Estás seguro de que quieres ${accion} este ${tipo}?`)) {
+            router.post(rutaOcultar, { id: id }, { preserveScroll: true });
         }
     };
 
@@ -62,8 +57,15 @@ export default function Carta({
     }
 
     return (
-        <div style={{ position: 'relative' }}>
-            <Link href={`${rutaDetalle}/${id}`} className="carta-item">
+        <div>
+            <Link
+                href={`${rutaDetalle}/${id}`}
+                className="carta-item"
+                style={{
+                    position: 'relative',
+                    opacity: es_activo ? 1 : 0.5,
+                }}
+            >
                 <div className="img-card-container">
                     <img src={`/storage/${imagen}`} alt={nombre} />
                 </div>
@@ -72,13 +74,15 @@ export default function Carta({
 
             {(auth.user?.is_admin ||
                 (auth.user?.is_jefe && tipo !== 'centro')) && (
-                <Button
-                    type="button"
-                    onClick={handleOcultarElemento}
-                    className="btn-crud ocultar"
-                >
-                    {textoOcultar}
-                </Button>
+                <div>
+                    <Button
+                        type="button"
+                        onClick={handleOcultarElemento}
+                        className={` ${es_activo ? 'btn mt-5 btn-soft btn-error' : 'btn mt-5 btn-soft btn-info'}`}
+                    >
+                        {es_activo ? 'Ocultar' : 'Mostrar'}
+                    </Button>
+                </div>
             )}
         </div>
     );

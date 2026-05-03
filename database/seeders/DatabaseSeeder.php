@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
 
 class DatabaseSeeder extends Seeder
 {
@@ -283,19 +284,51 @@ class DatabaseSeeder extends Seeder
         // --- NOTICIAS ---
         $noticia_1 = DB::table('noticias')->insertGetId([
             'titulo' => 'Nueva piscina olímpica en la ciudad',
-            'contenido' => 'Inauguración de instalaciones de última generación con equipo de entrenadores profesionales para todos los niveles.',
+            'contenido' => 'La ciudad celebra la inauguración de una infraestructura acuática sin precedentes. Esta piscina olímpica de 50 metros cuenta con sistemas de cronometraje Omega de última generación y un sistema de filtración por microclima que garantiza la pureza del agua sin el uso excesivo de químicos. Diseñada para competiciones internacionales, el recinto ofrece gradas para 500 espectadores y zonas de recuperación térmica para atletas de alto rendimiento. Un hito que posiciona a nuestra comunidad como el epicentro de la natación competitiva.'    ,
             'user_id' => $admin,
             'created_at' => now(),
+            'centro_id' => $centro_2,
+            'fecha' => Carbon::now()->format('Y-m-d')
         ]);
         DB::table('noticias')->where('id', $noticia_1)->update(['imagen' => "noticias/{$noticia_1}.jpg"]);
 
         $noticia_2 = DB::table('noticias')->insertGetId([
             'titulo' => 'Nuevo gimnasio en el centro',
-            'contenido' => 'Apertura de un centro deportivo premium con maquinaria de vanguardia y programas personalizados.',
+            'contenido' => 'Abrimos las puertas del centro deportivo más exclusivo de la zona. Nuestro nuevo gimnasio premium no solo ofrece maquinaria de fuerza de la línea Life Fitness, sino que introduce un concepto de entrenamiento basado en la biomecánica aplicada. Contamos con una zona de peso libre expandida, un box de entrenamiento funcional y un estudio de ciclo indoor con realidad virtual. Además, cada socio dispondrá de un programa de seguimiento digitalizado para monitorizar sus progresos en tiempo real a través de nuestra app oficial.',
             'user_id' => $admin,
             'created_at' => now(),
+            'centro_id' => $centro_1,
+            'fecha' => Carbon::now()->subDay(2)->format('Y-m-d')
         ]);
         DB::table('noticias')->where('id', $noticia_2)->update(['imagen' => "noticias/{$noticia_2}.jpg"]);
+
+        $noticia_3 = DB::table('noticias')->insertGetId([
+            'titulo' => 'Campeones de Andalucía de Master',
+            'contenido' => 'X Trofeo Open Máster Ciudad de Cádiz:
+*Evento y resultados generales*
+- *Fecha y lugar*: 26 de abril de 2026, piscina municipal de Cádiz.
+- *Participación*: 107 nadadores de 16 clubes. 
+- *C.D.N. Sanlúcar*: 7 nadadores consiguieron el 4º puesto general con 263 puntos y 5.467 puntos AquaMaster.
+*Actuaciones destacadas*
+- *Antonio Raposo Listán (20+)*: 1º Nadador Completo con 1.867 puntos. Oros en 50m Braza y 50m Espalda, plata en Mariposa, bronce en 50m Libre.
+- *Relevo 4x50m estilos masculino Pre-Máster 80+*: Oro para Jhean Marco Torrealba, Antonio Raposo, Enrique Franco y Rubén Pérez.
+*Medallas individuales*
+- *Enrique Franco Ulric (21)*: Doble oro en 50m Libre y 50m Mariposa.
+- *Rosa Gutiérrez López (26)*: Doble oro en 50m Libre y 50m Braza.
+- *Rubén Pérez Vital (23)*: Plata en 50m Libre.
+- *Jhean Marco Torrealba (26)*: Bronce en 50m Espalda y 4º en 50m Libre.
+- *Virginia Fernández Roales (53)*: 4ª en 50m Espalda, 5ª en 50m Libre.
+- *José Javier Robles (51)*: 4º en 50m Libre.
+*Conclusión del club* 
+El equipo destaca que el resultado refleja constancia y pasión. Rubén Pérez Vital, del cuerpo técnico, afirmó: "La pasión por la natación no entiende de edades". El club se consolida como referente máster en la provincia.
+Seguimos sumando.',
+            'user_id' => $jefe,
+            'created_at' => now(),
+            'centro_id' => $centro_1,
+            'fecha' => Carbon::now()->subDay(6)->format('Y-m-d')
+        ]);
+        DB::table('noticias')->where('id', $noticia_3)->update(['imagen' => "noticias/{$noticia_3}.jpg"]);
+
 
 
 

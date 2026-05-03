@@ -1,10 +1,10 @@
 import { Head } from '@inertiajs/react';
 import { usePage } from '@inertiajs/react';
 import '../../../css/inicio.css';
-import CartaNoticia from '@/components/carta/CartaNoticia';
 import BannerInscripcion from '../../components/banner/BannerInscripcion';
 import CartaActividad from '../../components/carta/CartaActividad';
 import Carta from '@/components/carta/Cartagenerica';
+import CartaNoticia from '@/components/carta/noticia/CartaNoticia';
 
 interface Props {
     centros: any[];
@@ -40,7 +40,7 @@ export default function Inicio({ centros, noticias, actividades }: Props) {
                                 textoOcultar="Ocultar"
                             />
                         ))}
-                        {is_admin && <CartaActividad esCrear />}
+                        {is_admin && <Carta esCrear />}
                     </div>
                 </section>
 
@@ -96,7 +96,7 @@ export default function Inicio({ centros, noticias, actividades }: Props) {
                 <section className="section-noticias pb-20">
                     <h2 className="title-black">Últimas Noticias</h2>
                     <div className="noticia-container">
-                        {noticias.slice(0, 4).map((noticia) => (
+                        {noticias.map((noticia) => (
                             <CartaNoticia
                                 key={noticia.id}
                                 id={noticia.id}
@@ -104,9 +104,10 @@ export default function Inicio({ centros, noticias, actividades }: Props) {
                                 imagen={noticia.imagen}
                                 contenido={noticia.contenido}
                                 esCrear={false}
+                                es_activo={noticia.es_activo}
                             />
                         ))}
-                        {(is_admin || is_jefe) && <CartaActividad esCrear />}
+                        {(is_admin || is_jefe) && <CartaNoticia esCrear />}
                     </div>
                 </section>
             </div>

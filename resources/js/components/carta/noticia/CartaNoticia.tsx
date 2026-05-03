@@ -1,5 +1,5 @@
 import { Link } from '@inertiajs/react';
-import '../../../css/carta/carta_noticia.css';
+import '../../../../css/carta/carta_noticia.css';
 
 interface Props {
     id: number;
@@ -7,6 +7,7 @@ interface Props {
     imagen: string;
     contenido: string;
     esCrear?: boolean;
+    es_activo?: boolean;
 }
 
 export default function CartaNoticia({
@@ -15,6 +16,7 @@ export default function CartaNoticia({
     imagen,
     contenido,
     esCrear = false,
+    es_activo = true,
 }: Props) {
     if (esCrear) {
         return (
@@ -25,9 +27,13 @@ export default function CartaNoticia({
             </Link>
         );
     }
-    
+
     return (
-        <Link key={id} href={`/noticias/${id}`} className="news-card">
+        <Link
+            key={id}
+            href={`/noticias/${id}`}
+            className={es_activo ? 'news-card' : 'news-card-inactivo'}
+        >
             <div className="news-img-wrapper">
                 <img
                     src={`/storage/${imagen}`}

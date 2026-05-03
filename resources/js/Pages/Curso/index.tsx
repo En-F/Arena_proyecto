@@ -101,6 +101,7 @@ export default function Inicio({ cursos }: Props) {
                                 rutaOcultar="/cursos/ocultar"
                                 textoOcultar="Ocultar"
                                 textoConfirmacion="¿Estás seguro de que quieres ocultar este curso?"
+                                es_activo={curso.es_activo}
                             />
                         ))}
                     </div>

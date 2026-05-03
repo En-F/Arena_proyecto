@@ -1,4 +1,5 @@
 .btn-crud {
+    margin-bottom: 40px;
     border: none;
     font-weight: 600;
     cursor: pointer;
@@ -8,7 +9,7 @@
     justify-content: center;
     text-decoration: none;
     font-family: sans-serif;
-    margin-top: 17px;
+    margin-top: 40px;
 }
 
 .btn-volver {
@@ -58,11 +59,22 @@
     padding: 5px;
     border-radius: 7px;
     cursor: pointer;
-
 }
 
 .ocultar:hover {
     background-color: #c76262;
     transform: scale(1.07);
+}
 
+.mostrar {
+    color: white;
+    background-color: #004df3;
+    padding: 5px;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+.mostrar:hover {
+    background-color: #5ca8ff;
+    transform: scale(1.07);
 }

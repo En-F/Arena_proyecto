@@ -94,6 +94,7 @@ export default function Inicio({ centros }: Props) {
                                 rutaDetalle="/centros"
                                 rutaOcultar="/centros/ocultar"
                                 textoOcultar="Ocultar"
+                                es_activo={centro.es_activo}
                             />
                         ))}
                     </div>

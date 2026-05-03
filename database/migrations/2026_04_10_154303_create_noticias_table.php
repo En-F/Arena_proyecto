@@ -17,6 +17,9 @@ return new class extends Migration
             $table->text('contenido');
             $table->string('imagen')->nullable();
             $table->foreignId('user_id')->constrained('users')->onDelete('set null');
+            $table->boolean('es_activo')->default(true);
+            $table->foreignId('centro_id')->constrained('centros')->onDelete('cascade');
+            $table->date('fecha');
             $table->timestamps();
         });
     }

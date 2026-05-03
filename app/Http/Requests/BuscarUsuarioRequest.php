@@ -2,8 +2,9 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
+
 
 class BuscarUsuarioRequest extends FormRequest
 {
@@ -12,7 +13,10 @@ class BuscarUsuarioRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        if (Auth::user()->Admin() || Auth::user()->Jefe()) {
+            return true;
+        }
+        return false;
 
     }
 

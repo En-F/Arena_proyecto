@@ -1,0 +1,132 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;600&display=swap');
+
+:root {
+    --brand: #e8401c;
+    --brand-dark: #b5300f;
+    --ink: #111010;
+    --muted: #6b6560;
+    --surface: #f9f7f4;
+    --border: rgba(0, 0, 0, 0.1);
+    --radius: 16px;
+    --font-display: 'Bebas Neue', 'Impact', sans-serif;
+    --font-body: 'DM Sans', 'Helvetica Neue', sans-serif;
+}
+
+@font-face {
+    font-family: 'Compaq';
+    src: url('../font/Garp Sans Compaq.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+.hero-wrapper {
+    position: relative;
+    width: 20%;
+    height: 300px;
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin: 0 auto 2rem auto;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.18);
+}
+
+.imagen-noticia {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s ease;
+}
+
+.hero-wrapper:hover .imagen-noticia {
+    transform: scale(1.03);
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        transparent 40%,
+        rgba(10, 8, 6, 0.72) 100%
+    );
+    pointer-events: none;
+}
+
+.hero-badge {
+    position: absolute;
+    top: 1.25rem;
+    left: 1.25rem;
+    background: var(--brand);
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    padding: 0.35rem 0.9rem;
+    border-radius: 999px;
+    text-transform: uppercase;
+}
+
+.noticia-header {
+    margin-bottom: 1.5rem;
+}
+
+.link-centro {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    text-decoration: none;
+    margin-bottom: 0.75rem;
+}
+
+.title-black-centro {
+    font-family: var(--font-body);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--brand);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.noticia-titulo {
+    font-family: 'Compaq';
+    font-size: clamp(2.4rem, 6vw, 3.8rem);
+    line-height: 0.95;
+    letter-spacing: 0.01em;
+    color: var(--ink);
+    margin-bottom: 1.25rem;
+}
+
+.divider {
+    width: 48px;
+    height: 4px;
+    background: var(--brand);
+    border-radius: 2px;
+    margin-bottom: 1.5rem;
+}
+
+.descripcion-centros {
+    width: 60%;
+    font-size: 1.1rem;
+    line-height: 1.75;
+    color: #3a3632;
+    margin-bottom: 2.5rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    border-left: 3px solid var(--brand);
+    border-right: 3px solid var(--brand);
+}
+
+.botones-acciones {
+    display: flex;
+    gap: 3rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+}
+
+.noticia-fecha {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 2rem;
+    line-height: 0.95;
+    color: var(--ink);
+}

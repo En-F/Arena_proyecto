@@ -37,4 +37,9 @@ class Centro extends Model
     {
         return $this->belongsToMany(User::class, 'inscripcion', 'centro_id', 'user_id')->withTimestamps()->withPivot('fecha_alta');
     }
+
+    public function noticias()
+    {
+        return $this->hasMany(Noticia::class);
+    }
 }
