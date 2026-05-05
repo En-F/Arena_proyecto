@@ -12,6 +12,8 @@ use App\Http\Requests\StoreNoticiaRequest;
 use App\Http\Requests\UpdateNoticiaRequest;
 use Inertia\Inertia;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
+
 
 class NoticiaController extends Controller
 {
@@ -58,19 +60,21 @@ class NoticiaController extends Controller
     {
         $data = $request->validated();
 
+
         $noticia = new Noticia();
         $noticia->titulo = $data['titulo'];
         $noticia->contenido = $data['contenido'];
         $noticia->centro_id = $data['centro_id'];
         $noticia->fecha = $data['fecha'];
+        $noticia->es_activo = $data['es_activo'];
         $noticia->user_id = auth()->id();
-        
+
         $noticia->save();
 
         if($request->hasFile('imagen')) {
             $file = $request->file('imagen');
-            $extension = $file->extension();            
-            
+            $extension = $file->extension();
+
             $nombre_fichero = $noticia->id . '.' . $extension;
 
             $file->storeAs('noticias', $nombre_fichero, 'public');
@@ -88,7 +92,7 @@ class NoticiaController extends Controller
     public function show(Noticia $noticia)
     {
 
-        $fecha_formateada = Carbon::parse($noticia->fecha)->locale('es')->translatedFormat('d \d\e F \d\e Y');        
+        $fecha_formateada = Carbon::parse($noticia->fecha)->locale('es')->translatedFormat('d \d\e F \d\e Y');
         $noticia->fecha = $fecha_formateada;
         $es_activo = $noticia->es_activo;
         $centro = $noticia->centro;
@@ -97,7 +101,7 @@ class NoticiaController extends Controller
             'noticia' => $noticia,
             'es_activo' => $es_activo,
             'centro' => $centro
-        ]); 
+        ]);
     }
 
     /**
@@ -123,13 +127,13 @@ class NoticiaController extends Controller
         'contenido' => $data['contenido'],
         'centro_id' => $data['centro_id'],
         'fecha'     => $data['fecha'],
-        'user_id'   => auth()->id(), 
+        'user_id'   => auth()->id(),
         ]);
-        
+
         if($request->hasFile('imagen')) {
             $file = $request->file('imagen');
-            $extension = $file->extension();            
-            
+            $extension = $file->extension();
+
             $nombre_fichero = $noticia->id . '.' . $extension;
 
             $file->storeAs('noticias', $nombre_fichero, 'public');
@@ -146,7 +150,13 @@ class NoticiaController extends Controller
      */
     public function destroy(Noticia $noticia)
     {
-        //  
+        if ($noticia->imagen) {
+                Storage::disk('public')->delete($noticia->imagen);
+            }
+
+            $noticia->delete();
+
+            return redirect()->route('inicio.index');
     }
 
     public function ocultar(Request $request)

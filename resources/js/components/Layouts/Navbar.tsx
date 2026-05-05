@@ -35,11 +35,19 @@ const Navbar = () => {
                         </Link>
                     ) : (
                         <>
-                            <Link href="/socio">
-                                <button className="boton socio">
-                                    Hazte Socio
-                                </button>
-                            </Link>
+                            {!auth.user ? (
+                                <Link href="/register">
+                                    <button className="boton socio">
+                                        Registrarse
+                                    </button>
+                                </Link>
+                            ) : (
+                                <Link href="/socio">
+                                    <button className="boton socio">
+                                        Hazte Socio
+                                    </button>
+                                </Link>
+                            )}
 
                             <Link href="/login">
                                 <button className="boton login">

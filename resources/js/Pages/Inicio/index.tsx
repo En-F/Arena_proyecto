@@ -2,19 +2,16 @@ import { Head } from '@inertiajs/react';
 import { usePage } from '@inertiajs/react';
 import '../../../css/inicio.css';
 import BannerInscripcion from '../../components/banner/BannerInscripcion';
-import CartaActividad from '../../components/carta/CartaActividad';
 import Carta from '@/components/carta/Cartagenerica';
 import CartaNoticia from '@/components/carta/noticia/CartaNoticia';
 
 interface Props {
     centros: any[];
     noticias: any[];
-    actividades: any[];
+    cursos: any[];
 }
 
-export default function Inicio({ centros, noticias, actividades }: Props) {
-    const esCarrusel = actividades.length > 7;
-
+export default function Inicio({ centros, noticias, cursos }: Props) {
     const { auth } = usePage().props as any;
     const is_admin = auth.user?.is_admin || false;
     const is_jefe = auth.user?.is_jefe || false;
@@ -58,38 +55,26 @@ export default function Inicio({ centros, noticias, actividades }: Props) {
                 {/* --- SECCIÓN ACTIVIDADES --- */}
                 <section className="section-actividades">
                     <h2 className="title-black text-white">
-                        Actividades Deportivas
+                        Cursos Deportivos
                     </h2>
-                    {esCarrusel ? (
-                        <div className="carrusel-track">
-                            {[...actividades, ...actividades].map(
-                                (actividad, index) => (
-                                    <div className="carrusel-item" key={index}>
-                                        <CartaActividad
-                                            id={actividad.id}
-                                            titulo={actividad.titulo}
-                                            imagen={actividad.imagen}
-                                        />
-                                    </div>
-                                ),
-                            )}
-                        </div>
-                    ) : (
-                        <div className="activities-grid">
-                            {actividades.slice(0, 4).map((actividad) => (
-                                <CartaActividad
-                                    key={actividad.id}
-                                    id={actividad.id}
-                                    titulo={actividad.titulo}
-                                    imagen={actividad.imagen}
-                                    esCrear={false}
-                                />
-                            ))}
-                            {(is_admin || is_jefe) && (
-                                <CartaActividad esCrear />
-                            )}
-                        </div>
-                    )}
+                    <div className="grid-centros">
+                        {cursos.slice(0, 4).map((curso) => (
+                            <Carta
+                                key={curso.id}
+                                id={curso.id}
+                                nombre={curso.nombre}
+                                imagen={curso.imagen}
+                                tipo="curso"
+                                rutaCrear="/cursos/create"
+                                rutaDetalle="/cursos"
+                                rutaOcultar="/cursos/ocultar"
+                                textoOcultar="Ocultar"
+                            />
+                        ))}
+                        {(is_admin || is_jefe) && (
+                            <Carta esCrear rutaCrear="/cursos/create" />
+                        )}
+                    </div>
                 </section>
 
                 {/* --- SECCIÓN NOTICIAS --- */}

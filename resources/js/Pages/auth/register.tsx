@@ -55,20 +55,6 @@ export default function Register() {
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="dni">DNI</Label>
-                                <Input
-                                    id="dni"
-                                    type="text"
-                                    required
-                                    tabIndex={3}
-                                    autoComplete="dni"
-                                    name="dni"
-                                    placeholder="XXXXXXXXXA"
-                                />
-                                <InputError message={errors.dni} />
-                            </div>
-
-                            <div className="grid gap-2">
                                 <Label htmlFor="password">Password</Label>
                                 <PasswordInput
                                     id="password"

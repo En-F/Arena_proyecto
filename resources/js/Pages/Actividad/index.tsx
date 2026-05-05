@@ -1,7 +1,8 @@
-import { Head, router } from '@inertiajs/react';
+import { Head, router, usePage } from '@inertiajs/react';
 import '../../../css/actividad/inicio.css';
 import Button from '@/components/Layouts/Button';
 import CartaActividad from '../../components/carta/CartaActividad';
+import Carta from '@/components/carta/Cartagenerica';
 
 interface Centro {
     id: number;
@@ -9,7 +10,7 @@ interface Centro {
 }
 interface Curso {
     id: number;
-    titulo: string;
+    nombre: string;
 }
 interface Tipo {
     id: number;
@@ -45,6 +46,10 @@ export default function Inicio({
     sinCentro,
     esAdmin,
 }: Props) {
+    const { auth } = usePage().props as any;
+    const is_admin = auth.user?.is_admin || false;
+    const is_jefe = auth.user?.is_jefe || false;
+
     //CAMBIARDOR DE CENTRO
     const handleCentroChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const value = e.target.value;
@@ -125,6 +130,7 @@ export default function Inicio({
                         un ambiente único en el que cada detalle está pensado
                         para tu bienestar.
                     </p>
+
                     <div className="elementos">
                         <select
                             name="centros"
@@ -153,7 +159,7 @@ export default function Inicio({
                             <option value="">Todos los cursos</option>
                             {cursos.map((curso) => (
                                 <option key={curso.id} value={curso.id}>
-                                    {curso.titulo}
+                                    {curso.nombre}
                                 </option>
                             ))}
                         </select>
@@ -197,6 +203,16 @@ export default function Inicio({
                             ))
                         )}
                     </div>
+                    {(is_admin || is_jefe) && (
+                        <div>
+                            <Button
+                                className="btn mt-10 mb-4 btn-info"
+                                href={route('actividades.create')}
+                            >
+                                Crear Actividad
+                            </Button>
+                        </div>
+                    )}
                     <Button
                         href="/inicio"
                         type="button"

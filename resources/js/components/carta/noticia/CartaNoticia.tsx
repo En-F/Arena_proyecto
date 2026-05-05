@@ -42,7 +42,6 @@ export default function CartaNoticia({
                 />
             </div>
             <h4>{titulo}</h4>
-            <p>{contenido || 'Haz clic para leer más sobre esta noticia...'}</p>
         </Link>
     );
 }

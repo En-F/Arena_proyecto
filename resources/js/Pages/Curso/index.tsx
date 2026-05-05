@@ -7,7 +7,7 @@ import Carta from '@/components/carta/Cartagenerica';
 
 interface Curso {
     id: number;
-    titulo: string;
+    nombre: string;
     imagen: string;
 }
 
@@ -94,7 +94,7 @@ export default function Inicio({ cursos }: Props) {
                             <Carta
                                 key={curso.id}
                                 id={curso.id}
-                                nombre={curso.titulo}
+                                nombre={curso.nombre}
                                 imagen={curso.imagen}
                                 tipo="curso"
                                 rutaDetalle="/cursos"

@@ -19,6 +19,7 @@ export default function CrearNoticia({ centros, fecha_actual }: Props) {
             fecha: fecha_actual,
             centro_id: '',
             usuario_id: '',
+            es_activo: true,
         });
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -42,10 +43,19 @@ export default function CrearNoticia({ centros, fecha_actual }: Props) {
             { id: 'contenido', valor: data.contenido, nombre: 'Contenido' },
             { id: 'centro_id', valor: data.centro_id, nombre: 'Centro' },
             { id: 'fecha', valor: data.fecha, nombre: 'Fecha' },
+            {
+                id: 'es_activo',
+                valor: data.es_activo,
+                nombre: 'Es_activo',
+            },
         ];
 
         camposObligatorios.forEach((campo) => {
-            if (!campo.valor || campo.valor.toString().trim() === '') {
+            if (
+                campo.valor === null ||
+                campo.valor === undefined ||
+                campo.valor.toString().trim() === ''
+            ) {
                 setError(
                     campo.id as any,
                     `El campo ${campo.nombre} es obligatorio.`,
@@ -177,6 +187,53 @@ export default function CrearNoticia({ centros, fecha_actual }: Props) {
                                 {errors.fecha && (
                                     <span className="mt-1 text-xs text-red-500">
                                         {errors.fecha}
+                                    </span>
+                                )}
+                            </div>
+                            <div className="cn-field">
+                                <label className="cn-label mb-2 font-bold">
+                                    Publicación
+                                </label>
+
+                                <div className="flex gap-4">
+                                    <div className="flex items-center gap-2">
+                                        <Input
+                                            id="mostrar"
+                                            type="radio"
+                                            name="es_activo"
+                                            value="true"
+                                            checked={data.es_activo === true}
+                                            onChange={() =>
+                                                setData('es_activo', true)
+                                            }
+                                            className="h-4 w-4"
+                                        />
+                                        <label className="cn-label cursor-pointer">
+                                            Mostrar
+                                        </label>
+                                    </div>
+
+                                    <div className="flex items-center gap-2">
+                                        <Input
+                                            id="ocultar"
+                                            type="radio"
+                                            name="es_activo"
+                                            value="false"
+                                            checked={data.es_activo === false}
+                                            onChange={() =>
+                                                setData('es_activo', false)
+                                            }
+                                            className="h-4 w-4"
+                                        />
+                                        <label className="cn-label cursor-pointer">
+                                            Ocultar
+                                        </label>
+                                    </div>
+                                </div>
+
+                                {errors.es_activo && (
+                                    <span className="mt-1 text-xs text-red-500">
+                                        {errors.es_activo}
                                     </span>
                                 )}
                             </div>

@@ -7,6 +7,7 @@ use App\Models\Centro;
 use App\Models\Inicio;
 use App\Models\User;
 use App\Models\Noticia;
+use App\Models\Curso;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
@@ -19,26 +20,38 @@ class InicioController extends Controller
      */
     public function index(Request $request)
     {
-        $centros = DB::table('centros')
-        ->where('es_activo', '=', true)
-        ->inRandomOrder()
-        ->get();
+
+        $usuario_logeado = Auth::user();
+
+        $centrosConsulta = DB::table('centros')->where('es_activo', true);
+        $noticiasConsulta = DB::table('noticias')->where('es_activo', true);
+        $cursosConsulta = DB::table('cursos')->where('es_activo', true);
+
+        if($usuario_logeado && ($usuario_logeado->Admin())){
+
+            $noticiasConsulta = DB::table('noticias');
+
+        } elseif($usuario_logeado && ($usuario_logeado->Jefe())){
+
+            $centrosConsulta->whereIn('id', $usuario_logeado->centros->pluck('id'));
+
+            $idsCursos = Curso::whereHas('centros', function ($query) use ($usuario_logeado) {
+                $query->whereHas('usuarios', function ($query) use ($usuario_logeado) {
+                    $query->where('users.id', $usuario_logeado->id);
+                });
+            })->pluck('id');
+
+            $cursosConsulta->whereIn('id', $idsCursos);
+
+            $noticiasConsulta = DB::table('noticias')
+            ->whereIn('id', $usuario_logeado->noticias->pluck('id'));
 
 
-        $actividades = DB::table('actividades')
-        ->where('es_activo', '=', true)
-        ->inRandomOrder()
-        ->get();
-
-        $noticias = DB::table('noticias')
-        ->inRandomOrder()
-        ->get();
-
-
+        }
         return Inertia::render('Inicio/index',[
-        'centros' =>  $centros,
-        'noticias' =>$noticias,
-        'actividades' => $actividades,
+        'centros' =>  $centrosConsulta->inRandomOrder()->get(),
+        'noticias' =>$noticiasConsulta->inRandomOrder()->get(),
+        'cursos' => $cursosConsulta->inRandomOrder()->get(),
     ]);
     }
 
@@ -90,6 +103,6 @@ class InicioController extends Controller
         //
     }
 
-    
+
 
 }

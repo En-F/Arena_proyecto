@@ -72,7 +72,7 @@ export default function CartaActividad({
                     <Button
                         type="button"
                         onClick={handleOcultarElemento}
-                        className={` ${es_activo ? 'btn mt-5 btn-soft btn-error' : 'btn mt-5 btn-soft btn-info'}`}
+                        className={` ${es_activo ? 'btn mt-5 btn-soft btn-primary' : 'btn mt-5 btn-soft btn-info'}`}
                     >
                         {es_activo ? 'Ocultar' : 'Mostrar'}
                     </Button>

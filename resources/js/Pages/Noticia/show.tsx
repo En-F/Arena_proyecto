@@ -1,6 +1,7 @@
-import { Head, Link, router, usePage } from '@inertiajs/react';
+import { Head, Link, router, useForm, usePage } from '@inertiajs/react';
 import '../../../css/noticia/show.css';
 import Button from '@/components/Layouts/Button';
+import { route } from 'ziggy-js';
 
 interface Noticia {
     id: number;
@@ -18,6 +19,7 @@ interface Props {
 
 export default function Show({ noticia, centro }: Props) {
     const { auth } = usePage().props;
+    console.log(auth.user);
 
     const handleOcultarElemento = (e: React.MouseEvent) => {
         e.stopPropagation();
@@ -32,7 +34,13 @@ export default function Show({ noticia, centro }: Props) {
         }
     };
 
-    const isAdmin = auth.user && (auth.user.is_admin || auth.user.is_jefe);
+    const handleBorrarElemento = (id: number) => {
+        if (confirm(`¿Estás seguro de que quieres eliminar esta noticia?`)) {
+            router.delete(route('noticias.destroy', id), {
+                preserveScroll: true,
+            });
+        }
+    };
 
     return (
         <>
@@ -62,21 +70,20 @@ export default function Show({ noticia, centro }: Props) {
 
                         <h1 className="noticia-titulo">{noticia.titulo}</h1>
                         <h2 className="noticia-fecha">{noticia.fecha}</h2>
-                        <div className="divider" />
                     </div>
 
                     <p className="descripcion-centros">
                         {noticia.contenido || 'Sin descripción disponible...'}
                     </p>
 
-                    {isAdmin && (
+                    {(auth.user?.is_admin || auth.user?.is_jefe) && (
                         <div className="botones-acciones">
                             <Button
                                 onClick={handleOcultarElemento}
                                 className={`btn btn-soft ${
                                     noticia.es_activo
-                                        ? 'btn btn-soft btn-error'
-                                        : 'btn btn-soft btn-info'
+                                        ? 'btn btn-soft btn-primary'
+                                        : 'btn btn-soft btn-success'
                                 }`}
                             >
                                 {noticia.es_activo ? 'Ocultar' : 'Mostrar'}
@@ -84,9 +91,16 @@ export default function Show({ noticia, centro }: Props) {
 
                             <Button
                                 href={route('noticias.edit', noticia.id)}
-                                className="btn btn-soft btn-info"
+                                className="btn btn-info"
                             >
                                 Editar
+                            </Button>
+
+                            <Button
+                                onClick={() => handleBorrarElemento(noticia.id)}
+                                className="btn btn-error"
+                            >
+                                Eliminar
                             </Button>
                         </div>
                     )}

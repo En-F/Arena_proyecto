@@ -23,9 +23,14 @@ class DatabaseSeeder extends Seeder
             'description' => 'Es el que gestiona su centro'
         ]);
         $rol_3=DB::table('roles')->insertGetId([
-            'rol' => 'logeado',
-            'description' => 'Usuario logeado que tiene acceso a las reservas de las actividades'
+            'rol' => 'socio',
+            'description' => 'Socio que tiene acceso a las reservas de las actividades'
         ]);
+        $rol_4=DB::table('roles')->insertGetId([
+            'rol' => 'registrado',
+            'description' => 'Usuario registrado que no tiene acceso a las reservas de las actividades'
+        ]);
+        
 
             
         // --- USUARIOS ---
@@ -35,6 +40,7 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('admin'),
             'dni' => '67182280Q',
             'created_at' => now(),
+            'activo'=> true
         ]);
 
         $jefe = DB::table('users')->insertGetId([
@@ -43,6 +49,7 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('enrique'),
             'dni' => '68957529X',
             'created_at' => now(),
+            'activo'=> true
         ]);
 
         $usuario_1 = DB::table('users')->insertGetId([
@@ -51,25 +58,10 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('usuario1'),
             'dni' => '83589575P',
             'created_at' => now(),
+            'activo'=> true
         ]);
 
-        $usuario_2 = DB::table('users')->insertGetId([
-            'name' => 'usuario2',
-            'email' => 'usuario2@usuario2.com',
-            'password' => Hash::make('usuario2'),
-            'dni' => '30179491H',
-            'created_at' => now(),
-            'activo'=> false
-        ]);
-
-        $usuario_3 = DB::table('users')->insertGetId([
-            'name' => 'usuario3',
-            'email' => 'usuario3@usuario3.com',
-            'password' => Hash::make('usuario3'),
-            'dni' => '66981463N',
-            'created_at' => now(),
-            'activo'=> false
-        ]);
+    
 
         
         //Tipos
@@ -336,7 +328,7 @@ Seguimos sumando.',
         // --- CURSOS ---
 
         $curso_1 = DB::table('cursos')->insertGetId([
-            'titulo' => 'Aguas al aire Libre',
+            'nombre' => 'Aguas al aire Libre',
             'descripcion' => 'Entrenamiento de agua que te va a mejorar la resistencia y el bienestar ya sea en el entorno natural o en una piscina.',
             'tipo' => 'Resistencia'
         ]);
@@ -344,14 +336,14 @@ Seguimos sumando.',
 
 
         $curso_2 = DB::table('cursos')->insertGetId([
-            'titulo' => 'Yoga para principiantes',
+            'nombre' => 'Yoga para principiantes',
             'descripcion' => 'Introducción al yoga con ejercicios básicos y técnicas de respiración.',
             'tipo' => 'Flexibilidad'
         ]);
         DB::table('cursos')->where('id', $curso_2)->update(['imagen' => "cursos/{$curso_2}.jpg"]);
 
         $curso_3 = DB::table('cursos')->insertGetId([
-            'titulo' => 'Entrenamiento funcional',
+            'nombre' => 'Entrenamiento funcional',
             'descripcion' => 'Ejercicios que imitan movimientos diarios para mejorar la fuerza y resistencia.',
             'tipo' => 'Cardio'
         ]);
@@ -480,18 +472,6 @@ Seguimos sumando.',
             'fecha_alta'=> now()
         ]);
 
-        DB::table('inscripcion')->insert([
-            'centro_id'=> $centro_1,
-            'user_id'=> $usuario_2,
-            'fecha_alta'=> now()
-        ]);
-
-        DB::table('inscripcion')->insert([
-            'centro_id'=> $centro_3,
-            'user_id'=> $usuario_3,
-            'fecha_alta'=> now()
-        ]);
-
         DB::table('usuario_rol')->insert([
             'user_id' => $admin,
             'rol_id' => $rol_1,
@@ -509,20 +489,6 @@ Seguimos sumando.',
             'rol_id' => $rol_3,
             'created_at'=>now()
         ]);
-
-        DB::table('usuario_rol')->insert([
-            'user_id' => $usuario_2,
-            'rol_id' => $rol_3,
-            'created_at'=>now()
-        ]);
-
-        DB::table('usuario_rol')->insert([
-            'user_id' => $usuario_3,
-            'rol_id' => $rol_3,
-            'created_at'=>now()
-        ]);
-
-        
 
         DB::table('centro_instalacion')->insert([
             'centro_id' => $centro_1,

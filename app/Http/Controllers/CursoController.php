@@ -84,7 +84,7 @@ class CursoController extends Controller
     {
         $consulta = $request->query('q');
 
-        $cursos = Curso::where('titulo','ilike','%' . $consulta . '%')->get();
+        $cursos = Curso::where('nombre','ilike','%' . $consulta . '%')->get();
 
         return response()->json($cursos);
     }

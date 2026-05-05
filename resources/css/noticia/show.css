@@ -97,14 +97,6 @@
     margin-bottom: 1.25rem;
 }
 
-.divider {
-    width: 48px;
-    height: 4px;
-    background: var(--brand);
-    border-radius: 2px;
-    margin-bottom: 1.5rem;
-}
-
 .descripcion-centros {
     width: 60%;
     font-size: 1.1rem;

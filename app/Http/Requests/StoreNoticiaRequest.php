@@ -28,11 +28,12 @@ class StoreNoticiaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'titulo'    => ['required', 'string', 'max:255', 'regex:/^[a-zA-Z0-9À-ÿ\s]+$/'],
-            'contenido' => ['required', 'string', 'regex:/^[a-zA-Z0-9À-ÿ\s\r\n]+$/'],
+            'titulo'    => ['required', 'string', 'max:255', 'regex:/^[a-zA-Z0-9À-ÿ\s\'"]+$/'],
+            'contenido' => ['required', 'string'],
             'centro_id' => ['required', 'exists:centros,id'],
             'fecha'     => ['required', 'date'],
-            'imagen'    => ['nullable', 'image', 'mimes:jpg,jpeg','max:2048'],
+            'imagen'    => ['nullable', 'image', 'mimes:jpg,jpeg,png','max:2048'],
+            'es_activo' => ['required', 'in:true,false,1,0,on,off']
         ];
     }
 
