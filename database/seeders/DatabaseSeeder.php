@@ -82,10 +82,12 @@ class DatabaseSeeder extends Seeder
         // --- CENTROS ---
         $centro_1 = DB::table('centros')->insertGetId([
             'nombre' => 'Ok+',
-            'descripcion' => ' para el entrenamiento acuático con piscina climatizada de alto rendimiento.',
-            'direccion' => 'Calle del Natación, 789, Ciudad',
-            'telefono' => '234857432',
-            'email' => 'piscina@olimpica.com'
+            'descripcion' => 'Centro deportivo con dos piscinas dos piscinas de 25 metros , ambas con climatización , gimnasio remodelado y amplias zonas  para practicar deportes tanto de bicileta,baile,bachata,tambien una zona de crosfit y por ultimo zona de actividdaes al aire libre.',
+            'direccion' => 'Av. de la Rondeña, 11540 Sanlúcar de Barrameda, Cádiz',
+            'telefono' => '657804438',
+            'email' => ' info-sanlucar@okeymas.es ',
+            'latitud' => 36.77384,
+            'longitud' => -6.34497
         ]);
         DB::table('centros')->where('id', $centro_1)->update(['imagen' => "centros/{$centro_1}.jpg"]);
 
@@ -160,7 +162,7 @@ class DatabaseSeeder extends Seeder
         DB::table('valoraciones')->insert([
             'titulo' => 'Excelente centro',
             'comentario' => 'Me encanta entrenar aquí, las instalaciones son de primera y el personal es muy amable.',
-            'puntuacion' => 8,
+            'puntuacion' => 4,
             'centro_id' => $centro_1,
             'user_id' => $jefe,
             'created_at' => now(),
@@ -169,7 +171,7 @@ class DatabaseSeeder extends Seeder
         DB::table('valoraciones')->insert([
             'titulo' => 'Muy buen ambiente',
             'comentario' => 'El ambiente es muy motivador y las actividades son variadas. Lo recomiendo.',
-            'puntuacion' => 8,
+            'puntuacion' => 4,
             'centro_id' => $centro_1,
             'user_id' => $jefe,
             'created_at' => now(),
@@ -178,6 +180,36 @@ class DatabaseSeeder extends Seeder
         DB::table('redes_sociales')->insert([
             'nombre' => 'Facebook',
             'url' => 'https://www.facebook.com/centro1',
+            'centro_id' => $centro_1,
+            'created_at' => now(),
+        ]);
+
+
+        //Tarifas
+        DB::table('tarifas')->insert([
+            'tipo' => 'basico',
+            'titulo' => 'Tarifa Basica',
+            'precio' => 24.90,
+            'periodo' => 'mes',
+            'descripcion' => json_encode([
+                'Acceso 8:00 a 14:00', 
+                'Máximo 3 reservas', 
+                'Solo laborables'
+            ]),
+            'centro_id' => $centro_1,
+            'created_at' => now(),
+        ]);
+
+        DB::table('tarifas')->insert([
+            'tipo' => 'premium',
+            'titulo' => 'Tarifa Premium',
+            'precio' => 44.90,
+            'periodo' => 'mes',
+            'descripcion' => json_encode([
+                'Acceso 24/7',
+                'Reservas ilimitadas',
+                'Acceso a fines de semana y festivos'
+            ]),
             'centro_id' => $centro_1,
             'created_at' => now(),
         ]);

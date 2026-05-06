@@ -1,0 +1,486 @@
+/* ============================================
+   ESTILOS GENERALES
+   ============================================ */
+
+body {
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+/* ============================================
+   HEADER / INFORMACIÓN PRINCIPAL
+   ============================================ */
+
+.datos-header {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    margin-bottom: 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border: 2px solid #667eea;
+}
+
+.datos-info h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.datos-info p {
+    color: #666;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.social-icons {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.datos-image-container {
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.datos-image {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+/* ============================================
+   INFORMACIÓN DE CONTACTO
+   ============================================ */
+
+.contact-info {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.contact-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.contact-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.contact-details {
+    flex: 1;
+}
+
+.contact-label {
+    font-size: 12px;
+    color: #999;
+    margin: 0;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.contact-link {
+    display: block;
+    font-size: 14px;
+    color: #333;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    word-break: break-all;
+}
+
+.contact-link:hover {
+    color: #667eea;
+    text-decoration: underline;
+}
+
+/* ============================================
+   MAPA Y UBICACIÓN
+   ============================================ */
+
+.location-info {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: #f0f4ff;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 20px 0;
+    border-left: 4px solid #667eea;
+}
+
+.location-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.location-details {
+    flex: 1;
+}
+
+.location-address {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+    margin-bottom: 8px;
+}
+
+.maps-link {
+    display: inline-block;
+    font-size: 13px;
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    padding: 6px 12px;
+    background: white;
+    border-radius: 6px;
+    border: 1px solid #667eea;
+}
+
+.maps-link:hover {
+    background: #667eea;
+    color: white;
+    transform: translateX(2px);
+}
+
+.map-container {
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.map-container iframe {
+    display: block;
+    width: 100%;
+    height: 300px;
+}
+
+/* ============================================
+   SECCIÓN DE INSTALACIONES
+   ============================================ */
+
+.installations-section {
+    margin-bottom: 50px;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 700;
+    color: rgb(0, 0, 0);
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.installations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.carta-instalación {
+    background: white;
+    border-radius: 12px;
+    padding: 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 2px solid silver;
+}
+
+.carta-instalación:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.icono-instalacion {
+    font-size: 20px;
+    margin-bottom: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 53px;
+}
+
+.carta-instalación h3 {
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+    line-height: 1.3;
+}
+
+/* ============================================
+   TARJETAS DE PRECIOS
+   ============================================ */
+
+.pricing-section {
+    margin-bottom: 50px;
+}
+
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.pricing-card {
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.pricing-card.basico {
+    background: #1a1a1a;
+    color: white;
+}
+
+.pricing-card.premium {
+    background: white;
+    color: #333;
+    border: 2px solid #667eea;
+}
+
+.pricing-card-header {
+    padding: 30px 20px;
+    text-align: center;
+}
+
+.pricing-card-header h2 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.precio {
+    font-size: 37px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.precio-término {
+    margin-left: auto;
+    font-size: 24px;
+    vertical-align: super;
+    padding-left: 15px;
+    position: relative;
+    left: 113px;
+}
+
+.precio-periodo {
+    font-size: 17px;
+    opacity: 0.8;
+}
+
+.pricing-card-body {
+    padding: 25px 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.pricing-card.premium .pricing-card-body {
+    border-top: 1px solid #eee;
+}
+
+.pricing-descripcion {
+    list-style: none;
+    margin-bottom: 20px;
+}
+
+.pricing-descripcion li {
+    font-size: 15px;
+    padding: 8px 0;
+    line-height: 1.5;
+}
+
+.pricing-descripcion li:before {
+    content: '✓ ';
+    color: #667eea;
+    font-weight: bold;
+    margin-right: 8px;
+}
+
+.pricing-card.basic .pricing-features li:before {
+    color: #667eea;
+}
+
+.pricing-button {
+    width: 100%;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.pricing-card.basico .pricing-button {
+    background: #667eea;
+    color: white;
+}
+
+.pricing-card.basico .pricing-button:hover {
+    background: #764ba2;
+    transform: translateY(-2px);
+}
+
+.pricing-card.premium .pricing-button {
+    background: #667eea;
+    color: white;
+}
+
+.pricing-card.premium .pricing-button:hover {
+    background: #764ba2;
+    transform: translateY(-2px);
+}
+
+/* ============================================
+   SECCIÓN DE RESEÑAS
+   ============================================ */
+
+.reviews-section {
+    margin-bottom: 50px;
+}
+
+.reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+.carta-valoracion {
+    background: #f5f5f5;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+.carta-valoracion:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+    transform: translateY(-2px);
+}
+
+.review-estrellas {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.Estrellas {
+    color: #ffc107;
+}
+
+.Estrellas.empty {
+    color: #ddd;
+}
+
+.carta-valoracion h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.carta-valoracion p {
+    font-size: 13px;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+    .datos-header {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .map-container iframe {
+        height: 250px;
+    }
+
+    .location-info {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .pricing-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .installations-grid {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    }
+
+    .datos-info h1 {
+        font-size: 24px;
+    }
+
+    .precio {
+        font-size: 36px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 20px 15px;
+    }
+
+    .datos-info h1 {
+        font-size: 20px;
+    }
+
+    .section-title {
+        font-size: 18px;
+    }
+
+    .installations-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .reviews-grid {
+        grid-template-columns: 1fr;
+    }
+}

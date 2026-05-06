@@ -6,7 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tarifa extends Model
 {
-    protected $fillable = ['titulo', 'precio', 'descripcion', 'centro_id'];
+    protected $fillable = ['titulo', 'precio', 'descripcion', 'centro_id', 'periodo','tipo'];
+
+    protected $casts = [
+        'descripcion' => 'array',
+    ];
 
     public function centro()
     {

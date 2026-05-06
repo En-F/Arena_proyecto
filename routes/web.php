@@ -9,6 +9,7 @@ use App\Http\Controllers\NoticiaController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\ControlController;
 use App\Http\Controllers\Settings\ProfileController;
+use App\Http\Controllers\Settings\ValoracionController;
 use App\Models\Horario;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
@@ -39,7 +40,7 @@ Route::middleware(['auth', 'role:admin,jefe'])->group(function () {
     Route::post('/cursos/ocultar', [CursoController::class, 'ocultar']);
     Route::resource('cursos', CursoController::class)->except(['index','show']);
 
-
+    //Horario
     Route::resource('horarios', HorarioController::class)->except(['index','show']);
 
     //Actividad
@@ -49,6 +50,10 @@ Route::middleware(['auth', 'role:admin,jefe'])->group(function () {
     //Noticia
     Route::post('/noticias/ocultar', [NoticiaController::class, 'ocultar']);
     Route::resource('noticias', NoticiaController::class)->except(['index','show']);
+
+    //Valoracion
+    Route::get('/valoracion/create', [ValoracionController::class, 'create'])->name('valoraciones.create');
+    Route::post('/valoracion', [ValoracionController::class, 'store'])->name('valoraciones.store');
 });
 
 

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Centro;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class CentroController extends Controller
@@ -11,12 +13,26 @@ class CentroController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Inertia::render('Centro/index',
-        [
-            'centros' => Centro::all()
-        ]);
+        $usuario_logeado = Auth::user();
+
+        $query = Centro::query();
+
+
+        if($usuario_logeado && ($usuario_logeado->Admin())){
+
+        } elseif($usuario_logeado && ($usuario_logeado->Jefe())){
+
+            $query->where('es_activo', true)
+                    ->whereIn('id', $usuario_logeado->centros->pluck('id'));
+        }
+
+        $query->where('es_activo', true);
+
+        return Inertia::render('Centro/index',[
+        'centros' =>  $query->inRandomOrder()->get(),
+    ]);
     }
 
     /**
@@ -40,9 +56,19 @@ class CentroController extends Controller
      */
     public function show(Centro $centro)
     {
-        return Inertia::render('Centro/show',
-        [
-            'centro' => $centro
+
+        $valoraciones = DB::table('valoraciones')
+            ->where('centro_id', $centro->id)
+            ->join('users', 'valoraciones.user_id', '=', 'users.id')
+            ->select('valoraciones.*', 'users.name as user_name')
+            ->get();
+
+        $tarifas = $centro->tarifas()->get();
+
+        return Inertia::render('Centro/show',[
+            'centro'=>$centro,
+            'valoraciones'=>$valoraciones,
+            'tarifas'=>$tarifas
         ]);
     }
 
