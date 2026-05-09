@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\actividades;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
 
-class StoreNoticiaRequest extends FormRequest
+class StoreActividadRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,11 +28,13 @@ class StoreNoticiaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'titulo'    => ['required', 'string', 'max:255', 'regex:/^[a-zA-Z0-9À-ÿ\s\'"]+$/'],
-            'contenido' => ['required', 'string'],
-            'centro_id' => ['required', 'exists:centros,id'],
-            'fecha'     => ['required', 'date'],
+            'nombre'    => ['required', 'string', 'max:255', 'regex:/^[a-zA-ZÀ-ÿ\s\'"]+$/'],
+            'nivel' => ['required', 'string'],
+            'descripcion' => ['required', 'string'],
             'imagen'    => ['nullable', 'image', 'mimes:jpg,jpeg,png','max:2048'],
+            'tipo_id' => ['required', 'exists:tipos,id'],
+            'cursos_ids' => ['required', 'array', 'min:1'],
+            'cursos_ids.*' => ['exists:cursos,id'],
             'es_activo' => ['required', 'in:true,false,1,0,on,off']
         ];
     }
@@ -42,7 +44,9 @@ class StoreNoticiaRequest extends FormRequest
     return [
         'imagen.mimes' => 'La imagen debe ser un archivo de tipo: jpg, jpeg o png.',
         'imagen.max'   => 'La imagen es demasiado pesada (máximo 2MB).',
-        'titulo.required' => '¡Oye! No olvides ponerle un título a la noticia.',
+        'nombre.required' => '¡Oye! No olvides ponerle un título a la actividad.',
+        'cursos_ids.required' => 'Debes seleccionar al menos un centro para esta actividad.',
+        'nivel.required'   => 'Indica si la actividad es fácil, intermedia o difícil.',
     ];
-}
+    }
 }

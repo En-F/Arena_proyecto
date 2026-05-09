@@ -8,8 +8,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use App\Http\Requests\StoreNoticiaRequest;
-use App\Http\Requests\UpdateNoticiaRequest;
+use App\Http\Requests\noticia\StoreNoticiaRequest;
+use App\Http\Requests\noticia\UpdateNoticiaRequest;
 use Inertia\Inertia;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
@@ -61,14 +61,14 @@ class NoticiaController extends Controller
         $data = $request->validated();
 
 
-        $noticia = new Noticia();
-        $noticia->titulo = $data['titulo'];
-        $noticia->contenido = $data['contenido'];
-        $noticia->centro_id = $data['centro_id'];
-        $noticia->fecha = $data['fecha'];
-        $noticia->es_activo = $data['es_activo'];
-        $noticia->user_id = auth()->id();
-
+        $noticia = Noticia::create([
+            'titulo' => $data['titulo'],
+            'contenido' => $data['contenido'],
+            'centro_id' => $data['centro_id'],
+            'fecha' => $data['fecha'],
+            'es_activo' => filter_var($data['es_activo'], FILTER_VALIDATE_BOOLEAN),
+            'user_id' => auth()->id(),
+        ]);
         $noticia->save();
 
         if($request->hasFile('imagen')) {
@@ -79,7 +79,7 @@ class NoticiaController extends Controller
 
             $file->storeAs('noticias', $nombre_fichero, 'public');
 
-            $noticia->imagen = '/noticias/' . $nombre_fichero;
+            $noticia->imagen = 'noticias/' . $nombre_fichero;
             $noticia->save();
         }
 
@@ -151,12 +151,12 @@ class NoticiaController extends Controller
     public function destroy(Noticia $noticia)
     {
         if ($noticia->imagen) {
-                Storage::disk('public')->delete($noticia->imagen);
-            }
+            Storage::disk('public')->delete($noticia->imagen);
+        }
 
-            $noticia->delete();
+        $noticia->delete();
 
-            return redirect()->route('inicio.index');
+        return redirect()->route('inicio.index');
     }
 
     public function ocultar(Request $request)

@@ -2,7 +2,9 @@ import '../../../css/actividad/show.css';
 import CartaVideo from '@/components/carta/CartaVideo';
 import CartaActividadShow from '@/components/carta/CartaActividadShow';
 import Button from '@/components/Layouts/Button';
-import { Head } from '@inertiajs/react';
+import { Head, usePage, router } from '@inertiajs/react';
+import { Trash2 } from 'lucide-react';
+import { route } from 'ziggy-js';
 
 interface Actividad {
     id: number;
@@ -19,14 +21,24 @@ interface Props {
 }
 
 export default function Show({ actividad, videos }: Props) {
+    const { auth } = usePage().props;
+
+    const handleEliminar = (id: number) => {
+        if (confirm('¿Estás seguro de que quieres quitar este vídeo?')) {
+            router.delete(route('videos.destroy', id), {
+                preserveScroll: true,
+            });
+        }
+    };
+
     return (
         <>
-            <Head title={actividad.titulo} />
+            <Head title={actividad.nombre} />
             <div className="main-container activity-detail-page">
                 <div className="activity-hero-card">
                     <CartaActividadShow
                         id={actividad.id}
-                        titulo={actividad.titulo}
+                        nombre={actividad.nombre}
                         imagen={actividad.imagen}
                         descripcion={actividad.descripcion}
                         nivel={actividad.nivel}
@@ -39,12 +51,23 @@ export default function Show({ actividad, videos }: Props) {
 
                     <div className="videos-grid">
                         {videos.map((video) => (
-                            <CartaVideo
-                                key={video.id}
-                                id={video.id}
-                                url={video.url}
-                                titulo={video.titulo}
-                            />
+                            <div key={video.id} className="group relative">
+                                <CartaVideo
+                                    id={video.id}
+                                    titulo={video.titulo}
+                                    url={video.url}
+                                />
+
+                                {(auth.user?.is_admin ||
+                                    auth.user?.is_jefe) && (
+                                    <button
+                                        onClick={() => handleEliminar(video.id)}
+                                        className="absolute top-2 right-2 rounded-full bg-red-600 p-2 text-white opacity-0 transition-opacity group-hover:opacity-100"
+                                    >
+                                        <Trash2 className="h-4 w-4" />{' '}
+                                    </button>
+                                )}
+                            </div>
                         ))}
                     </div>
 

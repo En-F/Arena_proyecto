@@ -12,7 +12,7 @@ function getYoutubeId(url: string): string | null {
     return match?.[1] ?? null;
 }
 
-export default function CartaActividad({ id, url, titulo }: Props) {
+export default function CartaVideo({ id, url, titulo }: Props) {
     const videoId = getYoutubeId(url);
 
     if (!videoId) {

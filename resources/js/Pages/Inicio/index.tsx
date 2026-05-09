@@ -42,15 +42,17 @@ export default function Inicio({ centros, noticias, cursos }: Props) {
                 </section>
 
                 {/* --- SECCIÓN INSCRIPCIÓN --- */}
-                <section className="banner-cta">
-                    <BannerInscripcion
-                        imagen="inscripcion.jpg"
-                        titulo="¡Inscríbete Ahora!"
-                        descripcion="Únete a nuestras actividades deportivas y disfruta de una experiencia única."
-                        textBoton="Haz tu Inscripción"
-                        href="/register"
-                    />
-                </section>
+                {!auth.user && (
+                    <section className="banner-cta">
+                        <BannerInscripcion
+                            imagen="inscripcion.jpg"
+                            titulo="¡Inscríbete Ahora!"
+                            descripcion="Únete a nuestras actividades deportivas y disfruta de una experiencia única."
+                            textBoton="Haz tu Inscripción"
+                            href="/register"
+                        />
+                    </section>
+                )}
 
                 {/* --- SECCIÓN ACTIVIDADES --- */}
                 <section className="section-actividades">

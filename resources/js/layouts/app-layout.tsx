@@ -12,16 +12,15 @@ export default function AppLayout({
     children: React.ReactNode;
 }) {
     return (
-        <AppLayoutTemplate breadcrumbs={breadcrumbs}>
-            <div className="flex min-h-screen flex-col">
-                <Navbar />
+        <div className="flex min-h-screen flex-col">
+            <Navbar />
 
-                <main className="flex-1">{children}
-                    <CookieConsent />
-                </main>
+            <main className="flex-1">
+                {children}
+                <CookieConsent />
+            </main>
 
-                <Footer />
-            </div>
-        </AppLayoutTemplate>
+            <Footer />
+        </div>
     );
 }

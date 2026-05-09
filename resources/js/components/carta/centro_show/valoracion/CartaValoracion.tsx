@@ -2,6 +2,7 @@ import { usePage } from '@inertiajs/react';
 import { Link } from 'lucide-react';
 import React from 'react';
 import '../../../../../css/carta/carta_generica.css';
+import '../../../../../css/centro/show.css';
 
 interface Props {
     id?: number;
@@ -37,9 +38,11 @@ export default function ReviewCard({
 
     if (esCrear) {
         return (
-            <Link href={route('valoraciones.create')} className="carta-item">
-                <div className="img-card-container carta-crear">
-                    <span className="carta-crear-plus">+</span>
+            <Link href={route('valoraciones.create')}>
+                <div className="carta-valoracion">
+                    {renderStars(puntuacion)}
+                    <h3>{titulo}</h3>
+                    <p>{comentario}</p>
                 </div>
             </Link>
         );

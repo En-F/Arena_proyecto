@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\noticias;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
 
-class UpdateNoticiaRequest extends FormRequest
+class StoreNoticiaRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,13 +28,13 @@ class UpdateNoticiaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'titulo'    => ['required', 'string', 'max:255', 'regex:/^[a-zA-Z0-9À-ÿ\s]+$/'],
+            'titulo'    => ['required', 'string', 'max:255', 'regex:/^[a-zA-Z0-9À-ÿ\s\'"]+$/'],
             'contenido' => ['required', 'string'],
             'centro_id' => ['required', 'exists:centros,id'],
             'fecha'     => ['required', 'date'],
-            'imagen'    => ['nullable', 'file', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
+            'imagen'    => ['nullable', 'image', 'mimes:jpg,jpeg,png','max:2048'],
+            'es_activo' => ['required', 'in:true,false,1,0,on,off']
         ];
-
     }
 
     public function messages(): array
@@ -46,4 +46,3 @@ class UpdateNoticiaRequest extends FormRequest
     ];
 }
 }
-    

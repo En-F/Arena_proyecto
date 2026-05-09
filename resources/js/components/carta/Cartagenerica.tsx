@@ -8,7 +8,7 @@ interface Props {
     nombre?: string;
     imagen?: string;
     esCrear?: boolean;
-    tipo?: 'centro' | 'curso';
+    tipo?: 'centro' | 'curso' | 'actividad';
     rutaDetalle?: string;
     rutaCrear?: string;
     rutaOcultar?: string;

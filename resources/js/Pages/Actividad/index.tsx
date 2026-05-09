@@ -1,7 +1,6 @@
 import { Head, router, usePage } from '@inertiajs/react';
 import '../../../css/actividad/inicio.css';
 import Button from '@/components/Layouts/Button';
-import CartaActividad from '../../components/carta/CartaActividad';
 import Carta from '@/components/carta/Cartagenerica';
 
 interface Centro {
@@ -193,17 +192,25 @@ export default function Inicio({
                             </p>
                         ) : (
                             actividades.map((actividad) => (
-                                <CartaActividad
+                                <Carta
                                     key={actividad.id}
                                     id={actividad.id}
-                                    titulo={actividad.titulo}
+                                    nombre={actividad.nombre}
                                     imagen={actividad.imagen}
+                                    tipo="actividad"
+                                    rutaDetalle="/actividades"
+                                    rutaOcultar="/actividades/ocultar"
+                                    textoOcultar="Ocultar"
+                                    textoConfirmacion="¿Estás seguro de que quieres ocultar este actividad?"
                                     es_activo={actividad.es_activo}
                                 />
                             ))
                         )}
+                        {actividades.length !== 0 && (is_admin || is_jefe) && (
+                            <Carta esCrear rutaCrear="actividades/create" />
+                        )}
                     </div>
-                    {(is_admin || is_jefe) && (
+                    {actividades.length === 0 && (is_admin || is_jefe) && (
                         <div>
                             <Button
                                 className="btn mt-10 mb-4 btn-info"

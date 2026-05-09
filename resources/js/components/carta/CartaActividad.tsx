@@ -64,8 +64,8 @@ export default function CartaActividad({
                     <div className="activity-overlay">
                         <span className="activity-explore">Explorar</span>
                     </div>
+                    <p className="activity-title">{titulo}</p>
                 </div>
-                <p className="activity-title">{titulo}</p>
             </Link>
             {auth.user && (auth.user.is_admin || auth.user.is_jefe) && (
                 <div>

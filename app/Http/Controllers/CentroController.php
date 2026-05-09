@@ -19,17 +19,16 @@ class CentroController extends Controller
 
         $query = Centro::query();
 
-
         if($usuario_logeado && ($usuario_logeado->Admin())){
+            
 
         } elseif($usuario_logeado && ($usuario_logeado->Jefe())){
 
             $query->where('es_activo', true)
                     ->whereIn('id', $usuario_logeado->centros->pluck('id'));
+        } else {  
+            $query->where('es_activo', true);
         }
-
-        $query->where('es_activo', true);
-
         return Inertia::render('Centro/index',[
         'centros' =>  $query->inRandomOrder()->get(),
     ]);

@@ -10,6 +10,13 @@ use App\Models\Tipo;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\actividades\StoreActividadRequest;
+use App\Http\Requests\actividades\UpdateActividadRequest;
+use Illuminate\Support\Facades\Storage;
+
+
+
+
 
 class ActividadController extends Controller
 {
@@ -141,15 +148,45 @@ class ActividadController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Actividad/create', [
+            'tipos' => Tipo::all(),
+            'cursos' => Curso::all(),
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreActividadRequest $request)
     {
-        //
+        $datos = $request->validated();
+
+        $actividad = Actividad::create([
+            'nombre' => $datos['nombre'],
+            'nivel' => $datos['nivel'],
+            'descripcion' => $datos['descripcion'],
+            'tipo_id' => $datos['tipo_id'],
+            'es_activo' => filter_var($datos['es_activo'], FILTER_VALIDATE_BOOLEAN),
+        ]);
+
+        if(!empty($datos['cursos_ids'])) {
+            $actividad->cursos()->sync($datos['cursos_ids']);
+        }
+
+        if($request->hasFile('imagen')) {
+            $file = $request->file('imagen');
+            $extension = $file->extension();
+
+            $nombre_fichero = $actividad->id . '.' . $extension;
+
+            $file->storeAs('actividades', $nombre_fichero, 'public');
+
+            $actividad->imagen = 'actividades/' . $nombre_fichero;
+            $actividad->save();
+        }
+
+        return redirect()->route('inicio.index');
+
     }
 
     /**
@@ -171,15 +208,46 @@ class ActividadController extends Controller
      */
     public function edit(Actividad $actividad)
     {
-        //
+        $actividad->load('cursos');
+
+        return Inertia::render('Actividad/edit',[
+            'actividad'=> $actividad,
+            'cursos' => Curso::all(),
+            'tipos' => Tipo::all()
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Actividad $actividad)
+    public function update(UpdateActividadRequest $request, Actividad $actividad)
     {
-        //
+        $data = $request->validated();
+
+        $actividad->update([
+        'nombre'    => $data['nombre'],
+        'nivel' => $data['nivel'],
+        'descripcion' => $data['descripcion'],
+        'tipo_id' => $data['tipo_id'],
+        ]);
+
+
+        if(!empty($data['cursos_ids'])) {
+            $actividad->cursos()->sync($data['cursos_ids']);
+        }
+
+        if($request->hasFile('imagen')) {
+            $file = $request->file('imagen');
+            $extension = $file->extension();
+
+            $nombre_fichero = $actividad->id . '.' . $extension;
+
+            $file->storeAs('actividads', $nombre_fichero, 'public');
+
+            $actividad->imagen = 'actividad/' . $nombre_fichero;
+            $actividad->save();
+    }
+        return redirect()->route('actividades.show', $actividad->id);
     }
 
     /**
@@ -187,7 +255,13 @@ class ActividadController extends Controller
      */
     public function destroy(Actividad $actividad)
     {
-        //
+        if ($actividad->imagen) {
+            Storage::disk('public')->delete($actividad->imagen);
+        }
+
+        $actividad->delete();
+
+        return redirect()->route('inicio.index');
     }
 
     public function ocultar (Request $request)

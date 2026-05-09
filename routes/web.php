@@ -9,7 +9,8 @@ use App\Http\Controllers\NoticiaController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\ControlController;
 use App\Http\Controllers\Settings\ProfileController;
-use App\Http\Controllers\Settings\ValoracionController;
+use App\Http\Controllers\ValoracionController;
+use App\Http\Controllers\VideoController;
 use App\Models\Horario;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
@@ -54,6 +55,9 @@ Route::middleware(['auth', 'role:admin,jefe'])->group(function () {
     //Valoracion
     Route::get('/valoracion/create', [ValoracionController::class, 'create'])->name('valoraciones.create');
     Route::post('/valoracion', [ValoracionController::class, 'store'])->name('valoraciones.store');
+
+    //Video
+    Route::resource('videos',VideoController::class)->except(['index']);
 });
 
 
@@ -63,6 +67,12 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     Route::post('/centros/ocultar', [CentroController::class, 'ocultar']);
     Route::resource('centros', CentroController::class)->except(['index','show']);
+
+    //Valoraciones
+    Route::resource('valoraciones',ValoracionController::class)->except(['index','show']);
+
+    //Videos
+
 
 });
        
@@ -92,6 +102,12 @@ Route::resource('cursos', CursoController::class)->only(['index', 'show']);
 
 //Horarios
 Route::resource('horarios', HorarioController::class)->only(['index', 'show']);
+
+//Valoraciones
+Route::resource('valoraciones',ValoracionController::class)->only(['index']);
+
+//Videos
+Route::resource('videos',VideoController::class)->only(['index']);
 
 
 

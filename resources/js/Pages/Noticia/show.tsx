@@ -19,7 +19,6 @@ interface Props {
 
 export default function Show({ noticia, centro }: Props) {
     const { auth } = usePage().props;
-    console.log(auth.user);
 
     const handleOcultarElemento = (e: React.MouseEvent) => {
         e.stopPropagation();

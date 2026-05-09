@@ -118,44 +118,6 @@ class DatabaseSeeder extends Seeder
         ]);
         DB::table('centros')->where('id', $centro_4)->update(['imagen' => "centros/{$centro_4}.jpg"]);
 
-        $centro_5 = DB::table('centros')->insertGetId([
-            'nombre' => 'Pabellón Polideportivo Municipal Donostia',
-            'descripcion' => 'Instalación cubierta de alto nivel equipada con pistas de parqué multideporte, canastas retráctiles, porterías y gradas de gran capacidad para eventos deportivos.',
-            'direccion' => 'Calle de los Deportes, s/n, Zona Estadio',
-            'telefono' => '943001122',
-            'email' => 'pabellon_municipal@gmail.es'
-        ]);
-        DB::table('centros')->where('id', $centro_5)->update(['imagen' => "centros/{$centro_5}.jpg"]);
-
-        $centro_6 = DB::table('centros')->insertGetId([
-            'nombre' => 'Centro de Manolo Gallego',
-            'descripcion' => 'Instalaciones modernas para practicar Yoga deporte de fuerza y mantenerse en forma.',
-            'direccion' => 'Calle del Papeleo, 456, Ciudad',
-            'telefono' => '987958123',
-            'email' => 'centromano@gmail.com'
-        ]);
-        DB::table('centros')->where('id', $centro_6)->update(['imagen' => "centros/{$centro_6}.jpg"]);
-
-        $centro_7 = DB::table('centros')->insertGetId([
-            'nombre' => 'CAR Granada',
-            'descripcion' => 'Instalación técnica especializada diseñada para optimizar el desempeño de deportistas de élite. Su objetivo principal es ofrecer un entorno integral que combina entrenamiento de vanguardia, servicios médicos especializados y apoyo científico, permitiendo a los atletas prepararse para competiciones nacionales e internacionales en las mejores condiciones posibles. ',
-            'direccion' => 'Sierra Nevada',
-            'telefono' => '912111678',
-            'email' => 'CAR@gmail.com'
-        ]);
-        DB::table('centros')->where('id', $centro_7)->update(['imagen' => "centros/{$centro_7}.jpg"]);
-
-        $centro_8 = DB::table('centros')->insertGetId([
-            'nombre' => 'Centro Deportivo Municipal El Barrio',
-            'descripcion' => 'Complejo deportivo con campo de fútbol de césped artificial de última generación, zonas de entrenamiento al aire libre y vestuarios renovados.',
-            'direccion' => 'Calle de la Vecindad, 8, Distrito Centro',
-            'telefono' => '910000008',
-            'email' => 'elbarriodeportes@gmail.com'
-        ]);
-        DB::table('centros')->where('id', $centro_8)->update(['imagen' => "centros/{$centro_8}.jpg"]);
-
-
-
 
 
         //---VALORACIONES---// 
@@ -248,56 +210,57 @@ class DatabaseSeeder extends Seeder
 
         // --- ACTIVIDADES ---
                $actividad_1 = DB::table('actividades')->insertGetId([
-            'titulo' => 'Natación',
+            'nombre' => 'Natación',
             'descripcion' => 'Disciplina acuática integral que combina resistencia y fuerza. Ideal para fortalecer el sistema cardiovascular en un entorno de bajo impacto articular.',            'nivel' => 'Medio',
+            'nivel' => 'intermedio',
             'tipo_id' => $tipo_1
         ]);
         DB::table('actividades')->where('id', $actividad_1)->update(['imagen' => "actividades/{$actividad_1}.jpg"]);
 
         $actividad_2 = DB::table('actividades')->insertGetId([
-            'titulo' => 'Ciclismo',
+            'nombre' => 'Ciclismo',
             'descripcion' => 'Mejora tu capacidad aeróbica sobre ruedas. Trabajo de potencia en el tren inferior y resistencia metabólica en sesiones dinámicas.',
-            'nivel' => 'Principiante',
+            'nivel' => 'facil',
             'tipo_id' => $tipo_4
         ]);
         DB::table('actividades')->where('id', $actividad_2)->update(['imagen' => "actividades/{$actividad_2}.jpg"]);
 
         $actividad_3 = DB::table('actividades')->insertGetId([
-            'titulo' => 'Fútbol',
+            'nombre' => 'Fútbol',
             'descripcion' => 'Estrategia grupal, potencia explosiva y agilidad. Participa en entrenamientos diseñados para mejorar tu coordinación táctica y velocidad.',
-            'nivel' => 'Medio',
+            'nivel' => 'intermedio',
             'tipo_id' => $tipo_2
         ]);
         DB::table('actividades')->where('id', $actividad_3)->update(['imagen' => "actividades/{$actividad_3}.jpg"]);
 
         $actividad_4 = DB::table('actividades')->insertGetId([
-            'titulo' => 'Atletismo',
+            'nombre' => 'Atletismo',
             'descripcion' => 'Fundamentos del movimiento: carrera, saltos y lanzamientos. Perfecciona tu técnica de zancada y economía de carrera.',
-            'nivel' => 'Principiante',
+            'nivel' => 'facil',
             'tipo_id' => $tipo_1
         ]);
         DB::table('actividades')->where('id', $actividad_4)->update(['imagen' => "actividades/{$actividad_4}.jpg"]);
 
         $actividad_5 = DB::table('actividades')->insertGetId([
-            'titulo' => 'Pilates',
+            'nombre' => 'Pilates',
             'descripcion' => 'Ejercicios de bajo impacto que mejoran la flexibilidad, fuerza y equilibrio.',
-            'nivel' => 'Principiante',
+            'nivel' => 'facil',
             'tipo_id' => $tipo_4
         ]);
         DB::table('actividades')->where('id', $actividad_5)->update(['imagen' => "actividades/{$actividad_5}.jpg"]);
 
         $actividad_6 = DB::table('actividades')->insertGetId([
-            'titulo' => 'Baloncesto',
+            'nombre' => 'Baloncesto',
             'descripcion' => 'Deporte de equipo que combina habilidades técnicas, resistencia y estrategia. Mejora tu coordinación, agilidad y capacidad aeróbica en la cancha.',
-            'nivel' => 'Principiante',
+            'nivel' => 'facil',
             'tipo_id' => $tipo_1
         ]);
         DB::table('actividades')->where('id', $actividad_6)->update(['imagen' => "actividades/{$actividad_6}.jpg"]);
 
         $actividad_7 = DB::table('actividades')->insertGetId([
-            'titulo' => 'Waterpolo',
+            'nombre' => 'Waterpolo',
             'descripcion' => 'Deporte de equipo que combina habilidades técnicas, resistencia y estrategia. Mejora tu coordinación, agilidad y capacidad aeróbica en la cancha.',
-            'nivel' => 'Principiante',
+            'nivel' => 'facil',
            'tipo_id' => $tipo_1
         ]);
         DB::table('actividades')->where('id', $actividad_7)->update(['imagen' => "actividades/{$actividad_7}.jpg"]);
