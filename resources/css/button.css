@@ -1,5 +1,5 @@
 .btn-crud {
-    margin-bottom: 40px;
+    margin-bottom: 10px;
     border: none;
     font-weight: 600;
     cursor: pointer;
@@ -9,7 +9,6 @@
     justify-content: center;
     text-decoration: none;
     font-family: sans-serif;
-    margin-top: 40px;
 }
 
 .btn-volver {
@@ -77,4 +76,16 @@
 .mostrar:hover {
     background-color: #5ca8ff;
     transform: scale(1.07);
+}
+
+.btn-video-create {
+    padding: 0.5rem 13px;
+    background-color: #0070f3;
+    color: white;
+    border-radius: 12px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.btn-video-create:hover {
+    background-color: #4a6d9c;
+    transform: translateY(-2px);
 }

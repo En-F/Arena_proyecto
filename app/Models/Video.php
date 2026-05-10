@@ -8,7 +8,7 @@ class Video extends Model
 {
     protected $table = 'videos';
 
-    protected $fillable = ['titulo', 'url', 'videoable_id', 'videoable_type'];
+    protected $fillable = ['titulo', 'url'];
 
     public function cursos()
     {

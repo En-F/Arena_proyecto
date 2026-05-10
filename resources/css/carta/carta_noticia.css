@@ -149,15 +149,6 @@
     margin-bottom: 1rem;
 }
 
-.botones-acciones {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 100px;
-    margin-top: 25px;
-    width: 100%;
-}
-
 @media (max-width: 480px) {
     .admin-actions-container {
         gap: 20px;

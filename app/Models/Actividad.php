@@ -27,7 +27,7 @@ class Actividad extends Model
 
     public function videos()
     {
-        return $this->morphToMany(Video::class, 'videoable');
+        return $this->morphToMany(Video::class, 'videoable')->withTimestamps();
     }
 
     public function tipo(){

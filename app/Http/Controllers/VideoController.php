@@ -4,6 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Video;
 use Illuminate\Http\Request;
+use App\Models\Curso;
+use Illuminate\Support\Facades\DB;
+use Inertia\Inertia;
+use Carbon\Carbon;
+
+
 
 class VideoController extends Controller
 {
@@ -18,9 +24,13 @@ class VideoController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $actividad_id = $request->query('actividad_id');
+    
+        return Inertia::render('Video/create',[
+            'actividad_id' => $actividad_id
+        ]);
     }
 
     /**
@@ -28,7 +38,35 @@ class VideoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+       $datos = $request->validate([
+        'titulo'    => ['required', 'string', 'max:255', 'regex:/^[a-zA-ZÀ-ÿ\s\'"]+$/'],
+        'url' => ['required', 'string'],
+       ]);
+
+       $video = Video::create([
+           'titulo' => $datos['titulo'],
+           'url' => $datos['url'],
+        ]);
+           
+        $tipoPadre = null;
+
+        $tipo = $request->tipo;
+        if ($tipo === 'actividad') {
+            $tipoPadre = \App\Models\Actividad::class;
+        } elseif ($tipo === 'curso') {
+            $tipoPadre = \App\Models\Curso::class;
+        } else {
+            return back();
+        }
+
+        $idPadre = $request->regresar_a_id;
+        
+        $modeloPadre = $tipoPadre::findOrFail($idPadre);
+        $modeloPadre->videos()->attach($video->id);
+
+        $ruta = ($tipo === 'actividad') ? 'actividades.show' : 'cursos.show';
+
+        return redirect()->route($ruta, $idPadre);
     }
 
     /**
@@ -58,10 +96,22 @@ class VideoController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Video $video)
+    public function destroy(Request $request, Video $video)
     {
+        $idPadre = $request ->input('regresar_a_id');
+        $tipoPadre = $request->input('tipo');
+
         $video->delete();
-        
-        return redirect()->route('inicio.index');
+
+        if ($tipoPadre === 'actividad') {
+            return redirect()->route('actividades.show', $idPadre);
+        }
+
+        if ($tipoPadre === 'curso') {
+            return redirect()->route('cursos.show', $idPadre);
+        }
+
+        return back()->with('success', 'Vídeo eliminado');
+
     }
 }

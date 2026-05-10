@@ -25,6 +25,6 @@ class Curso extends Model
 
     public function videos()
 {
-    return $this->morphToMany(Video::class, 'videoable');
+    return $this->morphToMany(Video::class, 'videoable')->withTimestamps();
 }
 }

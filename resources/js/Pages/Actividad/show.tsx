@@ -2,6 +2,7 @@ import '../../../css/actividad/show.css';
 import CartaVideo from '@/components/carta/CartaVideo';
 import CartaActividadShow from '@/components/carta/CartaActividadShow';
 import Button from '@/components/Layouts/Button';
+import '../../../css/button.css';
 import { Head, usePage, router } from '@inertiajs/react';
 import { Trash2 } from 'lucide-react';
 import { route } from 'ziggy-js';
@@ -22,10 +23,16 @@ interface Props {
 
 export default function Show({ actividad, videos }: Props) {
     const { auth } = usePage().props;
+    const is_admin = auth.user?.is_admin || false;
+    const is_jefe = auth.user?.is_jefe || false;
 
     const handleEliminar = (id: number) => {
         if (confirm('¿Estás seguro de que quieres quitar este vídeo?')) {
             router.delete(route('videos.destroy', id), {
+                data: {
+                    regresar_a_id: actividad.id,
+                    tipo: 'actividad',
+                },
                 preserveScroll: true,
             });
         }
@@ -48,6 +55,18 @@ export default function Show({ actividad, videos }: Props) {
                     <h2 className="sub-activities-title">
                         Actividades que se pueden realizar
                     </h2>
+                    {(is_admin || is_jefe) && (
+                        <div className="botones-acciones">
+                            <Button
+                                href={route('videos.create', {
+                                    actividad_id: actividad.id,
+                                })}
+                                className="btn-crud btn-video-create"
+                            >
+                                Añadir Video
+                            </Button>
+                        </div>
+                    )}
 
                     <div className="videos-grid">
                         {videos.map((video) => (
@@ -58,8 +77,7 @@ export default function Show({ actividad, videos }: Props) {
                                     url={video.url}
                                 />
 
-                                {(auth.user?.is_admin ||
-                                    auth.user?.is_jefe) && (
+                                {(is_admin || is_jefe) && (
                                     <button
                                         onClick={() => handleEliminar(video.id)}
                                         className="absolute top-2 right-2 rounded-full bg-red-600 p-2 text-white opacity-0 transition-opacity group-hover:opacity-100"

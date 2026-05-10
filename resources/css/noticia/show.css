@@ -99,10 +99,12 @@
 
 .botones-acciones {
     margin-top: 1.5rem;
-    display: flex;
-    gap: 3rem;
-    flex-wrap: wrap;
     margin-bottom: 1.5rem;
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
 }
 
 .noticia-fecha {

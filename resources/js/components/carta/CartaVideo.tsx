@@ -1,10 +1,9 @@
-// resources/js/Components/ActivityCard.jsx
 import '../../../css/carta/carta_video.css';
 
 interface Props {
-    id: number;
-    titulo: string;
-    url: string;
+    id?: number;
+    titulo?: string;
+    url?: string;
 }
 
 function getYoutubeId(url: string): string | null {
