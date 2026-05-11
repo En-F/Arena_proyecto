@@ -252,6 +252,7 @@ export default function Show({ usuarios, centros, roles }: Props) {
                             <th className="encabezado">Rol</th>
                             <th className="encabezado">Centro</th>
                             <th className="encabezado">Activo</th>
+                            <th className="encabezado">Tipo de Suscripción</th>
                             <th className="encabezado">Acciones</th>
                         </tr>
                     </thead>
@@ -394,6 +395,7 @@ export default function Show({ usuarios, centros, roles }: Props) {
                                             </span>
                                         )}
                                     </td>
+                                    <td></td>
                                     <td className="flex justify-center gap-2">
                                         <button className="btn text-blue-500 btn-ghost btn-xs">
                                             Editar

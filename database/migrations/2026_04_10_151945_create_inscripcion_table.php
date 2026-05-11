@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('centro_id')->constrained('centros')->onDelete('cascade');
+            $table->foreingId('tarifa_id')->constrainded('tarifas')->onDelete('cascade');
             $table->timestamp('fecha_alta');
             $table->timestamps();
         });

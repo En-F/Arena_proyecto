@@ -20,7 +20,9 @@ class CursoController extends Controller
         if($user && $user->Admin()) {
             $cursos = Curso::all();
         } elseif($user && $user->Jefe()){
-            $cursos = Curso::with('centros')->get();
+           $cursos = Curso::whereHas('centros', function ($query) use ($user) {
+                $query->whereIn('centros.id', $user->centros->pluck('id'));
+            })->get();
         } else {
             $cursos = Curso::where('es_activo', true)->get();
         }

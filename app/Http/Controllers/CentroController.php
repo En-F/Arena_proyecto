@@ -29,6 +29,7 @@ class CentroController extends Controller
         } else {  
             $query->where('es_activo', true);
         }
+        
         return Inertia::render('Centro/index',[
         'centros' =>  $query->inRandomOrder()->get(),
     ]);
