@@ -36,7 +36,7 @@ class CursoController extends Controller
      */
     public function create()
     {
-        //
+    
     }
 
     /**
@@ -52,8 +52,14 @@ class CursoController extends Controller
      */
     public function show(Curso $curso)
     {
+        $id = $curso->id;
+        $beneficios = Curso::with('beneficios')->findOrFail($id);
+        $curso_videos = Curso::with('videos')->findOrFail($id);
+
         return Inertia::render('Curso/show',[
-            'curso'=>$curso
+            'curso'=>$curso,
+            'videos'=> $curso_videos->videos,
+            'beneficios'=> $curso_videos->beneficios
         ]);
     }
 

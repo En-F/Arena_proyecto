@@ -15,8 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('titulo')->unique();
             $table->text('descripcion');
-            $table->string('video')->nullable();
-            $table->string('imagen')->nullable();
             $table->timestamps();
         });
     }

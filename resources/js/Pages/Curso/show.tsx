@@ -1,19 +1,23 @@
-import '../../../css/actividad/show.css';
+import React from 'react';
+import '../../../css/curso/show.css';
+import { usePage, router } from '@inertiajs/react';
 import CartaVideo from '@/components/carta/CartaVideo';
-import CartaActividadShow from '@/components/carta/CartaActividadShow';
-import Button from '@/components/Layouts/Button';
-import '../../../css/button.css';
-import { Head, usePage, router } from '@inertiajs/react';
+import '../../../css/actividad/show.css';
 import { Trash2 } from 'lucide-react';
 import { route } from 'ziggy-js';
+import Button from '@/components/Layouts/Button';
+import '../../../css/centro/inicio.css';
 
-interface Actividad {
-    id: number;
+interface Beneficio {
     titulo: string;
-    duracion: number;
-    nivel: string;
     descripcion: string;
-    imagen: string;
+}
+
+interface Curso {
+    id: number;
+    nombre: string;
+    descripcion: number;
+    tipo: string;
 }
 
 interface Video {
@@ -22,11 +26,12 @@ interface Video {
 }
 
 interface Props {
-    actividad: Actividad;
+    curso: Curso;
     videos: Video[];
+    beneficios: Beneficio[];
 }
 
-export default function Show({ actividad, videos }: Props) {
+const show = ({ curso, videos, beneficios }: Props) => {
     const { auth } = usePage().props;
     const is_admin = auth.user?.is_admin || false;
     const is_jefe = auth.user?.is_jefe || false;
@@ -35,8 +40,8 @@ export default function Show({ actividad, videos }: Props) {
         if (confirm('¿Estás seguro de que quieres quitar este vídeo?')) {
             router.delete(route('videos.destroy', id), {
                 data: {
-                    regresar_a_id: actividad.id,
-                    tipo: 'actividad',
+                    regresar_a_id: curso.id,
+                    tipo: 'curso',
                 },
                 preserveScroll: true,
             });
@@ -44,27 +49,37 @@ export default function Show({ actividad, videos }: Props) {
     };
 
     return (
-        <>
-            <Head title={actividad.nombre} />
-            <div className="main-container activity-detail-page">
-                <div className="activity-hero-card">
-                    <CartaActividadShow
-                        id={actividad.id}
-                        nombre={actividad.nombre}
-                        imagen={actividad.imagen}
-                        descripcion={actividad.descripcion}
-                        nivel={actividad.nivel}
-                    />
+        <div className="main-container">
+            <section className="section-centros">
+                <h2 className="section-title">{curso.nombre}</h2>
+                <p className="descripcion-centros">{curso.descripcion} </p>
+                <div>
+                    <h2 className="section-title">Beneficios de la natación</h2>
+                </div>
+                <div className="benefits-list">
+                    {beneficios.map((beneficio, index) => (
+                        <div
+                            key={beneficio.id || index}
+                            className="benefit-item"
+                        >
+                            <h3 className="benefit-title">
+                                {beneficio.titulo}
+                            </h3>
+                            <p className="benefit-text">
+                                {beneficio.descripcion}
+                            </p>
+                        </div>
+                    ))}
                 </div>
                 <section className="sub-activities-section">
                     <h2 className="sub-activities-title">
-                        Actividades que se pueden realizar
+                        Videos relacionados
                     </h2>
                     {(is_admin || is_jefe) && (
                         <div className="botones-acciones">
                             <Button
                                 href={route('videos.create', {
-                                    actividad_id: actividad.id,
+                                    curso_id: curso.id,
                                 })}
                                 className="btn-crud btn-video-create"
                             >
@@ -95,15 +110,14 @@ export default function Show({ actividad, videos }: Props) {
                     </div>
 
                     <div className="back-button-container">
-                        <Button
-                            href="/actividades"
-                            className="btn-volver btn-crud"
-                        >
+                        <Button href="/cursos" className="btn-volver btn-crud">
                             Volver
                         </Button>
                     </div>
                 </section>
-            </div>
-        </>
+            </section>
+        </div>
     );
-}
+};
+
+export default show;

@@ -266,6 +266,21 @@ class DatabaseSeeder extends Seeder
         DB::table('actividades')->where('id', $actividad_7)->update(['imagen' => "actividades/{$actividad_7}.jpg"]);
 
 
+        //Beneficios
+        $beneficio_1 = DB::table('beneficios')->insertGetId([
+            'titulo' => 'Mejora la capacidad cardiovascular',
+            'descripcion' => 'Fortalece el corazón y los pulmones, aumentando la resistencia física.'
+        ]);
+
+        $beneficio_2 = DB::table('beneficios')->insertGetId([
+            'titulo' => 'Reduce el impacto en las articulaciones',
+            'descripcion' => 'Al realizarse en el agua, el cuerpo pesa menos y las articulaciones sufren menos estrés.'
+        ]);
+
+        $beneficio_3 = DB::table('beneficios')->insertGetId([
+            'titulo' => 'Trabaja todo el cuerpo de manera equilibrada',
+            'descripcion' => 'Activa simultáneamente brazos, piernas, abdomen y espalda.'
+        ]);
 
 
         // --- NOTICIAS ---
@@ -292,23 +307,23 @@ class DatabaseSeeder extends Seeder
         $noticia_3 = DB::table('noticias')->insertGetId([
             'titulo' => 'Campeones de Andalucía de Master',
             'contenido' => 'X Trofeo Open Máster Ciudad de Cádiz:
-*Evento y resultados generales*
-- *Fecha y lugar*: 26 de abril de 2026, piscina municipal de Cádiz.
-- *Participación*: 107 nadadores de 16 clubes. 
-- *C.D.N. Sanlúcar*: 7 nadadores consiguieron el 4º puesto general con 263 puntos y 5.467 puntos AquaMaster.
-*Actuaciones destacadas*
-- *Antonio Raposo Listán (20+)*: 1º Nadador Completo con 1.867 puntos. Oros en 50m Braza y 50m Espalda, plata en Mariposa, bronce en 50m Libre.
-- *Relevo 4x50m estilos masculino Pre-Máster 80+*: Oro para Jhean Marco Torrealba, Antonio Raposo, Enrique Franco y Rubén Pérez.
-*Medallas individuales*
-- *Enrique Franco Ulric (21)*: Doble oro en 50m Libre y 50m Mariposa.
-- *Rosa Gutiérrez López (26)*: Doble oro en 50m Libre y 50m Braza.
-- *Rubén Pérez Vital (23)*: Plata en 50m Libre.
-- *Jhean Marco Torrealba (26)*: Bronce en 50m Espalda y 4º en 50m Libre.
-- *Virginia Fernández Roales (53)*: 4ª en 50m Espalda, 5ª en 50m Libre.
-- *José Javier Robles (51)*: 4º en 50m Libre.
-*Conclusión del club* 
-El equipo destaca que el resultado refleja constancia y pasión. Rubén Pérez Vital, del cuerpo técnico, afirmó: "La pasión por la natación no entiende de edades". El club se consolida como referente máster en la provincia.
-Seguimos sumando.',
+            *Evento y resultados generales*
+            - *Fecha y lugar*: 26 de abril de 2026, piscina municipal de Cádiz.
+            - *Participación*: 107 nadadores de 16 clubes. 
+            - *C.D.N. Sanlúcar*: 7 nadadores consiguieron el 4º puesto general con 263 puntos y 5.467 puntos AquaMaster.
+            *Actuaciones destacadas*
+            - *Antonio Raposo Listán (20+)*: 1º Nadador Completo con 1.867 puntos. Oros en 50m Braza y 50m Espalda, plata en Mariposa, bronce en 50m Libre.
+            - *Relevo 4x50m estilos masculino Pre-Máster 80+*: Oro para Jhean Marco Torrealba, Antonio Raposo, Enrique Franco y Rubén Pérez.
+            *Medallas individuales*
+            - *Enrique Franco Ulric (21)*: Doble oro en 50m Libre y 50m Mariposa.
+            - *Rosa Gutiérrez López (26)*: Doble oro en 50m Libre y 50m Braza.
+            - *Rubén Pérez Vital (23)*: Plata en 50m Libre.
+            - *Jhean Marco Torrealba (26)*: Bronce en 50m Espalda y 4º en 50m Libre.
+            - *Virginia Fernández Roales (53)*: 4ª en 50m Espalda, 5ª en 50m Libre.
+            - *José Javier Robles (51)*: 4º en 50m Libre.
+            *Conclusión del club* 
+            El equipo destaca que el resultado refleja constancia y pasión. Rubén Pérez Vital, del cuerpo técnico, afirmó: "La pasión por la natación no entiende de edades". El club se consolida como referente máster en la provincia.
+            Seguimos sumando.',
             'user_id' => $jefe,
             'created_at' => now(),
             'centro_id' => $centro_1,
@@ -325,7 +340,6 @@ Seguimos sumando.',
         $curso_1 = DB::table('cursos')->insertGetId([
             'nombre' => 'Aguas al aire Libre',
             'descripcion' => 'Entrenamiento de agua que te va a mejorar la resistencia y el bienestar ya sea en el entorno natural o en una piscina.',
-            'tipo' => 'Resistencia'
         ]);
         DB::table('cursos')->where('id', $curso_1)->update(['imagen' => "cursos/{$curso_1}.jpg"]);
 
@@ -333,14 +347,12 @@ Seguimos sumando.',
         $curso_2 = DB::table('cursos')->insertGetId([
             'nombre' => 'Yoga para principiantes',
             'descripcion' => 'Introducción al yoga con ejercicios básicos y técnicas de respiración.',
-            'tipo' => 'Flexibilidad'
         ]);
         DB::table('cursos')->where('id', $curso_2)->update(['imagen' => "cursos/{$curso_2}.jpg"]);
 
         $curso_3 = DB::table('cursos')->insertGetId([
             'nombre' => 'Entrenamiento funcional',
             'descripcion' => 'Ejercicios que imitan movimientos diarios para mejorar la fuerza y resistencia.',
-            'tipo' => 'Cardio'
         ]);
         DB::table('cursos')->where('id', $curso_3)->update(['imagen' => "cursos/{$curso_3}.jpg"]);
 
@@ -379,129 +391,88 @@ Seguimos sumando.',
             'url'=> 'https://www.youtube.com/watch?v=5cS4oXMTmgI&pp=ygUTcmVtYWRhcyBlbiBuYXRhY2lvbg%3D%3D'
         ]);
 
+        $video_7 = DB::table('videos')->insertGetId([
+            'titulo'=> 'Waterpolo',
+            'url'=> 'https://www.youtube.com/watch?v=CJ5QdXknEYs'
+        ]);
+
+        $video_8 = DB::table('videos')->insertGetId([
+            'titulo'=> 'Natacion general',
+            'url'=> 'https://www.youtube.com/watch?v=v6oQnrJ1grU&pp=ygURbmF0YWNpb24gZGVwb3J0ZSA%3D'
+        ]);
+
+        $video_9 = DB::table('videos')->insertGetId([
+            'titulo'=> 'Natacion Sincronizada',
+            'url'=> 'https://www.youtube.com/watch?v=ewbP346WkdU&pp=ygUibmF0YWNpb24gc2luY29uaXphZGEgIGNvbW8gaGFjZXJsbw%3D%3D'
+        ]);
+
+
         //----RELACIONES----
-
         DB::table('videoables')->insert([
-            'video_id'=> $video_1,
-            'videoable_id'=> $actividad_1,
-            'videoable_type'=> 'App\Models\Actividad',
-            'created_at'=>now()
+            ['video_id' => $video_1, 'videoable_id' => $actividad_1, 'videoable_type' => 'App\Models\Actividad', 'created_at' => now()],
+            ['video_id' => $video_2, 'videoable_id' => $actividad_1, 'videoable_type' => 'App\Models\Actividad', 'created_at' => now()],
+            ['video_id' => $video_3, 'videoable_id' => $actividad_1, 'videoable_type' => 'App\Models\Actividad', 'created_at' => now()],
+            ['video_id' => $video_4, 'videoable_id' => $actividad_1, 'videoable_type' => 'App\Models\Actividad', 'created_at' => now()],
+            ['video_id' => $video_5, 'videoable_id' => $actividad_1, 'videoable_type' => 'App\Models\Actividad', 'created_at' => now()],
+            ['video_id' => $video_6, 'videoable_id' => $actividad_1, 'videoable_type' => 'App\Models\Actividad', 'created_at' => now()],
+            ['video_id' => $video_7, 'videoable_id' => $curso_1, 'videoable_type' => 'App\Models\Curso', 'created_at' => now()],
+            ['video_id' => $video_8, 'videoable_id' => $curso_1, 'videoable_type' => 'App\Models\Curso', 'created_at' => now()],
+            ['video_id' => $video_9, 'videoable_id' => $curso_1, 'videoable_type' => 'App\Models\Curso', 'created_at' => now()],
         ]);
 
-        DB::table('videoables')->insert([
-            'video_id'=> $video_2,
-            'videoable_id'=> $actividad_1,
-            'videoable_type'=> 'App\Models\Actividad',
-            'created_at'=>now()
-        ]);
-
-        DB::table('videoables')->insert([
-            'video_id'=> $video_3,
-            'videoable_id'=> $actividad_1,
-            'videoable_type'=> 'App\Models\Actividad',
-            'created_at'=>now()
-        ]);
-
-        DB::table('videoables')->insert([
-            'video_id'=> $video_4,
-            'videoable_id'=> $actividad_1,
-            'videoable_type'=> 'App\Models\Actividad',
-            'created_at'=>now()
-        ]);
-
-        DB::table('videoables')->insert([
-            'video_id'=> $video_5,
-            'videoable_id'=> $actividad_1,
-            'videoable_type'=> 'App\Models\Actividad',
-            'created_at'=>now()
-        ]);
-
-        DB::table('videoables')->insert([
-            'video_id'=> $video_6,
-            'videoable_id'=> $actividad_1,
-            'videoable_type'=> 'App\Models\Actividad',
-            'created_at'=>now()
-        ]);
-
-
+        // Relación Centro - Curso
         DB::table('centro_curso')->insert([
-            'centro_id'=> $centro_1,
-            'curso_id'=> $curso_1,
-            'created_at'=>now()
+            ['centro_id' => $centro_1, 'curso_id' => $curso_1, 'created_at' => now()],
+            ['centro_id' => $centro_1, 'curso_id' => $curso_2, 'created_at' => now()],
         ]);
 
-        DB::table('centro_curso')->insert([
-            'centro_id'=> $centro_1,
-            'curso_id'=> $curso_2,
-            'created_at'=>now()
-        ]);
-
+        // Relación Actividad - Curso
         DB::table('actividad_curso')->insert([
-            'actividad_id'=> $actividad_1,
-            'curso_id'=>$curso_1,
-            'created_at'=>now()
+            ['actividad_id' => $actividad_1, 'curso_id' => $curso_1, 'created_at' => now()],
+            ['actividad_id' => $actividad_7, 'curso_id' => $curso_1, 'created_at' => now()],
         ]);
 
-        DB::table('actividad_curso')->insert([
-            'actividad_id'=> $actividad_7,
-            'curso_id'=>$curso_1,
-            'created_at'=>now()
-        ]);
-
+        // Inscripciones
         DB::table('inscripcion')->insert([
-            'centro_id'=> $centro_1,
-            'user_id'=> $jefe,
-            'fecha_alta'=> now()
+            ['centro_id' => $centro_1, 'user_id' => $jefe, 'fecha_alta' => now()],
+            ['centro_id' => $centro_2, 'user_id' => $jefe, 'fecha_alta' => now()],
+            ['centro_id' => $centro_2, 'user_id' => $usuario_1, 'fecha_alta' => now()],
         ]);
 
-
-        DB::table('inscripcion')->insert([
-            'centro_id'=> $centro_2,
-            'user_id'=> $jefe,
-            'fecha_alta'=> now()
-        ]);
-
-        DB::table('inscripcion')->insert([
-            'centro_id'=> $centro_2,
-            'user_id'=> $usuario_1,
-            'fecha_alta'=> now()
-        ]);
-
+        // Roles de usuario
         DB::table('usuario_rol')->insert([
-            'user_id' => $admin,
-            'rol_id' => $rol_1,
-            'created_at'=>now()
+            ['user_id' => $admin, 'rol_id' => $rol_1, 'created_at' => now()],
+            ['user_id' => $jefe, 'rol_id' => $rol_2, 'created_at' => now()],
+            ['user_id' => $usuario_1, 'rol_id' => $rol_3, 'created_at' => now()],
         ]);
 
-        DB::table('usuario_rol')->insert([
-            'user_id' => $jefe,
-            'rol_id' => $rol_2,
-            'created_at'=>now()
-        ]);
-
-        DB::table('usuario_rol')->insert([
-            'user_id' => $usuario_1,
-            'rol_id' => $rol_3,
-            'created_at'=>now()
-        ]);
-
+        // Instalaciones del centro
         DB::table('centro_instalacion')->insert([
-            'centro_id' => $centro_1,
-            'instalacion_id' => $instalacion_1,
-            'created_at'=>now()
+            ['centro_id' => $centro_1, 'instalacion_id' => $instalacion_1, 'created_at' => now()],
+            ['centro_id' => $centro_1, 'instalacion_id' => $instalacion_2, 'created_at' => now()],
+            ['centro_id' => $centro_1, 'instalacion_id' => $instalacion_3, 'created_at' => now()],
         ]);
 
-        DB::table('centro_instalacion')->insert([
-            'centro_id' => $centro_1,
-            'instalacion_id' => $instalacion_2,
-            'created_at'=>now()
-        ]);
-
-        DB::table('centro_instalacion')->insert([
-            'centro_id' => $centro_1,
-            'instalacion_id' => $instalacion_3,
-            'created_at'=>now()
-        ]);
+        DB::table('beneficio_curso')->insert([
+    [
+        'beneficio_id' => $beneficio_1, 
+        'curso_id'     => $curso_1,
+        'created_at'   => now(),
+        'updated_at'   => now(),
+    ],
+    [
+        'beneficio_id' => $beneficio_2, 
+        'curso_id'     => $curso_1,
+        'created_at'   => now(),
+        'updated_at'   => now(),
+    ],
+    [
+        'beneficio_id' => $beneficio_3, 
+        'curso_id'     => $curso_1,
+        'created_at'   => now(),
+        'updated_at'   => now(),
+    ],
+]);
 
     }
 

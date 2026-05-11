@@ -1,19 +1,32 @@
-// CrearNoticia.jsx
 import { useForm } from '@inertiajs/react';
 import { route } from 'ziggy-js';
 import '../../../css/noticia/formulario.css';
 import { Input } from '@/components/ui/input';
 import Button from '@/components/Layouts/Button';
 
-export default function CrearNoticia({ actividad_id }) {
+interface Props {
+    actividad_id?: number;
+    curso_id?: number;
+}
+
+export default function CrearVideo({ actividad_id, curso_id }: Props) {
+    const esCurso = curso_id !== undefined && curso_id !== null;
+
     const { data, setData, post, processing, errors, setError, clearErrors } =
         useForm({
             titulo: '',
             url: '',
-            regresar_a_id: actividad_id,
-            tipo: 'actividad',
+            regresar_a_id: esCurso ? curso_id : actividad_id,
+            tipo: esCurso ? 'curso' : 'actividad',
         });
 
+    const handleCancelar = () => {
+        if (curso_id) {
+            return route('cursos.show', { curso: curso_id });
+        } else if (actividad_id) {
+            return route('actividades.show', { actividad: actividad_id });
+        }
+    };
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         clearErrors();
@@ -107,7 +120,7 @@ export default function CrearNoticia({ actividad_id }) {
                         <div className="cn-section-header"></div>
                         <div className="cn-actions">
                             <Button
-                                href={route('actividades.show', actividad_id)}
+                                href={handleCancelar()}
                                 type="button"
                                 className="cn-btn-cancel"
                             >
@@ -118,7 +131,7 @@ export default function CrearNoticia({ actividad_id }) {
                                 className="cn-btn-save"
                                 disabled={processing}
                             >
-                                {processing ? 'Enviando...' : 'Guardar noticia'}
+                                {processing ? 'Enviando...' : 'Guardar Video'}
                             </Button>
                         </div>
                     </div>

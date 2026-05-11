@@ -27,9 +27,11 @@ class VideoController extends Controller
     public function create(Request $request)
     {
         $actividad_id = $request->query('actividad_id');
+        $curso_id = $request->query('curso_id');
     
         return Inertia::render('Video/create',[
-            'actividad_id' => $actividad_id
+            'actividad_id' => $actividad_id,
+            'curso_id' => $curso_id
         ]);
     }
 
@@ -41,6 +43,8 @@ class VideoController extends Controller
        $datos = $request->validate([
         'titulo'    => ['required', 'string', 'max:255', 'regex:/^[a-zA-ZÀ-ÿ\s\'"]+$/'],
         'url' => ['required', 'string'],
+        'regresar_a_id' => 'required',
+        'tipo'   => 'required|in:actividad,curso'
        ]);
 
        $video = Video::create([
