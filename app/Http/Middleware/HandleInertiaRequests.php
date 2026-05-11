@@ -42,7 +42,9 @@ class HandleInertiaRequests extends Middleware
             'user' => $request->user() ? array_merge($request->user()->toArray(), [
                 'is_admin' => $request->user()->Admin(),
                 'is_jefe'  => $request->user()->Jefe(),
+                'centros'  => $request->user()->centros,
             ]) : null,
+            
         ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
         ];

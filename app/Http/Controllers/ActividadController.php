@@ -43,10 +43,10 @@ class ActividadController extends Controller
         
         if ($restringido && !$centros_visibles->pluck('id')->contains($centroSeleccionado)) {
             $centroSeleccionado = $centros_visibles->first()->id;
-            }
+        }
         
         $query = Actividad::with(['cursos', 'tipo']);
-        
+
         $cursos = $centroSeleccionado
             ? Curso::whereHas('centros', function ($q) use ($centroSeleccionado) {
                 $q->where('centros.id', $centroSeleccionado);

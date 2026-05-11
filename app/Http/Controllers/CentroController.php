@@ -23,13 +23,12 @@ class CentroController extends Controller
             
 
         } elseif($usuario_logeado && ($usuario_logeado->Jefe())){
-
             $query->where('es_activo', true)
                     ->whereIn('id', $usuario_logeado->centros->pluck('id'));
         } else {  
             $query->where('es_activo', true);
         }
-        
+
         return Inertia::render('Centro/index',[
         'centros' =>  $query->inRandomOrder()->get(),
     ]);

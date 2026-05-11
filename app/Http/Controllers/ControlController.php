@@ -37,4 +37,10 @@ class ControlController extends Controller
         $request->session()->regenerateToken();
         return redirect('/inicio');
     }
+
+    public function socio(Request $request) {
+
+    }
+
+
 }

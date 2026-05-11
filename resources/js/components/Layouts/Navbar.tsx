@@ -1,9 +1,12 @@
 import { Link, usePage } from '@inertiajs/react';
-import React from 'react';
 import '../../../css/navbar.css';
+import Button from './Button';
+import '../../../css/button.css';
 
 const Navbar = () => {
     const { auth } = usePage().props;
+    const tieneCentro = (auth.user?.centros?.length ?? 0) > 0;
+    console.log('Datos del usuario:', auth.user);
     return (
         <nav className="navbar">
             <div className="nav-content">
@@ -23,41 +26,42 @@ const Navbar = () => {
                 </div>
                 <div className="botones-acceso">
                     {auth.user ? (
-                        <Link href={auth.user ? '/settings/profile' : '/login'}>
-                            <button className="boton-login-logeado">
-                                <img
-                                    src="/storage/otros/persona.jpg"
-                                    alt="Usuario"
-                                    className="icono-login-logeado"
-                                />
-                                {auth.user.name}
-                            </button>
-                        </Link>
-                    ) : (
-                        <>
-                            {!auth.user ? (
-                                <Link href="/register">
-                                    <button className="boton socio">
-                                        Registrarse
-                                    </button>
-                                </Link>
-                            ) : (
+                        <div className="flex items-center gap-4">
+                            {!tieneCentro && (
                                 <Link href="/socio">
-                                    <button className="boton socio">
+                                    <Button className="boton-socio">
                                         Hazte Socio
-                                    </button>
+                                    </Button>
                                 </Link>
                             )}
 
+                            <Link href="/settings/profile">
+                                <Button className="boton-login-logeado">
+                                    <img
+                                        src="/storage/otros/persona.jpg"
+                                        alt="Usuario"
+                                        className="icono-login-logeado"
+                                    />
+                                    {auth.user.name}
+                                </Button>
+                            </Link>
+                        </div>
+                    ) : (
+                        <>
+                            <Link href="/register">
+                                <Button className="boton register">
+                                    Registrarse
+                                </Button>
+                            </Link>
                             <Link href="/login">
-                                <button className="boton login">
+                                <Button className="boton login">
                                     <img
                                         src="/storage/otros/persona.jpg"
                                         alt="Usuario"
                                         className="icono-login"
                                     />
                                     Iniciar sesión
-                                </button>
+                                </Button>
                             </Link>
                         </>
                     )}
