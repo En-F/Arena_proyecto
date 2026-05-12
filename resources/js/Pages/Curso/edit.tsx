@@ -4,45 +4,40 @@ import '../../../css/noticia/formulario.css';
 import { Input } from '@/components/ui/input';
 import Button from '@/components/Layouts/Button';
 
-interface Actividad {
+interface Curso {
     id: number;
     nombre: string;
-    nivel: string;
     descripcion: string;
     imagen: string;
-    tipo_id: string;
-    cursos_ids: string[];
+    centros_ids: string[];
     es_activo: boolean;
-    cursos?: Array<{ id: number; nombre: string }>;
+    centros?: Array<{ id: number; nombre: string }>;
 }
 
 interface Props {
-    cursos: Array<{ id: number; nombre: string }>;
-    tipos: Array<{ id: number; tipo: string }>;
-    actividad: Actividad;
+    centros: Array<{ id: number; nombre: string }>;
+    curso: Curso;
 }
 
-export default function Edit({ tipos, actividad, cursos }: Props) {
+export default function Edit({ curso, centros }: Props) {
     const { data, setData, post, processing, errors, setError, clearErrors } =
         useForm({
-            nombre: actividad.nombre || '',
-            nivel: actividad.nivel || '',
-            descripcion: actividad.descripcion || '',
+            nombre: curso.nombre || '',
+            descripcion: curso.descripcion || '',
             imagen: null,
-            cursos_ids: actividad.cursos
-                ? actividad.cursos.map((curso) => curso.id.toString())
+            centros_ids: curso.centros
+                ? curso.centros.map((centro) => centro.id.toString())
                 : [],
-            tipo_id: actividad.tipo_id || '',
             _method: 'PUT',
         });
     console.log(data);
 
-    const handleCursoCheckbox = (id: number) => {
+    const handleCentroCheckbox = (id) => {
         const id_string = id.toString();
-        const nuevos_ids = data.cursos_ids.includes(id_string)
-            ? data.cursos_ids.filter((curso_id) => curso_id !== id_string)
-            : [...data.cursos_ids, id_string];
-        setData('cursos_ids', nuevos_ids);
+        const nuevos_ids = data.centros_ids.includes(id_string)
+            ? data.centros_ids.filter((centro_id) => centro_id !== id_string)
+            : [...data.centros_ids, id_string];
+        setData('centros_ids', nuevos_ids);
     };
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -61,29 +56,19 @@ export default function Edit({ tipos, actividad, cursos }: Props) {
             tieneErrores = true;
         }
 
-        if (!data.nivel || data.nivel.trim() === '') {
-            setError('nivel', 'El campo nivel es obligatorio.');
-            tieneErrores = true;
-        }
-
         if (!data.descripcion || data.descripcion.trim() === '') {
             setError('descripcion', 'El campo descripcion es obligatorio.');
             tieneErrores = true;
         }
 
-        if (!data.tipo_id) {
-            setError('tipo_id', 'El campo Centro es obligatorio.');
-            tieneErrores = true;
-        }
-
-        if (!data.cursos_ids) {
-            setError('cursos_ids', 'El campo curso es obligatorio.');
+        if (!data.centros_ids) {
+            setError('centros_ids', 'El campo curso es obligatorio.');
             tieneErrores = true;
         }
 
         if (tieneErrores) return;
 
-        post(route('actividades.update', actividad.id), {
+        post(route('cursos.update', curso.id), {
             forceFormData: true,
         });
     };
@@ -95,7 +80,7 @@ export default function Edit({ tipos, actividad, cursos }: Props) {
                     <div className="cn-wrap">
                         <div className="cn-section-header">
                             <p className="cn-section-title">
-                                Editar la actividad {actividad.nombre}
+                                Editar el curso {curso.nombre}
                             </p>
                             <p className="cn-section-subtitle">
                                 Esta información se mostrará públicamente. Sé
@@ -107,7 +92,7 @@ export default function Edit({ tipos, actividad, cursos }: Props) {
                             <label className="cn-label">Título</label>
                             <Input
                                 name="nombre"
-                                placeholder="Escribe el nombre de la actividad..."
+                                placeholder="Escribe el nombre de la curso..."
                                 value={data.nombre}
                                 onChange={(e) =>
                                     setData('nombre', e.target.value)
@@ -122,62 +107,10 @@ export default function Edit({ tipos, actividad, cursos }: Props) {
                         </div>
 
                         <div className="cn-field">
-                            <label className="cn-label mb-2 font-bold">
-                                Nivel
-                            </label>
-
-                            <div className="flex gap-4">
-                                <div className="flex items-center gap-2">
-                                    <Input
-                                        type="radio"
-                                        name="nivel"
-                                        value="facil"
-                                        checked={data.nivel === 'facil'}
-                                        onChange={() =>
-                                            setData('nivel', 'facil')
-                                        }
-                                    />
-                                    <label className="cn-label">Fácil</label>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <Input
-                                        type="radio"
-                                        name="nivel"
-                                        value="intermedio"
-                                        checked={data.nivel === 'intermedio'}
-                                        onChange={() =>
-                                            setData('nivel', 'intermedio')
-                                        }
-                                    />
-                                    <label className="cn-label">
-                                        Intermedio
-                                    </label>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <Input
-                                        type="radio"
-                                        name="nivel"
-                                        value="dificil"
-                                        checked={data.nivel === 'dificil'}
-                                        onChange={() =>
-                                            setData('nivel', 'dificil')
-                                        }
-                                    />
-                                    <label className="cn-label">Difícil</label>
-                                </div>
-                            </div>
-                            {errors.nivel && (
-                                <span className="mt-1 text-xs text-red-500">
-                                    {errors.nivel}
-                                </span>
-                            )}
-                        </div>
-
-                        <div className="cn-field">
                             <label className="cn-label">Descripción</label>
                             <textarea
                                 name="descripcion"
-                                placeholder="Escribe la descripción de la actividad..."
+                                placeholder="Escribe la descripción de la curso..."
                                 rows={7}
                                 className="cn-textarea"
                                 value={data.descripcion || ''}
@@ -217,63 +150,40 @@ export default function Edit({ tipos, actividad, cursos }: Props) {
 
                         <div className="cn-row">
                             <div className="cn-field">
-                                <label className="cn-label">Tipo</label>
-                                <select
-                                    name="tipo_id"
-                                    className="cn-input"
-                                    value={data.tipo_id}
-                                    onChange={(e) =>
-                                        setData('tipo_id', e.target.value)
-                                    }
-                                >
-                                    <option value="">Seleccionar tipo</option>
-                                    {tipos.map((tipo) => (
-                                        <option key={tipo.id} value={tipo.id}>
-                                            {tipo.tipo}
-                                        </option>
-                                    ))}
-                                </select>
-                                {errors.tipo_id && (
-                                    <span className="mt-1 text-xs text-red-500">
-                                        {errors.tipo_id}
-                                    </span>
-                                )}
-                            </div>
-                            <div className="cn-field">
                                 <label className="cn-label mb-2 font-bold">
-                                    Cursos asignados
+                                    Centros asignados
                                 </label>
                                 <div className="grid grid-cols-2 gap-3 rounded-md border bg-white p-3">
-                                    {cursos.map((curso) => (
+                                    {centros.map((centro) => (
                                         <div
-                                            key={curso.id}
+                                            key={centro.id}
                                             className="flex items-center gap-2"
                                         >
                                             <input
                                                 type="checkbox"
-                                                id={`curso-${curso.id}`}
-                                                checked={data.cursos_ids.includes(
-                                                    curso.id.toString(),
+                                                id={`centro-${centro.id}`}
+                                                checked={data.centros_ids.includes(
+                                                    centro.id.toString(),
                                                 )}
                                                 onChange={() =>
-                                                    handleCursoCheckbox(
-                                                        curso.id,
+                                                    handleCentroCheckbox(
+                                                        centro.id,
                                                     )
                                                 }
                                                 className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                                             />
                                             <label
-                                                htmlFor={`curso-${curso.id}`}
-                                                className="cursor-pointer text-sm text-gray-700"
+                                                htmlFor={`centro-${centro.id}`}
+                                                className="centror-pointer text-sm text-gray-700"
                                             >
-                                                {curso.nombre}
+                                                {centro.nombre}
                                             </label>
                                         </div>
                                     ))}
                                 </div>
-                                {errors.cursos_ids && (
+                                {errors.centros_ids && (
                                     <span className="mt-1 text-xs text-red-500">
-                                        {errors.cursos_ids}
+                                        {errors.centros_ids}
                                     </span>
                                 )}
                             </div>

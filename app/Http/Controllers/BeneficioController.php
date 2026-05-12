@@ -4,9 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Beneficio;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+
+
 
 class BeneficioController extends Controller
 {
+    use AuthorizesRequests;
+
     /**
      * Display a listing of the resource.
      */
@@ -18,9 +24,12 @@ class BeneficioController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+       $this->authorize('create', Beneficio::class);
+
+        $curso_id = $request->curso;
+        return Inertia::render('Beneficio/create',['curso'=> $curso_id]);
     }
 
     /**
@@ -28,7 +37,22 @@ class BeneficioController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $datos = $request->validate([
+            'titulo' => ['required', 'string', 'regex:/^[a-zA-ZÀ-ÿ\s]+$/'],
+            'descripcion' => ['required', 'string'],
+            'curso_id' => ['required', 'exists:cursos,id']
+        ]);
+        $cursoId = $datos['curso_id'];
+
+        $beneficio = Beneficio::create([
+            'titulo' => $datos['titulo'],
+            'descripcion' => $datos['descripcion'],
+        ]);
+
+        $beneficio->cursos()->sync($cursoId);
+
+        return redirect()->route('cursos.show',$cursoId);
+
     }
 
     /**
@@ -42,9 +66,15 @@ class BeneficioController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Beneficio $beneficio)
+    public function edit(Beneficio $beneficio,Request $request)
     {
-        //
+        $this->authorize('update', $beneficio);
+
+        $cursoId = $request->input('curso_id');
+
+        return Inertia::render('Beneficio/edit',
+        ['beneficio'=> $beneficio,
+        'curso'=> $cursoId]);
     }
 
     /**
@@ -52,14 +82,35 @@ class BeneficioController extends Controller
      */
     public function update(Request $request, Beneficio $beneficio)
     {
-        //
+
+        $this->authorize('update', $beneficio);
+        $datos = $request->validate([
+            'titulo' => ['required', 'string', 'regex:/^[a-zA-ZÀ-ÿ\s]+$/'],
+            'descripcion' => ['required', 'string'],
+            'curso_id' => ['required', 'exists:cursos,id']
+        ]);
+
+        $beneficio->update($datos);
+
+        return redirect()->route('cursos.show',$datos['curso_id']);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Beneficio $beneficio)
+    public function destroy(Beneficio $beneficio,Request $request)
     {
-        //
+        $beneficio->load('cursos');
+        $curso_id = $request->input('curso_id');
+        
+        $this->authorize('delete', [$beneficio,$curso_id]);
+        
+        
+        // $beneficio->cursos()->detach($cursoId);
+
+        // if ($cursoId) {
+        //     return redirect()->route('cursos.show', $cursoId);
+        // }
+
     }
 }

@@ -61,6 +61,15 @@ class DatabaseSeeder extends Seeder
             'activo'=> true
         ]);
 
+        $usuario_2 = DB::table('users')->insertGetId([
+            'name' => 'usuario2',
+            'email' => 'usuario2@usuario2.com',
+            'password' => Hash::make('usuario2'),
+            'dni' => '83716027Y',
+            'created_at' => now(),
+            'activo'=> true
+        ]);
+
     
 
         
@@ -148,7 +157,7 @@ class DatabaseSeeder extends Seeder
 
 
         //Tarifas
-        DB::table('tarifas')->insert([
+        $tarifa_1 = DB::table('tarifas')->insertGetId([
             'tipo' => 'basico',
             'titulo' => 'Tarifa Basica',
             'precio' => 24.90,
@@ -162,7 +171,7 @@ class DatabaseSeeder extends Seeder
             'created_at' => now(),
         ]);
 
-        DB::table('tarifas')->insert([
+        $tarifa_2 =DB::table('tarifas')->insertGetId([
             'tipo' => 'premium',
             'titulo' => 'Tarifa Premium',
             'precio' => 44.90,
@@ -434,9 +443,10 @@ class DatabaseSeeder extends Seeder
 
         // Inscripciones
         DB::table('inscripcion')->insert([
-            ['centro_id' => $centro_1, 'user_id' => $jefe, 'fecha_alta' => now()],
-            ['centro_id' => $centro_2, 'user_id' => $jefe, 'fecha_alta' => now()],
-            ['centro_id' => $centro_2, 'user_id' => $usuario_1, 'fecha_alta' => now()],
+            ['centro_id' => $centro_1, 'user_id' => $jefe, 'fecha_alta' => now(),'tarifa_id'=>null],
+            ['centro_id' => $centro_2, 'user_id' => $jefe, 'fecha_alta' => now(),'tarifa_id'=>null],
+            ['centro_id' => $centro_2, 'user_id' => $usuario_1, 'fecha_alta' => now(),'tarifa_id'=>$tarifa_1],
+            ['centro_id' => $centro_1, 'user_id' => $usuario_2, 'fecha_alta' => now(),'tarifa_id'=>$tarifa_2],
         ]);
 
         // Roles de usuario

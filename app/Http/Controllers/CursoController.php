@@ -3,12 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Curso;
+use App\Models\Centro;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\cursos\StoreCursoRequest;
 use Inertia\Inertia;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+
 
 class CursoController extends Controller
 {
+    use AuthorizesRequests;
     /**
      * Display a listing of the resource.
      */
@@ -38,15 +43,56 @@ class CursoController extends Controller
      */
     public function create()
     {
-    
+
+        $this->authorize('create', Curso::class);
+
+        $usuario_logeado = Auth::user();
+        if($usuario_logeado->Admin()){
+            $centros = Centro::all();
+
+        } elseif($usuario_logeado->Jefe()) {
+            $centros = $usuario_logeado->centros;
+        }  else {
+            $centros = [];
+        }
+
+        return Inertia::render('Curso/create',[
+            'centros' => $centros,
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreCursoRequest $request)
     {
-        //
+
+
+        $datos = $request->validated();
+
+        $curso = Curso::create([
+            'nombre' => $datos['nombre'],
+            'descripcion' => $datos['descripcion'],
+            'es_activo' => filter_var($datos['es_activo'], FILTER_VALIDATE_BOOLEAN),
+        ]);
+
+        if(!empty($datos['centros_ids'])) {
+            $curso->centros()->sync($datos['centros_ids']);
+        }
+
+        if($request->hasFile('imagen')) {
+            $file = $request->file('imagen');
+            $extension = $file->extension();
+
+            $nombre_fichero = $curso->id . '.' . $extension;
+
+            $file->storeAs('cursos', $nombre_fichero, 'public');
+
+            $curso->imagen = 'cursos/' . $nombre_fichero;
+            $curso->save();
+        }
+
+        return redirect()->route('inicio.index');
     }
 
     /**
@@ -70,7 +116,15 @@ class CursoController extends Controller
      */
     public function edit(Curso $curso)
     {
-        //
+        $this->authorize('update', $curso);
+
+
+        $curso->load('centros');
+
+        return Inertia::render('Curso/edit',[
+            'curso' => $curso,
+            'centros' => Centro::all()
+        ]);
     }
 
     /**
@@ -78,7 +132,31 @@ class CursoController extends Controller
      */
     public function update(Request $request, Curso $curso)
     {
-        //
+        $this->authorize('update', $curso);
+        $curso->update([
+        'nombre'    => $data['nombre'],
+        'descripcion' => $data['descripcion'],
+        'tipo_id' => $data['tipo_id'],
+        
+        ]);
+
+
+        if(!empty($data['cursos_ids'])) {
+            $curso->cursos()->sync($data['cursos_ids']);
+        }
+
+        if($request->hasFile('imagen')) {
+            $file = $request->file('imagen');
+            $extension = $file->extension();
+
+            $nombre_fichero = $curso->id . '.' . $extension;
+
+            $file->storeAs('curso', $nombre_fichero, 'public');
+
+            $curso->imagen = 'curso/' . $nombre_fichero;
+            $curso->save();
+    }
+        return redirect()->route('cursos.show', $curso->id);
     }
 
     /**
@@ -86,7 +164,14 @@ class CursoController extends Controller
      */
     public function destroy(Curso $curso)
     {
-        //
+        $this->authorize('delete', $curso);
+
+       $curso->beneficios()->detach();
+       $curso->actividades()->detach();
+       $curso->delete();
+
+        return redirect()->route('inicio.index');
+
     }
     public function buscar(Request $request)
     {

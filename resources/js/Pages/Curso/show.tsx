@@ -1,4 +1,3 @@
-import React from 'react';
 import '../../../css/curso/show.css';
 import { usePage, router } from '@inertiajs/react';
 import CartaVideo from '@/components/carta/CartaVideo';
@@ -7,8 +6,10 @@ import { Trash2 } from 'lucide-react';
 import { route } from 'ziggy-js';
 import Button from '@/components/Layouts/Button';
 import '../../../css/centro/inicio.css';
+import '../../../css/noticia/show.css';
 
 interface Beneficio {
+    id: number;
     titulo: string;
     descripcion: string;
 }
@@ -21,6 +22,7 @@ interface Curso {
 }
 
 interface Video {
+    id: number;
     titulo: string;
     url: string;
 }
@@ -36,7 +38,30 @@ const show = ({ curso, videos, beneficios }: Props) => {
     const is_admin = auth.user?.is_admin || false;
     const is_jefe = auth.user?.is_jefe || false;
 
-    const handleEliminar = (id: number) => {
+    const handleEdit = (beneficioId, cursoId) => {
+        router.delete(route('beneficios.edit', beneficioId), {
+            curso_id: cursoId,
+        });
+    };
+
+    const handleBorrarBeneficio = (id: number) => {
+        if (confirm(`¿Estás seguro de que quieres eliminar este beneficio ?`)) {
+            router.delete(route('beneficios.destroy', id), {
+                data: { curso_id: curso },
+                preserveScroll: true,
+            });
+        }
+    };
+
+    const handleBorrarCurso = (id: number) => {
+        if (confirm(`¿Estás seguro de que quieres eliminar este beneficio ?`)) {
+            router.delete(route('cursos.destroy', id), {
+                preserveScroll: true,
+            });
+        }
+    };
+
+    const handleEliminarVideo = (id: number) => {
         if (confirm('¿Estás seguro de que quieres quitar este vídeo?')) {
             router.delete(route('videos.destroy', id), {
                 data: {
@@ -53,8 +78,43 @@ const show = ({ curso, videos, beneficios }: Props) => {
             <section className="section-centros">
                 <h2 className="section-title">{curso.nombre}</h2>
                 <p className="descripcion-centros">{curso.descripcion} </p>
+                {(is_admin || is_jefe) && (
+                    <div className="botones-acciones">
+                        <Button
+                            href={route('cursos.edit', curso.id)}
+                            className="btn btn-info"
+                        >
+                            Editar
+                        </Button>
+
+                        <Button
+                            onClick={() => handleBorrarCurso(curso.id)}
+                            className="btn btn-error"
+                        >
+                            Eliminar
+                        </Button>
+                    </div>
+                )}
                 <div>
                     <h2 className="section-title">Beneficios de la natación</h2>
+                    {(is_admin || is_jefe) && (
+                        <div className="botones">
+                            <Button
+                                href={route('beneficios.create', {
+                                    curso: curso.id,
+                                })}
+                                className="btn-beneficio-create"
+                            >
+                                Crear un beneficio{' '}
+                            </Button>
+                            <Button
+                                href={route('beneficios.biblioteca')}
+                                className="btn-beneficio-create"
+                            >
+                                Añadir uno de la biblioteca{' '}
+                            </Button>
+                        </div>
+                    )}
                 </div>
                 <div className="benefits-list">
                     {beneficios.map((beneficio, index) => (
@@ -68,6 +128,27 @@ const show = ({ curso, videos, beneficios }: Props) => {
                             <p className="benefit-text">
                                 {beneficio.descripcion}
                             </p>
+                            {(is_admin || is_jefe) && (
+                                <div className="botones-acciones">
+                                    <Button
+                                        onClick={() =>
+                                            handleEdit(beneficio.id, curso.id)
+                                        }
+                                        className="btn btn-info"
+                                    >
+                                        Editar
+                                    </Button>
+
+                                    <Button
+                                        onClick={() =>
+                                            handleBorrarBeneficio(beneficio.id)
+                                        }
+                                        className="btn btn-error"
+                                    >
+                                        Eliminar
+                                    </Button>
+                                </div>
+                            )}
                         </div>
                     ))}
                 </div>
@@ -99,7 +180,9 @@ const show = ({ curso, videos, beneficios }: Props) => {
 
                                 {(is_admin || is_jefe) && (
                                     <button
-                                        onClick={() => handleEliminar(video.id)}
+                                        onClick={() =>
+                                            handleEliminarVideo(video.id)
+                                        }
                                         className="absolute top-2 right-2 rounded-full bg-red-600 p-2 text-white opacity-0 transition-opacity group-hover:opacity-100"
                                     >
                                         <Trash2 className="h-4 w-4" />{' '}

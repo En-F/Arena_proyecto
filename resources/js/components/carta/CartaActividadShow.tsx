@@ -22,7 +22,7 @@ export default function ShowActividad({
     const { auth } = usePage().props;
 
     const handleBorrarElemento = (id: number) => {
-        if (confirm(`¿Estás seguro de que quieres eliminar esta noticia?`)) {
+        if (confirm(`¿Estás seguro de que quieres eliminar esta actividad?`)) {
             router.delete(route('actividades.destroy', id), {
                 preserveScroll: true,
             });

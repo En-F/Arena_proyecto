@@ -1,4 +1,3 @@
-// CrearNoticia.jsx
 import { useForm } from '@inertiajs/react';
 import { route } from 'ziggy-js';
 import '../../../css/noticia/formulario.css';

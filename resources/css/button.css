@@ -90,6 +90,18 @@
     transform: translateY(-2px);
 }
 
+.btn-beneficio-create {
+    padding: 0.5rem 13px;
+    background-color: #0070f3;
+    color: white;
+    border-radius: 12px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.btn-beneficio-create:hover {
+    background-color: #4a6d9c;
+    transform: translateY(-2px);
+}
+
 .boton-socio {
     background-color: white;
     padding: 8px;

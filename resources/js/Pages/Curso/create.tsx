@@ -6,27 +6,25 @@ import Button from '@/components/Layouts/Button';
 
 interface Props {
     tipos: Array<{ id: number; tipo: string }>;
-    cursos: Array<{ id: number; nombre: string }>;
+    centros: Array<{ id: number; nombre: string }>;
 }
 
-export default function CrearActividad({ cursos, tipos }: Props) {
+export default function create({ centros, tipos }: Props) {
     const { data, setData, post, processing, errors, setError, clearErrors } =
         useForm({
             nombre: '',
-            nivel: '',
             descripcion: '',
             imagen: null,
-            cursos_ids: [],
-            tipo_id: '',
+            centros_ids: [],
             es_activo: true,
         });
 
-    const handleCursoCheckbox = (id) => {
+    const handleCentroCheckbox = (id) => {
         const id_string = id.toString();
-        const nuevos_ids = data.cursos_ids.includes(id_string)
-            ? data.cursos_ids.filter((curso_id) => curso_id !== id_string)
-            : [...data.cursos_ids, id_string];
-        setData('cursos_ids', nuevos_ids);
+        const nuevos_ids = data.centros_ids.includes(id_string)
+            ? data.centros_ids.filter((centro_id) => centro_id !== id_string)
+            : [...data.centros_ids, id_string];
+        setData('centros_ids', nuevos_ids);
     };
     console.log('Datos del formulario:', data);
 
@@ -45,13 +43,6 @@ export default function CrearActividad({ cursos, tipos }: Props) {
 
         const camposObligatorios = [
             { id: 'nombre', valor: data.nombre, nombre: 'Título' },
-            { id: 'nivel', valor: data.nivel, nombre: 'Nivel' },
-            {
-                id: 'cursos_ids',
-                valor: data.cursos_ids.length > 0 ? 'ok' : '',
-                nombre: 'cursos',
-            },
-            { id: 'tipo_id', valor: data.tipo_id, nombre: 'Tipo' },
             {
                 id: 'descripcion',
                 valor: data.descripcion,
@@ -76,7 +67,7 @@ export default function CrearActividad({ cursos, tipos }: Props) {
 
         if (tieneErrores) return;
 
-        post(route('actividades.store'), { forceFormData: true });
+        post(route('cursos.store'), { forceFormData: true });
     };
 
     return (
@@ -85,7 +76,7 @@ export default function CrearActividad({ cursos, tipos }: Props) {
                 <div className="cn-page">
                     <div className="cn-wrap">
                         <div className="cn-section-header">
-                            <p className="cn-section-title">Crear Actividad</p>
+                            <p className="cn-section-title">Crear Curso</p>
                             <p className="cn-section-subtitle">
                                 Esta información se mostrará públicamente. Sé
                                 cuidadoso con lo que publicas.
@@ -96,7 +87,7 @@ export default function CrearActividad({ cursos, tipos }: Props) {
                             <label className="cn-label">Título</label>
                             <Input
                                 name="nombre"
-                                placeholder="Escribe el nombre de la actividad..."
+                                placeholder="Escribe el nombre del curso..."
                                 value={data.nombre}
                                 onChange={(e) =>
                                     setData('nombre', e.target.value)
@@ -109,61 +100,11 @@ export default function CrearActividad({ cursos, tipos }: Props) {
                                 </span>
                             )}
                         </div>
-
-                        <div className="cn-field">
-                            <label className="cn-label mb-2 font-bold">
-                                Nivel
-                            </label>
-
-                            <div className="flex gap-4">
-                                <div className="flex items-center gap-2">
-                                    <Input
-                                        type="radio"
-                                        name="nivel"
-                                        value="facil"
-                                        onChange={() =>
-                                            setData('nivel', 'facil')
-                                        }
-                                    />
-                                    <label className="cn-label">Fácil</label>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <Input
-                                        type="radio"
-                                        name="nivel"
-                                        value="intermedio"
-                                        onChange={() =>
-                                            setData('nivel', 'intermedio')
-                                        }
-                                    />
-                                    <label className="cn-label">
-                                        Intermedio
-                                    </label>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <Input
-                                        type="radio"
-                                        name="nivel"
-                                        value="dificil"
-                                        onChange={() =>
-                                            setData('nivel', 'dificil')
-                                        }
-                                    />
-                                    <label className="cn-label">Difícil</label>
-                                </div>
-                            </div>
-                            {errors.nivel && (
-                                <span className="mt-1 text-xs text-red-500">
-                                    {errors.nivel}
-                                </span>
-                            )}
-                        </div>
-
                         <div className="cn-field">
                             <label className="cn-label">Descripción</label>
                             <textarea
                                 name="descripcion"
-                                placeholder="Escribe la descripción de la actividad..."
+                                placeholder="Escribe la descripción del..."
                                 rows={7}
                                 className="cn-textarea"
                                 value={data.descripcion || ''}
@@ -203,34 +144,11 @@ export default function CrearActividad({ cursos, tipos }: Props) {
 
                         <div className="cn-row">
                             <div className="cn-field">
-                                <label className="cn-label">Tipo</label>
-                                <select
-                                    name="tipo_id"
-                                    className="cn-input"
-                                    value={data.tipo_id}
-                                    onChange={(e) =>
-                                        setData('tipo_id', e.target.value)
-                                    }
-                                >
-                                    <option value="">Seleccionar tipo</option>
-                                    {tipos.map((tipo) => (
-                                        <option key={tipo.id} value={tipo.id}>
-                                            {tipo.tipo}
-                                        </option>
-                                    ))}
-                                </select>
-                                {errors.tipo_id && (
-                                    <span className="mt-1 text-xs text-red-500">
-                                        {errors.tipo_id}
-                                    </span>
-                                )}
-                            </div>
-                            <div className="cn-field">
                                 <label className="cn-label mb-2 font-bold">
-                                    Cursos asignados
+                                    Centros asignados
                                 </label>
                                 <div className="grid grid-cols-2 gap-3 rounded-md border bg-white p-3">
-                                    {cursos.map((curso) => (
+                                    {centros.map((curso) => (
                                         <div
                                             key={curso.id}
                                             className="flex items-center gap-2"
@@ -239,7 +157,7 @@ export default function CrearActividad({ cursos, tipos }: Props) {
                                                 type="checkbox"
                                                 id={`curso-${curso.id}`}
                                                 onChange={() =>
-                                                    handleCursoCheckbox(
+                                                    handleCentroCheckbox(
                                                         curso.id,
                                                     )
                                                 }
@@ -254,59 +172,59 @@ export default function CrearActividad({ cursos, tipos }: Props) {
                                         </div>
                                     ))}
                                 </div>
-                                {errors.cursos_ids && (
+                                {errors.centros_ids && (
                                     <span className="mt-1 text-xs text-red-500">
-                                        {errors.cursos_ids}
+                                        {errors.centros_ids}
                                     </span>
                                 )}
                             </div>
-                            <div className="cn-field">
-                                <label className="cn-label mb-2 font-bold">
-                                    Publicación
-                                </label>
+                        </div>
+                        <div className="cn-field">
+                            <label className="cn-label mb-2 font-bold">
+                                Publicación
+                            </label>
 
-                                <div className="flex gap-4">
-                                    <div className="flex items-center gap-2">
-                                        <Input
-                                            id="mostrar"
-                                            type="radio"
-                                            name="es_activo"
-                                            value="true"
-                                            checked={data.es_activo === true}
-                                            onChange={() =>
-                                                setData('es_activo', true)
-                                            }
-                                            className="h-4 w-4"
-                                        />
-                                        <label className="cn-label cursor-pointer">
-                                            Mostrar
-                                        </label>
-                                    </div>
-
-                                    <div className="flex items-center gap-2">
-                                        <Input
-                                            id="ocultar"
-                                            type="radio"
-                                            name="es_activo"
-                                            value="false"
-                                            checked={data.es_activo === false}
-                                            onChange={() =>
-                                                setData('es_activo', false)
-                                            }
-                                            className="h-4 w-4"
-                                        />
-                                        <label className="cn-label cursor-pointer">
-                                            Ocultar
-                                        </label>
-                                    </div>
+                            <div className="flex gap-4">
+                                <div className="flex items-center gap-2">
+                                    <Input
+                                        id="mostrar"
+                                        type="radio"
+                                        name="es_activo"
+                                        value="true"
+                                        checked={data.es_activo === true}
+                                        onChange={() =>
+                                            setData('es_activo', true)
+                                        }
+                                        className="h-4 w-4"
+                                    />
+                                    <label className="cn-label cursor-pointer">
+                                        Mostrar
+                                    </label>
                                 </div>
 
-                                {errors.es_activo && (
-                                    <span className="mt-1 text-xs text-red-500">
-                                        {errors.es_activo}
-                                    </span>
-                                )}
+                                <div className="flex items-center gap-2">
+                                    <Input
+                                        id="ocultar"
+                                        type="radio"
+                                        name="es_activo"
+                                        value="false"
+                                        checked={data.es_activo === false}
+                                        onChange={() =>
+                                            setData('es_activo', false)
+                                        }
+                                        className="h-4 w-4"
+                                    />
+                                    <label className="cn-label cursor-pointer">
+                                        Ocultar
+                                    </label>
+                                </div>
                             </div>
+
+                            {errors.es_activo && (
+                                <span className="mt-1 text-xs text-red-500">
+                                    {errors.es_activo}
+                                </span>
+                            )}
                         </div>
                         <div className="cn-section-header"></div>
 

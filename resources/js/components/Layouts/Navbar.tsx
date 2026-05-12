@@ -6,7 +6,6 @@ import '../../../css/button.css';
 const Navbar = () => {
     const { auth } = usePage().props;
     const tieneCentro = (auth.user?.centros?.length ?? 0) > 0;
-    console.log('Datos del usuario:', auth.user);
     return (
         <nav className="navbar">
             <div className="nav-content">

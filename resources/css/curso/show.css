@@ -13,8 +13,6 @@
     margin: 0 auto;
 }
 
-/* --- TUS COORDENADAS DE GRID --- */
-
 .div1 {
     grid-column: span 3 / span 3;
 }
@@ -50,8 +48,6 @@
     grid-row-start: 7;
     grid-column: span 3;
 }
-
-/* --- ESTILOS VISUALES --- */
 
 .main-title,
 .section-title {
@@ -124,4 +120,14 @@
     line-height: 1.6;
     margin: 0;
     max-width: 600px;
+}
+
+.botones {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
 }

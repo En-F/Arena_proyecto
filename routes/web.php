@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ActividadController;
+use App\Http\Controllers\BeneficioController;
 use App\Http\Controllers\CentroController;
 use App\Http\Controllers\CursoController;
 use App\Http\Controllers\HorarioController;
@@ -58,9 +59,12 @@ Route::middleware(['auth', 'role:admin,jefe'])->group(function () {
 
     //Video
     Route::resource('videos',VideoController::class)->except(['index']);
+
+    //Beneficio
+    Route::resource('beneficios', BeneficioController::class)->except(['index','show']);
+    Route::get('beneficios/biblioteca', [BeneficioController::class, 'biblioteca'])->name('beneficios.biblioteca');
+    Route::post('cursos/{curso}/beneficios/asociar', [BeneficioController::class, 'asociar'])->name('cursos.beneficios.asociar');
 });
-
-
 //Admin
 Route::middleware(['auth', 'role:admin'])->group(function () {
 
@@ -70,9 +74,6 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     //Valoraciones
     Route::resource('valoraciones',ValoracionController::class)->except(['index','show']);
-
-    //Videos
-
 
 });
        
@@ -109,7 +110,7 @@ Route::resource('valoraciones',ValoracionController::class)->only(['index']);
 //Videos
 Route::resource('videos',VideoController::class)->only(['index']);
 
-
-
+//Beneficio
+Route::resource('beneficios', BeneficioController::class)->only(['index']);
 
 require __DIR__.'/settings.php';

@@ -203,6 +203,7 @@ class ActividadController extends Controller
             Storage::disk('public')->delete($actividad->imagen);
         }
 
+        $actividad->cursos()->detach();
         $actividad->delete();
 
         return redirect()->route('inicio.index');
