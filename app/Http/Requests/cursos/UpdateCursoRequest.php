@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\actividades;
+namespace App\Http\Requests\cursos;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateActividadRequest extends FormRequest
+class UpdateCursoRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,13 +27,11 @@ class UpdateActividadRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre'    => ['required', 'string', 'max:255', 'regex:/^[a-zA-ZÀ-ÿ\s\'"]+$/'],
-            'nivel' => ['required', 'string'],
+            'nombre'    => ['required', 'string', 'max:255', 'regex:/^[a-zA-ZÀ-ÿ\s]+$/'],
             'descripcion' => ['required', 'string'],
             'imagen'    => ['nullable', 'image', 'mimes:jpg,jpeg,png','max:2048'],
-            'tipo_id' => ['required', 'exists:tipos,id'],
-            'cursos_ids' => ['required', 'array', 'min:1'],
-            'cursos_ids.*' => ['exists:cursos,id'],
+            'centros_ids' => ['required', 'array', 'min:1'],
+            'centros_ids.*' => ['exists:centros,id'],
         ];
     }
     public function messages(): array
@@ -42,8 +40,7 @@ class UpdateActividadRequest extends FormRequest
             'imagen.mimes' => 'La imagen debe ser un archivo de tipo: jpg, jpeg o png.',
             'imagen.max'   => 'La imagen es demasiado pesada (máximo 2MB).',
             'nombre.required' => '¡Oye! No olvides ponerle un título a la actividad.',
-            'cursos_ids.required' => 'Debes seleccionar al menos un centro para esta actividad.',
-            'nivel.required'   => 'Indica si la actividad es fácil, intermedia o difícil.',
+            'centros_ids.required' => 'Debes seleccionar al menos un centro para este curso.',
         ];
     }
 }

@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Centro extends Model
 {
-    protected $fillable = ['nombre', 'telefono', 'email', 'direccion', 'imagen', 'ubicacion','es_activo'];
-
+    protected $fillable = ['nombre', 'telefono', 'email', 'direccion','descripcion', 'imagen', 'latitud','longitud','es_activo'];
     public function valoraciones()
     {
         return $this->hasMany(Valoracion::class);

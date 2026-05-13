@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Curso;
+use App\Models\Centro;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class CursoPolicy
+class CentroPolicy
 {
     use HandlesAuthorization;
 
@@ -21,7 +21,7 @@ class CursoPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Curso $curso): bool
+    public function view(User $user, Centro $centro): bool
     {
         return true;
     }
@@ -31,29 +31,29 @@ class CursoPolicy
      */
     public function create(User $user): bool
     {
-        return $user->Admin() || $user->Jefe();
+        return $user->Admin();
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Curso $curso): bool
+    public function update(User $user, Centro $centro): bool
     {
-         return $user->Admin() || $user->Jefe();
+        return $user->Admin();
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Curso $curso): bool
+    public function delete(User $user, Centro $centro): bool
     {
-         return $user->Admin() || $user->Jefe();
+        return $user->Admin();
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Curso $curso): bool
+    public function restore(User $user, Centro $centro): bool
     {
         return false;
     }
@@ -61,7 +61,7 @@ class CursoPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Curso $curso): bool
+    public function forceDelete(User $user, Centro $centro): bool
     {
         return false;
     }

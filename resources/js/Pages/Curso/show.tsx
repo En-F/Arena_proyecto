@@ -39,7 +39,7 @@ const show = ({ curso, videos, beneficios }: Props) => {
     const is_jefe = auth.user?.is_jefe || false;
 
     const handleEdit = (beneficioId, cursoId) => {
-        router.delete(route('beneficios.edit', beneficioId), {
+        router.get(route('beneficios.edit', beneficioId), {
             curso_id: cursoId,
         });
     };
@@ -47,14 +47,14 @@ const show = ({ curso, videos, beneficios }: Props) => {
     const handleBorrarBeneficio = (id: number) => {
         if (confirm(`¿Estás seguro de que quieres eliminar este beneficio ?`)) {
             router.delete(route('beneficios.destroy', id), {
-                data: { curso_id: curso },
+                data: { curso: curso.id },
                 preserveScroll: true,
             });
         }
     };
 
     const handleBorrarCurso = (id: number) => {
-        if (confirm(`¿Estás seguro de que quieres eliminar este beneficio ?`)) {
+        if (confirm(`¿Estás seguro de que quieres eliminar este curso ?`)) {
             router.delete(route('cursos.destroy', id), {
                 preserveScroll: true,
             });
@@ -108,7 +108,9 @@ const show = ({ curso, videos, beneficios }: Props) => {
                                 Crear un beneficio{' '}
                             </Button>
                             <Button
-                                href={route('beneficios.biblioteca')}
+                                href={route('beneficios.biblioteca', {
+                                    curso_id: curso.id,
+                                })}
                                 className="btn-beneficio-create"
                             >
                                 Añadir uno de la biblioteca{' '}

@@ -26,13 +26,15 @@ const Navbar = () => {
                 <div className="botones-acceso">
                     {auth.user ? (
                         <div className="flex items-center gap-4">
-                            {!tieneCentro && (
-                                <Link href="/socio">
-                                    <Button className="boton-socio">
-                                        Hazte Socio
-                                    </Button>
-                                </Link>
-                            )}
+                            {!auth.user.is_admin &&
+                                !auth.user.is_jefe &&
+                                !tieneCentro && (
+                                    <Link href="/socio">
+                                        <Button className="boton-socio">
+                                            Hazte Socio
+                                        </Button>
+                                    </Link>
+                                )}
 
                             <Link href="/settings/profile">
                                 <Button className="boton-login-logeado">

@@ -15,6 +15,7 @@ export default function Inicio({ centros, noticias, cursos }: Props) {
     const { auth } = usePage().props as any;
     const is_admin = auth.user?.is_admin || false;
     const is_jefe = auth.user?.is_jefe || false;
+    console.log(auth.user);
 
     return (
         <>

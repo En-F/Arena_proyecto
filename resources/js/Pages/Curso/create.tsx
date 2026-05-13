@@ -48,6 +48,11 @@ export default function create({ centros, tipos }: Props) {
                 valor: data.descripcion,
                 nombre: 'Descripción',
             },
+            {
+                id: 'centros_ids',
+                valor: data.centros_ids.length > 0 ? 'ok' : '',
+                nombre: 'cursos',
+            },
             { id: 'es_activo', valor: data.es_activo, nombre: 'Es_activo' },
         ];
 

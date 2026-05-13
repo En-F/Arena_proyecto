@@ -31,8 +31,8 @@ class StoreCursoRequest extends FormRequest
             'nombre'    => ['required', 'string', 'max:255', 'regex:/^[a-zA-ZÀ-ÿ\s]+$/'],
             'descripcion' => ['required', 'string'],
             'imagen'    => ['nullable', 'image', 'mimes:jpg,jpeg,png','max:2048'],
-            'centros_ids' => ['nullable', 'array'],
-            'centros_ids.*' => ['exists:cursos,id'],
+            'centros_ids' => ['required', 'array', 'min:1'],
+            'centros_ids.*' => ['exists:centros,id'],
             'es_activo' => ['required', 'in:true,false,1,0,on,off']
         ];
     }
@@ -43,8 +43,7 @@ class StoreCursoRequest extends FormRequest
         'imagen.mimes' => 'La imagen debe ser un archivo de tipo: jpg, jpeg o png.',
         'imagen.max'   => 'La imagen es demasiado pesada (máximo 2MB).',
         'nombre.required' => '¡Oye! No olvides ponerle un título a la actividad.',
-        'centros_ids.required' => 'Debes seleccionar al menos un centro para esta actividad.',
-        'nivel.required'   => 'Indica si la actividad es fácil, intermedia o difícil.',
+        'centros_ids.required' => 'Debes seleccionar al menos un centro para este curso.',
     ];
     }
 }

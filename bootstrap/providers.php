@@ -7,3 +7,5 @@ return [
     AppServiceProvider::class,
     FortifyServiceProvider::class,
 ];
+
+

@@ -40,7 +40,7 @@ class BeneficioPolicy
     {
         if ($user->Admin()){
             return true;
-        } 
+        }
 
         if ($user->Jefe()) {
             $cursosIds = Curso::whereHas('centros', function ($query) use ($user) {
@@ -61,13 +61,18 @@ class BeneficioPolicy
      */
     public function delete(User $user, Beneficio $beneficio): bool
     {
-       if ($user->Admin()) return true;
+        if ($user->Admin()) {
+            return true;
+        }
 
-        $cursoId = request()->input('curso_id');
+        if ($user->Jefe()) {
+            $misCentrosIds = $user->centros->pluck('id');
 
-        if ($cursoId) {
-            $curso = \App\Models\Curso::find($cursoId);
-            return $user->centros->contains($curso->centros()->first()->id);
+            return $beneficio->cursos()
+                ->whereHas('centros', function ($query) use ($misCentrosIds) {
+                    $query->whereIn('centros.id', $misCentrosIds);
+                })
+                ->exists();
         }
 
         return false;

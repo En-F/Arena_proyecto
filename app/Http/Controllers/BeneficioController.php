@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Beneficio;
+use App\Models\Curso;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -100,17 +101,47 @@ class BeneficioController extends Controller
      */
     public function destroy(Beneficio $beneficio,Request $request)
     {
-        $beneficio->load('cursos');
-        $curso_id = $request->input('curso_id');
-        
-        $this->authorize('delete', [$beneficio,$curso_id]);
-        
-        
-        // $beneficio->cursos()->detach($cursoId);
+        $this->authorize('delete', $beneficio);
 
-        // if ($cursoId) {
-        //     return redirect()->route('cursos.show', $cursoId);
-        // }
+        $cursoId = $request->input('curso');
+
+        if ($cursoId) {
+            $beneficio->cursos()->detach($cursoId);
+
+            return redirect()->back();
+        }
+        return redirect()->back();
+    }
+
+    public function biblioteca(Request $request){
+
+        $cursoId = $request->query('curso_id');
+
+        $curso = Curso::findOrFail($cursoId);
+
+        $this->authorize('update', $curso);
+
+        $beneficiosDisponibles = Beneficio::whereDoesntHave('cursos', function ($query) use ($cursoId) {
+            $query->where('cursos.id', $cursoId);
+        })->get();
+
+        return Inertia::render('Beneficio/biblioteca', [
+            'curso' => $curso,
+            'beneficios' => $beneficiosDisponibles
+        ]);
+
+    }
+
+    public function asociar(Request $request, Curso $curso) {
+
+        $this->authorize('update', $curso);
+
+        $request->validate([
+        'beneficio_id' => ['required', 'exists:beneficios,id'],
+        ]);
+
+        $curso->beneficios()->syncWithoutDetaching([$request->input('beneficio_id')]);
+        return redirect()->route('cursos.show', $curso->id);
 
     }
 }

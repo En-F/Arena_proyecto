@@ -32,10 +32,7 @@ export default function Edit({ beneficio, curso }: Props) {
         const regexSoloLetras = /^[a-zA-ZÀ-ÿ\s]+$/;
 
         if (data.titulo && !regexSoloLetras.test(data.titulo)) {
-            setError(
-                'titulo',
-                'El título solo puede contener letras y números (sin símbolos).',
-            );
+            setError('titulo', 'El título solo puede contener letras.');
             tieneErrores = true;
         }
 
@@ -43,6 +40,29 @@ export default function Edit({ beneficio, curso }: Props) {
             setError('descripcion', 'El campo descripcion es obligatorio.');
             tieneErrores = true;
         }
+
+        const camposObligatorios = [
+            { id: 'titulo', valor: data.titulo, nombre: 'Título' },
+            {
+                id: 'descripcion',
+                valor: data.descripcion,
+                nombre: 'Descripcion',
+            },
+        ];
+
+        camposObligatorios.forEach((campo) => {
+            if (
+                campo.valor === null ||
+                campo.valor === undefined ||
+                campo.valor.toString().trim() === ''
+            ) {
+                setError(
+                    campo.id as any,
+                    `El campo ${campo.nombre} es obligatorio.`,
+                );
+                tieneErrores = true;
+            }
+        });
 
         if (tieneErrores) return;
 

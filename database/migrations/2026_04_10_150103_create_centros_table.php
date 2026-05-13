@@ -20,8 +20,8 @@ return new class extends Migration
             $table->string('imagen')->nullable();
             $table->text('descripcion');
             $table->boolean('es_activo')->default(true);
-            $table->float('latitud', 10, 8)->nullable();
-            $table->float('longitud', 11, 8)->nullable();
+            $table->decimal('latitud', 10, 8)->nullable();
+            $table->decimal('longitud', 11, 8)->nullable();
             $table->timestamps();
         });
     }

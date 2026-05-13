@@ -47,6 +47,10 @@ class ActividadController extends Controller
         
         $query = Actividad::with(['cursos', 'tipo']);
 
+        if (!$esAdmin) {
+            $query->where('es_activo', true);
+        }
+
         $cursos = $centroSeleccionado
             ? Curso::whereHas('centros', function ($q) use ($centroSeleccionado) {
                 $q->where('centros.id', $centroSeleccionado);
@@ -65,7 +69,8 @@ class ActividadController extends Controller
 
         if ($cursoSeleccionado) {
             $query->whereHas('cursos', function ($q) use ($cursoSeleccionado) {
-                $q->where('cursos.id', $cursoSeleccionado);
+                $q->where('cursos.id', $cursoSeleccionado)
+                ->where('cursos.es_activo', true);
             });
         }
 
@@ -166,18 +171,18 @@ class ActividadController extends Controller
      */
     public function update(UpdateActividadRequest $request, Actividad $actividad)
     {
-        $data = $request->validated();
+        $datos = $request->validated();
 
         $actividad->update([
-        'nombre'    => $data['nombre'],
-        'nivel' => $data['nivel'],
-        'descripcion' => $data['descripcion'],
-        'tipo_id' => $data['tipo_id'],
+        'nombre'    => $datos['nombre'],
+        'nivel' => $datos['nivel'],
+        'descripcion' => $datos['descripcion'],
+        'tipo_id' => $datos['tipo_id'],
         ]);
 
 
-        if(!empty($data['cursos_ids'])) {
-            $actividad->cursos()->sync($data['cursos_ids']);
+        if(!empty($datos['cursos_ids'])) {
+            $actividad->cursos()->sync($datos['cursos_ids']);
         }
 
         if($request->hasFile('imagen')) {
@@ -190,7 +195,7 @@ class ActividadController extends Controller
 
             $actividad->imagen = 'actividad/' . $nombre_fichero;
             $actividad->save();
-    }
+        }
         return redirect()->route('actividades.show', $actividad->id);
     }
 

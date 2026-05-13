@@ -8,15 +8,18 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use App\Http\Requests\noticia\StoreNoticiaRequest;
-use App\Http\Requests\noticia\UpdateNoticiaRequest;
+use App\Http\Requests\noticias\StoreNoticiaRequest;
+use App\Http\Requests\noticias\UpdateNoticiaRequest;
 use Inertia\Inertia;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+
 
 
 class NoticiaController extends Controller
 {
+    use AuthorizesRequests;
     /**
      * Display a listing of the resource.
      */
@@ -109,6 +112,8 @@ class NoticiaController extends Controller
      */
     public function edit(Noticia $noticia)
     {
+        $this->authorize('update', $noticia);
+
         return Inertia::render('Noticia/edit', [
             'noticia' => $noticia,
             'centros' => Centro::all()
@@ -120,6 +125,7 @@ class NoticiaController extends Controller
      */
     public function update(UpdateNoticiaRequest $request, Noticia $noticia)
     {
+        $this->authorize('update', $noticia);
         $data = $request->validated();
 
         $noticia->update([
@@ -150,6 +156,8 @@ class NoticiaController extends Controller
      */
     public function destroy(Noticia $noticia)
     {
+        $this->authorize('delete', $curso);
+
         if ($noticia->imagen) {
             Storage::disk('public')->delete($noticia->imagen);
         }

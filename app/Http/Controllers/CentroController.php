@@ -6,10 +6,17 @@ use App\Models\Centro;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use App\Http\Requests\centros\StoreCentroRequest;
+use App\Http\Requests\centros\UpdateCentroRequest;
 use Inertia\Inertia;
+
+
 
 class CentroController extends Controller
 {
+    use AuthorizesRequests;
+
     /**
      * Display a listing of the resource.
      */
@@ -20,12 +27,12 @@ class CentroController extends Controller
         $query = Centro::query();
 
         if($usuario_logeado && ($usuario_logeado->Admin())){
-            
+
 
         } elseif($usuario_logeado && ($usuario_logeado->Jefe())){
             $query->where('es_activo', true)
                     ->whereIn('id', $usuario_logeado->centros->pluck('id'));
-        } else {  
+        } else {
             $query->where('es_activo', true);
         }
 
@@ -39,15 +46,42 @@ class CentroController extends Controller
      */
     public function create()
     {
-        //
+        $this->authorize('create', Centro::class);
+
+        return Inertia::render('Centro/create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreCentroRequest $request)
     {
-        //
+        $datos = $request->validated();
+
+        $centro = Centro::create([
+            'nombre'      => $datos['nombre'],
+            'telefono'    => $datos['telefono'],
+            'email'       => $datos['email'],
+            'direccion'   => $datos['direccion'],
+            'descripcion' => $datos['descripcion'],
+            'es_activo'   => filter_var($datos['es_activo'], FILTER_VALIDATE_BOOLEAN),
+            'latitud'     => $datos['latitud'] ?? null,
+            'longitud'    => $datos['longitud'] ?? null,
+        ]);
+
+        if ($request->hasFile('imagen')) {
+            $file = $request->file('imagen');
+            $extension = $file->extension();
+
+            $nombre_fichero = $centro->id . '.' . $extension;
+
+            $file->storeAs('centros', $nombre_fichero, 'public');
+
+            $centro->imagen = 'centros/' . $nombre_fichero;
+            $centro->save();
+        }
+
+        return redirect()->route('inicio.index');
     }
 
     /**
@@ -76,15 +110,36 @@ class CentroController extends Controller
      */
     public function edit(Centro $centro)
     {
-        //
+        $this->authorize('update', $centro);
+
+        return Inertia::render('Centro/edit',[
+            'centro'=>$centro
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Centro $centro)
+    public function update(UpdateCentroRequest $request, Centro $centro)
     {
-        //
+        $this->authorize('update', $centro);
+
+        $datos = $request->validated();
+
+        $centro->update($datos);
+
+        if ($request->hasFile('imagen')) {
+            $file = $request->file('imagen');
+            
+            $nombre_fichero = $centro->id . '.' . $file->extension();
+
+            $file->storeAs('centros', $nombre_fichero, 'public');
+
+            $centro->imagen = 'centros/' . $nombre_fichero;
+            $centro->save();
+        }
+
+        return redirect()->route('centros.show', $centro->id);
     }
 
     /**
@@ -92,7 +147,7 @@ class CentroController extends Controller
      */
     public function destroy(Centro $centro)
     {
-        //
+        $this->authorize('delete', $centro);
     }
     public function buscar(Request $request)
     {

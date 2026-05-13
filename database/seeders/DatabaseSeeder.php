@@ -94,7 +94,7 @@ class DatabaseSeeder extends Seeder
             'descripcion' => 'Centro deportivo con dos piscinas dos piscinas de 25 metros , ambas con climatización , gimnasio remodelado y amplias zonas  para practicar deportes tanto de bicileta,baile,bachata,tambien una zona de crosfit y por ultimo zona de actividdaes al aire libre.',
             'direccion' => 'Av. de la Rondeña, 11540 Sanlúcar de Barrameda, Cádiz',
             'telefono' => '657804438',
-            'email' => ' info-sanlucar@okeymas.es ',
+            'email' => 'info-sanlucar@okeymas.es',
             'latitud' => 36.77384,
             'longitud' => -6.34497
         ]);
@@ -164,7 +164,7 @@ class DatabaseSeeder extends Seeder
             'periodo' => 'mes',
             'descripcion' => json_encode([
                 'Acceso 8:00 a 14:00', 
-                'Máximo 3 reservas', 
+                'Máximo 3 reservas semanales', 
                 'Solo laborables'
             ]),
             'centro_id' => $centro_1,
@@ -313,32 +313,6 @@ class DatabaseSeeder extends Seeder
         ]);
         DB::table('noticias')->where('id', $noticia_2)->update(['imagen' => "noticias/{$noticia_2}.jpg"]);
 
-        $noticia_3 = DB::table('noticias')->insertGetId([
-            'titulo' => 'Campeones de Andalucía de Master',
-            'contenido' => 'X Trofeo Open Máster Ciudad de Cádiz:
-            *Evento y resultados generales*
-            - *Fecha y lugar*: 26 de abril de 2026, piscina municipal de Cádiz.
-            - *Participación*: 107 nadadores de 16 clubes. 
-            - *C.D.N. Sanlúcar*: 7 nadadores consiguieron el 4º puesto general con 263 puntos y 5.467 puntos AquaMaster.
-            *Actuaciones destacadas*
-            - *Antonio Raposo Listán (20+)*: 1º Nadador Completo con 1.867 puntos. Oros en 50m Braza y 50m Espalda, plata en Mariposa, bronce en 50m Libre.
-            - *Relevo 4x50m estilos masculino Pre-Máster 80+*: Oro para Jhean Marco Torrealba, Antonio Raposo, Enrique Franco y Rubén Pérez.
-            *Medallas individuales*
-            - *Enrique Franco Ulric (21)*: Doble oro en 50m Libre y 50m Mariposa.
-            - *Rosa Gutiérrez López (26)*: Doble oro en 50m Libre y 50m Braza.
-            - *Rubén Pérez Vital (23)*: Plata en 50m Libre.
-            - *Jhean Marco Torrealba (26)*: Bronce en 50m Espalda y 4º en 50m Libre.
-            - *Virginia Fernández Roales (53)*: 4ª en 50m Espalda, 5ª en 50m Libre.
-            - *José Javier Robles (51)*: 4º en 50m Libre.
-            *Conclusión del club* 
-            El equipo destaca que el resultado refleja constancia y pasión. Rubén Pérez Vital, del cuerpo técnico, afirmó: "La pasión por la natación no entiende de edades". El club se consolida como referente máster en la provincia.
-            Seguimos sumando.',
-            'user_id' => $jefe,
-            'created_at' => now(),
-            'centro_id' => $centro_1,
-            'fecha' => Carbon::now()->subDay(6)->format('Y-m-d')
-        ]);
-        DB::table('noticias')->where('id', $noticia_3)->update(['imagen' => "noticias/{$noticia_3}.jpg"]);
 
 
 
@@ -454,6 +428,7 @@ class DatabaseSeeder extends Seeder
             ['user_id' => $admin, 'rol_id' => $rol_1, 'created_at' => now()],
             ['user_id' => $jefe, 'rol_id' => $rol_2, 'created_at' => now()],
             ['user_id' => $usuario_1, 'rol_id' => $rol_3, 'created_at' => now()],
+            
         ]);
 
         // Instalaciones del centro

@@ -7,8 +7,10 @@ use App\Models\Centro;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\cursos\StoreCursoRequest;
+use App\Http\Requests\cursos\UpdateCursoRequest;
 use Inertia\Inertia;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Storage;
 
 
 class CursoController extends Controller
@@ -76,9 +78,7 @@ class CursoController extends Controller
             'es_activo' => filter_var($datos['es_activo'], FILTER_VALIDATE_BOOLEAN),
         ]);
 
-        if(!empty($datos['centros_ids'])) {
-            $curso->centros()->sync($datos['centros_ids']);
-        }
+        $curso->centros()->sync($datos['centros_ids'] ?? []);
 
         if($request->hasFile('imagen')) {
             $file = $request->file('imagen');
@@ -118,32 +118,43 @@ class CursoController extends Controller
     {
         $this->authorize('update', $curso);
 
+        $usuario_logeado = Auth::user();
 
         $curso->load('centros');
 
+        if ($usuario_logeado->Admin()){
+            $centros = Centro::all();
+
+        } elseif($usuario_logeado->Jefe()) {
+            $centros = $usuario_logeado->centros()->get()->toArray();
+        } else {
+            $centros = [];
+        }
+
+
         return Inertia::render('Curso/edit',[
             'curso' => $curso,
-            'centros' => Centro::all()
+            'centros' => $centros
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Curso $curso)
+    public function update(UpdateCursoRequest $request, Curso $curso)
     {
+
         $this->authorize('update', $curso);
+
+        $datos = $request->validated();
+
         $curso->update([
-        'nombre'    => $data['nombre'],
-        'descripcion' => $data['descripcion'],
-        'tipo_id' => $data['tipo_id'],
-        
+            'nombre'    => $datos['nombre'],
+            'descripcion' => $datos['descripcion'],
         ]);
 
 
-        if(!empty($data['cursos_ids'])) {
-            $curso->cursos()->sync($data['cursos_ids']);
-        }
+        $curso->centros()->sync($datos['centros_ids'] ?? []);
 
         if($request->hasFile('imagen')) {
             $file = $request->file('imagen');
@@ -151,11 +162,13 @@ class CursoController extends Controller
 
             $nombre_fichero = $curso->id . '.' . $extension;
 
-            $file->storeAs('curso', $nombre_fichero, 'public');
+            $file->storeAs('cursos', $nombre_fichero, 'public');
 
-            $curso->imagen = 'curso/' . $nombre_fichero;
-            $curso->save();
-    }
+            $curso->imagen = 'cursos/' . $nombre_fichero;
+        }
+
+        $curso->save();
+
         return redirect()->route('cursos.show', $curso->id);
     }
 
@@ -166,9 +179,13 @@ class CursoController extends Controller
     {
         $this->authorize('delete', $curso);
 
-       $curso->beneficios()->detach();
-       $curso->actividades()->detach();
-       $curso->delete();
+        if ($curso->imagen) {
+            if (Storage::disk('public')->exists($curso->imagen)) {
+                Storage::disk('public')->delete($curso->imagen);
+            }
+        }
+
+        $curso->delete();
 
         return redirect()->route('inicio.index');
 
