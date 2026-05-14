@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\centros;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -12,6 +13,10 @@ class UpdateCentroRequest extends FormRequest
      */
     public function authorize(): bool
     {
+        $usuario_logeado = Auth::user();
+        if ($usuario_logeado->Admin() || $usuario_logeado->Jefe()) {
+            return true;
+        }
         return false;
     }
 

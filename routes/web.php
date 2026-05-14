@@ -26,6 +26,7 @@ Route::inertia('dashboard', 'dashboard')->name('dashboard');
 
 Route::get('/inicio', [InicioController::class, 'index'])->name('inicio.index');
 
+
 //Logeo
 Route::get('/login', [ControlController::class, 'create'])->name('login');
 Route::post('/login', [ControlController::class, 'store'])->name('login.store');

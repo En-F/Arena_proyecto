@@ -29,6 +29,7 @@ export default function Register() {
                     resetOnSuccess={['password', 'password_confirmation']}
                     disableWhileProcessing
                     className="flex flex-col gap-6"
+                    autoComplete="off"
                 >
                     {({ processing, errors }) => (
                         <>
@@ -95,6 +96,8 @@ export default function Register() {
                                         autoComplete="new-password"
                                         name="password"
                                         placeholder="Crea una clave fuerte"
+                                        pattern="(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!&quot;#$%&'()*+,\-./:;<=>?@\[\\\]^_`{|}~]).{8,}"
+                                        title="La contraseña debe contener al menos una mayúscula, una minúscula, un número, un carácter especial y tener al menos 8 caracteres."
                                     />
                                     <InputError
                                         message={errors.password}

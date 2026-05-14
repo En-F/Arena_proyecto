@@ -17,7 +17,7 @@ interface Props {
     es_activo?: boolean;
 }
 
-export default function Carta({
+export default function Cartagenerica({
     id,
     nombre,
     imagen,

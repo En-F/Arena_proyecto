@@ -82,26 +82,38 @@
     justify-content: center;
 }
 
-.boton-login-logeado{
+.boton-login-logeado {
     display: flex;
     padding: 9px 18px;
     background-color: #f38200;
-    border-radius: 20px 20px 20px 20px;    
+    border-radius: 20px 20px 20px 20px;
     color: var(--card-white);
     cursor: pointer;
 }
 
-.boton-login-logeado:hover{
+.boton-login-logeado:hover {
     opacity: 0.6;
 }
 
-.icono-login-logeado{
+.boton-perfil-control {
+    display: flex;
+    padding: 9px 18px;
+    background-color: #f38200;
+    border-radius: 10px 10px 10px 10px;
+    color: var(--card-white);
+    cursor: pointer;
+}
+
+.boton-perfil-control:hover {
+    opacity: 0.6;
+}
+
+.icono-login-logeado {
     width: 18px;
     margin-right: 8px;
     object-fit: contain;
     display: block;
 }
-
 
 .nav-content {
     display: flex;
@@ -109,7 +121,6 @@
     align-items: center;
     max-width: 1200px;
     margin: 0 auto;
-    
 }
 
 .nav-links a {

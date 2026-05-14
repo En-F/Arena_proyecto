@@ -246,7 +246,7 @@ export default function create({ centros, tipos }: Props) {
                                 className="cn-btn-save"
                                 disabled={processing}
                             >
-                                {processing ? 'Enviando...' : 'Guardar noticia'}
+                                {processing ? 'Enviando...' : 'Guardar curso'}
                             </Button>
                         </div>
                     </div>

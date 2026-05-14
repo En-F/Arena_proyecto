@@ -2,7 +2,7 @@ import { Head } from '@inertiajs/react';
 import { usePage } from '@inertiajs/react';
 import '../../../css/inicio.css';
 import BannerInscripcion from '../../components/banner/BannerInscripcion';
-import Carta from '@/components/carta/Cartagenerica';
+import Cartagenerica from '@/components/carta/Cartagenerica';
 import CartaNoticia from '@/components/carta/noticia/CartaNoticia';
 
 interface Props {
@@ -27,7 +27,7 @@ export default function Inicio({ centros, noticias, cursos }: Props) {
 
                     <div className="grid-centros">
                         {centros.slice(0, 4).map((centro) => (
-                            <Carta
+                            <Cartagenerica
                                 key={centro.id}
                                 id={centro.id}
                                 nombre={centro.nombre}
@@ -38,7 +38,7 @@ export default function Inicio({ centros, noticias, cursos }: Props) {
                                 textoOcultar="Ocultar"
                             />
                         ))}
-                        {is_admin && <Carta esCrear />}
+                        {is_admin && <Cartagenerica esCrear />}
                     </div>
                 </section>
 
@@ -62,7 +62,7 @@ export default function Inicio({ centros, noticias, cursos }: Props) {
                     </h2>
                     <div className="grid-centros">
                         {cursos.slice(0, 4).map((curso) => (
-                            <Carta
+                            <Cartagenerica
                                 key={curso.id}
                                 id={curso.id}
                                 nombre={curso.nombre}
@@ -75,7 +75,7 @@ export default function Inicio({ centros, noticias, cursos }: Props) {
                             />
                         ))}
                         {(is_admin || is_jefe) && (
-                            <Carta esCrear rutaCrear="/cursos/create" />
+                            <Cartagenerica esCrear rutaCrear="/cursos/create" />
                         )}
                     </div>
                 </section>

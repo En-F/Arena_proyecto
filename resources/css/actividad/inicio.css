@@ -54,22 +54,19 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 0.75rem;
+    gap: 1.75rem;
     text-transform: uppercase;
 
-    width: 40%;
-    padding: 2rem 1rem;
     margin: 1rem auto;
 
-    background-color: #1e1e2e;
     border-radius: 12px;
 
-    color: #ffffff;
+    color: #000000;
     font-size: 1.1rem;
     text-align: center;
     font-weight: 800;
 
-    opacity: 0.45;
+    opacity: 0.85;
 }
 
 @media (max-width: 1024px) {

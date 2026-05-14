@@ -1,7 +1,7 @@
 import { Head, router, usePage } from '@inertiajs/react';
 import '../../../css/actividad/inicio.css';
 import Button from '@/components/Layouts/Button';
-import Carta from '@/components/carta/Cartagenerica';
+import Cartagenerica from '@/components/carta/Cartagenerica';
 
 interface Centro {
     id: number;
@@ -189,10 +189,16 @@ export default function Inicio({
                                 {cursoSeleccionado
                                     ? 'No hay actividades para el curso seleccionado.'
                                     : 'No hay actividades para el centro seleccionado.'}
+                                <div>
+                                    <Cartagenerica
+                                        esCrear
+                                        rutaCrear="actividades/create"
+                                    />
+                                </div>
                             </p>
                         ) : (
                             actividades.map((actividad) => (
-                                <Carta
+                                <Cartagenerica
                                     key={actividad.id}
                                     id={actividad.id}
                                     nombre={actividad.nombre}
@@ -207,19 +213,12 @@ export default function Inicio({
                             ))
                         )}
                         {actividades.length !== 0 && (is_admin || is_jefe) && (
-                            <Carta esCrear rutaCrear="actividades/create" />
+                            <Cartagenerica
+                                esCrear
+                                rutaCrear="actividades/create"
+                            />
                         )}
                     </div>
-                    {actividades.length === 0 && (is_admin || is_jefe) && (
-                        <div>
-                            <Button
-                                className="btn mt-10 mb-4 btn-info"
-                                href={route('actividades.create')}
-                            >
-                                Crear Actividad
-                            </Button>
-                        </div>
-                    )}
                     <Button
                         href="/inicio"
                         type="button"

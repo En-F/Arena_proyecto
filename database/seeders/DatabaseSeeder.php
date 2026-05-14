@@ -109,23 +109,6 @@ class DatabaseSeeder extends Seeder
         ]);
         DB::table('centros')->where('id', $centro_2)->update(['imagen' => "centros/{$centro_2}.jpg"]);
 
-        $centro_3 = DB::table('centros')->insertGetId([
-            'nombre' => 'Adventure Hub Aire Libre',
-            'descripcion' => 'Variedad de actividades para disfrutar en la naturaleza, como senderismo, ciclismo y escalada profesional.',
-            'direccion' => 'Parque Natural, 123, Ciudad',
-            'telefono' => '345678901',
-            'email' => 'airelibre@gmail.com'
-        ]);
-        DB::table('centros')->where('id', $centro_3)->update(['imagen' => "centros/{$centro_3}.jpg"]);
-
-        $centro_4 = DB::table('centros')->insertGetId([
-            'nombre' => 'Centro de Atletismo Municipal',
-            'descripcion' => 'Instalaciones modernas con pista de tartán y equipo técnico especializado en alto rendimiento.',
-            'direccion' => 'Calle del Atletismo, 456, Ciudad',
-            'telefono' => '987958421',
-            'email' => 'atletismo@gmail.com'
-        ]);
-        DB::table('centros')->where('id', $centro_4)->update(['imagen' => "centros/{$centro_4}.jpg"]);
 
 
 

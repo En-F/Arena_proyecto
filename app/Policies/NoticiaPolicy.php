@@ -31,7 +31,6 @@ class NoticiaPolicy
      */
     public function create(User $user): bool
     {
-        // Simplificado: retorna true si es admin o jefe
         return $user->Admin() || $user->Jefe();
     }
 

@@ -1,7 +1,7 @@
-import { Head } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 import '../../../css/centro/inicio.css';
 import Button from '@/components/Layouts/Button';
-import Carta from '@/components/carta/Cartagenerica';
+import Cartagenerica from '@/components/carta/Cartagenerica';
 import { useEffect, useState } from 'react';
 
 interface Centro {
@@ -15,6 +15,10 @@ interface Props {
 }
 
 export default function Inicio({ centros }: Props) {
+    const { auth } = usePage().props as any;
+    const is_admin = auth.user?.is_admin || false;
+    const is_jefe = auth.user?.is_jefe || false;
+
     const [busqueda, setBusqueda] = useState('');
     const [resultado, setResultado] = useState<Centro[]>([]);
 
@@ -85,18 +89,15 @@ export default function Inicio({ centros }: Props) {
                     </div>
                     <div className="grid-centros">
                         {centrosAMostrar.map((centro) => (
-                            <Carta
+                            <Cartagenerica
                                 key={centro.id}
                                 id={centro.id}
                                 nombre={centro.nombre}
                                 imagen={centro.imagen}
-                                tipo="centro"
-                                rutaDetalle="/centros"
-                                rutaOcultar="/centros/ocultar"
-                                textoOcultar="Ocultar"
                                 es_activo={centro.es_activo}
                             />
                         ))}
+                        {is_admin && <Cartagenerica esCrear />}
                     </div>
                     <Button href="/inicio" className="btn-volver btn-crud">
                         Volver

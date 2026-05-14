@@ -1,9 +1,10 @@
-import { Head } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 import Button from '@/components/Layouts/Button';
 import CartaCentro from '@/components/carta/CartaCentro';
 import '../../../css/centro/inicio.css';
-import Carta from '@/components/carta/Cartagenerica';
+import Cartagenerica from '@/components/carta/Cartagenerica';
+import centros from '@/routes/centros';
 
 interface Curso {
     id: number;
@@ -16,6 +17,10 @@ interface Props {
 }
 
 export default function Inicio({ cursos }: Props) {
+    const { auth } = usePage().props as any;
+    const is_admin = auth.user?.is_admin || false;
+    const is_jefe = auth.user?.is_jefe || false;
+
     const [busqueda, setBusqueda] = useState('');
     const [resultado, setResultado] = useState<Curso[]>([]);
 
@@ -91,7 +96,7 @@ export default function Inicio({ cursos }: Props) {
                     </div>
                     <div className="grid-centros">
                         {cursosAMostrar.map((curso) => (
-                            <Carta
+                            <Cartagenerica
                                 key={curso.id}
                                 id={curso.id}
                                 nombre={curso.nombre}
@@ -104,6 +109,9 @@ export default function Inicio({ cursos }: Props) {
                                 es_activo={curso.es_activo}
                             />
                         ))}
+                        {is_admin && (
+                            <Cartagenerica esCrear rutaCrear="/cursos/create" />
+                        )}
                     </div>
                     <Button href="/inicio" className="btn-volver btn-crud">
                         Volver
