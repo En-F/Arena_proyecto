@@ -48,7 +48,7 @@ export default function Cartagenerica({
 
     if (esCrear) {
         return (
-            <Link href={rutaCrear} className="carta-item">
+            <Link href={rutaCrear} className="enlace-corto">
                 <div className="img-card-container carta-crear">
                     <span className="carta-crear-plus">+</span>
                 </div>
@@ -67,7 +67,10 @@ export default function Cartagenerica({
                 }}
             >
                 <div className="img-card-container">
-                    <img src={`/storage/${imagen}`} alt={nombre} />
+                    <img
+                        src={`/storage/${imagen}?v=${Date.now()}`}
+                        alt={nombre}
+                    />
                 </div>
                 <p className="centro-title">{nombre}</p>
             </Link>

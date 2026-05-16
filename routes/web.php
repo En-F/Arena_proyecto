@@ -12,6 +12,7 @@ use App\Http\Controllers\ControlController;
 use App\Http\Controllers\Settings\ProfileController;
 use App\Http\Controllers\ValoracionController;
 use App\Http\Controllers\VideoController;
+use App\Http\Controllers\InstalacionController;
 use App\Models\Horario;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
@@ -31,6 +32,17 @@ Route::get('/inicio', [InicioController::class, 'index'])->name('inicio.index');
 Route::get('/login', [ControlController::class, 'create'])->name('login');
 Route::post('/login', [ControlController::class, 'store'])->name('login.store');
 
+//Admin
+Route::middleware(['auth', 'role:admin'])->group(function () {
+
+
+    Route::post('/centros/ocultar', [CentroController::class, 'ocultar']);
+    Route::resource('centros', CentroController::class)->except(['index','show']);
+
+    //Valoraciones
+    Route::resource('valoraciones',ValoracionController::class)->except(['index','show']);
+
+});
 
 //Admin y jefe
 Route::middleware(['auth', 'role:admin,jefe'])->group(function () {
@@ -63,19 +75,18 @@ Route::middleware(['auth', 'role:admin,jefe'])->group(function () {
 
     //Beneficio
     Route::resource('beneficios', BeneficioController::class)->except(['index','show']);
+    Route::get('/beneficios/create/{curso_id}', [BeneficioController::class, 'create'])->name('beneficios.create');
     Route::get('beneficios/biblioteca', [BeneficioController::class, 'biblioteca'])->name('beneficios.biblioteca');
     Route::post('cursos/{curso}/beneficios/asociar', [BeneficioController::class, 'asociar'])->name('cursos.beneficios.asociar');
-});
-//Admin
-Route::middleware(['auth', 'role:admin'])->group(function () {
 
+    //Instalaciones
+    Route::get('/instalaciones/buscar',[InstalacionController::class,'buscar']);
+    Route::resource('instalaciones',InstalacionController::class)->parameters([
+        'instalaciones' => 'instalacion'
+    ]);
 
-    Route::post('/centros/ocultar', [CentroController::class, 'ocultar']);
-    Route::resource('centros', CentroController::class)->except(['index','show']);
-
-    //Valoraciones
-    Route::resource('valoraciones',ValoracionController::class)->except(['index','show']);
-
+    //Centros
+    Route::resource('centros', CentroController::class)->except(['create', 'store', 'destroy']);
 });
        
 Route::middleware('auth')->group(function () {

@@ -2,28 +2,26 @@
 
 namespace App\Policies;
 
-use App\Models\Centro;
+use App\Models\Instalacion;
 use App\Models\User;
-use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Auth\Access\Response;
 
-class CentroPolicy
+class InstalacionPolicy
 {
-    use HandlesAuthorization;
-
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        return true;
+        return false;
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Centro $centro): bool
+    public function view(User $user, Instalacion $instalacion): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -31,29 +29,29 @@ class CentroPolicy
      */
     public function create(User $user): bool
     {
-        return $user->Admin();
+        return $user->Admin() || $user->Jefe();
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Centro $centro): bool
+    public function update(User $user, Instalacion $instalacion): bool
     {
-        return $user->Admin() || $user->jefe();
+        return $user->Admin() || $user->Jefe();
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Centro $centro): bool
+    public function delete(User $user, Instalacion $instalacion): bool
     {
-        return $user->Admin();
+        return $user->Admin() || $user->Jefe();
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Centro $centro): bool
+    public function restore(User $user, Instalacion $instalacion): bool
     {
         return false;
     }
@@ -61,7 +59,7 @@ class CentroPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Centro $centro): bool
+    public function forceDelete(User $user, Instalacion $instalacion): bool
     {
         return false;
     }

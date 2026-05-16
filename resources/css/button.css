@@ -112,3 +112,33 @@
 .boton-socio:hover {
     background-color: rgb(172, 172, 172);
 }
+
+.limpiar-filtro {
+    color: #ffffff;
+    font-weight: 600;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    text-align: center;
+    background-color: #f38200;
+    cursor: pointer;
+    margin-left: 6px;
+}
+
+.crear-instalacion {
+    margin-right: 6px;
+    color: #ffffff;
+    font-weight: 600;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    text-align: center;
+    background-color: #7b241c;
+    cursor: pointer;
+}

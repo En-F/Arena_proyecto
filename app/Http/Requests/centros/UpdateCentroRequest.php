@@ -47,7 +47,6 @@ class UpdateCentroRequest extends FormRequest
         'direccion' => [
             'required',
             'string',
-            'max:500',
         ],
         'descripcion' => [
             'required',

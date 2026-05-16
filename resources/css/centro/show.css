@@ -256,6 +256,7 @@ body {
 }
 
 .pricing-card {
+    position: relative;
     border-radius: 12px;
     overflow: hidden;
     transition: all 0.3s ease;
@@ -284,6 +285,42 @@ body {
     margin-bottom: 15px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+}
+
+.pricing-edit-button {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 10;
+}
+
+.pricing-card.basico .pricing-edit-button {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.pricing-card.basico .pricing-edit-button:hover {
+    background: rgba(255, 255, 255, 0.3);
+    color: white;
+}
+
+.pricing-card.premium .pricing-edit-button {
+    background: rgba(0, 0, 0, 0.05);
+    color: #333;
+}
+
+.pricing-card.premium .pricing-edit-button:hover {
+    background: rgba(0, 0, 0, 0.1);
+    color: #667eea;
 }
 
 .precio {

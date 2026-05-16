@@ -58,3 +58,7 @@
     overflow-wrap: break-word;
     word-wrap: break-word;
 }
+
+.enlace-corto {
+    height: 30%;
+}

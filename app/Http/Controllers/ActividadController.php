@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\actividades\StoreActividadRequest;
 use App\Http\Requests\actividades\UpdateActividadRequest;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 
 
@@ -157,11 +158,26 @@ class ActividadController extends Controller
      */
     public function edit(Actividad $actividad)
     {
+        $usuario_logeado = Auth::user();
+
         $actividad->load('cursos');
+
+        if($usuario_logeado->Admin()){
+            $cursos = Curso::all();
+
+        } elseif($usuario_logeado->Jefe()) {
+           $centrosIds = $usuario_logeado->centros()->pluck('centros.id')->toArray();
+
+            $cursos = Curso::whereHas('centros', function ($query) use ($centrosIds) {
+                $query->whereIn('centros.id', $centrosIds);
+            })->get()->toArray();
+        }  else {
+            $cursos = [];
+        }
 
         return Inertia::render('Actividad/edit',[
             'actividad'=> $actividad,
-            'cursos' => Curso::all(),
+            'cursos' => $cursos,
             'tipos' => Tipo::all()
         ]);
     }
@@ -173,13 +189,9 @@ class ActividadController extends Controller
     {
         $datos = $request->validated();
 
-        $actividad->update([
-        'nombre'    => $datos['nombre'],
-        'nivel' => $datos['nivel'],
-        'descripcion' => $datos['descripcion'],
-        'tipo_id' => $datos['tipo_id'],
-        ]);
+        unset($datos['imagen']);
 
+        $actividad->update($datos);
 
         if(!empty($datos['cursos_ids'])) {
             $actividad->cursos()->sync($datos['cursos_ids']);
@@ -191,9 +203,9 @@ class ActividadController extends Controller
 
             $nombre_fichero = $actividad->id . '.' . $extension;
 
-            $file->storeAs('actividads', $nombre_fichero, 'public');
+            $file->storeAs('actividades', $nombre_fichero, 'public');
 
-            $actividad->imagen = 'actividad/' . $nombre_fichero;
+            $actividad->imagen = 'actividades/' . $nombre_fichero;
             $actividad->save();
         }
         return redirect()->route('actividades.show', $actividad->id);

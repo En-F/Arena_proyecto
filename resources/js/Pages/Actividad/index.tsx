@@ -178,7 +178,6 @@ export default function Inicio({
                             ))}
                         </select>
                     </div>
-                    {/* // Caso 3 sin centro elegido*/}
                     <div className="activities-grid">
                         {!centroSeleccionado && !estaAutenticado ? (
                             <p className="sin-centro-msg">

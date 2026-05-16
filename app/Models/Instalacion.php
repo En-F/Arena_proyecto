@@ -12,6 +12,6 @@ class Instalacion extends Model
 
     public function centros()
     {
-        return $this->belongsToMany(Centro::class, 'centro_instalacion', 'instalacion_id', 'centro_id');
+        return $this->belongsToMany(Centro::class, 'centro_instalacion', 'instalacion_id', 'centro_id')->withTimestamps();;
     }
 }

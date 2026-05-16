@@ -30,9 +30,9 @@ class DatabaseSeeder extends Seeder
             'rol' => 'registrado',
             'description' => 'Usuario registrado que no tiene acceso a las reservas de las actividades'
         ]);
-        
 
-            
+
+
         // --- USUARIOS ---
         $admin = DB::table('users')->insertGetId([
             'name' => 'Admin',
@@ -70,9 +70,9 @@ class DatabaseSeeder extends Seeder
             'activo'=> true
         ]);
 
-    
 
-        
+
+
         //Tipos
         $tipo_1 = DB::table('tipos')->insertGetId([
             'tipo'=> 'Resistencia'
@@ -109,10 +109,20 @@ class DatabaseSeeder extends Seeder
         ]);
         DB::table('centros')->where('id', $centro_2)->update(['imagen' => "centros/{$centro_2}.jpg"]);
 
+        $centro_3 = DB::table('centros')->insertGetId([
+            'nombre' => 'Complejo Deportivo La Marina',
+            'descripcion' => 'Instalaciones de alto rendimiento con pistas de pádel, tenis y un pabellón cubierto multiusos.',
+            'direccion' => 'Calle del Mar, 12',
+            'telefono' => '612 34 56 78',
+            'email' => 'lamarina-deportes@gmail.es',
+            'created_at' => now(),
+        ]);
+        DB::table('centros')->where('id', $centro_3)->update(['imagen' => "centros/{$centro_3}.jpg"]);
 
 
 
-        //---VALORACIONES---// 
+
+        //---VALORACIONES---//
         DB::table('valoraciones')->insert([
             'titulo' => 'Excelente centro',
             'comentario' => 'Me encanta entrenar aquí, las instalaciones son de primera y el personal es muy amable.',
@@ -121,7 +131,7 @@ class DatabaseSeeder extends Seeder
             'user_id' => $jefe,
             'created_at' => now(),
         ]);
-        
+
         DB::table('valoraciones')->insert([
             'titulo' => 'Muy buen ambiente',
             'comentario' => 'El ambiente es muy motivador y las actividades son variadas. Lo recomiendo.',
@@ -146,8 +156,8 @@ class DatabaseSeeder extends Seeder
             'precio' => 24.90,
             'periodo' => 'mes',
             'descripcion' => json_encode([
-                'Acceso 8:00 a 14:00', 
-                'Máximo 3 reservas semanales', 
+                'Acceso 8:00 a 14:00',
+                'Máximo 3 reservas semanales',
                 'Solo laborables'
             ]),
             'centro_id' => $centro_1,
@@ -169,39 +179,33 @@ class DatabaseSeeder extends Seeder
         ]);
 
 
-        //INSTALACIONES
+        // --- Instalación 1: Gimnasio Fitness ---
         $instalacion_1 = DB::table('instalaciones')->insertGetId([
-            'nombre' => 'Piscina Olímpica',
-            'imagen' => 'swimming-pool',
+            'nombre' => 'Gimnasio Fitness',
+            'imagen' => 'gym',
             'created_at' => now(),
         ]);
-        DB::table('instalaciones')->where('id', $instalacion_1)->update(['imagen' => "instalaciones/{$instalacion_1}.jpg"]);
+        DB::table('instalaciones')->where('id', $instalacion_1)->update(['imagen' => "instalaciones/ic-{$instalacion_1}.png"]);
 
-
+        // --- Instalación 2: Campo de Fútbol ---
         $instalacion_2 = DB::table('instalaciones')->insertGetId([
-            'nombre' => 'Pista de Atletismo',
-            'imagen' => 'pista-atletismo',
+            'nombre' => 'Campo de Fútbol',
+            'imagen' => 'soccer',
             'created_at' => now(),
         ]);
-        DB::table('instalaciones')->where('id', $instalacion_2)->update(['imagen' => "instalaciones/{$instalacion_2}.jpg"]);
+        DB::table('instalaciones')->where('id', $instalacion_2)->update(['imagen' => "instalaciones/ic-{$instalacion_2}.png"]);
 
+        // --- Instalación 3: Sala de Yoga ---
         $instalacion_3 = DB::table('instalaciones')->insertGetId([
-            'nombre' => 'Baloncesto',
-            'imagen' => 'baloncesto',
+            'nombre' => 'Sala de Yoga',
+            'imagen' => 'yoga',
             'created_at' => now(),
         ]);
-        DB::table('instalaciones')->where('id', $instalacion_3)->update(['imagen' => "instalaciones/{$instalacion_3}.jpg"]);
-
-        $instalacion_4 = DB::table('instalaciones')->insertGetId([
-            'nombre' => 'Pista de tenis',
-            'imagen' => 'tenis',
-            'created_at' => now(),
-        ]);
-        DB::table('instalaciones')->where('id', $instalacion_4)->update(['imagen' => "instalaciones/{$instalacion_4}.jpg"]);
+        DB::table('instalaciones')->where('id', $instalacion_3)->update(['imagen' => "instalaciones/ic-{$instalacion_3}.png"]);
 
 
         // --- ACTIVIDADES ---
-               $actividad_1 = DB::table('actividades')->insertGetId([
+            $actividad_1 = DB::table('actividades')->insertGetId([
             'nombre' => 'Natación',
             'descripcion' => 'Disciplina acuática integral que combina resistencia y fuerza. Ideal para fortalecer el sistema cardiovascular en un entorno de bajo impacto articular.',            'nivel' => 'Medio',
             'nivel' => 'intermedio',
@@ -401,9 +405,7 @@ class DatabaseSeeder extends Seeder
         // Inscripciones
         DB::table('inscripcion')->insert([
             ['centro_id' => $centro_1, 'user_id' => $jefe, 'fecha_alta' => now(),'tarifa_id'=>null],
-            ['centro_id' => $centro_2, 'user_id' => $jefe, 'fecha_alta' => now(),'tarifa_id'=>null],
             ['centro_id' => $centro_2, 'user_id' => $usuario_1, 'fecha_alta' => now(),'tarifa_id'=>$tarifa_1],
-            ['centro_id' => $centro_1, 'user_id' => $usuario_2, 'fecha_alta' => now(),'tarifa_id'=>$tarifa_2],
         ]);
 
         // Roles de usuario
@@ -411,7 +413,7 @@ class DatabaseSeeder extends Seeder
             ['user_id' => $admin, 'rol_id' => $rol_1, 'created_at' => now()],
             ['user_id' => $jefe, 'rol_id' => $rol_2, 'created_at' => now()],
             ['user_id' => $usuario_1, 'rol_id' => $rol_3, 'created_at' => now()],
-            
+
         ]);
 
         // Instalaciones del centro
@@ -419,23 +421,24 @@ class DatabaseSeeder extends Seeder
             ['centro_id' => $centro_1, 'instalacion_id' => $instalacion_1, 'created_at' => now()],
             ['centro_id' => $centro_1, 'instalacion_id' => $instalacion_2, 'created_at' => now()],
             ['centro_id' => $centro_1, 'instalacion_id' => $instalacion_3, 'created_at' => now()],
+            ['centro_id' => $centro_2, 'instalacion_id' => $instalacion_1, 'created_at' => now()],
         ]);
 
         DB::table('beneficio_curso')->insert([
     [
-        'beneficio_id' => $beneficio_1, 
+        'beneficio_id' => $beneficio_1,
         'curso_id'     => $curso_1,
         'created_at'   => now(),
         'updated_at'   => now(),
     ],
     [
-        'beneficio_id' => $beneficio_2, 
+        'beneficio_id' => $beneficio_2,
         'curso_id'     => $curso_1,
         'created_at'   => now(),
         'updated_at'   => now(),
     ],
     [
-        'beneficio_id' => $beneficio_3, 
+        'beneficio_id' => $beneficio_3,
         'curso_id'     => $curso_1,
         'created_at'   => now(),
         'updated_at'   => now(),

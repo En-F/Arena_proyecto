@@ -36,7 +36,7 @@ export default function CartaNoticia({
         >
             <div className="news-img-wrapper">
                 <img
-                    src={`/storage/${imagen}`}
+                    src={`/storage/${imagen}?v=${Date.now()}`}
                     alt={titulo}
                     className="news-img"
                 />

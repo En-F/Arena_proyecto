@@ -192,7 +192,7 @@ export default function Edit({ curso, centros }: Props) {
 
                         <div className="cn-actions">
                             <Button
-                                href="/inicio"
+                                href={route('cursos.show', curso.id)}
                                 type="button"
                                 className="cn-btn-cancel"
                             >

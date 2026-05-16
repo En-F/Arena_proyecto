@@ -98,10 +98,13 @@ class CentroController extends Controller
 
         $tarifas = $centro->tarifas()->get();
 
+        $instalaciones = $centro->instalaciones()->get();
+
         return Inertia::render('Centro/show',[
             'centro'=>$centro,
             'valoraciones'=>$valoraciones,
-            'tarifas'=>$tarifas
+            'tarifas'=>$tarifas,
+            'instalaciones'=>$instalaciones
         ]);
     }
 
@@ -124,12 +127,16 @@ class CentroController extends Controller
     {
         $this->authorize('update', $centro);
 
+
         $datos = $request->validated();
+
+        unset($datos['imagen']);
 
         $centro->update($datos);
 
         if ($request->hasFile('imagen')) {
             $file = $request->file('imagen');
+            $extension = $file->extension();
             
             $nombre_fichero = $centro->id . '.' . $file->extension();
 

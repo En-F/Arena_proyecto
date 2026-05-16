@@ -148,11 +148,9 @@ class CursoController extends Controller
 
         $datos = $request->validated();
 
-        $curso->update([
-            'nombre'    => $datos['nombre'],
-            'descripcion' => $datos['descripcion'],
-        ]);
+        unset($datos['imagen']);
 
+        $curso->update($datos);
 
         $curso->centros()->sync($datos['centros_ids'] ?? []);
 
@@ -165,10 +163,9 @@ class CursoController extends Controller
             $file->storeAs('cursos', $nombre_fichero, 'public');
 
             $curso->imagen = 'cursos/' . $nombre_fichero;
+
+            $curso->save();
         }
-
-        $curso->save();
-
         return redirect()->route('cursos.show', $curso->id);
     }
 
@@ -185,7 +182,8 @@ class CursoController extends Controller
             }
         }
 
-        $curso->delete();
+        $curso->centros()->detach();
+        $curso->actividades()->detach();
 
         return redirect()->route('inicio.index');
 

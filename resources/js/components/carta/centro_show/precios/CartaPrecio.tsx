@@ -1,4 +1,7 @@
+import { Pencil } from 'lucide-react';
 import React, { useState } from 'react';
+import '../../../../../css/centro/show.css';
+import { usePage } from '@inertiajs/react';
 
 interface Props {
     id: number;
@@ -18,9 +21,13 @@ export default function PricingCard({
     periodo,
 }: Props) {
     const [isHovered, setIsHovered] = useState(false);
+    const { auth } = usePage().props as any;
+    const is_admin = auth.user?.is_admin || false;
+    const is_jefe = auth.user?.is_jefe || false;
 
-    const handleSubscribe = () => {
-        alert(`¡Te has suscrito al plan ${titulo}!`);
+    const handleEdit = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        route('tarifas.edit', id);
     };
 
     return (
@@ -30,6 +37,11 @@ export default function PricingCard({
             onMouseLeave={() => setIsHovered(false)}
             style={isHovered ? { transform: 'translateY(-5px)' } : {}}
         >
+            {(is_admin || is_jefe) && (
+                <button className="pricing-edit-button" onClick={handleEdit}>
+                    <Pencil size={16} />
+                </button>
+            )}
             <div className="pricing-card-header">
                 <h2>{titulo}</h2>
                 <div className="precio">
@@ -46,7 +58,10 @@ export default function PricingCard({
                     ))}
                 </ul>
 
-                <button className="pricing-button" onClick={handleSubscribe}>
+                <button
+                    className="pricing-button"
+                    // onClick={handleSubscribe}
+                >
                     Suscribirse
                 </button>
             </div>

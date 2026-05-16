@@ -50,7 +50,7 @@ export default function Show({ noticia, centro }: Props) {
                     <div className="hero-wrapper">
                         <img
                             className="imagen-noticia"
-                            src={`/storage/${noticia.imagen}`}
+                            src={`/storage/${noticia.imagen}?v=${Date.now()}`}
                             alt={noticia.titulo}
                         />
                         <div className="hero-overlay" />

@@ -10,7 +10,7 @@ import Button from '@/components/Layouts/Button';
 export default function Show({ centro, instalaciones, tarifas, valoraciones }) {
     return (
         <div className="container">
-            <Headershow centro={centro} />
+            <Headershow entidad={centro} tipo="centro" />
             <SecciónInstalacion instalaciones={instalaciones} />
             <SeccionPrecio tarifas={tarifas} />
             <SeccionValoracion valoraciones={valoraciones} />

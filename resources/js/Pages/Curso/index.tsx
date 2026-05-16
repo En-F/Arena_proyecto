@@ -109,7 +109,7 @@ export default function Inicio({ cursos }: Props) {
                                 es_activo={curso.es_activo}
                             />
                         ))}
-                        {is_admin && (
+                        {(is_admin || is_jefe) && (
                             <Cartagenerica esCrear rutaCrear="/cursos/create" />
                         )}
                     </div>

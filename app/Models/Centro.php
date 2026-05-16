@@ -24,7 +24,7 @@ class Centro extends Model
 
     public function instalaciones()
     {
-        return $this->belongsToMany(Instalacion::class, 'centro_instalacion', 'centro_id', 'instalacion_id');
+        return $this->belongsToMany(Instalacion::class, 'centro_instalacion', 'centro_id', 'instalacion_id')->withTimestamps();;
     }
 
     public function tarifas()

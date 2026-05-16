@@ -29,7 +29,7 @@ class BeneficioController extends Controller
     {
        $this->authorize('create', Beneficio::class);
 
-        $curso_id = $request->curso;
+        $curso_id = $request->input('curso_id');
         return Inertia::render('Beneficio/create',['curso'=> $curso_id]);
     }
 

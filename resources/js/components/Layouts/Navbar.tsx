@@ -88,7 +88,6 @@ const Navbar = () => {
                                         🏟️ Instalaciones
                                     </Link>
 
-                                    {/* --- OPCIONES QUE YA TENÍAS --- */}
                                     <div className="my-2 border-t border-slate-100"></div>
 
                                     <Link
@@ -96,7 +95,7 @@ const Navbar = () => {
                                         className="flex w-full items-center rounded-xl px-3 py-3 text-sm font-bold text-slate-700 transition-colors hover:bg-blue-50 hover:text-blue-700"
                                         onClick={() => setMenuAbierto(false)}
                                     >
-                                        👥 Usuarios del equipo
+                                        👥 Usuarios
                                     </Link>
 
                                     <div className="my-2 border-t border-slate-100"></div>

@@ -60,7 +60,7 @@ export default function ShowActividad({
 
             <div className="hero-image-container">
                 <img
-                    src={`/storage/${imagen}`}
+                    src={`/storage/${imagen}?v=${Date.now()}`}
                     alt={nombre}
                     className="hero-image"
                 />

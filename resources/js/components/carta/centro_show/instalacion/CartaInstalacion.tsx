@@ -1,12 +1,13 @@
+import Button from '@/components/Layouts/Button';
 import React, { useState } from 'react';
 
 interface Props {
     id: number;
-    name: string;
-    icon: string;
+    nombre: string;
+    imagen: string;
 }
 
-export default function CartaInstalacion({ id, name, icon }: Props) {
+export default function CartaInstalacion({ id, nombre, imagen }: Props) {
     const [isHovered, setIsHovered] = useState(false);
 
     return (
@@ -16,8 +17,19 @@ export default function CartaInstalacion({ id, name, icon }: Props) {
             onMouseLeave={() => setIsHovered(false)}
             style={isHovered ? { transform: 'translateY(-5px)' } : {}}
         >
-            <div className="icono-instalacion">{icon}</div>
-            <h3>{name}</h3>
+            <div className="icono-instalacion">
+                <img
+                    src={`/storage/${imagen}`}
+                    alt={nombre}
+                    style={{
+                        width: '40px',
+                        height: '40px',
+                        display: 'block',
+                        margin: '0 auto 10px',
+                    }}
+                />
+            </div>
+            <h3>{nombre}</h3>
         </div>
     );
 }

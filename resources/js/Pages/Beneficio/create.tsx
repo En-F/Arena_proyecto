@@ -12,7 +12,7 @@ interface Beneficio {
 
 interface Props {
     beneficio: Beneficio;
-    curso: number;
+    curso: any;
 }
 
 export default function Edit({ beneficio, curso }: Props) {
@@ -125,7 +125,7 @@ export default function Edit({ beneficio, curso }: Props) {
 
                         <div className="cn-actions">
                             <Button
-                                href={route('cursos.show', curso)}
+                                href={route('cursos.show', { curso: curso })}
                                 type="button"
                                 className="cn-btn-cancel"
                             >
