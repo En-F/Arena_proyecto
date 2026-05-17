@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
 use App\Models\Centro;
+use App\Models\User;
 use App\Models\Rol;
 use App\Http\Requests\BuscarUsuarioRequest;
+use App\Http\Requests\usuarios\UpdateUsuarioRequest;
 use Illuminate\Support\Facades\DB;
 
 class UsuarioController extends Controller
@@ -132,5 +133,96 @@ class UsuarioController extends Controller
             ])
         ]);
 
+    }
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(User $usuario)
+    {
+        
+        $usuarioLogueado = Auth::user();
+        $usuarioAEditar = User::with(['roles', 'centros'])->findOrFail($usuario->id);
+
+        if ($usuarioLogueado->Jefe()) {
+            $misCentrosIds = $usuarioLogueado->centros->pluck('id')->toArray();
+            $usuarioComparteCentro = $usuarioAEditar->centros()->whereIn('centros.id', $misCentrosIds)->exists();
+            
+            if (!$usuarioComparteCentro) {
+                abort(403, 'No tienes permisos para editar usuarios fuera de tu centro.');
+            }
+        }
+
+        return Inertia::render('Usuario/edit', [
+            'usuario' => $usuarioAEditar
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(UpdateUsuarioRequest $request, User $usuario)
+    {
+        $usuario = User::findOrFail($usuario->id);
+
+        $usuario->update($request->validated());
+
+        return redirect()->route('usuarios.index');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(User $usuario)
+    {
+        //
+    }
+
+    public function cambiarRol(Request $request,$id) 
+    {
+        $usuarioId = $id;
+
+        $nuevoRol = $request->input('nuevoRol');
+
+        $usuario = User::findOrFail($usuarioId);
+        $rol = Rol::where('rol', $nuevoRol)->firstOrFail();
+
+        $usuario->roles()->sync([$rol->id]);
+
+        return response()->json();
+
+    }
+
+    public function actualizarActivo(Request $request, $id)
+    {
+        $usuarioLogueado = Auth::user();
+        $nuevoEstado = $request->input('activo'); 
+
+        if ($usuarioLogueado->id == $id) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'No puedes desactivar tu propia cuenta.'
+            ], 403);
+        }
+
+        $usuarioAModificar = User::findOrFail($id);
+
+        $usuarioAModificar->activo = $nuevoEstado;
+        $usuarioAModificar->save();
+
+        return response()->json();
     }
 }

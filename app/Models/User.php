@@ -76,4 +76,7 @@ class User extends Authenticatable implements MustVerifyEmail
     static public function fecha_actual() {
         return date('Y-m-d');
     }
+
+    
+
 }

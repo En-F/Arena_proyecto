@@ -1,6 +1,7 @@
 import Button from '@/components/Layouts/Button';
 import { usePage, Link, router } from '@inertiajs/react';
 import React from 'react';
+import '../../../../css/centro/show.css';
 
 interface Centro {
     id: number;

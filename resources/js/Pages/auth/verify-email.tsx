@@ -13,24 +13,25 @@ export default function VerifyEmail({ status }: { status?: string }) {
 
             {status === 'verification-link-sent' && (
                 <div className="mb-4 text-center text-sm font-medium text-green-600">
-                    A new verification link has been sent to the email address
-                    you provided during registration.
+                    Por favor, verifique su dirección de correo electrónico
+                    haciendo clic en el enlace que le acabamos de enviar por
+                    correo electrónico.{' '}
                 </div>
             )}
 
             <Form {...send.form()} className="space-y-6 text-center">
                 {({ processing }) => (
                     <>
-                        <Button disabled={processing} variant="secondary">
+                        <Button disabled={processing} variant="default">
                             {processing && <Spinner />}
-                            Resend verification email
+                            Reenviar correo electrónico de verificación
                         </Button>
 
                         <TextLink
                             href={logout()}
                             className="mx-auto block text-sm"
                         >
-                            Log out
+                            Cerrar Sesión
                         </TextLink>
                     </>
                 )}
@@ -40,7 +41,7 @@ export default function VerifyEmail({ status }: { status?: string }) {
 }
 
 VerifyEmail.layout = {
-    title: 'Verify email',
+    title: 'Verifique su email',
     description:
-        'Please verify your email address by clicking on the link we just emailed to you.',
+        'Por favor, verifique su dirección de correo electrónico haciendo clic en el enlace que le acabamos de enviar..',
 };

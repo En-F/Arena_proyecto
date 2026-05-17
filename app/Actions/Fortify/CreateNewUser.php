@@ -46,6 +46,8 @@ class CreateNewUser implements CreatesNewUsers
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
         ]);
+        
+        
     }
     public function messages(): array
     {
@@ -55,4 +57,5 @@ class CreateNewUser implements CreatesNewUsers
             'password.regex' => 'La contraseña no cumple con los requisitos de seguridad.',
         ];
     }
+    
 }

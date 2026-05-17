@@ -23,7 +23,6 @@ Route::inertia('/', 'Inicio/index', [
 
 // Route::middleware(['auth', 'verified'])->group(function () {
 // });
-Route::inertia('dashboard', 'dashboard')->name('dashboard');
 
 Route::get('/inicio', [InicioController::class, 'index'])->name('inicio.index');
 
@@ -49,6 +48,7 @@ Route::middleware(['auth', 'role:admin,jefe'])->group(function () {
 
     //Usuario
     Route::get('/usuarios/buscar',[UsuarioController::class,'buscar']);
+    Route::get('/usuarios/{usuario}/rol',[UsuarioController::class,'cambiarRol']);
     Route::resource('usuarios', UsuarioController::class);
 
     //Curso

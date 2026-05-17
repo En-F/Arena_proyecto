@@ -22,7 +22,7 @@ const sidebarNavItems: NavItem[] = [
     },
     {
         title: 'Historial de actividades',
-        href: '',
+        href: '/Historia/show',
         icon: null,
     },
 ];
@@ -31,47 +31,55 @@ export default function SettingsLayout({ children }: PropsWithChildren) {
     const { isCurrentOrParentUrl } = useCurrentUrl();
 
     return (
-        <div className="px-4 py-6">
-            <Heading
-                title="Settings"
-                description="Gestiona tu perfil y la configuración de tu cuenta."
-            />
+        <>
+            <div className="mx-auto w-full max-w-5xl px-4 py-6">
+                <Heading
+                    title="Perfil Personal"
+                    description="Gestiona tu perfil y la configuración de tu cuenta."
+                />
 
-            <div className="flex flex-col lg:flex-row lg:space-x-12">
-                <aside className="w-full max-w-xl lg:w-48">
-                    <nav
-                        className="flex flex-col space-y-1 space-x-0"
-                        aria-label="Settings"
-                    >
-                        {sidebarNavItems.map((item, index) => (
-                            <Button
-                                key={`${toUrl(item.href)}-${index}`}
-                                size="sm"
-                                variant="ghost"
-                                asChild
-                                className={cn('w-full justify-start', {
-                                    'bg-muted': isCurrentOrParentUrl(item.href),
-                                })}
-                            >
-                                <Link href={item.href}>
-                                    {item.icon && (
-                                        <item.icon className="h-4 w-4" />
-                                    )}
-                                    {item.title}
-                                </Link>
-                            </Button>
-                        ))}
-                    </nav>
-                </aside>
+                <div className="mt-8 flex flex-col lg:flex-row lg:space-x-12">
+                    <aside className="w-full flex-shrink-0 lg:w-48">
+                        <nav
+                            className="flex flex-col space-y-1 space-x-0"
+                            aria-label="Settings"
+                        >
+                            {sidebarNavItems.map((item, index) => {
+                                const isActive = isCurrentOrParentUrl(
+                                    item.href,
+                                );
 
-                <Separator className="my-6 lg:hidden" />
+                                return (
+                                    <Button
+                                        key={`${toUrl(item.href)}-${index}`}
+                                        size="sm"
+                                        variant={isActive ? 'default' : 'ghost'}
+                                        asChild
+                                        className={cn(
+                                            'w-full justify-start text-left font-normal',
+                                            isActive &&
+                                                'bg-[#0070f3] font-medium text-sidebar-foreground',
+                                        )}
+                                    >
+                                        <Link href={item.href}>
+                                            {item.icon && (
+                                                <item.icon className="h-4 w-4" />
+                                            )}
+                                            {item.title}
+                                        </Link>
+                                    </Button>
+                                );
+                            })}
+                        </nav>
+                    </aside>
 
-                <div className="flex-1 md:max-w-2xl">
-                    <section className="max-w-xl space-y-12">
-                        {children}
-                    </section>
+                    <Separator className="my-6 lg:hidden" />
+
+                    <div className="flex-1">
+                        <section className="space-y-12">{children}</section>
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 }

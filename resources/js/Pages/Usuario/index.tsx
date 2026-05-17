@@ -1,8 +1,9 @@
-import { Eye, EyeOff } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import '../../../css/usuario/usuario.css';
 import { Input } from '@/components/ui/input';
 import '../../../css/inicio.css';
+import Button from '@/components/Layouts/Button';
+import { router, usePage } from '@inertiajs/react';
 
 interface Centro {
     id: number;
@@ -22,6 +23,7 @@ interface Usuario {
     activo: boolean;
     roles: Rol[];
     centros: Centro[];
+    telefono: string;
 }
 
 interface ErrorValidacion {
@@ -35,8 +37,13 @@ interface Props {
     roles: Rol[];
 }
 
-export default function Show({ usuarios, centros, roles }: Props) {
-    const [visibles, setVisibles] = useState<number[]>([]);
+export default function Index({ usuarios, centros, roles }: Props) {
+    const { auth } = usePage().props;
+    const is_admin = auth.user?.is_admin || false;
+    const is_jefe = auth.user?.is_jefe || false;
+
+    const [editandoActivoId, setEditandoActivoId] = useState(null);
+    const [editandoUsuarioId, setEditandoUsuarioId] = useState(null);
     const [resultado, setResultado] = useState([]);
     const [filtroNombre, setFiltroNombre] = useState('');
     const [filtroEmail, setFiltroEmail] = useState('');
@@ -45,6 +52,49 @@ export default function Show({ usuarios, centros, roles }: Props) {
     const [filtroActivo, setFiltroActivo] = useState('');
     const [errores, setErrores] = useState<ErrorValidacion[]>([]);
     const [mensajeSistema, setMensajeSistema] = useState('');
+
+    const handleRolCambiado = async (usuarioId, nuevoRol) => {
+        try {
+            const respuesta = await fetch(`/usuarios/${usuarioId}/rol`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ nuevoRol: nuevoRol }),
+            });
+            if (respuesta.ok) {
+                //Viaja al controlador en segundo plano y los usuarios
+                router.reload({ only: ['usuarios'] });
+            }
+        } catch (error) {
+            console.error('Error de red:', error);
+        }
+        setEditandoUsuarioId(null);
+    };
+
+    const handleActivoCambiado = async (
+        usuarioId: number,
+        nuevoEstado: boolean,
+    ) => {
+        try {
+            const respuesta = await fetch(`/usuarios/${usuarioId}/activo`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ activo: nuevoEstado }),
+            });
+
+            if (respuesta.ok) {
+                router.reload({ only: ['usuarios'] });
+            } else {
+                const datosError = await respuesta.json();
+            }
+        } catch (error) {
+            console.error('Error de red:', error);
+        }
+        setEditandoActivoId(null);
+    };
 
     const validarFiltros = (
         nombre: string,
@@ -180,14 +230,6 @@ export default function Show({ usuarios, centros, roles }: Props) {
 
     let UsuariosMostrar = resultado.length > 0 ? resultado : usuarios;
 
-    const toggleVisibilidad = (id: number) => {
-        if (visibles.includes(id)) {
-            setVisibles(visibles.filter((itemId) => itemId !== id));
-        } else {
-            setVisibles([...visibles, id]);
-        }
-    };
-
     const limpiarFiltros = () => {
         setFiltroNombre('');
         setFiltroEmail('');
@@ -248,7 +290,7 @@ export default function Show({ usuarios, centros, roles }: Props) {
                             <th className="encabezado">Nombre</th>
                             <th className="encabezado">Email</th>
                             <th className="encabezado">DNI</th>
-                            <th className="encabezado">Contraseña</th>
+                            <th className="encabezado">Telefono</th>
                             <th className="encabezado">Rol</th>
                             <th className="encabezado">Centro</th>
                             <th className="encabezado">Activo</th>
@@ -329,6 +371,24 @@ export default function Show({ usuarios, centros, roles }: Props) {
                         </tr>
 
                         {UsuariosMostrar.map((usuario, index) => {
+                            const rolDeLaFila = usuario.roles
+                                .map((r) => r.rol)
+                                .join(', ');
+
+                            const estaBloqueado =
+                                usuario.id === auth.user?.id ||
+                                (rolDeLaFila.includes('admin') && is_admin) ||
+                                (rolDeLaFila.includes('registrado') &&
+                                    is_admin) ||
+                                (rolDeLaFila.includes('registrado') &&
+                                    is_jefe) ||
+                                (rolDeLaFila.includes('admin') && is_admin) ||
+                                (rolDeLaFila.includes('jefe') && is_jefe);
+
+                            const estaBloqueadoActivo =
+                                usuario.id === auth.user?.id ||
+                                (!usuario.activo &&
+                                    rolDeLaFila.includes('registrado'));
                             <tr>
                                 <td
                                     colSpan={9}
@@ -338,7 +398,6 @@ export default function Show({ usuarios, centros, roles }: Props) {
                                     "{filtroNombre}"
                                 </td>
                             </tr>;
-                            const estaVisible = visibles.includes(usuario.id);
 
                             return (
                                 <tr key={usuario.id} className="hover">
@@ -346,46 +405,102 @@ export default function Show({ usuarios, centros, roles }: Props) {
                                     <td>{usuario.name}</td>
                                     <td>{usuario.email}</td>
                                     <td>{usuario.dni}</td>
-                                    <td>
-                                        <div className="flex items-center gap-2">
-                                            <input
-                                                type={
-                                                    estaVisible
-                                                        ? 'text'
-                                                        : 'password'
+                                    <td>{usuario.telefono}</td>
+                                    <td
+                                        onClick={() => {
+                                            if (estaBloqueado) return;
+
+                                            setEditandoUsuarioId(usuario.id);
+                                        }}
+                                        style={{
+                                            cursor: estaBloqueado
+                                                ? 'not-allowed'
+                                                : 'pointer',
+                                        }}
+                                        title={
+                                            is_admin || is_jefe
+                                                ? 'No se pueden editar Admins o Jefes o Registrados'
+                                                : 'Haz clic para editar'
+                                        }
+                                    >
+                                        {editandoUsuarioId === usuario.id ? (
+                                            <select
+                                                value={
+                                                    usuario.roles.map(
+                                                        (rol) => rol.rol,
+                                                    )[0]
                                                 }
-                                                value={'password_ejemplo'}
-                                                readOnly
-                                                className="w-24 border-none bg-transparent focus:outline-none"
-                                            />
-                                            <button
-                                                onClick={() =>
-                                                    toggleVisibilidad(
+                                                onChange={(e) =>
+                                                    handleRolCambiado(
                                                         usuario.id,
+                                                        e.target.value,
                                                     )
                                                 }
-                                                className="btn btn-ghost btn-xs"
+                                                onBlur={() =>
+                                                    setEditandoUsuarioId(null)
+                                                }
+                                                autoFocus
+                                                className="select"
                                             >
-                                                {estaVisible ? (
-                                                    <EyeOff size={16} />
-                                                ) : (
-                                                    <Eye size={16} />
-                                                )}
-                                            </button>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        {usuario.roles
-                                            .map((rol) => rol.rol)
-                                            .join(', ')}
+                                                {roles
+                                                    .slice(0, -1)
+                                                    .map((rol) => (
+                                                        <option
+                                                            key={rol.id}
+                                                            value={rol.rol}
+                                                        >
+                                                            {rol.rol}
+                                                        </option>
+                                                    ))}
+                                            </select>
+                                        ) : (
+                                            usuario.roles
+                                                .map((rol) => rol.rol)
+                                                .join(', ')
+                                        )}
                                     </td>
                                     <td>
                                         {usuario.centros
                                             .map((centro) => centro.nombre)
                                             .join(', ')}
                                     </td>
-                                    <td>
-                                        {usuario.activo ? (
+                                    <td
+                                        onClick={() => {
+                                            if (estaBloqueadoActivo) return;
+
+                                            setEditandoActivoId(usuario.id);
+                                        }}
+                                        style={{
+                                            cursor: estaBloqueadoActivo
+                                                ? 'not-allowed'
+                                                : 'pointer',
+                                        }}
+                                    >
+                                        {editandoActivoId === usuario.id ? (
+                                            <select
+                                                value={
+                                                    usuario.activo ? '1' : '0'
+                                                }
+                                                onChange={(e) =>
+                                                    handleActivoCambiado(
+                                                        usuario.id,
+                                                        e.target.value === '1',
+                                                    )
+                                                }
+                                                onBlur={() =>
+                                                    setEditandoActivoId(null)
+                                                }
+                                                autoFocus
+                                                className="select"
+                                            >
+                                                <option value="1">
+                                                    Activo
+                                                </option>
+                                                <option value="0">
+                                                    Inactivo
+                                                </option>
+                                            </select>
+                                        ) : usuario.activo ? (
                                             <span className="activo">
                                                 Activo
                                             </span>
@@ -397,9 +512,15 @@ export default function Show({ usuarios, centros, roles }: Props) {
                                     </td>
                                     <td></td>
                                     <td className="flex justify-center gap-2">
-                                        <button className="btn text-blue-500 btn-ghost btn-xs">
+                                        <Button
+                                            href={route(
+                                                'usuarios.edit',
+                                                usuario.id,
+                                            )}
+                                            className="btn text-blue-500 btn-ghost btn-xs"
+                                        >
                                             Editar
-                                        </button>
+                                        </Button>
                                     </td>
                                 </tr>
                             );

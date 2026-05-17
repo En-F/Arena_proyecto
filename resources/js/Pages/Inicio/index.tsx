@@ -15,12 +15,11 @@ export default function Inicio({ centros, noticias, cursos }: Props) {
     const { auth } = usePage().props as any;
     const is_admin = auth.user?.is_admin || false;
     const is_jefe = auth.user?.is_jefe || false;
-
+    const c_centro = auth.user?.centros.lenght;
     return (
         <>
             <Head title="Inicio " />
             <div className="main-container">
-                {/* --- SECCIÓN CENTROS --- */}
                 <section className="section-centros">
                     <h2 className="title-black">Nuestros Centros</h2>
 
@@ -41,8 +40,7 @@ export default function Inicio({ centros, noticias, cursos }: Props) {
                     </div>
                 </section>
 
-                {/* --- SECCIÓN INSCRIPCIÓN --- */}
-                {!auth.user && (
+                {(!auth.user || !c_centro) && (
                     <section className="banner-cta">
                         <BannerInscripcion
                             imagen="inscripcion.jpg"
@@ -54,7 +52,6 @@ export default function Inicio({ centros, noticias, cursos }: Props) {
                     </section>
                 )}
 
-                {/* --- SECCIÓN ACTIVIDADES --- */}
                 <section className="section-actividades">
                     <h2 className="title-black text-white">
                         Cursos Deportivos
@@ -79,7 +76,6 @@ export default function Inicio({ centros, noticias, cursos }: Props) {
                     </div>
                 </section>
 
-                {/* --- SECCIÓN NOTICIAS --- */}
                 <section className="section-noticias pb-20">
                     <h2 className="title-black">Últimas Noticias</h2>
                     <div className="noticia-container">

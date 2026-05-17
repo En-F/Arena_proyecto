@@ -39,6 +39,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@admin.com',
             'password' => Hash::make('admin'),
             'dni' => '67182280Q',
+            'telefono' => '111111111',
             'created_at' => now(),
             'activo'=> true
         ]);
@@ -48,6 +49,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'enrique@enrique.com',
             'password' => Hash::make('enrique'),
             'dni' => '68957529X',
+            'telefono' => '123456789',
             'created_at' => now(),
             'activo'=> true
         ]);
@@ -57,6 +59,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'usuario1@usuario1.com',
             'password' => Hash::make('usuario1'),
             'dni' => '83589575P',
+            'telefono' => '987654321',
             'created_at' => now(),
             'activo'=> true
         ]);
@@ -65,7 +68,15 @@ class DatabaseSeeder extends Seeder
             'name' => 'usuario2',
             'email' => 'usuario2@usuario2.com',
             'password' => Hash::make('usuario2'),
-            'dni' => '83716027Y',
+            'created_at' => now(),
+        ]);
+
+        $usuario_3 = DB::table('users')->insertGetId([
+            'name' => 'usuario3',
+            'email' => 'usuario3@usuario3.com',
+            'password' => Hash::make('usuario3'),
+            'dni' => '57941627G',
+            'telefono' => '364758392',
             'created_at' => now(),
             'activo'=> true
         ]);
@@ -406,6 +417,7 @@ class DatabaseSeeder extends Seeder
         DB::table('inscripcion')->insert([
             ['centro_id' => $centro_1, 'user_id' => $jefe, 'fecha_alta' => now(),'tarifa_id'=>null],
             ['centro_id' => $centro_2, 'user_id' => $usuario_1, 'fecha_alta' => now(),'tarifa_id'=>$tarifa_1],
+            ['centro_id' => $centro_1, 'user_id' => $usuario_3, 'fecha_alta' => now(),'tarifa_id'=>$tarifa_2],
         ]);
 
         // Roles de usuario
@@ -413,6 +425,7 @@ class DatabaseSeeder extends Seeder
             ['user_id' => $admin, 'rol_id' => $rol_1, 'created_at' => now()],
             ['user_id' => $jefe, 'rol_id' => $rol_2, 'created_at' => now()],
             ['user_id' => $usuario_1, 'rol_id' => $rol_3, 'created_at' => now()],
+            ['user_id' => $usuario_2, 'rol_id' => $rol_4, 'created_at' => now()],
 
         ]);
 

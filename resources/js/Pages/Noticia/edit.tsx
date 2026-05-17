@@ -66,7 +66,9 @@ export default function Edit({ noticia, centros }: { noticia: Noticia }) {
                 <div className="cn-page">
                     <div className="cn-wrap">
                         <div className="cn-section-header">
-                            <p className="cn-section-title">Crear noticia</p>
+                            <p className="cn-section-title">
+                                Actualizar noticia
+                            </p>
                             <p className="cn-section-subtitle">
                                 Esta información se mostrará públicamente. Sé
                                 cuidadoso con lo que publicas.

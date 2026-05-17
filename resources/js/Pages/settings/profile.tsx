@@ -1,122 +1,106 @@
-import { Form, Head, Link, usePage } from '@inertiajs/react';
+import { Form, Head, usePage } from '@inertiajs/react';
 import ProfileController from '@/actions/App/Http/Controllers/Settings/ProfileController';
-import DeleteUser from '@/components/delete-user';
 import Heading from '@/components/heading';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { edit } from '@/routes/profile';
-import { send } from '@/routes/verification';
-import Logout from '../settings/logout'
-export default function Profile({
-    mustVerifyEmail,
-    status,
-}: {
-    mustVerifyEmail: boolean;
-    status?: string;
-}) {
+import Logout from '../settings/logout';
+
+export default function Profile() {
     const { auth } = usePage().props;
 
     return (
         <>
-            <Head title="Profile settings" />
+            <Head title="Ajustes del perfil" />
 
-            <h1 className="sr-only">Configuracion del usuario</h1>
+            <h1 className="sr-only">Configuración del usuario</h1>
 
-            <div className="space-y-6">
+            <div className="space-y-8">
                 <Heading
                     variant="small"
-                    title="Profile information"
-                    description="Update your name and email address"
+                    title="Información del perfil"
+                    description="Actualiza tu nombre y dirección de correo electrónico"
                 />
 
-                <Form
-                    {...ProfileController.update.form()}
-                    options={{
-                        preserveScroll: true,
-                    }}
-                    className="space-y-6"
-                >
-                    {({ processing, errors }) => (
-                        <>
-                            <div className="grid gap-2">
-                                <Label htmlFor="name">Name</Label>
+                <div className="rounded-lg border border-neutral-200 bg-white p-6 shadow-sm transition-all duration-200 dark:border-neutral-800 dark:bg-neutral-950">
+                    <Form
+                        {...ProfileController.update.form()}
+                        options={{
+                            preserveScroll: true,
+                        }}
+                        className="space-y-6"
+                    >
+                        {({ processing, errors }) => (
+                            <>
+                                <div className="space-y-2">
+                                    <Label
+                                        htmlFor="name"
+                                        className="font-semibold text-neutral-700 dark:text-neutral-300"
+                                    >
+                                        Nombre
+                                    </Label>
 
-                                <Input
-                                    id="name"
-                                    className="mt-1 block w-full"
-                                    defaultValue={auth.user.name}
-                                    name="name"
-                                    required
-                                    autoComplete="name"
-                                    placeholder="Full name"
-                                />
+                                    <Input
+                                        id="name"
+                                        className="h-10 rounded-md border border-neutral-300 bg-white px-4 py-2 text-sm transition-all duration-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-50 dark:border-neutral-600 dark:bg-neutral-900 dark:text-neutral-100 dark:focus:ring-blue-950"
+                                        defaultValue={auth.user.name}
+                                        name="name"
+                                        required
+                                        autoComplete="name"
+                                        placeholder="Nombre completo"
+                                    />
 
-                                <InputError
-                                    className="mt-2"
-                                    message={errors.name}
-                                />
-                            </div>
+                                    <InputError
+                                        className="mt-1 text-xs font-medium"
+                                        message={errors.name}
+                                    />
+                                </div>
 
-                            <div className="grid gap-2">
-                                <Label htmlFor="email">Email address</Label>
+                                <div className="space-y-2">
+                                    <Label
+                                        htmlFor="email"
+                                        className="font-semibold text-neutral-700 dark:text-neutral-300"
+                                    >
+                                        Correo electrónico
+                                    </Label>
 
-                                <Input
-                                    id="email"
-                                    type="email"
-                                    className="mt-1 block w-full"
-                                    defaultValue={auth.user.email}
-                                    name="email"
-                                    required
-                                    autoComplete="username"
-                                    placeholder="Email address"
-                                />
+                                    <Input
+                                        id="email"
+                                        type="email"
+                                        className="h-10 rounded-md border border-neutral-300 bg-white px-4 py-2 text-sm transition-all duration-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-50 dark:border-neutral-600 dark:bg-neutral-900 dark:text-neutral-100 dark:focus:ring-blue-950"
+                                        defaultValue={auth.user.email}
+                                        name="email"
+                                        required
+                                        autoComplete="username"
+                                        placeholder="Dirección de correo electrónico"
+                                    />
 
-                                <InputError
-                                    className="mt-2"
-                                    message={errors.email}
-                                />
-                            </div>
+                                    <InputError
+                                        className="mt-1 text-xs font-medium"
+                                        message={errors.email}
+                                    />
+                                </div>
 
-                            {mustVerifyEmail &&
-                                auth.user.email_verified_at === null && (
-                                    <div>
-                                        <p className="-mt-4 text-sm text-muted-foreground">
-                                            Your email address is unverified.{' '}
-                                            <Link
-                                                href={send()}
-                                                as="button"
-                                                className="text-foreground underline decoration-neutral-300 underline-offset-4 transition-colors duration-300 ease-out hover:decoration-current! dark:decoration-neutral-500"
-                                            >
-                                                Click here to resend the
-                                                verification email.
-                                            </Link>
-                                        </p>
+                                <div className="flex items-center gap-3 border-t border-neutral-200 pt-6 dark:border-neutral-800">
+                                    <Button
+                                        disabled={processing}
+                                        data-test="update-profile-button"
+                                        className="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:hover:bg-blue-600 dark:focus:ring-offset-neutral-950"
+                                    >
+                                        {processing
+                                            ? 'Guardando...'
+                                            : 'Guardar'}
+                                    </Button>
+                                </div>
+                            </>
+                        )}
+                    </Form>
+                </div>
 
-                                        {status ===
-                                            'verification-link-sent' && (
-                                            <div className="mt-2 text-sm font-medium text-green-600">
-                                                A new verification link has been
-                                                sent to your email address.
-                                            </div>
-                                        )}
-                                    </div>
-                                )}
-
-                            <div className="flex items-center gap-4">
-                                <Button
-                                    disabled={processing}
-                                    data-test="update-profile-button"
-                                >
-                                    Save
-                                </Button>
-                            </div>
-                        </>
-                    )}
-                </Form>
+                <Logout />
             </div>
-            <Logout/>
         </>
     );
 }
@@ -124,7 +108,7 @@ export default function Profile({
 Profile.layout = {
     breadcrumbs: [
         {
-            title: 'Profile settings',
+            title: 'Ajustes del perfil',
             href: edit(),
         },
     ],

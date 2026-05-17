@@ -33,21 +33,6 @@ const show = ({ curso, videos, beneficios }: Props) => {
     const is_admin = auth.user?.is_admin || false;
     const is_jefe = auth.user?.is_jefe || false;
 
-    // const handleEdit = (beneficioId, cursoId) => {
-    //     router.get(route('beneficios.edit', beneficioId), {
-    //         curso_id: cursoId,
-    //     });
-    // };
-
-    // const handleBorrarBeneficio = (id: number) => {
-    //     if (confirm(`¿Estás seguro de que quieres eliminar este beneficio ?`)) {
-    //         router.delete(route('beneficios.destroy', id), {
-    //             data: { curso: curso.id },
-    //             preserveScroll: true,
-    //         });
-    //     }
-    // };
-
     const handleBorrarCurso = (id: number) => {
         if (confirm(`¿Estás seguro de que quieres eliminar este curso ?`)) {
             router.delete(route('cursos.destroy', id), {
