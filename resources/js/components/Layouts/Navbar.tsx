@@ -20,7 +20,7 @@ const Navbar = () => {
                     <Link href={'/centros'}>Centros</Link>
                     <Link href={'/actividades'}>Actividades</Link>
                     <Link href={'/cursos'}>Cursos</Link>
-                    <Link href={'/horarios'}>Horario</Link>
+                    <Link href={'/reservas'}>Reservas</Link>
                 </div>
                 <div className="botones-acceso">
                     {auth.user ? (
@@ -96,6 +96,14 @@ const Navbar = () => {
                                         onClick={() => setMenuAbierto(false)}
                                     >
                                         👥 Usuarios
+                                    </Link>
+
+                                    <Link
+                                        href="/horarios"
+                                        className="flex w-full items-center rounded-xl px-3 py-3 text-sm font-bold text-slate-700 transition-colors hover:bg-blue-50 hover:text-blue-700"
+                                        onClick={() => setMenuAbierto(false)}
+                                    >
+                                        🗓️ Gestionar el Horario de Reservas
                                     </Link>
 
                                     <div className="my-2 border-t border-slate-100"></div>

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('dia');
             $table->time('hora_inicio');
             $table->time('hora_fin');
-            $table->boolean('disponible')->default(true);
+            $table->boolean('estado')->default(false);
             $table->timestamps();
         });
     }

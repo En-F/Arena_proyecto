@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\Settings\ProfileController;
 use App\Http\Controllers\Settings\SecurityController;
-use App\Http\Controller\Settings\HistorialController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth'])->group(function () {
@@ -11,7 +10,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('settings/profile', [ProfileController::class, 'update'])->name('profile.update');
 
-    Route::get('settings/historial', [HistorialController::class, 'historial'])->name('historial.show');
+    // Route::get('settings/historial', [HistorialController::class, 'historial'])->name('historial.show');
 });
 
 Route::middleware(['auth'])->group(function () {

@@ -387,6 +387,21 @@ class DatabaseSeeder extends Seeder
             'url'=> 'https://www.youtube.com/watch?v=ewbP346WkdU&pp=ygUibmF0YWNpb24gc2luY29uaXphZGEgIGNvbW8gaGFjZXJsbw%3D%3D'
         ]);
 
+        //Horarios
+        $horario_1= DB::table('horarios')->insertGetId([
+            'dia' => 'Lunes',
+            'hora_inicio'=> '08:00',
+            'hora_fin' => '14:30',
+        ]);
+
+        $horario_1= DB::table('horarios')->insertGetId([
+            'dia' => 'Martes',
+            'hora_inicio'=> '08:00',
+            'hora_fin' => '14:30',
+            'estado' => true
+        ]);
+
+
 
         //----RELACIONES----
         DB::table('videoables')->insert([

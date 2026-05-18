@@ -2,6 +2,7 @@ import { Link, router, usePage } from '@inertiajs/react';
 import '../../../css/carta/carta_generica.css';
 import Button from '../Layouts/Button';
 import '../../../css/button.css';
+import { useState, useEffect } from 'react';
 
 interface Props {
     id?: number;
@@ -31,6 +32,11 @@ export default function Cartagenerica({
     es_activo = true,
 }: Props) {
     const { auth } = usePage().props;
+    const [timestamp, setTimestamp] = useState<number>(0);
+
+    useEffect(() => {
+        setTimestamp(Date.now());
+    }, [imagen]);
 
     const textoConfirmacionDefault =
         textoConfirmacion ||
@@ -68,8 +74,9 @@ export default function Cartagenerica({
             >
                 <div className="img-card-container">
                     <img
-                        src={`/storage/${imagen}?v=${Date.now()}`}
+                        src={`/storage/${imagen}?v=${timestamp}`}
                         alt={nombre}
+                        suppressHydrationWarning={true}
                     />
                 </div>
                 <p className="centro-title">{nombre}</p>

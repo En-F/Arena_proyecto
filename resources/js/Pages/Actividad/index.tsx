@@ -184,17 +184,19 @@ export default function Inicio({
                                 Selecciona un centro para ver sus actividades.
                             </p>
                         ) : actividades.length === 0 ? (
-                            <p className="sin-centro-msg">
-                                {cursoSeleccionado
-                                    ? 'No hay actividades para el curso seleccionado.'
-                                    : 'No hay actividades para el centro seleccionado.'}
-                                <div>
-                                    <Cartagenerica
-                                        esCrear
-                                        rutaCrear="actividades/create"
-                                    />
-                                </div>
-                            </p>
+                            <div className="sin-centro-msg">
+                                <p>
+                                    {cursoSeleccionado
+                                        ? 'No hay actividades para el curso seleccionado.'
+                                        : 'No hay actividades para el centro seleccionado.'}
+                                </p>
+
+                                <Cartagenerica
+                                    esCrear={true}
+                                    rutaCrear="/actividades/create"
+                                    tipo="actividad"
+                                />
+                            </div>
                         ) : (
                             actividades.map((actividad) => (
                                 <Cartagenerica

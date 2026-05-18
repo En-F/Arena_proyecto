@@ -1,5 +1,6 @@
 import { Link } from '@inertiajs/react';
 import '../../../../css/carta/carta_noticia.css';
+import { useEffect, useState } from 'react';
 
 interface Props {
     id: number;
@@ -18,6 +19,12 @@ export default function CartaNoticia({
     esCrear = false,
     es_activo = true,
 }: Props) {
+    const [timestamp, setTimestamp] = useState<number>(0);
+
+    useEffect(() => {
+        setTimestamp(Date.now());
+    }, [imagen]);
+
     if (esCrear) {
         return (
             <Link href="/noticias/create" className="centro-item">
@@ -36,9 +43,10 @@ export default function CartaNoticia({
         >
             <div className="news-img-wrapper">
                 <img
-                    src={`/storage/${imagen}?v=${Date.now()}`}
+                    src={`/storage/${imagen}?v=${timestamp}`}
                     alt={titulo}
                     className="news-img"
+                    suppressHydrationWarning={true}
                 />
             </div>
             <h4>{titulo}</h4>

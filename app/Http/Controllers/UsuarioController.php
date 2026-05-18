@@ -206,7 +206,7 @@ class UsuarioController extends Controller
 
     }
 
-    public function actualizarActivo(Request $request, $id)
+    public function cambiarActivo(Request $request, $id)
     {
         $usuarioLogueado = Auth::user();
         $nuevoEstado = $request->input('activo'); 
