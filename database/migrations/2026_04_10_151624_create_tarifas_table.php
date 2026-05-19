@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('tarifas', function (Blueprint $table) {
             $table->id();
             $table->string('tipo');
-            $table->string('titulo')->unique();
             $table->decimal('precio', 8, 2);
             $table->string('periodo');
             $table->text('descripcion');

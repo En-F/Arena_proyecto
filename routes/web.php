@@ -15,6 +15,7 @@ use App\Http\Controllers\VideoController;
 use App\Http\Controllers\InstalacionController;
 use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\SesionController;
+use App\Http\Controllers\TarifaController;
 use App\Models\Horario;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
@@ -35,14 +36,11 @@ Route::resource('centros', CentroController::class)->only(['index', 'show']);
 
 //Actividades
 Route::get('/actividades/buscar',[ActividadController::class,'buscar'])->name('actividades.buscar');
-Route::resource('actividades', ActividadController::class)->parameter('actividades', 'actividad')->only(['index', 'show']);
 
-//Noticias
-Route::resource('noticias', NoticiaController::class)->only(['index','show']);
+
 
 //Cursos
 Route::get('/cursos/buscar', [CursoController::class, 'buscar'])->name('centros.buscar');;
-Route::resource('cursos', CursoController::class)->only(['index', 'show']);
 
 //Horarios
 Route::resource('horarios', HorarioController::class)->only(['index']);
@@ -59,6 +57,9 @@ Route::resource('beneficios', BeneficioController::class)->only(['index']);
 //Reservas
 Route::resource('reservas',ReservaController::class)->only(['index', 'show']);
 
+//Valoraciones
+Route::resource('valoraciones',ValoracionController::class)->only(['create','store']);
+
 
 //Logeo
 Route::get('/login', [ControlController::class, 'create'])->name('login');
@@ -71,8 +72,6 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::post('/centros/ocultar', [CentroController::class, 'ocultar']);
     Route::resource('centros', CentroController::class)->except(['index','show']);
 
-    //Valoraciones
-    Route::resource('valoraciones',ValoracionController::class)->except(['index','show']);
 
 });
 
@@ -89,22 +88,19 @@ Route::middleware(['auth', 'role:admin,jefe'])->group(function () {
 
     //Curso
     Route::post('/cursos/ocultar', [CursoController::class, 'ocultar']);
-    Route::resource('cursos', CursoController::class)->except(['index','show']);
+    Route::resource('cursos', CursoController::class);
 
     //Horario
     Route::resource('horarios', HorarioController::class)->except(['index','show']);
 
     //Actividad
     Route::post('/actividades/ocultar', [ActividadController::class, 'ocultar']);
-    Route::resource('actividades', ActividadController::class)->parameter('actividades', 'actividad')->except(['index','show']);
-    
+    Route::resource('actividades', ActividadController::class)
+            ->parameter('actividades', 'actividad');    
     //Noticia
     Route::post('/noticias/ocultar', [NoticiaController::class, 'ocultar']);
-    Route::resource('noticias', NoticiaController::class)->except(['index','show']);
+    Route::resource('noticias', NoticiaController::class);
 
-    //Valoracion
-    Route::get('/valoracion/create', [ValoracionController::class, 'create'])->name('valoraciones.create');
-    Route::post('/valoracion', [ValoracionController::class, 'store'])->name('valoraciones.store');
 
     //Video
     Route::resource('videos',VideoController::class)->except(['index']);
@@ -121,9 +117,14 @@ Route::middleware(['auth', 'role:admin,jefe'])->group(function () {
         'instalaciones' => 'instalacion'
     ]);
 
-    //Centros
-    Route::resource('centros', CentroController::class)->except(['create', 'store', 'destroy']);
+    //Valoraciones
+    Route::resource('valoraciones',ValoracionController::class)->parameters([
+        'valoraciones' => 'valoracion'
+    ])->except(['show']);
 
+    //Centros
+    Route::resource('centros', CentroController::class)->only(['edit', 'update']);
+    
     //reservas
     Route::resource('reservas',ReservaController::class)->except(['index','show']);
 
@@ -131,6 +132,12 @@ Route::middleware(['auth', 'role:admin,jefe'])->group(function () {
     Route::resource('sesiones',SesionController::class)->parameters([
         'instalaciones' => 'instalacion'
     ])->except(['index','show']);
+
+    //tarifas
+    Route::get('/tarifas/buscar',[TarifaController::class,'buscar']);
+    Route::resource('tarifas',TarifaController::class)->except(['show']);
+
+
 });
        
 Route::middleware('auth')->group(function () {

@@ -148,7 +148,7 @@ class DatabaseSeeder extends Seeder
             'comentario' => 'El ambiente es muy motivador y las actividades son variadas. Lo recomiendo.',
             'puntuacion' => 4,
             'centro_id' => $centro_1,
-            'user_id' => $jefe,
+            'user_id' => $admin,
             'created_at' => now(),
         ]);
 
@@ -162,8 +162,7 @@ class DatabaseSeeder extends Seeder
 
         //Tarifas
         $tarifa_1 = DB::table('tarifas')->insertGetId([
-            'tipo' => 'basico',
-            'titulo' => 'Tarifa Basica',
+            'tipo' => 'basica',
             'precio' => 24.90,
             'periodo' => 'mes',
             'descripcion' => json_encode([
@@ -177,7 +176,6 @@ class DatabaseSeeder extends Seeder
 
         $tarifa_2 =DB::table('tarifas')->insertGetId([
             'tipo' => 'premium',
-            'titulo' => 'Tarifa Premium',
             'precio' => 44.90,
             'periodo' => 'mes',
             'descripcion' => json_encode([
@@ -186,6 +184,30 @@ class DatabaseSeeder extends Seeder
                 'Acceso a fines de semana y festivos'
             ]),
             'centro_id' => $centro_1,
+            'created_at' => now(),
+        ]);
+
+        $tarifa_4 =DB::table('tarifas')->insertGetId([
+            'tipo' => 'basica',
+            'precio' => 14.90,
+            'periodo' => 'mes',
+            'descripcion' => json_encode([
+                'Acceso 8:00 a 14:00',
+                'Máximo 2 reservas semanales'
+            ]),
+            'centro_id' => $centro_2,
+            'created_at' => now(),
+        ]);
+
+        $tarifa_5 =DB::table('tarifas')->insertGetId([
+            'tipo' => 'estandar',
+            'precio' => 24.90,
+            'periodo' => 'mes',
+            'descripcion' => json_encode([
+                'Acceso 8:00 a 12:00 y de 16:00 a 18:00',
+                'Máximo 4 reservas semanales'
+            ]),
+            'centro_id' => $centro_2,
             'created_at' => now(),
         ]);
 
@@ -429,10 +451,39 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // Inscripciones
-        DB::table('inscripcion')->insert([
-            ['centro_id' => $centro_1, 'user_id' => $jefe, 'fecha_alta' => now(),'tarifa_id'=>null],
-            ['centro_id' => $centro_2, 'user_id' => $usuario_1, 'fecha_alta' => now(),'tarifa_id'=>$tarifa_1],
-            ['centro_id' => $centro_1, 'user_id' => $usuario_3, 'fecha_alta' => now(),'tarifa_id'=>$tarifa_2],
+        DB::table('inscripciones')->insert([
+            [
+                'centro_id'      => $centro_1, 
+                'user_id'        => $jefe, 
+                'fecha_alta'     => Carbon::now(),
+                'fecha_inicio'   => Carbon::now(),
+                'fecha_fin'      => null,
+                'tarifa_id' => null,
+            ],
+            [
+                'centro_id'      => $centro_1, 
+                'user_id'        => $usuario_1, 
+                'fecha_alta'     => Carbon::now(),
+                'fecha_inicio'   => Carbon::now(),
+                'fecha_fin'      => Carbon::now()->addMonth(), 
+                'tarifa_id' => $tarifa_1,
+            ],
+            [
+                'centro_id'      => $centro_1, 
+                'user_id'        => $usuario_2, 
+                'fecha_alta'     => Carbon::now()->subDays(5), 
+                'fecha_inicio'   => Carbon::now()->startOfMonth(), 
+                'fecha_fin'      => null, 
+                'tarifa_id' => $tarifa_1,
+            ],
+            [
+                'centro_id'      => $centro_2, 
+                'user_id'        => $usuario_2, 
+                'fecha_alta'     => Carbon::now()->subDays(2), 
+                'fecha_inicio'   => Carbon::now()->startOfMonth(), 
+                'fecha_fin'      => null, 
+                'tarifa_id' => $tarifa_5,
+            ]
         ]);
 
         // Roles de usuario

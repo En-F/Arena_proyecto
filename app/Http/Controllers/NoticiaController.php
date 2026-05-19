@@ -39,8 +39,8 @@ class NoticiaController extends Controller
             $centros = Centro::all();
         } elseif($usuario_logeado->Jefe()) {
             $centros = DB::table('centros')
-                ->join('inscripcion', 'centros.id', '=', 'inscripcion.centro_id')
-                ->where('inscripcion.user_id', $usuario_logeado->id)
+                ->join('inscripciones', 'centros.id', '=', 'inscripciones.centro_id')
+                ->where('inscripciones.user_id', $usuario_logeado->id)
                 ->select('centros.*')
                 ->distinct()
                 ->get();

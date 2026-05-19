@@ -2,48 +2,46 @@ import { Pencil } from 'lucide-react';
 import React, { useState } from 'react';
 import '../../../../../css/centro/show.css';
 import { usePage } from '@inertiajs/react';
+import Button from '@/components/Layouts/Button';
 
 interface Props {
     id: number;
     tipo: string;
-    titulo: string;
     precio: number;
     descripcion: string[];
     periodo: string;
 }
 
-export default function PricingCard({
+export default function CartaPrecio({
     id,
     tipo,
-    titulo,
     precio,
     descripcion,
     periodo,
 }: Props) {
+    const tipoNormalizado = tipo.toLowerCase();
     const [isHovered, setIsHovered] = useState(false);
     const { auth } = usePage().props as any;
     const is_admin = auth.user?.is_admin || false;
     const is_jefe = auth.user?.is_jefe || false;
 
-    const handleEdit = (e: React.MouseEvent) => {
-        e.stopPropagation();
-        route('tarifas.edit', id);
-    };
-
     return (
         <div
-            className={`pricing-card ${tipo}`}
+            className={`pricing-card card-${tipoNormalizado}`}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             style={isHovered ? { transform: 'translateY(-5px)' } : {}}
         >
             {(is_admin || is_jefe) && (
-                <button className="pricing-edit-button" onClick={handleEdit}>
+                <Button
+                    className="pricing-edit-button"
+                    href={route('tarifas.edit', id)}
+                >
                     <Pencil size={16} />
-                </button>
+                </Button>
             )}
             <div className="pricing-card-header">
-                <h2>{titulo}</h2>
+                <h2>{tipo}</h2>
                 <div className="precio">
                     <span className="precio-término">€</span>
                     {precio}
@@ -58,12 +56,12 @@ export default function PricingCard({
                     ))}
                 </ul>
 
-                <button
+                <Button
                     className="pricing-button"
                     // onClick={handleSubscribe}
                 >
                     Suscribirse
-                </button>
+                </Button>
             </div>
         </div>
     );

@@ -11,9 +11,10 @@ interface Valoracion {
 
 interface Props {
     valoraciones: Valoracion[];
+    centro: { id: number; nombre: string };
 }
 
-export default function SeccionValoracion({ valoraciones }: Props) {
+export default function SeccionValoracion({ valoraciones, centro }: Props) {
     const { auth } = usePage().props as any;
     const is_admin = auth.user?.is_admin || false;
     const is_jefe = auth.user?.is_jefe || false;
@@ -25,7 +26,9 @@ export default function SeccionValoracion({ valoraciones }: Props) {
                 {valoraciones.map((valoracion) => (
                     <CartaValoracion key={valoracion.id} {...valoracion} />
                 ))}
-                {(is_admin || is_jefe) && <CartaValoracion esCrear />}
+                {(is_admin || is_jefe) && (
+                    <CartaValoracion esCrear centro_id={centro.id} />
+                )}
             </div>
         </section>
     );

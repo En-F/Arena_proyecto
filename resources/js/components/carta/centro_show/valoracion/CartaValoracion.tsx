@@ -1,8 +1,9 @@
-import { usePage } from '@inertiajs/react';
-import { Link } from 'lucide-react';
+import { router, usePage } from '@inertiajs/react';
+import { Link } from '@inertiajs/react';
 import React from 'react';
 import '../../../../../css/carta/carta_generica.css';
 import '../../../../../css/centro/show.css';
+import { route } from 'ziggy-js';
 
 interface Props {
     id?: number;
@@ -10,6 +11,7 @@ interface Props {
     puntuacion?: number;
     comentario?: string;
     esCrear?: boolean;
+    user_id?: { id: number; name: string };
 }
 
 export default function ReviewCard({
@@ -18,8 +20,24 @@ export default function ReviewCard({
     puntuacion,
     comentario,
     esCrear = false,
+    centro_id,
+    user_id,
 }: Props) {
     const { auth } = usePage().props;
+    const is_admin = auth.user?.is_admin || false;
+    const is_jefe = auth.user?.is_jefe || false;
+
+    if (esCrear) {
+        console.log('ID del centro recibido:', centro_id);
+        return (
+            <Link
+                href={route('valoraciones.create', { centro_id: centro_id })}
+                className="carta-valoracion-create"
+            >
+                <span className="plus-icon">+</span>
+            </Link>
+        );
+    }
 
     const renderStars = (puntuacion: number) => {
         return (
@@ -36,21 +54,30 @@ export default function ReviewCard({
         );
     };
 
-    if (esCrear) {
-        return (
-            <Link href={route('valoraciones.create')}>
-                <div className="carta-valoracion">
-                    {renderStars(puntuacion)}
-                    <h3>{titulo}</h3>
-                    <p>{comentario}</p>
-                </div>
-            </Link>
-        );
-    }
-
     return (
-        <div className="carta-valoracion">
-            {renderStars(puntuacion)}
+        <div className="carta-valoracion" style={{ position: 'relative' }}>
+            {(is_admin || is_jefe) && (
+                <button
+                    onClick={() => {
+                        if (
+                            confirm(
+                                '¿Estás seguro de que quieres borrar esta valoración?',
+                            )
+                        ) {
+                            router.delete(route('valoraciones.destroy', id), {
+                                preserveScroll: true,
+                            });
+                        }
+                    }}
+                    className="btn-eliminar-valoracion"
+                    title="Eliminar comentario"
+                >
+                    &times;
+                </button>
+            )}
+
+            <div className="review-estrellas">{renderStars(puntuacion)}</div>
+            <h2>{user_id}</h2>
             <h3>{titulo}</h3>
             <p>{comentario}</p>
         </div>

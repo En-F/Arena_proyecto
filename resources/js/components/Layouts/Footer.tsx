@@ -5,33 +5,6 @@ const Footer = () => {
     return (
         <footer className="footer">
             <div className="footer__contenedor">
-                <div className="footer__pregunta">
-                    <strong className="footer__pregunta-title">
-                        ¿Quieres recibir las últimas noticias de Arena?
-                    </strong>
-
-                    <form className="footer__pregunta-form">
-                        <div className="footer__input-contenido">
-                            <label
-                                className="footer__input-label"
-                                htmlFor="email"
-                            >
-                                {' '}
-                                Email{' '}
-                            </label>
-                            <input
-                                className="footer__input"
-                                id="email"
-                                type="email"
-                                placeholder="Ejemplo@gmail.com"
-                            />
-                            <button className="footer__subscribe-btn">
-                                Suscribirse
-                            </button>
-                        </div>
-                    </form>
-                </div>
-
                 <div className="footer__body">
                     <div className="footer__description-colum1">
                         <p className="footer__description">
@@ -67,7 +40,6 @@ const Footer = () => {
                 </div>
 
                 <div className="footer__barra_inferior">
-                    
                     <p className="footer__copyright">
                         Desarrollado por Enrique Franco Ulric para la ayuda de
                         la gestión de un centro de deporte.

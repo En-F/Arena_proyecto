@@ -222,7 +222,7 @@ class InstalacionController extends Controller
     public function buscar(Request $request) {
 
         $usuario = Auth::user();    
-        $consulta = $request->query('nombre');
+        $consulta = $request->query('centro');
 
         if (empty($consulta)) {
             return response()->json([

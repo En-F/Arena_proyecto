@@ -1,5 +1,3 @@
-// resources/js/Components/PricingSection.jsx
-
 import React from 'react';
 import CartaPrecio from './CartaPrecio';
 

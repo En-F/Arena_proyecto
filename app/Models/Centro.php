@@ -34,7 +34,7 @@ class Centro extends Model
 
     public function usuarios()
     {
-        return $this->belongsToMany(User::class, 'inscripcion', 'centro_id', 'user_id')->withTimestamps()->withPivot('fecha_alta');
+        return $this->belongsToMany(User::class, 'inscripciones', 'centro_id', 'user_id')->withTimestamps()->withPivot('fecha_alta');
     }
 
     public function noticias()

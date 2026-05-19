@@ -26,7 +26,7 @@ export default function BannerInscripcion({
                 <div className="banner-text-box">
                     <h3>{titulo}</h3>
                     <p>{descripcion}</p>
-                    <Button href={href} className="btn-inscripcion">
+                    <Button href={href} className="btn-inscripciones">
                         {textBoton}
                     </Button>
                 </div>

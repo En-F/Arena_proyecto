@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('inscripcion', function (Blueprint $table) {
+        Schema::create('inscripciones', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('centro_id')->constrained('centros')->onDelete('cascade');
             $table->foreignId('tarifa_id')->nullable()->constrainded('tarifas')->onDelete('cascade');
             $table->timestamp('fecha_alta');
+            $table->timestamp('fecha_inicio');
+            $table->timestamp('fecha_fin')->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('inscripcion');
+        Schema::dropIfExists('inscripciones');
     }
 };

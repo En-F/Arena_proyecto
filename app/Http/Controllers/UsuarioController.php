@@ -27,7 +27,7 @@ class UsuarioController extends Controller
             $id_centros = $usuario->centros->pluck('id')->toArray();
 
             $query->whereHas('centros', function ($q) use ($id_centros) {
-                $q->whereIn('inscripcion.centro_id', $id_centros);
+                $q->whereIn('inscripciones.centro_id', $id_centros);
             })
             ->get();
 

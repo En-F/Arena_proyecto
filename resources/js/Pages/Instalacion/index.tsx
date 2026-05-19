@@ -1,11 +1,8 @@
-import { Eye, EyeOff } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import '../../../css/usuario/usuario.css';
-import { Input } from '@/components/ui/input';
 import '../../../css/inicio.css';
 import Button from '@/components/Layouts/Button';
 import '../../../css/button.css';
-import { router } from '@inertiajs/react';
 
 interface CentroConEstado {
     id: number;
@@ -35,6 +32,7 @@ export default function Show({ instalaciones }: Props) {
     const [filtroNombre, setFiltroNombre] = useState('');
     const [errores, setErrores] = useState<ErrorValidacion[]>([]);
     const [mensajeSistema, setMensajeSistema] = useState('');
+    const [busquedaRealizada, setBusquedaRealizada] = useState(false);
 
     const handleEliminar = (id: number) => {
         if (
@@ -49,7 +47,7 @@ export default function Show({ instalaciones }: Props) {
     const validarFiltros = (nombre: string): ErrorValidacion[] => {
         const erroresValidacion: ErrorValidacion[] = [];
 
-        if (nombre && nombre.length > 50) {
+        if (nombre && nombre.length > 70) {
             erroresValidacion.push({
                 campo: 'nombre',
                 mensaje: 'El nombre no puede exceder 50 caracteres',
@@ -105,6 +103,7 @@ export default function Show({ instalaciones }: Props) {
                 setMensajeSistema(dato_respuesta.message);
                 setResultado(dato_respuesta.data || []);
                 setErrores([]);
+                setBusquedaRealizada(true);
             } else {
                 setErrores([
                     { campo: 'general', mensaje: dato_respuesta.message },
@@ -122,10 +121,11 @@ export default function Show({ instalaciones }: Props) {
         }
     };
 
-    let InstalacionesMostrar = resultado.length > 0 ? resultado : instalaciones;
+    let InstalacionesMostrar = busquedaRealizada ? resultado : instalaciones;
 
     const limpiarFiltros = () => {
         setFiltroNombre('');
+        setBusquedaRealizada(false);
         setErrores([]);
         setMensajeSistema('');
         setResultado([]);

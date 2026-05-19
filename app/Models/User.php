@@ -59,7 +59,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function centros()
     {
-        return $this->belongsToMany(Centro::class, 'inscripcion', 'user_id', 'centro_id')->withPivot('fecha_alta')->withTimestamps();
+        return $this->belongsToMany(Centro::class, 'inscripciones', 'user_id', 'centro_id')->withPivot('fecha_alta')->withTimestamps();
     }
 
 

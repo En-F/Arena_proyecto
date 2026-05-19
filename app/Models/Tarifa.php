@@ -10,10 +10,15 @@ class Tarifa extends Model
 
     protected $casts = [
         'descripcion' => 'array',
+        'precio' => 'decimal:2',
     ];
 
     public function centro()
     {
         return $this->belongsTo(Centro::class);
+    }
+    public function inscripciones()
+    {
+        return $this->hasMany(Inscripcion::class, 'tarifa_id');
     }
 }

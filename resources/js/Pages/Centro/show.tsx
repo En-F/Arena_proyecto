@@ -13,7 +13,7 @@ export default function Show({ centro, instalaciones, tarifas, valoraciones }) {
             <Headershow entidad={centro} tipo="centro" />
             <SecciónInstalacion instalaciones={instalaciones} />
             <SeccionPrecio tarifas={tarifas} />
-            <SeccionValoracion valoraciones={valoraciones} />
+            <SeccionValoracion valoraciones={valoraciones} centro={centro} />
         </div>
     );
 }
