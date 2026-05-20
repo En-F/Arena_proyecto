@@ -5,6 +5,7 @@ namespace App\Actions\Fortify;
 use App\Concerns\PasswordValidationRules;
 use App\Concerns\ProfileValidationRules;
 use App\Models\User;
+use App\Models\Rol;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Illuminate\Support\Facades\Hash;
@@ -41,12 +42,19 @@ class CreateNewUser implements CreatesNewUsers
             'password.confirmed' => 'Las contraseñas no coinciden.',
         ])->validate();
 
-        return User::create([
+        $usuario =  User::create([
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
         ]);
-        
+
+       $rol = Rol::where('rol', 'registrado')->first();
+
+        if ($rol) {
+            $usuario->roles()->attach($rol->id); 
+        }
+
+        return $usuario;
         
     }
     public function messages(): array

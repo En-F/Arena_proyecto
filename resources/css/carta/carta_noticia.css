@@ -1,63 +1,43 @@
-/* --- SECCIÓN NOTICIAS --- */
-
-.news-card-wrapper {
-    position: relative;
-    width: 250px;
-    margin: 0 10px;
-    transition: transform 0.2s ease;
-}
-
-.news-card-wrapper:hover {
-    transform: translateY(-4px);
-}
-
 .noticia-container {
     display: flex;
     align-items: center;
     justify-content: center;
     background: rgba(255, 255, 255, 0.2);
-    padding: 1rem;
+    padding: 2rem 1rem;
     border-radius: 10px;
-    margin: 0 2rem;
-    padding-top: 4px;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 1200px;
+    box-sizing: border-box;
 }
 
-.news-card {
-    display: block;
+.news-card,
+.news-card-inactivo {
+    display: flex;
+    flex-direction: column;
     background: white;
     color: black;
     border-radius: 10px;
     padding: 1.2rem;
     width: 250px;
-    margin: 0 10px;
+    margin: 10px;
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     transition:
         transform 0.2s ease,
         box-shadow 0.2s ease;
+    text-decoration: none;
+    box-sizing: border-box;
 }
 
 .news-card-inactivo {
     border: 2px solid red;
-    display: block;
-    background: white;
-    color: black;
-    border-radius: 10px;
-    padding: 1rem;
-    width: 250px;
-    margin: 0 10px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
 }
 
 .news-card:hover {
-    transform: translateY(-2px);
+    transform: translateY(-5px);
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
     background-color: var(--fondo_noticia);
-    color: black;
 }
 
 .news-img-wrapper {
@@ -65,6 +45,7 @@
     height: 150px;
     overflow: hidden;
     border-radius: 8px;
+    flex-shrink: 0;
 }
 
 .news-img {
@@ -79,38 +60,98 @@
 }
 
 .news-card h4 {
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: 700;
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
+    margin: 0.8rem 0 0.5rem 0;
     color: #1a1a1a;
     line-height: 1.3;
     display: -webkit-box;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
 
-.news-card,
+.news-card p,
 .news-card-inactivo p {
     font-size: 0.85rem;
     color: #555;
     line-height: 1.5;
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
-
+    margin: 0;
     display: -webkit-box;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    -webkit-line-clamp: 2;
+}
+
+.title-black-centro {
+    text-align: center;
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
+    color: var(--text-principal);
+    font-family: 'Compaq';
+    margin-bottom: 1.5rem;
+    padding: 0 1rem;
+}
+
+@media (max-width: 1024px) {
+    .noticia-container {
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .noticia-container {
+        padding: 1rem;
+    }
+
+    .news-card,
+    .news-card-inactivo {
+        width: calc(50% - 20px);
+        min-width: 220px;
+    }
+}
+
+@media (max-width: 480px) {
+    .noticia-container {
+        flex-direction: column;
+        align-items: center;
+        margin: 0;
+    }
+
+    .news-card,
+    .news-card-inactivo {
+        width: 100%;
+        max-width: 320px;
+        margin: 10px 0;
+    }
+
+    .news-img-wrapper {
+        height: 180px;
+    }
+
+    .admin-actions-container {
+        gap: 20px;
+        flex-direction: column;
+    }
+
+    .title-black-centro {
+        font-size: 1.8rem;
+    }
 }
 
 .carta-crear {
     display: flex;
+
     align-items: center;
+
     justify-content: center;
+
     background-color: transparent;
+
     border: 2.5px dashed #aaa;
+
     box-shadow: none;
+
     transition:
         border-color 0.3s ease,
         background-color 0.3s ease;
@@ -118,39 +159,22 @@
 
 .carta-crear:hover {
     border-color: #0070f3;
+
     background-color: rgba(0, 112, 243, 0.05);
 }
 
 .carta-crear-plus {
     font-size: 3rem;
+
     color: #aaa;
+
     line-height: 1;
+
     transition: color 0.3s ease;
+
     user-select: none;
 }
 
 .centro-item:hover .carta-crear-plus {
     color: #0070f3;
-}
-
-.imagen-noticia {
-    width: 100%;
-    border-radius: 20px;
-    margin-bottom: 10px;
-    object-fit: cover;
-}
-
-.title-black-centro {
-    text-align: center;
-    font-size: 2.5rem;
-    color: var(--text-principal);
-    font-family: 'Compaq';
-    margin-bottom: 1rem;
-}
-
-@media (max-width: 480px) {
-    .admin-actions-container {
-        gap: 20px;
-        flex-direction: column;
-    }
 }

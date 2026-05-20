@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('cookie_consentimientos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->nullable()->constrained();
-            $table->string('ip_address')->nullable();
-            $table->string('ciudad')->nullable();
-            $table->json('preferencias'); 
-            $table->timestamps();
+            // $table->foreignId('user_id')->nullable()->constrained();
+            // $table->string('ip_address')->nullable();
+            // $table->string('ciudad')->nullable();
+            // $table->json('preferencias'); 
+            // $table->timestamps();
             $table->timestamps();
         });
     }

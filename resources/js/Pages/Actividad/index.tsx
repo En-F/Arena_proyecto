@@ -101,13 +101,6 @@ export default function Inicio({
                                 No estás inscrito en ningún centro...
                             </p>
                         )}
-                        <Button
-                            href="/inicio"
-                            type="button"
-                            className="btn-volver btn-crud"
-                        >
-                            Volver
-                        </Button>
                     </section>
                 </div>
             </>
@@ -221,13 +214,6 @@ export default function Inicio({
                             />
                         )}
                     </div>
-                    <Button
-                        href="/inicio"
-                        type="button"
-                        className="btn-volver btn-crud"
-                    >
-                        Volver
-                    </Button>
                 </section>
             </div>
         </>

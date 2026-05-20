@@ -24,7 +24,7 @@ class ValoracionController extends Controller
 
        $query = Valoracion::with(['usuario:id,name', 'centro:id,nombre']);
 
-        if ($usuario->Jefe()) {
+        if ($usuario?->Jefe()) {
             $idsMisCentros = $usuario->centros->pluck('id');
             $query->whereIn('centro_id', $idsMisCentros);
         }
@@ -84,7 +84,7 @@ class ValoracionController extends Controller
     {
         $centro = $valoracion->centro_id;
         $valoracion->delete();
-        return redirect()->route('centros.show',$centro);
+        return redirect()->back();
     }
 
     public function buscar(Request $request)

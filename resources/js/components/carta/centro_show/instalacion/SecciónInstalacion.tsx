@@ -1,5 +1,6 @@
 import React from 'react';
 import CartaInstalacion from './CartaInstalacion';
+import '../../../../../css/carta/sec_instalaciones.css';
 
 interface Instalacion {
     id: number;

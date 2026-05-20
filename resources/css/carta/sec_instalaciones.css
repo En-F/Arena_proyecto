@@ -1,0 +1,116 @@
+.installations-section {
+    width: 100%;
+    max-width: 1200px;
+    margin: 4rem auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.section-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(2rem, 5vw, 3rem);
+    text-align: center;
+    margin-bottom: 3rem;
+    color: #1a1a1a;
+    text-transform: uppercase;
+}
+
+.installations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    justify-content: center;
+    width: 100%;
+}
+
+.carta-instalacion {
+    background-color: #ffffff;
+    border-radius: 16px;
+    padding: 20px 10px;
+    text-align: center;
+    border: 2px solid silver;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+    width: 100%;
+    min-height: 130px;
+    box-sizing: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.carta-instalacion:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+}
+
+.icono-wrapper {
+    width: 80px;
+    height: 80px;
+    background-color: #f8f9fa;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.carta-instalacion:hover .icono-wrapper {
+    background-color: #eef2ff;
+}
+
+.icono-img {
+    width: 45px;
+    height: 45px;
+    object-fit: contain;
+}
+
+.instalacion-nombre {
+    font-size: clamp(1.1rem, 2vw, 1.3rem);
+    font-weight: 700;
+    color: #111;
+    margin: 0;
+    font-family: 'DM Sans', sans-serif;
+}
+
+@media (max-width: 768px) {
+    .installations-section {
+        margin: 2rem auto;
+    }
+
+    .installations-grid {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 15px;
+    }
+
+    .carta-instalacion {
+        padding: 30px 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .installations-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .icono-wrapper {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 15px;
+    }
+
+    .icono-img {
+        width: 35px;
+        height: 35px;
+    }
+
+    .section-title {
+        margin-bottom: 2rem;
+    }
+}

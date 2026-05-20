@@ -1,5 +1,6 @@
 import Button from '@/components/Layouts/Button';
 import React, { useState } from 'react';
+import '../../../../../css/carta/sec_instalaciones.css';
 
 interface Props {
     id: number;
@@ -12,7 +13,7 @@ export default function CartaInstalacion({ id, nombre, imagen }: Props) {
 
     return (
         <div
-            className="carta-instalación"
+            className="carta-instalacion"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             style={isHovered ? { transform: 'translateY(-5px)' } : {}}
@@ -21,12 +22,7 @@ export default function CartaInstalacion({ id, nombre, imagen }: Props) {
                 <img
                     src={`/storage/${imagen}`}
                     alt={nombre}
-                    style={{
-                        width: '40px',
-                        height: '40px',
-                        display: 'block',
-                        margin: '0 auto 10px',
-                    }}
+                    className="icono-img"
                 />
             </div>
             <h3>{nombre}</h3>

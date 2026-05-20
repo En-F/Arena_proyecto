@@ -84,7 +84,7 @@ export default function Cartagenerica({
 
             {(auth.user?.is_admin ||
                 (auth.user?.is_jefe && tipo !== 'centro')) && (
-                <div>
+                <div className="flex w-full justify-center">
                     <Button
                         type="button"
                         onClick={handleOcultarElemento}

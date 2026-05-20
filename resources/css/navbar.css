@@ -18,101 +18,15 @@
     font-display: swap;
 }
 
-/* --- SECCIÓN NAVEGACIÓN --- */
-
 .navbar {
     background-color: var(--nav-blue);
-    padding: 11px 32px;
+    padding: 10px 20px;
     color: black;
     position: sticky;
     top: 0;
     width: 100%;
-    z-index: 50;
-}
-.nav-left {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
-
-.botones-acceso {
-    margin: 0 0 0 12px;
-    display: flex;
-    position: relative;
-}
-.botones-acceso a {
-    display: flex;
-}
-.botones-acceso .boton {
-    margin: 0;
-    flex: 1;
-    justify-content: center;
-    text-align: center;
-    transition: all 0.3s ease-in-out;
-    cursor: pointer;
-    background: transparent;
-    text-decoration: none;
-    letter-spacing: -0.11px;
-}
-.botones-acceso a:first-child .boton {
-    border-radius: 20px 0 0 20px;
-    margin-right: 0;
-    padding: 6px 14px;
-    background-color: #f38200;
-}
-.botones-acceso a:last-child .boton {
-    border-radius: 0px 20px 20px 0px;
-    margin-left: 0;
-    padding: 6px 14px;
-}
-.botones-acceso .boton:hover {
-    opacity: 0.6;
-}
-/* Hazte socio */
-.botones-acceso .boton.socio {
-    color: var(--card-white);
-    line-height: 21px;
-}
-/* Iniciar sesión */
-.botones-acceso .boton.login {
-    display: flex;
-    align-items: center;
-    background-color: #f3f5f7;
-    color: #626a73;
-    justify-content: center;
-}
-
-.boton-login-logeado {
-    display: flex;
-    padding: 9px 18px;
-    background-color: #f38200;
-    border-radius: 20px 20px 20px 20px;
-    color: var(--card-white);
-    cursor: pointer;
-}
-
-.boton-login-logeado:hover {
-    opacity: 0.6;
-}
-
-.boton-perfil-control {
-    display: flex;
-    padding: 9px 18px;
-    background-color: #f38200;
-    border-radius: 10px 10px 10px 10px;
-    color: var(--card-white);
-    cursor: pointer;
-}
-
-.boton-perfil-control:hover {
-    opacity: 0.6;
-}
-
-.icono-login-logeado {
-    width: 18px;
-    margin-right: 8px;
-    object-fit: contain;
-    display: block;
+    z-index: 100;
+    box-sizing: border-box;
 }
 
 .nav-content {
@@ -121,47 +35,137 @@
     align-items: center;
     max-width: 1200px;
     margin: 0 auto;
+    width: 100%;
 }
 
-.nav-links a {
-    font-family: 'Oswald';
-    padding: 10px 10px;
-    margin: 0 15px;
-    font-size: 24px;
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
 
-.logo {
-    width: 70px;
-    object-fit: contain;
-    display: block;
-    border-radius: 20px;
-}
-
+.logo,
 .logo img {
-    width: 70px;
+    width: 60px;
+    height: auto;
     object-fit: contain;
     display: block;
     border-radius: 13px;
 }
 
-.nav-icons {
+.botones-acceso {
     display: flex;
-    gap: 30px;
+    align-items: center;
 }
 
-.icono-login {
-    width: 18px;
-    height: 18px;
-    margin-right: 8px;
-    object-fit: contain;
-    display: block;
+.botones-acceso .boton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 14px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    cursor: pointer;
 }
 
-.botones-acceso .boton.login::before {
-    content: none !important;
-    display: none !important;
-    background-image: none !important;
+.botones-acceso a:first-child .boton {
+    border-radius: 20px 0 0 20px;
+    background-color: #f38200;
+    color: white;
+}
+
+.botones-acceso a:last-child .boton {
+    border-radius: 0 20px 20px 0;
+    background-color: #f3f5f7;
+    color: #626a73;
+}
+
+.botones-acceso .boton:hover {
+    opacity: 0.8;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+}
+
+.nav-links a {
+    font-family: 'Oswald';
+    padding: 5px 10px;
+    margin: 0 10px;
+    font-size: 20px;
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: var(--neon-green);
+}
+
+@media (max-width: 1024px) {
+    .nav-links a {
+        font-size: 18px;
+        margin: 0 5px;
+    }
+
+    .logo,
+    .logo img {
+        width: 50px;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+
+    .navbar {
+        padding: 10px 15px;
+    }
+
+    .botones-acceso .boton {
+        padding: 5px 10px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-content {
+        flex-wrap: nowrap;
+    }
+
+    .nav-left {
+        gap: 8px;
+    }
+
+    .botones-acceso .boton {
+        padding: 4px 8px;
+        font-size: 11px;
+    }
+
+    .logo,
+    .logo img {
+        width: 40px;
+    }
+}
+
+.boton-login-logeado,
+.boton-perfil-control {
+    display: flex;
+    align-items: center;
+    padding: 8px 15px;
+    background-color: #f38200;
+    border-radius: 20px;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.icono-login-logeado {
+    width: 16px;
+    margin-right: 6px;
 }

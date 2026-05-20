@@ -6,18 +6,25 @@
     --nav-black: #000;
     --soft-green: #0722bb;
     --fondo_noticia: #5ca8ff;
+    --text-principal: #1a1a1a;
 }
 
 main {
     flex: 1;
+    width: 100%;
 }
 
 @font-face {
     font-family: 'Compaq';
-    src: url('../font/Garp\ Sans\ Compaq.otf') format('opentype');
+    src: url('../font//Garp\ Sans\ Compaq.otf') format('opentype');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
+}
+
+body {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
 }
 
 .main-container {
@@ -25,24 +32,28 @@ main {
     min-height: 100vh;
     font-family: 'Arial', sans-serif;
     padding-top: 20px;
+    display: flex;
     flex-direction: column;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .title-black {
-    color: var(--neon-green);
     text-align: center;
     margin: 2rem 0;
-    font-size: 3.5rem;
+    font-size: clamp(1.8rem, 5vw + 1rem, 3.5rem);
     color: var(--text-principal);
-    font-family: 'Compaq';
+    font-family: 'Compaq', sans-serif;
+    padding: 0 1rem;
+    word-break: break-word;
 }
 
 .section-actividades {
-    overflow: hidden;
-    flex-direction: flex;
-    align-items: center;
-    text-align: center;
+    width: 100%;
+    max-width: 1200px;
     margin: 0 auto;
+    padding: 0 20px;
+    box-sizing: border-box;
 }
 
 .activities-grid {
@@ -50,52 +61,42 @@ main {
     flex-wrap: wrap;
     justify-content: center;
     gap: 40px;
-    margin: 0 auto;
-    overflow-x: auto;
-    padding-top: 30px;
+    padding: 30px 0;
 }
 
-/* --- SECCIÓN RESPONSIVE --- */
-/*Tablet*/
 @media (max-width: 1024px) {
-    .grid-centros,
-    .news-grid,
     .activities-grid {
-        gap: 15px;
-        padding: 10px;
+        gap: 20px;
+        padding: 20px;
     }
+
+    .title-black {
+        margin: 1.5rem 0;
+    }
+
     .banner-content {
         flex-direction: column;
-    }
-    .banner-image {
-        min-height: 250px;
-    }
-    .banner-text-box {
-        padding: 3rem 1.5rem;
+        align-items: center;
     }
 }
 
-/*Movil*/
 @media (max-width: 768px) {
-    .nav-links {
-        display: none;
+    body {
+        font-size: 15px;
     }
 
-    .grid-centros,
-    .news-grid,
     .activities-grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        justify-items: center;
+        gap: 15px;
     }
 
-    .banner-image,
-    .banner-text-box {
-        width: 100%;
+    .title-black {
+        letter-spacing: 0;
     }
 
-    .title-green {
-        font-size: 1.5rem;
+    .nav-links {
+        display: none;
     }
 
     .footer-content {
@@ -103,8 +104,20 @@ main {
         gap: 2rem;
         text-align: center;
     }
+}
 
-    .activity-img-wrapper {
-        gap: 15px;
+@media (max-width: 480px) {
+    .activities-grid {
+        grid-template-columns: 1fr;
+        padding: 10px;
+    }
+
+    .title-black {
+        font-size: 1.8rem;
+        margin: 1rem 0;
+    }
+
+    .section-actividades {
+        padding: 0 10px;
     }
 }
