@@ -442,46 +442,40 @@ class DatabaseSeeder extends Seeder
         DB::table('centro_curso')->insert([
             ['centro_id' => $centro_1, 'curso_id' => $curso_1, 'created_at' => now()],
             ['centro_id' => $centro_1, 'curso_id' => $curso_2, 'created_at' => now()],
+            ['centro_id' => $centro_2, 'curso_id' => $curso_3, 'created_at' => now()],
         ]);
 
         // Relación Actividad - Curso
         DB::table('actividad_curso')->insert([
             ['actividad_id' => $actividad_1, 'curso_id' => $curso_1, 'created_at' => now()],
             ['actividad_id' => $actividad_7, 'curso_id' => $curso_1, 'created_at' => now()],
+            ['actividad_id' => $actividad_2, 'curso_id' => $curso_3, 'created_at' => now()]
         ]);
 
         // Inscripciones
         DB::table('inscripciones')->insert([
             [
-                'centro_id'      => $centro_1, 
-                'user_id'        => $jefe, 
+                'centro_id'      => $centro_1,
+                'user_id'        => $jefe,
                 'fecha_alta'     => Carbon::now(),
                 'fecha_inicio'   => Carbon::now(),
                 'fecha_fin'      => null,
                 'tarifa_id' => null,
             ],
             [
-                'centro_id'      => $centro_1, 
-                'user_id'        => $usuario_1, 
+                'centro_id'      => $centro_1,
+                'user_id'        => $usuario_1,
                 'fecha_alta'     => Carbon::now(),
                 'fecha_inicio'   => Carbon::now(),
-                'fecha_fin'      => Carbon::now()->addMonth(), 
+                'fecha_fin'      => Carbon::now()->addMonth(),
                 'tarifa_id' => $tarifa_1,
             ],
             [
-                'centro_id'      => $centro_1, 
-                'user_id'        => $usuario_2, 
-                'fecha_alta'     => Carbon::now()->subDays(5), 
-                'fecha_inicio'   => Carbon::now()->startOfMonth(), 
-                'fecha_fin'      => null, 
-                'tarifa_id' => $tarifa_1,
-            ],
-            [
-                'centro_id'      => $centro_2, 
-                'user_id'        => $usuario_2, 
-                'fecha_alta'     => Carbon::now()->subDays(2), 
-                'fecha_inicio'   => Carbon::now()->startOfMonth(), 
-                'fecha_fin'      => null, 
+                'centro_id'      => $centro_2,
+                'user_id'        => $usuario_3,
+                'fecha_alta'     => Carbon::now()->subDays(2),
+                'fecha_inicio'   => Carbon::now()->startOfMonth(),
+                'fecha_fin'      => null,
                 'tarifa_id' => $tarifa_5,
             ]
         ]);
@@ -492,6 +486,7 @@ class DatabaseSeeder extends Seeder
             ['user_id' => $jefe, 'rol_id' => $rol_2, 'created_at' => now()],
             ['user_id' => $usuario_1, 'rol_id' => $rol_3, 'created_at' => now()],
             ['user_id' => $usuario_2, 'rol_id' => $rol_4, 'created_at' => now()],
+            ['user_id' => $usuario_3, 'rol_id' => $rol_3, 'created_at' => now()],
 
         ]);
 
@@ -504,25 +499,35 @@ class DatabaseSeeder extends Seeder
         ]);
 
         DB::table('beneficio_curso')->insert([
-    [
-        'beneficio_id' => $beneficio_1,
-        'curso_id'     => $curso_1,
-        'created_at'   => now(),
-        'updated_at'   => now(),
-    ],
-    [
-        'beneficio_id' => $beneficio_2,
-        'curso_id'     => $curso_1,
-        'created_at'   => now(),
-        'updated_at'   => now(),
-    ],
-    [
-        'beneficio_id' => $beneficio_3,
-        'curso_id'     => $curso_1,
-        'created_at'   => now(),
-        'updated_at'   => now(),
-    ],
-]);
+        [
+            'beneficio_id' => $beneficio_1,
+            'curso_id'     => $curso_1,
+            'created_at'   => now(),
+            'updated_at'   => now(),
+        ],
+        [
+            'beneficio_id' => $beneficio_2,
+            'curso_id'     => $curso_1,
+            'created_at'   => now(),
+            'updated_at'   => now(),
+        ],
+        [
+            'beneficio_id' => $beneficio_3,
+            'curso_id'     => $curso_1,
+            'created_at'   => now(),
+            'updated_at'   => now(),
+        ],
+        ]);
+
+        //SESION
+        $sesion_1 = DB::table('sesiones')->insertGetId([
+            'actividad_id' => $actividad_1,
+            'horario_id' => $horario_1,
+            'centro_id' => $centro_1,
+            'capacidad' => 20,
+            'fecha' => '18/05/2026',
+            'curso_id' => $curso_1
+        ]);
 
     }
 

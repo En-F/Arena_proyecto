@@ -10,11 +10,17 @@ import '../../../css/noticia/show.css';
 import Headershow from '@/components/carta/centro_show/Headershow';
 import BeneficiosSection from '@/components/curso/curso_show/beneficios/BeneficioSection';
 
+interface Centro {
+    id: number;
+    nombre: string;
+}
+
 interface Curso {
     id: number;
     nombre: string;
     descripcion: number;
     tipo: string;
+    centro: Centro[];
 }
 
 interface Video {

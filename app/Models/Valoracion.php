@@ -10,9 +10,9 @@ class Valoracion extends Model
 
     protected $fillable = ['titulo', 'comentario', 'puntuacion', 'user_id', 'centro_id'];
 
-    public function user()
+    public function usuario()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'user_id');
     }
 
     public function centro()

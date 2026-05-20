@@ -24,7 +24,6 @@ export default function Edit({ usuario }: Props) {
             telefono: usuario.telefono || '',
             _method: 'PUT',
         });
-    console.log(data);
 
     const handle = (e: React.FormEvent) => {
         e.preventDefault();

@@ -30,7 +30,6 @@ export default function Edit({ curso, centros }: Props) {
                 : [],
             _method: 'PUT',
         });
-    console.log('Curso completo:', curso);
 
     const handleCentroCheckbox = (id) => {
         const id_string = id.toString();

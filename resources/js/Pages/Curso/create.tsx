@@ -26,7 +26,6 @@ export default function create({ centros, tipos }: Props) {
             : [...data.centros_ids, id_string];
         setData('centros_ids', nuevos_ids);
     };
-    console.log('Datos del formulario:', data);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();

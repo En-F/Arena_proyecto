@@ -40,14 +40,14 @@ export default function Inicio({ centros, noticias, cursos }: Props) {
                     </div>
                 </section>
 
-                {(!auth.user || !c_centro) && (
+                {(!auth.user || !c_centro === 0) && (
                     <section className="banner-cta">
                         <BannerInscripcion
                             imagen="inscripcion.jpg"
                             titulo="¡Inscríbete Ahora!"
                             descripcion="Únete a nuestras actividades deportivas y disfruta de una experiencia única."
                             textBoton="Haz tu Inscripción"
-                            href="/register"
+                            href="/socio"
                         />
                     </section>
                 )}

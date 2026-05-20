@@ -101,6 +101,7 @@ class CursoController extends Controller
     public function show(Curso $curso)
     {
         $id = $curso->id;
+        $curso = Curso::with('centros')->findOrFail($id);
         $beneficios = Curso::with('beneficios')->findOrFail($id);
         $curso_videos = Curso::with('videos')->findOrFail($id);
 

@@ -12,9 +12,10 @@ interface Props {
     comentario?: string;
     esCrear?: boolean;
     user_id?: { id: number; name: string };
+    centro_id: number;
 }
 
-export default function ReviewCard({
+export default function CartaValoracion({
     id,
     titulo,
     puntuacion,
@@ -28,7 +29,6 @@ export default function ReviewCard({
     const is_jefe = auth.user?.is_jefe || false;
 
     if (esCrear) {
-        console.log('ID del centro recibido:', centro_id);
         return (
             <Link
                 href={route('valoraciones.create', { centro_id: centro_id })}
@@ -77,7 +77,6 @@ export default function ReviewCard({
             )}
 
             <div className="review-estrellas">{renderStars(puntuacion)}</div>
-            <h2>{user_id}</h2>
             <h3>{titulo}</h3>
             <p>{comentario}</p>
         </div>

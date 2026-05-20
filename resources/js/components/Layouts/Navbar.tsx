@@ -2,12 +2,17 @@ import { Link, usePage } from '@inertiajs/react';
 import '../../../css/navbar.css';
 import Button from './Button';
 import '../../../css/button.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const Navbar = () => {
     const [menuAbierto, setMenuAbierto] = useState(false);
     const { auth } = usePage().props;
     const tieneCentro = (auth.user?.centros?.length ?? 0) > 0;
+
+    useEffect(() => {
+        setMenuAbierto(false);
+    }, [auth.user?.id]);
+
     return (
         <nav className="navbar">
             <div className="nav-content">

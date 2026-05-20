@@ -30,12 +30,13 @@ interface Centro {
 
 interface Sesion {
     id: number;
-    centro_id: number;
-    curso_id: number;
-    actividad_id: string;
-    horario_id: number;
+    centro: Centro;
+    curso: Curso;
+    actividad: Actividad;
+    horario: Horario;
     fecha: string;
-    cantidad: number;
+    capacidad: number;
+    estado: boolean;
 }
 
 interface Props {
@@ -63,8 +64,7 @@ export default function AdminHorarioIndex({
         actividad_id: '',
         fecha: '',
         horario_id: '',
-        instructor: '',
-        cantidad: 0,
+        capacidad: 0,
     });
 
     const centroSeleccionado = centros.find(
@@ -172,8 +172,11 @@ export default function AdminHorarioIndex({
             tieneErrores = true;
         }
 
-        if (!formSesion.data.cantidad || formSesion.data.cantidad <= 0) {
-            formSesion.setError('cantidad', 'La cantidad debe ser al menos 1.');
+        if (!formSesion.data.capacidad || formSesion.data.capacidad <= 0) {
+            formSesion.setError(
+                'capacidad',
+                'La capacidad debe ser al menos 1.',
+            );
             tieneErrores = true;
         }
 
@@ -306,19 +309,71 @@ export default function AdminHorarioIndex({
                                 {sesiones.map((sesion) => (
                                     <div
                                         key={sesion.id}
-                                        className="rounded-xl border-2 border-purple-100 bg-white p-5 shadow-sm"
+                                        className="rounded-xl border-2 border-purple-100 bg-white p-5 shadow-sm transition-all hover:shadow-md"
                                     >
-                                        <div className="mb-2 flex items-center justify-between">
+                                        <div className="mb-3 flex items-center justify-between">
                                             <span className="rounded-md bg-purple-50 px-2.5 py-1 text-xs font-black tracking-wider text-purple-700 uppercase">
-                                                {sesion.dia}
+                                                {sesion.horario.dia}
                                             </span>
                                             <span className="text-xs font-semibold text-gray-500">
-                                                🕒 {sesion.hora}
+                                                📅 {sesion.fecha}
                                             </span>
                                         </div>
-                                        <h3 className="mt-2 text-xl font-bold text-gray-900">
-                                            {sesion.actividad}
-                                        </h3>
+
+                                        <div className="mb-4">
+                                            <h3 className="text-xl leading-tight font-bold text-gray-900">
+                                                {sesion.actividad.nombre}
+                                            </h3>
+                                            <p className="text-sm font-medium text-purple-600">
+                                                Curso: {sesion.curso.nombre}
+                                            </p>
+                                        </div>
+
+                                        <div className="space-y-2 border-t border-gray-100 pt-3">
+                                            <div className="flex items-center text-sm text-gray-600">
+                                                <span className="mr-2">📍</span>
+                                                <span className="font-semibold">
+                                                    {sesion.centro.nombre}
+                                                </span>
+                                            </div>
+                                            <span>
+                                                {sesion.estado ? (
+                                                    <span className="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-0.5 text-xs font-medium text-green-700 ring-1 ring-green-600/20 ring-inset">
+                                                        <span className="h-1.5 w-1.5 rounded-full bg-green-500"></span>
+                                                        Activo
+                                                    </span>
+                                                ) : (
+                                                    <span className="inline-flex items-center gap-1 rounded-full bg-red-50 px-2 py-0.5 text-xs font-medium text-red-700 ring-1 ring-red-600/20 ring-inset">
+                                                        <span className="h-1.5 w-1.5 rounded-full bg-red-500"></span>
+                                                        Inactivo
+                                                    </span>
+                                                )}
+                                            </span>
+
+                                            <div className="flex items-center text-sm text-gray-600">
+                                                <span className="mr-2">🕒</span>
+                                                <span>
+                                                    {sesion.horario.hora_inicio.slice(
+                                                        0,
+                                                        5,
+                                                    )}{' '}
+                                                    -{' '}
+                                                    {sesion.horario.hora_fin.slice(
+                                                        0,
+                                                        5,
+                                                    )}
+                                                </span>
+                                            </div>
+
+                                            <div className="mt-2 flex items-center justify-between rounded-lg bg-gray-50 p-2">
+                                                <span className="text-xs font-bold text-gray-500 uppercase">
+                                                    Cupos:
+                                                </span>
+                                                <span className="text-sm font-bold text-blue-600">
+                                                    {sesion.capacidad} plazas
+                                                </span>
+                                            </div>
+                                        </div>
                                     </div>
                                 ))}
                             </div>
@@ -601,18 +656,18 @@ export default function AdminHorarioIndex({
                                     <input
                                         type="number"
                                         min="1"
-                                        value={formSesion.data.cantidad}
+                                        value={formSesion.data.capacidad}
                                         onChange={(e) =>
                                             formSesion.setData(
-                                                'cantidad',
+                                                'capacidad',
                                                 parseInt(e.target.value) || 0,
                                             )
                                         }
-                                        className={`w-full rounded-lg border-gray-300 p-3 shadow-sm focus:border-purple-500 ${formSesion.errors.cantidad ? 'border-red-500' : ''}`}
+                                        className={`w-full rounded-lg border-gray-300 p-3 shadow-sm focus:border-purple-500 ${formSesion.errors.capacidad ? 'border-red-500' : ''}`}
                                     />
-                                    {formSesion.errors.cantidad && (
+                                    {formSesion.errors.capacidad && (
                                         <span className="mt-1 block text-xs text-red-500">
-                                            {formSesion.errors.cantidad}
+                                            {formSesion.errors.capacidad}
                                         </span>
                                     )}
                                 </div>

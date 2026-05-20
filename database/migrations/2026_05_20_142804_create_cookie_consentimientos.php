@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reservas', function (Blueprint $table) {
+        Schema::create('cookie_consentimientos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('sesion_id')->constrained('sesiones')->onDelete('cascade');
-            $table->string('estado')->default(true);
+            $table->foreignId('user_id')->nullable()->constrained();
+            $table->string('ip_address')->nullable();
+            $table->string('ciudad')->nullable();
+            $table->json('preferencias'); 
+            $table->timestamps();
             $table->timestamps();
         });
     }
@@ -25,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('reservas');
+        Schema::dropIfExists('cookie_consentimientos');
     }
 };

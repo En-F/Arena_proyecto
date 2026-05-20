@@ -35,7 +35,6 @@ export default function Edit({ tipos, actividad, cursos }: Props) {
             tipo_id: actividad.tipo_id || '',
             _method: 'PUT',
         });
-    console.log(data);
 
     const handleCursoCheckbox = (id: number) => {
         const id_string = id.toString();

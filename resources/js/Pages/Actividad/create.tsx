@@ -28,7 +28,6 @@ export default function CrearActividad({ cursos, tipos }: Props) {
             : [...data.cursos_ids, id_string];
         setData('cursos_ids', nuevos_ids);
     };
-    console.log('Datos del formulario:', data);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();

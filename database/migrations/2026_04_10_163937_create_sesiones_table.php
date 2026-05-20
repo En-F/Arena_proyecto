@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sesion', function (Blueprint $table) {
+        Schema::create('sesiones', function (Blueprint $table) {
             $table->id();
             $table->foreignId('horario_id')->constrained('horarios')->onDelete('cascade');
             $table->foreignId('centro_id')->constrained('cursos')->onDelete('cascade');
@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('curso_id')->constrained('cursos')->onDelete('cascade');
             $table->integer('capacidad');
             $table->string('fecha');
+            $table->boolean('estado')->default(true);
             $table->timestamps();
         });
     }

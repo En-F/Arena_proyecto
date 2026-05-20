@@ -53,7 +53,6 @@ const CookieConsent = () => {
                         .
                     </p>
 
-                    {/* Switches */}
                     <div className="mb-6 space-y-4">
                         <div className="flex items-center justify-between border-b p-2">
                             <label>Cookies estrictamente necesarias</label>
@@ -65,7 +64,6 @@ const CookieConsent = () => {
                             />
                         </div>
 
-                        {/* Estadísticas */}
                         <div className="flex items-center justify-between border-b p-2">
                             <label>Cookies de estadísticas</label>
                             <input
@@ -81,7 +79,6 @@ const CookieConsent = () => {
                             />
                         </div>
 
-                        {/* Adicionales */}
                         <div className="flex items-center justify-between border-b p-2">
                             <label>Cookies adicionales</label>
                             <input
@@ -98,7 +95,6 @@ const CookieConsent = () => {
                         </div>
                     </div>
 
-                    {/* Botones */}
                     <div className="flex gap-4">
                         <button
                             onClick={() => {

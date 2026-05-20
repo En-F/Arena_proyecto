@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Sesion extends Model
 {
-    protected $table = 'sesion';
+    protected $table = 'sesiones';
 
     protected $fillable = ['horario_id', 'centro_id', 'actividad_id', 'curso_id', 'capacidad', 'fecha'];
 

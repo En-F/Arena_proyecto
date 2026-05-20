@@ -33,8 +33,7 @@ class StoreSesionRequest extends FormRequest
             'actividad_id' => 'required|exists:actividades,id',
             'horario_id'   => 'required|exists:horarios,id',
             'fecha'        => 'required|date',
-            'instructor'   => 'required|string|max:255',
-            'cantidad'     => 'required|integer|min:1',
+            'capacidad'     => 'required|integer|min:1',
         ];
     }
 }

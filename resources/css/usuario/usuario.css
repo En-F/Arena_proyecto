@@ -9,6 +9,10 @@
     padding: 4px;
     border-radius: 5px;
     font-size: 15px;
+    width: 100%;
+    width: 100%;
+    display: block;
+    text-align: center;
 }
 
 .inactivo {
@@ -17,6 +21,9 @@
     padding: 4px;
     border-radius: 5px;
     font-size: 15px;
+    width: 100%;
+    display: block;
+    text-align: center;
 }
 
 .select-personalizado {

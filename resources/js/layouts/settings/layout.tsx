@@ -21,7 +21,7 @@ const sidebarNavItems: NavItem[] = [
         icon: null,
     },
     {
-        title: 'Historial de actividades',
+        title: 'Historial de reservas',
         href: '/Historia/show',
         icon: null,
     },

@@ -6,6 +6,11 @@ import '../../../../css/centro/show.css';
 interface Centro {
     id: number;
     nombre: string;
+}
+
+interface Centro {
+    id: number;
+    nombre: string;
     descripcion: string;
     imagen: string;
     direccion: string;
@@ -20,6 +25,7 @@ interface Curso {
     nombre: string;
     descripcion: string;
     imagen: string;
+    centros: Centro[];
 }
 
 interface Props {
@@ -41,7 +47,7 @@ export default function HeaderShow({ entidad, tipo = 'centro' }: Props) {
     const is_jefe = auth.user?.rol === 'jefe' || auth.user?.is_jefe;
     const puede_gestionar = is_admin || is_jefe;
 
-    const puede_eliminar = isCurso ? puede_gestionar : is_admin;
+    const puede_eliminar_entidad = isCurso ? puede_gestionar : is_admin;
 
     const centroDatos = !isCurso ? (entidad as Centro) : null;
 
@@ -61,7 +67,7 @@ export default function HeaderShow({ entidad, tipo = 'centro' }: Props) {
         <>
             <div className="datos-header">
                 <div className="datos-info">
-                    <div className="flex items-start justify-between">
+                    <div className="flex items-start justify-between gap-2">
                         <h1>{entidad.nombre}</h1>
 
                         <div className="mb-4 flex gap-2">
@@ -80,7 +86,7 @@ export default function HeaderShow({ entidad, tipo = 'centro' }: Props) {
                                 </Link>
                             )}
 
-                            {puede_eliminar && (
+                            {puede_eliminar_entidad && (
                                 <Button
                                     type="button"
                                     onClick={handleEliminar}
@@ -93,6 +99,37 @@ export default function HeaderShow({ entidad, tipo = 'centro' }: Props) {
                     </div>
 
                     <p>{entidad.descripcion}</p>
+                    {isCurso && (entidad as Curso).centros?.length > 0 && (
+                        <div className="mt-4 flex items-start gap-2 text-gray-700">
+                            <span
+                                className="text-lg"
+                                role="img"
+                                aria-label="centro"
+                            >
+                                🏫
+                            </span>
+                            <span className="text-sm font-semibold uppercase">
+                                Centros:
+                            </span>
+                            <div className="flex flex-wrap gap-1">
+                                {(entidad as Curso).centros.map(
+                                    (centro, index) => (
+                                        <span
+                                            key={centro.id}
+                                            className="font-medium text-blue-600"
+                                        >
+                                            {centro.nombre}
+                                            {index <
+                                            (entidad as Curso).centros.length -
+                                                1
+                                                ? ', '
+                                                : ''}
+                                        </span>
+                                    ),
+                                )}
+                            </div>
+                        </div>
+                    )}
 
                     {centroDatos?.direccion && (
                         <div className="location-info">

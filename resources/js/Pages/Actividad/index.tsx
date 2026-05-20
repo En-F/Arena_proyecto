@@ -190,12 +190,13 @@ export default function Inicio({
                                         ? 'No hay actividades para el curso seleccionado.'
                                         : 'No hay actividades para el centro seleccionado.'}
                                 </p>
-
-                                <Cartagenerica
-                                    esCrear={true}
-                                    rutaCrear="/actividades/create"
-                                    tipo="actividad"
-                                />
+                                {(is_jefe || is_admin) && (
+                                    <Cartagenerica
+                                        esCrear={true}
+                                        rutaCrear="/actividades/create"
+                                        tipo="actividad"
+                                    />
+                                )}
                             </div>
                         ) : (
                             actividades.map((actividad) => (

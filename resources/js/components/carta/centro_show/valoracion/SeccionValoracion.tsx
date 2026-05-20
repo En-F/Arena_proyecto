@@ -16,8 +16,23 @@ interface Props {
 
 export default function SeccionValoracion({ valoraciones, centro }: Props) {
     const { auth } = usePage().props as any;
+    const usuario = auth.user;
     const is_admin = auth.user?.is_admin || false;
     const is_jefe = auth.user?.is_jefe || false;
+
+    const manejarIntentoVoto = (e: React.MouseEvent) => {
+        const permiso = is_admin || is_jefe;
+        const pertenece = usuario?.centros?.some(
+            (ce: any) => ce.id === centro.id,
+        );
+
+        if (!permiso && !pertenece) {
+            e.preventDefault();
+            alert(
+                `Acceso restringido: Solo miembros del ${centro.nombre} pueden votar.`,
+            );
+        }
+    };
 
     return (
         <section className="reviews-section">
@@ -26,8 +41,10 @@ export default function SeccionValoracion({ valoraciones, centro }: Props) {
                 {valoraciones.map((valoracion) => (
                     <CartaValoracion key={valoracion.id} {...valoracion} />
                 ))}
-                {(is_admin || is_jefe) && (
-                    <CartaValoracion esCrear centro_id={centro.id} />
+                {usuario && (
+                    <div onClickCapture={manejarIntentoVoto}>
+                        <CartaValoracion esCrear={true} centro_id={centro.id} />
+                    </div>
                 )}
             </div>
         </section>

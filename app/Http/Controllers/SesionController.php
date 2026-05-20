@@ -8,22 +8,17 @@ use App\Http\Requests\sesiones\StoreSesionRequest;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 
-
-
-
 class SesionController extends Controller
 {
-
     public function store(StoreSesionRequest $request)
     {
         $datos = $request->validated();
-        dd($datos);
 
 
-        $diaSemanaFecha = date('l', strtotime($request->fecha)); // Devuelve 'Monday', etc.
+        $diaSemanaFecha = date('l', strtotime($request->fecha));
 
-        Sesion::create($request->all());
+        Sesion::create($datos);
 
-        return redirect()->back();
+        return redirect()->route('horarios.index');
     }
 }

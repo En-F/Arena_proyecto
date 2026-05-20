@@ -1,27 +1,23 @@
 import { useState } from 'react';
-import { Head, router } from '@inertiajs/react';
+import { Head, router, Link } from '@inertiajs/react';
 import '../../../css/usuario/usuario.css';
 import '../../../css/inicio.css';
 import Button from '@/components/Layouts/Button';
 import '../../../css/button.css';
-import { Link } from '@inertiajs/react';
 import { route } from 'ziggy-js';
 
 interface Usuario {
     name: string;
 }
 
-interface Inscripcion {
+interface Valoracion {
     id: number;
+    puntuacion: number;
+    titulo: string;
+    comentario: string;
     usuario: Usuario;
-}
-
-interface Tarifa {
-    id: number;
-    precio: string;
-    tipo: string;
     centro: { id: number; nombre: string };
-    inscripciones: Inscripcion[];
+    created_at: string;
 }
 
 interface ErrorValidacion {
@@ -30,19 +26,19 @@ interface ErrorValidacion {
 }
 
 interface Props {
-    tarifas: Tarifa[];
+    valoraciones: Valoracion[];
 }
 
-export default function Index({ tarifas }: Props) {
-    const [resultado, setResultado] = useState<Tarifa[]>([]);
+export default function Index({ valoraciones }: Props) {
+    const [resultado, setResultado] = useState<Valoracion[]>([]);
     const [busquedaRealizada, setBusquedaRealizada] = useState(false);
     const [filtroNombre, setFiltroNombre] = useState('');
     const [errores, setErrores] = useState<ErrorValidacion[]>([]);
     const [mensajeSistema, setMensajeSistema] = useState('');
 
     const handleEliminar = (id: number) => {
-        if (confirm(`¿Estás seguro de que quieres eliminar esta tarifa?`)) {
-            router.delete(route('tarifas.destroy', id), {
+        if (confirm(`¿Estás seguro de que quieres eliminar esta valoración?`)) {
+            router.delete(route('valoraciones.destroy', id), {
                 preserveScroll: true,
             });
         }
@@ -61,15 +57,15 @@ export default function Index({ tarifas }: Props) {
             parametros.append('centro', filtroNombre.trim());
 
             const response = await fetch(
-                `/tarifas/buscar?${parametros.toString()}`,
+                `/valoraciones/buscar?${parametros.toString()}`,
             );
             const dato_respuesta = await response.json();
 
             if (dato_respuesta.success) {
+                console.log(dato_respuesta);
                 setResultado(dato_respuesta.data || []);
                 setBusquedaRealizada(true);
                 setMensajeSistema(dato_respuesta.message);
-                setErrores([]);
             } else {
                 setErrores([
                     { campo: 'general', mensaje: dato_respuesta.message },
@@ -83,7 +79,6 @@ export default function Index({ tarifas }: Props) {
                     mensaje: 'Error al conectar con el servidor',
                 },
             ]);
-            setResultado([]);
         }
     };
 
@@ -95,12 +90,12 @@ export default function Index({ tarifas }: Props) {
         setErrores([]);
     };
 
-    let TarifasMostrar = busquedaRealizada ? resultado : tarifas;
+    let ValoracionesMostrar = busquedaRealizada ? resultado : valoraciones;
 
     return (
         <>
-            <Head title="Gestión de Tarifas" />
-            <h2 className="title-black">Gestión de Tarifas y Usuarios</h2>
+            <Head title="Gestión de Valoraciones" />
+            <h2 className="title-black">Gestión de Valoraciones</h2>
 
             {errores.length > 0 && (
                 <div className="mx-auto mb-4 alert max-w-[95%] items-start alert-error shadow-lg">
@@ -115,20 +110,7 @@ export default function Index({ tarifas }: Props) {
                 </div>
             )}
 
-            {mensajeSistema && errores.length === 0 && (
-                <div className="mr-10 mb-4 ml-10 alert alert-success text-white">
-                    <span>{mensajeSistema}</span>
-                </div>
-            )}
-
             <div className="filtros">
-                <Button
-                    href={route('tarifas.create')}
-                    className="crear-instalacion"
-                >
-                    Crear Tarifa
-                </Button>
-                |
                 <Button onClick={limpiarFiltros} className="limpiar-filtro">
                     Limpiar filtro
                 </Button>
@@ -140,20 +122,20 @@ export default function Index({ tarifas }: Props) {
                         <tr>
                             <th className="w-16 text-center">#</th>
                             <th>Centro</th>
-                            <th>Tipo / Descripción</th>
-                            <th className="text-center">Precio</th>
-                            <th className="text-center">Alumnos Inscritos</th>
-                            <th className="w-[20%] text-center">Acciones</th>
+                            <th>Usuario</th>
+                            <th>Comentario / Texto</th>
+                            <th className="text-center">Puntuación</th>
+                            <th className="w-[15%] text-center">Acciones</th>
                         </tr>
                     </thead>
 
                     <tbody>
                         <tr className="bg-base-200/20">
                             <td></td>
-                            <td colSpan={2}>
+                            <td colSpan={3}>
                                 <input
                                     type="text"
-                                    placeholder="Buscar por centro o tipo..."
+                                    placeholder="Buscar por nombre de centro..."
                                     className="input-bordered input input-sm w-full max-w-xs"
                                     value={filtroNombre}
                                     onChange={(e) =>
@@ -166,22 +148,21 @@ export default function Index({ tarifas }: Props) {
                             </td>
                             <td></td>
                             <td></td>
-                            <td></td>
                         </tr>
 
-                        {TarifasMostrar.length === 0 ? (
+                        {ValoracionesMostrar.length === 0 ? (
                             <tr>
                                 <td
                                     colSpan={6}
                                     className="py-10 text-center text-base-content/50 italic"
                                 >
-                                    No se han encontrado tarifas disponibles.
+                                    No se han encontrado valoraciones.
                                 </td>
                             </tr>
                         ) : (
-                            TarifasMostrar.map((tarifa, index) => (
+                            ValoracionesMostrar.map((val, index) => (
                                 <tr
-                                    key={tarifa.id}
+                                    key={val.id}
                                     className="transition-colors hover:bg-base-200/40"
                                 >
                                     <th className="text-center font-normal opacity-50">
@@ -191,56 +172,52 @@ export default function Index({ tarifas }: Props) {
                                         <Link
                                             href={route(
                                                 'centros.show',
-                                                tarifa.centro.id,
+                                                val.centro.id,
                                             )}
                                         >
-                                            {tarifa.centro.nombre}
+                                            {val.centro.nombre}
                                         </Link>
                                     </td>
                                     <td>
-                                        <span className="badge badge-ghost font-semibold uppercase">
-                                            {tarifa.tipo}
+                                        <span className="font-semibold text-info">
+                                            {val.usuario.name}
                                         </span>
                                     </td>
-                                    <td className="text-center font-bold text-success">
-                                        {parseFloat(tarifa.precio).toFixed(2)}€
+                                    <td className="max-w-xs overflow-hidden text-ellipsis">
+                                        <div className="flex flex-col">
+                                            <span className="text-xs font-bold uppercase opacity-60">
+                                                {val.titulo}
+                                            </span>
+                                            <span className="line-clamp-2 text-sm">
+                                                {val.comentario}
+                                            </span>
+                                        </div>
                                     </td>
                                     <td className="text-center">
-                                        <div className="flex flex-col items-center gap-1">
-                                            {tarifa.inscripciones.length > 0 ? (
-                                                tarifa.inscripciones.map(
-                                                    (ins, i) => (
-                                                        <span
-                                                            key={i}
-                                                            className="text-s rounded-full bg-info/10 px-3 py-1 font-medium text-info"
-                                                        >
-                                                            {ins.usuario.name}
-                                                        </span>
-                                                    ),
-                                                )
-                                            ) : (
-                                                <span className="text-xs opacity-40">
-                                                    Sin usuarios
-                                                </span>
+                                        <div className="flex justify-center gap-0.5 text-warning">
+                                            {Array.from({ length: 5 }).map(
+                                                (_, i) => (
+                                                    <span
+                                                        key={i}
+                                                        className={
+                                                            i < val.puntuacion
+                                                                ? 'opacity-100'
+                                                                : 'opacity-20'
+                                                        }
+                                                    >
+                                                        ★
+                                                    </span>
+                                                ),
                                             )}
                                         </div>
                                     </td>
                                     <td>
-                                        <div className="flex justify-center gap-2">
-                                            <Button
-                                                href={route('tarifas.edit', {
-                                                    tarifa: tarifa.id,
-                                                    from: 'index',
-                                                })}
-                                                className="btn text-info btn-ghost btn-sm hover:bg-info/10"
-                                            >
-                                                Editar
-                                            </Button>
+                                        <div className="flex justify-center">
                                             <Button
                                                 onClick={() =>
-                                                    handleEliminar(tarifa.id)
+                                                    handleEliminar(val.id)
                                                 }
-                                                className="btn text-error btn-ghost btn-sm hover:bg-error/10"
+                                                className="btn text-error btn-ghost btn-sm hover:bg-red-50"
                                             >
                                                 Borrar
                                             </Button>

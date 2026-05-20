@@ -208,15 +208,6 @@ export default function ScheduleWeekly() {
                             <option value="avanzado">Nivel Avanzado</option>
                         </select>
                     </div>
-
-                    {(is_admin || is_jefe) && (
-                        <Link
-                            href={route('horarios.create')}
-                            className="inline-flex h-[52px] items-center justify-center rounded-lg bg-green-600 px-5 text-base font-bold text-white shadow-sm transition-all hover:bg-green-700 active:scale-95"
-                        >
-                            + Crear Actividad
-                        </Link>
-                    )}
                 </div>
 
                 <div className="mb-8 flex items-center justify-center gap-8">
