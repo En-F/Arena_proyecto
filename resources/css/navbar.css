@@ -41,7 +41,7 @@
 .nav-left {
     display: flex;
     align-items: center;
-    gap: 15px;
+    flex: 1;
 }
 
 .logo,
@@ -86,9 +86,19 @@
     opacity: 0.8;
 }
 
+.logo {
+    display: flex;
+    justify-content: flex-end; /* Empuja los botones a la derecha */
+    align-items: center;
+    flex: 1; /* Ocupa el mismo espacio que el bloque izquierdo */
+    gap: 15px;
+}
+
 .nav-links {
     display: flex;
+    justify-content: center;
     align-items: center;
+    flex: 2;
 }
 
 .nav-links a {
@@ -168,4 +178,24 @@
 .icono-login-logeado {
     width: 16px;
     margin-right: 6px;
+}
+
+.icono-login {
+    width: 20px;
+    height: 20px;
+
+    display: inline-block;
+    vertical-align: middle;
+
+    margin-right: 10px;
+
+    object-fit: contain;
+}
+
+@media (max-width: 480px) {
+    .icono-login {
+        width: 15px;
+        height: 16px;
+        margin-right: 6px;
+    }
 }

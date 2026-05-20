@@ -5,7 +5,6 @@ const CookieConsent = () => {
     const [preferencias, setPreferencias] = useState({
         necesarias: true,
         estadisticas: false,
-        adicionales: false,
         fecha: null,
         pais: 'Desconocido',
     });
@@ -43,14 +42,7 @@ const CookieConsent = () => {
                 <div className="w-full max-w-lg rounded-lg bg-white p-8 shadow-xl">
                     <p className="mb-4 text-sm text-gray-700">
                         Este sitio web utiliza cookies para que usted tenga la
-                        mejor experiencia. Por favor, vea nuestra{' '}
-                        <a
-                            href="/politica-cookies"
-                            className="text-blue-500 underline"
-                        >
-                            política de cookies
-                        </a>
-                        .
+                        mejor experiencia.
                     </p>
 
                     <div className="mb-6 space-y-4">
@@ -78,21 +70,6 @@ const CookieConsent = () => {
                                 }
                             />
                         </div>
-
-                        <div className="flex items-center justify-between border-b p-2">
-                            <label>Cookies adicionales</label>
-                            <input
-                                type="checkbox"
-                                className="checkbox checkbox-info"
-                                checked={preferencias.adicionales}
-                                onChange={(e) =>
-                                    setPreferencias({
-                                        ...preferencias,
-                                        adicionales: e.target.checked,
-                                    })
-                                }
-                            />
-                        </div>
                     </div>
 
                     <div className="flex gap-4">
@@ -102,7 +79,6 @@ const CookieConsent = () => {
                                     ...preferencias,
                                     necesarias: true,
                                     estadisticas: true,
-                                    adicionales: true,
                                 };
                                 savePreferences(aceptarTodo);
                             }}
