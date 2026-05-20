@@ -180,7 +180,9 @@ export default function Inicio({
                             <div className="sin-centro-msg">
                                 <p>
                                     {cursoSeleccionado
-                                        ? 'No hay actividades para el curso seleccionado.'
+                                        ? tipoSeleccionado
+                                            ? 'No hay actividades para el tipo seleccionado dentro de este curso.'
+                                            : 'No hay actividades para el curso seleccionado.'
                                         : 'No hay actividades para el centro seleccionado.'}
                                 </p>
                                 {(is_jefe || is_admin) && (
