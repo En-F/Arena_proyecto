@@ -85,16 +85,6 @@ export default function HeaderShow({ entidad, tipo = 'centro' }: Props) {
                                     </Button>
                                 </Link>
                             )}
-
-                            {puede_eliminar_entidad && (
-                                <Button
-                                    type="button"
-                                    onClick={handleEliminar}
-                                    className="rounded bg-red-600 px-4 py-2 text-white shadow hover:bg-red-700"
-                                >
-                                    Eliminar
-                                </Button>
-                            )}
                         </div>
                     </div>
 

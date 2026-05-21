@@ -25,6 +25,11 @@ const sidebarNavItems: NavItem[] = [
         href: '/Historia/show',
         icon: null,
     },
+    {
+        title: 'Generación QR',
+        href: '/settings/UserQr',
+        icon: null,
+    },
 ];
 
 export default function SettingsLayout({ children }: PropsWithChildren) {

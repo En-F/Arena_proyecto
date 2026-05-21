@@ -54,46 +54,40 @@ export default function Index({ usuarios, centros, roles }: Props) {
     const [mensajeSistema, setMensajeSistema] = useState('');
 
     const handleRolCambiado = async (usuarioId, nuevoRol) => {
-        try {
-            const respuesta = await fetch(`/usuarios/${usuarioId}/rol`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
+        router.put(
+            `/usuarios/${usuarioId}/rol`,
+            {
+                nuevoRol: nuevoRol,
+            },
+            {
+                onSuccess: () => {
+                    setEditandoUsuarioId(null);
+                    // No necesitas router.reload, Inertia ya refresca los props
                 },
-                body: JSON.stringify({ nuevoRol: nuevoRol }),
-            });
-            if (respuesta.ok) {
-                //Viaja al controlador en segundo plano y los usuarios
-                router.reload({ only: ['usuarios'] });
-            }
-        } catch (error) {
-            console.error('Error de red:', error);
-        }
-        setEditandoUsuarioId(null);
+                onError: (errores) => {
+                    console.error('Error al cambiar rol:', errores);
+                    setEditandoUsuarioId(null);
+                },
+            },
+        );
     };
 
-    const handleActivoCambiado = async (
-        usuarioId: number,
-        nuevoEstado: boolean,
-    ) => {
-        try {
-            const respuesta = await fetch(`/usuarios/${usuarioId}/activo`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
+    const handleActivoCambiado = (usuarioId, nuevoEstado) => {
+        router.put(
+            `/usuarios/${usuarioId}/activo`,
+            {
+                activo: nuevoEstado,
+            },
+            {
+                onSuccess: () => {
+                    setEditandoActivoId(null);
                 },
-                body: JSON.stringify({ activo: nuevoEstado }),
-            });
-
-            if (respuesta.ok) {
-                router.reload({ only: ['usuarios'] });
-            } else {
-                const datosError = await respuesta.json();
-            }
-        } catch (error) {
-            console.error('Error de red:', error);
-        }
-        setEditandoActivoId(null);
+                onError: (errores) => {
+                    console.error('Error al cambiar estado:', errores);
+                    setEditandoActivoId(null);
+                },
+            },
+        );
     };
 
     const validarFiltros = (

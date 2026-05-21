@@ -191,38 +191,28 @@ class UsuarioController extends Controller
         //
     }
 
-    public function cambiarRol(Request $request,$id) 
-    {
-        $usuarioId = $id;
-
-        $nuevoRol = $request->input('nuevoRol');
-
-        $usuario = User::findOrFail($usuarioId);
-        $rol = Rol::where('rol', $nuevoRol)->firstOrFail();
+    public function cambiarRol(Request $request, $id) 
+{
+        $rol = Rol::where('rol', $request->nuevoRol)->firstOrFail();
+        $usuario = User::findOrFail($id);
 
         $usuario->roles()->sync([$rol->id]);
 
-        return response()->json();
-
+        return back()->with('success', 'Rol actualizado correctamente');
     }
 
     public function cambiarActivo(Request $request, $id)
     {
         $usuarioLogueado = Auth::user();
-        $nuevoEstado = $request->input('activo'); 
-
+        
         if ($usuarioLogueado->id == $id) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'No puedes desactivar tu propia cuenta.'
-            ], 403);
+            return back()->withErrors(['message' => 'No puedes desactivar tu propia cuenta']);
         }
 
         $usuarioAModificar = User::findOrFail($id);
-
-        $usuarioAModificar->activo = $nuevoEstado;
+        $usuarioAModificar->activo = $request->activo; // Recibe true/false
         $usuarioAModificar->save();
 
-        return response()->json();
+        return back()->with('success', 'Estado actualizado');
     }
 }

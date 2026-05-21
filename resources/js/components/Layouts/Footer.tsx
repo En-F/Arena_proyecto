@@ -1,5 +1,7 @@
 import React from 'react';
 import '../../../css/footer.css';
+// import { route } from 'ziggy-js';
+import { Link } from '@inertiajs/react';
 
 const Footer = () => {
     return (
@@ -13,27 +15,24 @@ const Footer = () => {
                             entendemos que el deporte es mucho más que
                             ejercicio; es el motor del cambio personal y la
                             disciplina. Únete a nuestra comunidad global de
-                            atletas, comparte tus logros y desafía tus propios
-                            límites cada día.
+                            atletas, comparte tus logros y desafía tus
+                            propiospweb límites cada día.
                         </p>
                     </div>
 
-                    <div className="footer__links-colum2">
-                        <div>
-                            <h6 className="footer__link__grupo_title">Legal</h6>
-                            <nav className="footer__links-nav">
-                                <a className="footer__link">Términos de uso</a>
-                                <a className="footer__link">
-                                    Politica de privacidad
-                                </a>
-                            </nav>
-                        </div>
-
+                    <div className="footer__links-colum1">
                         <div>
                             <h6 className="footer__link__grupo_title">Ayuda</h6>
                             <nav className="footer__links-nav">
-                                <a className="footer__link">Contacto</a>
-                                <a className="footer__link">Sobre Nosotros</a>
+                                <Link href="/contacto" className="footer__link">
+                                    Contacto
+                                </Link>
+                                <Link
+                                    href="/sobre-nosotros"
+                                    className="footer__link"
+                                >
+                                    Sobre Nosotros
+                                </Link>
                             </nav>
                         </div>
                     </div>
@@ -42,7 +41,8 @@ const Footer = () => {
                 <div className="footer__barra_inferior">
                     <p className="footer__copyright">
                         Desarrollado por Enrique Franco Ulric para la ayuda de
-                        la gestión de un centro de deporte.
+                        la gestión de reservas de actividades de centros
+                        deportivos.
                     </p>
                 </div>
             </div>

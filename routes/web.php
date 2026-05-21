@@ -17,13 +17,16 @@ use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\SesionController;
 use App\Http\Controllers\TarifaController;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 use Laravel\Fortify\Features;
 
-Route::inertia('/', 'Inicio/index', [
-    'canRegister' => Features::enabled(Features::registration()),
-])->name('home');
+// Route::inertia('/', 'Inicio/index', [
+//     'canRegister' => Features::enabled(Features::registration()),
+// ])->name('home');
 
+Route::get('/', [InicioController::class, 'index'])->name('home');
 Route::get('/inicio', [InicioController::class, 'index'])->name('inicio.index');
+
 
 // Autenticación
 Route::get('/login', [ControlController::class, 'create'])->name('login');
@@ -42,6 +45,24 @@ Route::get('/actividades/buscar', [ActividadController::class, 'buscar'])->name(
 
 // Cursos
 Route::get('/cursos/buscar', [CursoController::class, 'buscar'])->name('cursos.buscar');
+
+Route::get('/settings/UserQr', function () {
+    return Inertia::render('settings/UserQr');
+})->middleware(['auth']);
+
+Route::middleware('auth')->group(function () {
+    Route::post('/logout', [ControlController::class, 'logout'])->name('logout');
+    Route::get('/profile/history', [ProfileController::class, 'history'])->name('profile.history');
+    Route::get('/settings/Historial', [ControlController::class, 'historial']);
+});
+
+//Contacto
+Route::get('/contacto', [ControlController::class, 'contacto'])->name('contacto.inicio');
+Route::post('/contacto', [ControlController::class, 'enviarContacto'])->name('contacto.enviar');
+
+//Sobre Nosotros
+Route::get('/sobre-nosotros', [ControlController::class, 'nosotros'])->name('nosotros.inicio');
+
 
 Route::middleware(['auth', 'role:admin,jefe'])->group(function () {
 
@@ -136,5 +157,15 @@ Route::middleware('auth')->group(function () {
     // Valoraciones
     Route::resource('valoraciones', ValoracionController::class)->only(['create', 'store']);
 });
+
+
+
+
+
+
+
+
+
+
 
 require __DIR__.'/settings.php';

@@ -1,0 +1,61 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: postgres_db
+    environment:
+      - DB_HOST=postgres_db
+      - DB_PORT=5432
+      - POSTGRES_DB=arena_db
+      - POSTGRES_USER=arena_user
+      - POSTGRES_PASSWORD=arena
+    env_file:
+      - .env
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    ports:
+      - '5433:5432'
+    networks:
+      laravel_net:
+        ipv4_address: 172.25.0.20
+  dns:
+    build: ./bind9
+    container_name: dns_server
+    volumes:
+      - ./bind9/config:/etc/bind
+    ports:
+      - '53:53/udp'
+      - '53:53/tcp'
+    networks:
+      laravel_net:
+        ipv4_address: 172.25.0.53
+    restart: always
+
+  app:
+    container_name: laravelreact_app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - '80:80'
+      - '5173:5173'
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - db
+      - dns
+    networks:
+      laravel_net:
+        ipv4_address: 172.25.0.10
+
+volumes:
+  pg_data:
+
+networks:
+  laravel_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.25.0.0/16
