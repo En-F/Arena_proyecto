@@ -12,15 +12,16 @@ interface Tarifa {
 
 interface Props {
     tarifas: Tarifa[];
+    centro: { id: number; nombre: string };
 }
 
-export default function PricingSection({ tarifas }: Props) {
+export default function PricingSection({ tarifas,centro }: Props) {
     return (
         <section className="pricing-section">
             <h2 className="section-title">Planes de Suscripción</h2>
             <div className="pricing-grid">
                 {tarifas.map((plan) => (
-                    <CartaPrecio key={plan.id} {...plan} />
+                    <CartaPrecio key={plan.id} {...plan} centro_id={centro.id} />
                 ))}
             </div>
         </section>

@@ -19,6 +19,7 @@ export default function SeccionValoracion({ valoraciones, centro }: Props) {
     const usuario = auth.user;
     const is_admin = auth.user?.is_admin || false;
     const is_jefe = auth.user?.is_jefe || false;
+    console.log(usuario);
 
     const manejarIntentoVoto = (e: React.MouseEvent) => {
         const permiso = is_admin || is_jefe;

@@ -34,52 +34,58 @@ class DatabaseSeeder extends Seeder
 
 
         // --- USUARIOS ---
-        $admin = DB::table('users')->insertGetId([
-            'name' => 'Admin',
-            'email' => 'admin@admin.com',
-            'password' => Hash::make('admin'),
-            'dni' => '67182280Q',
-            'telefono' => '111111111',
-            'created_at' => now(),
-            'activo'=> true
-        ]);
+    $admin = DB::table('users')->insertGetId([
+        'name' => 'Admin',
+        'email' => 'admin@admin.com',
+        'password' => Hash::make('admin'),
+        'dni' => '67182280Q',
+        'telefono' => '111111111',
+        'created_at' => now(),
+        'fecha_inicio_plataforma' => now(),
+        'activo' => true
+    ]);
 
-        $jefe = DB::table('users')->insertGetId([
-            'name' => 'Enrique',
-            'email' => 'enrique@enrique.com',
-            'password' => Hash::make('enrique'),
-            'dni' => '68957529X',
-            'telefono' => '123456789',
-            'created_at' => now(),
-            'activo'=> true
-        ]);
+    $jefe = DB::table('users')->insertGetId([
+        'name' => 'Enrique',
+        'email' => 'enrique@enrique.com',
+        'password' => Hash::make('enrique'),
+        'dni' => '68957529X',
+        'telefono' => '123456789',
+        'created_at' => now(),
+        'fecha_inicio_plataforma' => now(),
+        'activo' => true
+    ]);
 
-        $usuario_1 = DB::table('users')->insertGetId([
-            'name' => 'usuario1',
-            'email' => 'usuario1@usuario1.com',
-            'password' => Hash::make('usuario1'),
-            'dni' => '83589575P',
-            'telefono' => '987654321',
-            'created_at' => now(),
-            'activo'=> true
-        ]);
+    $usuario_1 = DB::table('users')->insertGetId([
+        'name' => 'usuario1',
+        'email' => 'usuario1@usuario1.com',
+        'password' => Hash::make('usuario1'),
+        'dni' => '83589575P',
+        'telefono' => '987654321',
+        'created_at' => now(),
+        'fecha_inicio_plataforma' => now(),
+        'activo' => true
+    ]);
 
-        $usuario_2 = DB::table('users')->insertGetId([
-            'name' => 'usuario2',
-            'email' => 'usuario2@usuario2.com',
-            'password' => Hash::make('usuario2'),
-            'created_at' => now(),
-        ]);
+    $usuario_2 = DB::table('users')->insertGetId([
+        'name' => 'usuario2',
+        'email' => 'usuario2@usuario2.com',
+        'password' => Hash::make('usuario2'),
+        'created_at' => now(),
+        'fecha_inicio_plataforma' => now(),
+        'activo' => false
+    ]);
 
-        $usuario_3 = DB::table('users')->insertGetId([
-            'name' => 'usuario3',
-            'email' => 'usuario3@usuario3.com',
-            'password' => Hash::make('usuario3'),
-            'dni' => '57941627G',
-            'telefono' => '364758392',
-            'created_at' => now(),
-            'activo'=> true
-        ]);
+    $usuario_3 = DB::table('users')->insertGetId([
+        'name' => 'usuario3',
+        'email' => 'usuario3@usuario3.com',
+        'password' => Hash::make('usuario3'),
+        'dni' => '57941627G',
+        'telefono' => '364758392',
+        'created_at' => now(),
+        'fecha_inicio_plataforma' => now(),
+        'activo' => true
+    ]);
 
 
 
@@ -459,24 +465,24 @@ class DatabaseSeeder extends Seeder
                 'user_id'        => $jefe,
                 'fecha_alta'     => Carbon::now(),
                 'fecha_inicio'   => Carbon::now(),
-                'fecha_fin'      => null,
-                'tarifa_id' => null,
+                'stripe_id'      => 'sub_test_admin_priority',
+                'tarifa_id'      => null,
             ],
             [
                 'centro_id'      => $centro_1,
                 'user_id'        => $usuario_1,
                 'fecha_alta'     => Carbon::now(),
                 'fecha_inicio'   => Carbon::now(),
-                'fecha_fin'      => Carbon::now()->addMonth(),
-                'tarifa_id' => $tarifa_1,
+                'stripe_id'      => 'sub_test_424242424242',
+                'tarifa_id'      => $tarifa_1,
             ],
             [
                 'centro_id'      => $centro_2,
                 'user_id'        => $usuario_3,
                 'fecha_alta'     => Carbon::now()->subDays(2),
-                'fecha_inicio'   => Carbon::now()->startOfMonth(),
-                'fecha_fin'      => null,
-                'tarifa_id' => $tarifa_5,
+                'fecha_inicio'   => Carbon::now()->subMonth(),
+                'stripe_id'      => 'sub_test_999988887777',
+                'tarifa_id'      => $tarifa_5,
             ]
         ]);
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import '../../../css/footer.css';
-// import { route } from 'ziggy-js';
 import { Link } from '@inertiajs/react';
+import { route } from 'ziggy-js';
 
 const Footer = () => {
     return (
@@ -15,8 +15,8 @@ const Footer = () => {
                             entendemos que el deporte es mucho más que
                             ejercicio; es el motor del cambio personal y la
                             disciplina. Únete a nuestra comunidad global de
-                            atletas, comparte tus logros y desafía tus
-                            propiospweb límites cada día.
+                            atletas, comparte tus logros y desafía tus propios
+                            límites cada día.
                         </p>
                     </div>
 
@@ -24,11 +24,14 @@ const Footer = () => {
                         <div>
                             <h6 className="footer__link__grupo_title">Ayuda</h6>
                             <nav className="footer__links-nav">
-                                <Link href="/contacto" className="footer__link">
+                                <Link
+                                    href={route('contacto.inicio')}
+                                    className="footer__link"
+                                >
                                     Contacto
                                 </Link>
                                 <Link
-                                    href="/sobre-nosotros"
+                                    href={route('nosotros.inicio')}
                                     className="footer__link"
                                 >
                                     Sobre Nosotros

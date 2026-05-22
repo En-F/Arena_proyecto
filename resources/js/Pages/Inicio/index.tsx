@@ -4,6 +4,7 @@ import '../../../css/inicio.css';
 import BannerInscripcion from '../../components/banner/BannerInscripcion';
 import Cartagenerica from '@/components/carta/Cartagenerica';
 import CartaNoticia from '@/components/carta/noticia/CartaNoticia';
+import { Ziggy } from './ziggy';
 
 interface Props {
     centros: any[];
@@ -47,7 +48,7 @@ export default function Inicio({ centros, noticias, cursos }: Props) {
                             titulo="¡Inscríbete Ahora!"
                             descripcion="Únete a nuestras actividades deportivas y disfruta de una experiencia única."
                             textBoton="Haz tu Inscripción"
-                            href="/socio"
+                            href={route('socio.create')}
                         />
                     </section>
                 )}

@@ -17,8 +17,9 @@ return new class extends Migration
             $table->foreignId('centro_id')->constrained('centros')->onDelete('cascade');
             $table->foreignId('tarifa_id')->nullable()->constrainded('tarifas')->onDelete('cascade');
             $table->timestamp('fecha_alta');
-            $table->timestamp('fecha_inicio');
-            $table->timestamp('fecha_fin')->nullable();
+            $table->timestamp('fecha_inicio')->nullable();
+            $table->string('stripe_id')->nullable();
+            $table->string('factura_url')->nullable();            
             $table->timestamps();
         });
     }

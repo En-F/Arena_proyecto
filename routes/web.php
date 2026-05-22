@@ -16,6 +16,8 @@ use App\Http\Controllers\InstalacionController;
 use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\SesionController;
 use App\Http\Controllers\TarifaController;
+use App\Http\Controllers\SocioController;
+use App\Http\Controllers\WebhookController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
@@ -31,10 +33,6 @@ Route::get('/inicio', [InicioController::class, 'index'])->name('inicio.index');
 // Autenticación
 Route::get('/login', [ControlController::class, 'create'])->name('login');
 Route::post('/login', [ControlController::class, 'store'])->name('login.store');
-
-//Socio
-Route::get('/socio', [ControlController::class, 'create'])->name('socio');
-Route::post('/socio', [ControlController::class, 'store'])->name('socio.store');
 
 
 // Centros
@@ -62,6 +60,28 @@ Route::post('/contacto', [ControlController::class, 'enviarContacto'])->name('co
 
 //Sobre Nosotros
 Route::get('/sobre-nosotros', [ControlController::class, 'nosotros'])->name('nosotros.inicio');
+
+
+// Formulario (centro y tarifa opcionales)
+Route::get('/inscribirse/{centro_id?}/{tarifa_id?}', [SocioController::class, 'create'])->name('socio.create');
+
+// Procesar datos y saltar a Stripe
+Route::post('/inscribirse', [SocioController::class, 'store'])->name('socio.store');
+
+// Callbacks de Stripe
+Route::get('/pago/exito', [SocioController::class, 'exito'])->name('pago.exito');
+Route::get('/pago/cancelado', [SocioController::class, 'cancelado'])->name('pago.cancelado');
+
+
+Route::resource('valoraciones', ValoracionController::class)->parameters([
+    'valoraciones' => 'valoracion'
+])->except(['index', 'show']);
+
+
+Route::resource('valoraciones', ValoracionController::class)->only(['index','create','store']);
+
+
+Route::post('/stripe/webhook', [WebhookController::class, 'handle']);
 
 
 Route::middleware(['auth', 'role:admin,jefe'])->group(function () {

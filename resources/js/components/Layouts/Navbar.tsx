@@ -33,7 +33,7 @@ const Navbar = () => {
                             {!auth.user.is_admin &&
                                 !auth.user.is_jefe &&
                                 !tieneCentro && (
-                                    <Link href="/socio">
+                                    <Link href={route('socio.create')}>
                                         <Button className="boton-socio">
                                             Hazte Socio
                                         </Button>

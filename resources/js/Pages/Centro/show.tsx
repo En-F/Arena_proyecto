@@ -12,7 +12,7 @@ export default function Show({ centro, instalaciones, tarifas, valoraciones }) {
         <div className="container">
             <Headershow entidad={centro} tipo="centro" />
             <SecciónInstalacion instalaciones={instalaciones} />
-            <SeccionPrecio tarifas={tarifas} />
+            <SeccionPrecio tarifas={tarifas} centro={centro} />
             <SeccionValoracion valoraciones={valoraciones} centro={centro} />
         </div>
     );

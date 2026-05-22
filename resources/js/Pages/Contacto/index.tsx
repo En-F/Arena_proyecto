@@ -1,7 +1,6 @@
 import { Input } from '@/components/ui/input';
 import { useForm, usePage } from '@inertiajs/react';
 
-
 export default function Contacto() {
     const {
         data,

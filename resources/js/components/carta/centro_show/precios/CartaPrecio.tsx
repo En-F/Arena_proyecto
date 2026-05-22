@@ -18,6 +18,7 @@ export default function CartaPrecio({
     precio,
     descripcion,
     periodo,
+    centro_id,
 }: Props) {
     const tipoNormalizado = tipo.toLowerCase();
     const [isHovered, setIsHovered] = useState(false);
@@ -58,7 +59,10 @@ export default function CartaPrecio({
 
                 <Button
                     className="pricing-button"
-                    // onClick={handleSubscribe}
+                    href={route('socio.create', {
+                        centro_id: centro_id,
+                        tarifa_id: id,
+                    })}
                 >
                     Suscribirse
                 </Button>

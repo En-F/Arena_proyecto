@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('dni')->nullable()->unique();
             $table->string('telefono')->nullable();
             $table->boolean('activo')->default(false);
+            $table->timestamp('fecha_inicio_plataforma')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
