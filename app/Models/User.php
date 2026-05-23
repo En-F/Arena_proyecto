@@ -10,7 +10,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 
-#[Fillable(['name', 'email', 'password','dni','telefono','fecha_inicio_plataforma'])]
+#[Fillable(['name', 'email', 'password','dni','telefono','fecha_inicio_plataforma','stripe_customer_id','activo'])]
 #[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token'])]
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -60,7 +60,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function centros()
     {
         return $this->belongsToMany(Centro::class, 'inscripciones')
-                        ->withPivot('id', 'tarifa_id', 'fecha_alta', 'fecha_inicio', 'stripe_id', 'factura_url')
+                        ->withPivot('tarifa_id', 'fecha_alta', 'fecha_inicio', 'stripe_id', 'factura_url','status','activo')
                         ->withTimestamps();    }
 
 

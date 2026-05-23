@@ -9,11 +9,17 @@ import Button from '@/components/Layouts/Button';
 
 export default function Show({ centro, instalaciones, tarifas, valoraciones }) {
     return (
-        <div className="container">
-            <Headershow entidad={centro} tipo="centro" />
-            <SecciónInstalacion instalaciones={instalaciones} />
-            <SeccionPrecio tarifas={tarifas} centro={centro} />
-            <SeccionValoracion valoraciones={valoraciones} centro={centro} />
-        </div>
+        <>
+            <Head title={centro.nombre} />
+            <div className="container">
+                <Headershow entidad={centro} tipo="centro" />
+                <SecciónInstalacion instalaciones={instalaciones} />
+                <SeccionPrecio tarifas={tarifas} centro={centro} />
+                <SeccionValoracion
+                    valoraciones={valoraciones}
+                    centro={centro}
+                />
+            </div>
+        </>
     );
 }

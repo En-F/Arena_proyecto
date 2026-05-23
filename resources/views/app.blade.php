@@ -30,8 +30,8 @@
             }
         </style>
 
-        <link rel="icon" href="/favicon.ico" sizes="any">
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+        <link rel="icon" href="/storage/otros/logo.jpg" sizes="any">
+        <link rel="icon" href="/storage/otros/logo.jpg" type="image/svg+xml">
         <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -40,7 +40,7 @@
         @viteReactRefresh
         @vite(['resources/css/app.css', 'resources/js/app.tsx', "resources/js/Pages/{$page['component']}.tsx"]) 
         <x-inertia::head>
-            <title>{{ config('app.name', 'Laravel') }}</title>
+          <title inertia>{{ config('app.name') }}</title>
         </x-inertia::head>
         <script>
             window.UserWayConfig = {

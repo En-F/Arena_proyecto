@@ -82,7 +82,7 @@ export default function InscripcionForm({
         let tieneErrores = false;
         const regexLetras = /^[a-zA-ZÀ-ÿ\s]+$/;
         const regexPass = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,}$/;
-        const regexTel = /^[6789]\d{8}$/;
+        const regexTel = /^\d{9}$/;
 
         if (!auth.user) {
             if (data.name && !regexLetras.test(data.name)) {

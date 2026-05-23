@@ -3,6 +3,7 @@ import '../../../css/usuario/usuario.css';
 import '../../../css/inicio.css';
 import Button from '@/components/Layouts/Button';
 import '../../../css/button.css';
+import { Head } from '@inertiajs/react';
 
 interface CentroConEstado {
     id: number;
@@ -133,6 +134,7 @@ export default function Show({ instalaciones }: Props) {
 
     return (
         <>
+            <Head title="Gestión de Instalaciones" />
             <h2 className="title-black">Gestión de Instalaciones</h2>
 
             {errores.length > 0 && (

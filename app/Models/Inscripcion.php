@@ -13,6 +13,10 @@ class Inscripcion extends Model
     'fecha_alta',
     'fecha_inicio',
     'fecha_fin',
+    'stripe_id',
+    'status',
+    'factura_url',
+    'activo'
     ];
 
     protected $table = 'inscripciones';

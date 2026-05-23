@@ -30,31 +30,46 @@ class SocioController extends Controller
     public function store(StoreSocioRequest $request)
     {
         $datos = $request->validated();
+        $centro = Centro::findOrFail($datos['centro_id']);
+        $tarifa = Tarifa::findOrFail($datos['tarifa_id']);
 
         Stripe::setApiKey(env('STRIPE_SECRET'));
-        $tarifa = Tarifa::findOrFail($datos['tarifa_id']);
+
+        $stripeCustomerId = null;
 
         if (Auth::check()) {
             $user = Auth::user();
             $nombre   = $user->name;
             $email    = $user->email;
             $password = $user->password;
+            $stripeCustomerId = $user->stripe_customer_id;
         } else {
             $nombre   = $datos['name'];
             $email    = $datos['email'];
-            $password = Hash::make($datos['password']);
+            $password = $datos['password'];
+            $existingUser = User::where('email', $email)->first();
+            $userExistente = User::where('email', $email)->first();
+                if ($userExistente) {
+                    $stripeCustomerId = $userExistente->stripe_customer_id;
+                }
         }
 
-        $session = Session::create([
+    
+
+        $params = [
             'line_items' => [[
                 'price_data' => [
                     'currency' => 'eur',
-                    'product_data' => ['name' => "Suscripción: " . $tarifa->nombre],
+                   'product_data' => [
+                        'name' => "Cuota Mensual: {$tarifa->tipo}",
+                        'description' => "Centro: {$centro->nombre}",
+                    ],
                     'unit_amount' => $tarifa->precio * 100,
+                    'recurring' => ['interval' => 'month'],
                 ],
                 'quantity' => 1,
             ]],
-            'mode' => 'payment',
+            'mode' => 'subscription',
             'success_url' => route('pago.exito') . '?session_id={CHECKOUT_SESSION_ID}',
             'cancel_url'  => route('pago.cancelado'),
             'metadata' => [
@@ -65,8 +80,22 @@ class SocioController extends Controller
                 'password'  => $password,
                 'centro_id' => $datos['centro_id'],
                 'tarifa_id' => $datos['tarifa_id'],
-            ]
-        ]);
+            ],
+            'subscription_data' => [
+                'metadata' => [
+                    'centro_id' => $datos['centro_id'],
+                    'tarifa_id' => $datos['tarifa_id'],
+                ],
+            ],
+        ];
+
+        if ($stripeCustomerId) {
+            $params['customer'] = $stripeCustomerId;
+        } else {
+            $params['customer_email'] = $email;
+        }
+
+        $session = Session::create($params);
 
         return Inertia::location($session->url);
     }
@@ -80,14 +109,14 @@ class SocioController extends Controller
     public function exito(Request $request)
     {
         Stripe::setApiKey(env('STRIPE_SECRET'));
+
         $session = \Stripe\Checkout\Session::retrieve([
             'id' => $request->get('session_id'),
             'expand' => ['payment_intent']
         ]);
 
         $meta = $session->metadata;
-        $charge = $session->payment_intent->latest_charge;
-        $session = Session::retrieve($request->get('session_id'));
+        $charge = $session->payment_intent->latest_charge ?? null;        
         $receiptUrl = null;
 
 
@@ -99,11 +128,13 @@ class SocioController extends Controller
         return DB::transaction(function () use ($meta, $session, $receiptUrl) {
                 $user = User::where('email', $meta->email)->first();
                 if ($user) {
-                    $user->name = $meta->name;
-                    $user->dni = $meta->dni;
-                    $user->telefono = $meta->telefono;
-                    $user->activo = true;
-                    $user->save();
+                    $user->update([
+                        'name' => $meta->name,
+                        'dni' => $meta->dni,
+                        'telefono' => $meta->telefono,
+                        'activo' => true,
+                        'stripe_customer_id' => $session->customer 
+                    ]);   
                 } else {
                     $user = User::create([
                         'name'     => $meta->name,
@@ -113,19 +144,24 @@ class SocioController extends Controller
                         'password' => Hash::make($meta->password),
                         'activo'   => true,
                         'fecha_inicio_plataforma' => now(),
+                        'stripe_customer_id' => $session->customer                    
                     ]);
                 }
             $user->roles()->sync([3]);
 
-            $user->centros()->syncWithoutDetaching([
-                $meta->centro_id => [
+            Inscripcion::updateOrCreate(
+                ['stripe_id' => $session->subscription ?? $session->id], 
+                [
+                    'user_id'      => $user->id,
+                    'centro_id'    => $meta->centro_id,
                     'tarifa_id'    => $meta->tarifa_id,
-                    'fecha_alta'   => now(),
-                    'fecha_inicio' => $user->fecha_inicio_plataforma ?? now(),
-                    'stripe_id'    => $session->id,
+                    'status'       => 'active',
                     'factura_url'  => $receiptUrl,
+                    'fecha_alta'   => now(),
+                    'fecha_inicio' => now(),
+                    'activo'       => true,
                 ]
-            ]);
+            );
 
             Auth::login($user);
             return redirect()->route('inicio.index');

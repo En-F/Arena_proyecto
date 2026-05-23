@@ -1,4 +1,4 @@
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import type { PropsWithChildren } from 'react';
 import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';
@@ -8,6 +8,7 @@ import { cn, toUrl } from '@/lib/utils';
 import { edit } from '@/routes/profile';
 import { edit as editSecurity } from '@/routes/security';
 import type { NavItem } from '@/types';
+import { route } from 'ziggy-js';
 
 const sidebarNavItems: NavItem[] = [
     {
@@ -30,10 +31,25 @@ const sidebarNavItems: NavItem[] = [
         href: '/settings/UserQr',
         icon: null,
     },
+    {
+        title: 'Mis Suscripciones',
+        href: route('stripe.portal'),
+        icon: null,
+    },
 ];
 
 export default function SettingsLayout({ children }: PropsWithChildren) {
     const { isCurrentOrParentUrl } = useCurrentUrl();
+    const { auth } = usePage().props as any;
+    const is_admin = auth.user?.is_admin;
+    const is_jefe = auth.user?.is_jefe;
+
+    const menuFiltrado = sidebarNavItems.filter((item) => {
+        if ((is_admin || is_jefe) && item.title === 'Mis Suscripciones') {
+            return false;
+        }
+        return true;
+    });
 
     return (
         <>
@@ -49,7 +65,7 @@ export default function SettingsLayout({ children }: PropsWithChildren) {
                             className="flex flex-col space-y-1 space-x-0"
                             aria-label="Settings"
                         >
-                            {sidebarNavItems.map((item, index) => {
+                            {menuFiltrado.map((item, index) => {
                                 const isActive = isCurrentOrParentUrl(
                                     item.href,
                                 );

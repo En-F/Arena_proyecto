@@ -38,7 +38,7 @@ class CentroController extends Controller
 
         return Inertia::render('Centro/index',[
         'centros' =>  $query->inRandomOrder()->get(),
-    ]);
+        ]);
     }
 
     /**
@@ -89,6 +89,8 @@ class CentroController extends Controller
      */
     public function show(Centro $centro)
     {
+        $instalaciones = $centro->instalaciones;
+        $tarifas = $centro->tarifas;
 
         $valoraciones = DB::table('valoraciones')
             ->where('centro_id', $centro->id)
@@ -96,9 +98,7 @@ class CentroController extends Controller
             ->select('valoraciones.*', 'users.name as user_name')
             ->get();
 
-        $tarifas = $centro->tarifas()->get();
 
-        $instalaciones = $centro->instalaciones()->get();
 
         return Inertia::render('Centro/show',[
             'centro'=>$centro,

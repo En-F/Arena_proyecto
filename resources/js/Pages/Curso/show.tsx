@@ -1,5 +1,5 @@
 import '../../../css/curso/show.css';
-import { usePage, router } from '@inertiajs/react';
+import { usePage, router, Head } from '@inertiajs/react';
 import CartaVideo from '@/components/carta/CartaVideo';
 import '../../../css/actividad/show.css';
 import { Trash2 } from 'lucide-react';
@@ -61,6 +61,7 @@ const show = ({ curso, videos, beneficios }: Props) => {
 
     return (
         <div className="container">
+            <Head title={curso.nombre} />
             <Headershow entidad={curso} tipo="curso" />
             <BeneficiosSection
                 beneficios={beneficios}

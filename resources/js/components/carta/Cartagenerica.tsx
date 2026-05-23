@@ -34,6 +34,34 @@ export default function Cartagenerica({
     const { auth } = usePage().props;
     const [timestamp, setTimestamp] = useState<number>(0);
 
+    let resaltado = false;
+
+    if (tipo === 'centro') {
+        resaltado = auth.user?.centros?.some((c) => c.id === id);
+    } else if (tipo === 'curso') {
+        resaltado = auth.user?.centros?.some((centro) =>
+            centro.cursos?.some((curso) => curso.id === id),
+        );
+    }
+    const textoEtiqueta = tipo === 'centro' ? 'MI CENTRO' : 'ACCESO INCLUIDO';
+
+    const fondos = [
+        'bg-green-600',
+        'bg-blue-600',
+        'bg-purple-600',
+        'bg-orange-600',
+    ];
+
+    const CentroPertenezo = auth.user?.centros?.find((centro) => {
+        if (tipo === 'centro') return centro.id === id;
+        if (tipo === 'curso') return centro.cursos?.some((c) => c.id === id);
+        return false;
+    });
+
+    const colorFondo = CentroPertenezo
+        ? fondos[CentroPertenezo.id % fondos.length]
+        : 'bg-gray-500';
+
     useEffect(() => {
         setTimestamp(Date.now());
     }, [imagen]);
@@ -63,15 +91,25 @@ export default function Cartagenerica({
     }
 
     return (
-        <div>
+        <div className="relative">
             <Link
                 href={`${rutaDetalle}/${id}`}
-                className="carta-item"
+                className={'carta-item'}
                 style={{
                     position: 'relative',
                     opacity: es_activo ? 1 : 0.5,
+                    borderRadius: '12px',
+                    display: 'block',
                 }}
             >
+                {resaltado && (
+                    <span
+                        className={`absolute top-2 right-2 z-10 rounded-full px-2 py-1 text-[10px] font-bold text-white shadow-md ${colorFondo}`}
+                    >
+                        {textoEtiqueta}
+                    </span>
+                )}
+
                 <div className="img-card-container">
                     <img
                         src={`/storage/${imagen}?v=${timestamp}`}

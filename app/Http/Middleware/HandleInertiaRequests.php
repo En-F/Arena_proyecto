@@ -42,7 +42,7 @@ class HandleInertiaRequests extends Middleware
             'user' => $request->user() ? array_merge($request->user()->toArray(), [
                 'is_admin' => $request->user()->Admin(),
                 'is_jefe'  => $request->user()->Jefe(),
-                'centros'  => $request->user()->centros,
+                'centros'  => $request->user()->centros()->with(['cursos'])->get(),
             ]) : null,
             
         ],

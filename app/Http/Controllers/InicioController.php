@@ -36,9 +36,7 @@ class InicioController extends Controller
             $centrosConsulta->whereIn('id', $usuario_logeado->centros->pluck('id'));
 
             $idsCursos = Curso::whereHas('centros', function ($query) use ($usuario_logeado) {
-                $query->whereHas('usuarios', function ($query) use ($usuario_logeado) {
-                    $query->where('users.id', $usuario_logeado->id);
-                });
+                $query->whereIn('centros.id', $usuario_logeado->centros->pluck('id'));
             })->pluck('id');
 
             $cursosConsulta->whereIn('id', $idsCursos);

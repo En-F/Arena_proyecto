@@ -45,7 +45,7 @@ export default function Inicio({ centros }: Props) {
 
     return (
         <>
-            <Head title="Inicio " />
+            <Head title="Centros" />
             <div className="main-container">
                 <section className="section-centros">
                     <h2 className="title-black">Nuestros Centros</h2>

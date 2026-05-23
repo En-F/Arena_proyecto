@@ -18,6 +18,7 @@ use App\Http\Controllers\SesionController;
 use App\Http\Controllers\TarifaController;
 use App\Http\Controllers\SocioController;
 use App\Http\Controllers\WebhookController;
+use App\Http\Controllers\UserPagoController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
@@ -90,7 +91,7 @@ Route::middleware(['auth', 'role:admin,jefe'])->group(function () {
     Route::put('/usuarios/{usuario}/activo', [UsuarioController::class, 'cambiarActivo']);
     Route::get('/usuarios/buscar', [UsuarioController::class, 'buscar']);
     Route::put('/usuarios/{usuario}/rol', [UsuarioController::class, 'cambiarRol']);
-    Route::resource('usuarios', UsuarioController::class);
+    Route::resource('usuarios', UsuarioController::class)->except(['show']);
 
     // Cursos (Gestión)
     Route::post('/cursos/ocultar', [CursoController::class, 'ocultar']);
@@ -142,6 +143,9 @@ Route::middleware(['auth', 'role:admin,jefe'])->group(function () {
     // Tarifas
     Route::get('/tarifas/buscar', [TarifaController::class, 'buscar']);
     Route::resource('tarifas', TarifaController::class)->except(['show']);
+
+    //Pago de los usuarios
+    Route::get('/usuarios/{usuario}/pagos', [UserPagoController::class, 'show'])->name('usuarios.pagos');
 });
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
@@ -176,16 +180,10 @@ Route::middleware('auth')->group(function () {
 
     // Valoraciones
     Route::resource('valoraciones', ValoracionController::class)->only(['create', 'store']);
+
+    //Portal de suscripciones
+    Route::get('/suscripcion/portal', [UsuarioController::class, 'portal'])
+    ->name('stripe.portal');
 });
-
-
-
-
-
-
-
-
-
-
 
 require __DIR__.'/settings.php';

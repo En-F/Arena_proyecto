@@ -25,10 +25,14 @@ export default function CartaPrecio({
     const { auth } = usePage().props as any;
     const is_admin = auth.user?.is_admin || false;
     const is_jefe = auth.user?.is_jefe || false;
+    const CentroActual = auth.user?.centros?.find(
+        (cen) => cen.id === centro_id,
+    );
+    const TarifaActiva = CentroActual?.pivot?.tarifa_id === id;
 
     return (
         <div
-            className={`pricing-card card-${tipoNormalizado}`}
+            className={`pricing-card card-${tipoNormalizado} ${TarifaActiva ? 'tarifa-activa' : ''}`}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             style={isHovered ? { transform: 'translateY(-5px)' } : {}}
@@ -41,6 +45,11 @@ export default function CartaPrecio({
                     <Pencil size={16} />
                 </Button>
             )}
+
+            {TarifaActiva && (
+                <div className="badge-plan-actual">Tu plan actual</div>
+            )}
+
             <div className="pricing-card-header">
                 <h2>{tipo}</h2>
                 <div className="precio">
@@ -58,13 +67,18 @@ export default function CartaPrecio({
                 </ul>
 
                 <Button
-                    className="pricing-button"
-                    href={route('socio.create', {
-                        centro_id: centro_id,
-                        tarifa_id: id,
-                    })}
+                    className={`pricing-button ${TarifaActiva ? 'button-disabled' : ''}`}
+                    href={
+                        TarifaActiva
+                            ? '#'
+                            : route('socio.create', {
+                                  centro_id: centro_id,
+                                  tarifa_id: id,
+                              })
+                    }
+                    disabled={TarifaActiva}
                 >
-                    Suscribirse
+                    {TarifaActiva ? 'Suscrito' : 'Suscribirse'}
                 </Button>
             </div>
         </div>

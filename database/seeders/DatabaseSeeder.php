@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -34,60 +35,41 @@ class DatabaseSeeder extends Seeder
 
 
         // --- USUARIOS ---
-    $admin = DB::table('users')->insertGetId([
-        'name' => 'Admin',
-        'email' => 'admin@admin.com',
-        'password' => Hash::make('admin'),
-        'dni' => '67182280Q',
-        'telefono' => '111111111',
-        'created_at' => now(),
-        'fecha_inicio_plataforma' => now(),
-        'activo' => true
-    ]);
+        $admin = DB::table('users')->insertGetId([
+            'name' => 'Admin',
+            'email' => 'admin@admin.com',
+            'password' => Hash::make('admin'),
+            'dni' => '67182280Q',
+            'telefono' => '111111111',
+            'stripe_customer_id' => 'cus_Admin' . Str::random(10), // ID de cliente inventado
+            'created_at' => now(),
+            'fecha_inicio_plataforma' => now(),
+            'activo' => true
+        ]);
 
-    $jefe = DB::table('users')->insertGetId([
-        'name' => 'Enrique',
-        'email' => 'enrique@enrique.com',
-        'password' => Hash::make('enrique'),
-        'dni' => '68957529X',
-        'telefono' => '123456789',
-        'created_at' => now(),
-        'fecha_inicio_plataforma' => now(),
-        'activo' => true
-    ]);
+        $jefe = DB::table('users')->insertGetId([
+            'name' => 'Enrique',
+            'email' => 'enrique@enrique.com',
+            'password' => Hash::make('enrique'),
+            'dni' => '68957529X',
+            'telefono' => '123456789',
+            'stripe_customer_id' => 'cus_Enrique' . Str::random(10),
+            'created_at' => now(),
+            'fecha_inicio_plataforma' => now(),
+            'activo' => true
+        ]);
 
-    $usuario_1 = DB::table('users')->insertGetId([
-        'name' => 'usuario1',
-        'email' => 'usuario1@usuario1.com',
-        'password' => Hash::make('usuario1'),
-        'dni' => '83589575P',
-        'telefono' => '987654321',
-        'created_at' => now(),
-        'fecha_inicio_plataforma' => now(),
-        'activo' => true
-    ]);
-
-    $usuario_2 = DB::table('users')->insertGetId([
-        'name' => 'usuario2',
-        'email' => 'usuario2@usuario2.com',
-        'password' => Hash::make('usuario2'),
-        'created_at' => now(),
-        'fecha_inicio_plataforma' => now(),
-        'activo' => false
-    ]);
-
-    $usuario_3 = DB::table('users')->insertGetId([
-        'name' => 'usuario3',
-        'email' => 'usuario3@usuario3.com',
-        'password' => Hash::make('usuario3'),
-        'dni' => '57941627G',
-        'telefono' => '364758392',
-        'created_at' => now(),
-        'fecha_inicio_plataforma' => now(),
-        'activo' => true
-    ]);
-
-
+        $usuario_1 = DB::table('users')->insertGetId([
+            'name' => 'usuario1',
+            'email' => 'usuario1@usuario1.com',
+            'password' => Hash::make('usuario1'),
+            'dni' => '83589575P',
+            'telefono' => '987654321',
+            'stripe_customer_id' => 'cus_User1' . Str::random(10),
+            'created_at' => now(),
+            'fecha_inicio_plataforma' => now(),
+            'activo' => true
+        ]);
 
 
         //Tipos
@@ -465,24 +447,30 @@ class DatabaseSeeder extends Seeder
                 'user_id'        => $jefe,
                 'fecha_alta'     => Carbon::now(),
                 'fecha_inicio'   => Carbon::now(),
-                'stripe_id'      => 'sub_test_admin_priority',
+                'stripe_id'      => 'sub_test_' . Str::random(24), 
                 'tarifa_id'      => null,
+                'status'         => 'active', 
+                'activo'         => true,
             ],
             [
                 'centro_id'      => $centro_1,
                 'user_id'        => $usuario_1,
                 'fecha_alta'     => Carbon::now(),
                 'fecha_inicio'   => Carbon::now(),
-                'stripe_id'      => 'sub_test_424242424242',
+                'stripe_id'      => 'sub_test_' . Str::random(24),
                 'tarifa_id'      => $tarifa_1,
+                'status'         => 'active',
+                'activo'         => true,
             ],
             [
                 'centro_id'      => $centro_2,
-                'user_id'        => $usuario_3,
+                'user_id'        => $usuario_1,
                 'fecha_alta'     => Carbon::now()->subDays(2),
                 'fecha_inicio'   => Carbon::now()->subMonth(),
-                'stripe_id'      => 'sub_test_999988887777',
-                'tarifa_id'      => $tarifa_5,
+                'stripe_id'      => 'sub_test_' . Str::random(24),
+                'tarifa_id'      => $tarifa_4,
+                'status'         => 'active',
+                'activo'         => true,
             ]
         ]);
 
@@ -491,9 +479,6 @@ class DatabaseSeeder extends Seeder
             ['user_id' => $admin, 'rol_id' => $rol_1, 'created_at' => now()],
             ['user_id' => $jefe, 'rol_id' => $rol_2, 'created_at' => now()],
             ['user_id' => $usuario_1, 'rol_id' => $rol_3, 'created_at' => now()],
-            ['user_id' => $usuario_2, 'rol_id' => $rol_4, 'created_at' => now()],
-            ['user_id' => $usuario_3, 'rol_id' => $rol_3, 'created_at' => now()],
-
         ]);
 
         // Instalaciones del centro

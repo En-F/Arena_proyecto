@@ -17,6 +17,7 @@ export default function Inicio({ centros, noticias, cursos }: Props) {
     const is_admin = auth.user?.is_admin || false;
     const is_jefe = auth.user?.is_jefe || false;
     const c_centro = auth.user?.centros.lenght;
+    console.log(auth.user);
     return (
         <>
             <Head title="Inicio " />

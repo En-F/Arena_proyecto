@@ -19,8 +19,9 @@ return new class extends Migration
             $table->string('password');
             $table->string('dni')->nullable()->unique();
             $table->string('telefono')->nullable();
-            $table->boolean('activo')->default(false);
+            $table->boolean('activo')->default(true);
             $table->timestamp('fecha_inicio_plataforma')->nullable();
+            $table->string('stripe_customer_id')->unique();
             $table->rememberToken();
             $table->timestamps();
         });

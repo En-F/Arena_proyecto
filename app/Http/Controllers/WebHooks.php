@@ -8,6 +8,9 @@ use Stripe\Event;
 use App\Models\User;
 use App\Models\Inscripcion;
 use Illuminate\Support\Facades\Log;
+use Stripe\Stripe;
+use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class WebhookController extends Controller
 {
@@ -54,10 +57,19 @@ class WebhookController extends Controller
             return;
         }
 
-        $user = $inscripcion->user;
-        $user->activo = $status;
-        $user->save();
+        $inscripcion->update([
+            'activo' => $activo,
+            'status' => $stripeStatus,
+            'fecha_fin' => ($stripeStatus === 'canceled') ? now() : $inscripcion->fecha_fin,
+        ]);
 
-        Log::info("Usuario {$user->email} " . ($status ? 'activado' : 'desactivado'));
+        $user = $inscripcion->user;
+        if ($user) {
+            $user->activo = $activo;
+            $user->save();
+            
+            Log::info("Webhook: Usuario {$user->email} actualizado a Activo: " . ($activo ? 'SÍ' : 'NO') . " con estado: {$stripeStatus}");
+        }
     }
+
 }

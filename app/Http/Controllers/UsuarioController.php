@@ -11,6 +11,8 @@ use App\Models\Rol;
 use App\Http\Requests\BuscarUsuarioRequest;
 use App\Http\Requests\usuarios\UpdateUsuarioRequest;
 use Illuminate\Support\Facades\DB;
+use Stripe\Stripe;
+
 
 class UsuarioController extends Controller
 {
@@ -28,12 +30,15 @@ class UsuarioController extends Controller
 
             $query->whereHas('centros', function ($q) use ($id_centros) {
                 $q->whereIn('inscripciones.centro_id', $id_centros);
-            })
-            ->get();
+            });
+
+            $query->with(['centros' => function($q) use ($id_centros) {
+                $q->whereIn('centros.id', $id_centros);
+            }]);
 
             $centrosVisibles = Centro::whereIn('id', $id_centros)
-                                 ->where('es_activo', true)
-                                 ->get();
+                                ->where('es_activo', true)
+                                ->get();
 
         } else {
             abort(403);
@@ -134,20 +139,6 @@ class UsuarioController extends Controller
         ]);
 
     }
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-
     /**
      * Show the form for editing the specified resource.
      */
@@ -188,7 +179,18 @@ class UsuarioController extends Controller
      */
     public function destroy(User $usuario)
     {
-        //
+        if (auth()->id() === $usuario->id) {
+            return redirect()->back()->with('error', 'No puedes borrar tu propia cuenta.');
+        }
+
+        if ($usuario->Admin()) {
+            return redirect()->back()->with('error', 'No se puede eliminar a un administrador del sistema.');
+        } 
+
+        $usuario->delete();
+
+        return redirect()->back();
+
     }
 
     public function cambiarRol(Request $request, $id) 
@@ -210,9 +212,25 @@ class UsuarioController extends Controller
         }
 
         $usuarioAModificar = User::findOrFail($id);
-        $usuarioAModificar->activo = $request->activo; // Recibe true/false
+        $usuarioAModificar->activo = $request->activo; 
         $usuarioAModificar->save();
 
         return back()->with('success', 'Estado actualizado');
     }
+
+    public function portal() 
+        {
+            Stripe::setApiKey(env('STRIPE_SECRET'));
+
+            if (!Auth::user()->stripe_customer_id) {
+                return redirect()->back()->with('error', 'Aún no tienes una suscripción activa.');
+            }
+
+            $session = \Stripe\BillingPortal\Session::create([
+                'customer'   => Auth::user()->stripe_customer_id,
+                'return_url' => route('inicio.index'),
+            ]);
+
+            return Inertia::location($session->url);
+        }
 }

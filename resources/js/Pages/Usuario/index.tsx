@@ -3,7 +3,7 @@ import '../../../css/usuario/usuario.css';
 import { Input } from '@/components/ui/input';
 import '../../../css/inicio.css';
 import Button from '@/components/Layouts/Button';
-import { router, usePage } from '@inertiajs/react';
+import { Head, router, usePage } from '@inertiajs/react';
 
 interface Centro {
     id: number;
@@ -41,6 +41,7 @@ export default function Index({ usuarios, centros, roles }: Props) {
     const { auth } = usePage().props;
     const is_admin = auth.user?.is_admin || false;
     const is_jefe = auth.user?.is_jefe || false;
+    console.log(auth.user);
 
     const [editandoActivoId, setEditandoActivoId] = useState(null);
     const [editandoUsuarioId, setEditandoUsuarioId] = useState(null);
@@ -62,7 +63,6 @@ export default function Index({ usuarios, centros, roles }: Props) {
             {
                 onSuccess: () => {
                     setEditandoUsuarioId(null);
-                    // No necesitas router.reload, Inertia ya refresca los props
                 },
                 onError: (errores) => {
                     console.error('Error al cambiar rol:', errores);
@@ -222,6 +222,14 @@ export default function Index({ usuarios, centros, roles }: Props) {
         buscarAsincrono();
     }, [filtroNombre, filtroEmail, filtroDni, filtroCentro, filtroActivo]);
 
+    const handleEliminar = (id: number) => {
+        if (confirm(`¿Estás seguro de que quieres eliminar esta valoración?`)) {
+            router.delete(route('usuarios.destroy', id), {
+                preserveScroll: true,
+            });
+        }
+    };
+
     let UsuariosMostrar = resultado.length > 0 ? resultado : usuarios;
 
     const limpiarFiltros = () => {
@@ -237,6 +245,7 @@ export default function Index({ usuarios, centros, roles }: Props) {
 
     return (
         <>
+            <Head title="Gestión de Usuarios" />
             <h2 className="title-black">Gestión de Usuarios</h2>
 
             {errores.length > 0 && (
@@ -288,7 +297,7 @@ export default function Index({ usuarios, centros, roles }: Props) {
                             <th className="encabezado">Rol</th>
                             <th className="encabezado">Centro</th>
                             <th className="encabezado">Activo</th>
-                            <th className="encabezado">Tipo de Suscripción</th>
+                            <th className="encabezado">Historial de Pago</th>
                             <th className="encabezado">Acciones</th>
                         </tr>
                     </thead>
@@ -504,8 +513,35 @@ export default function Index({ usuarios, centros, roles }: Props) {
                                             </span>
                                         )}
                                     </td>
-                                    <td></td>
+                                    <td className="text-center">
+                                        {!rolDeLaFila.includes('admin') &&
+                                            !rolDeLaFila.includes('jefe') &&
+                                            usuario.id !== auth.user?.id && (
+                                                <Button
+                                                    className="btn"
+                                                    href={route(
+                                                        'usuarios.pagos',
+                                                        usuario.id,
+                                                    )}
+                                                >
+                                                    Ver
+                                                </Button>
+                                            )}
+                                    </td>
                                     <td className="flex justify-center gap-2">
+                                        {!rolDeLaFila.includes('admin') &&
+                                            usuario.id !== auth.user?.id && (
+                                                <Button
+                                                    onClick={() =>
+                                                        handleEliminar(
+                                                            usuario.id,
+                                                        )
+                                                    }
+                                                    className="btn text-red-500 btn-ghost btn-xs"
+                                                >
+                                                    Borrar
+                                                </Button>
+                                            )}
                                         <Button
                                             href={route(
                                                 'usuarios.edit',

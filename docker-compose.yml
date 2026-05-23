@@ -49,6 +49,9 @@ services:
     networks:
       laravel_net:
         ipv4_address: 172.25.0.10
+    dns: 
+      - 172.25.0.53
+      - 8.8.8.8
 
 volumes:
   pg_data:
