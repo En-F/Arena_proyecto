@@ -79,6 +79,7 @@ class TarifaController extends Controller
     {
 
         $datos = $request->validated();
+        
 
         $datos['descripcion'] = array_map('trim', explode(',', $request->descripcion));
 

@@ -85,6 +85,13 @@ export default function HeaderShow({ entidad, tipo = 'centro' }: Props) {
                                     </Button>
                                 </Link>
                             )}
+                            {puede_gestionar && (
+                                <Link onClick={handleEliminar}>
+                                    <Button className="rounded bg-red-600 px-4 py-2 text-white shadow hover:bg-blue-700">
+                                        Elimnar
+                                    </Button>
+                                </Link>
+                            )}
                         </div>
                     </div>
 
@@ -145,10 +152,16 @@ export default function HeaderShow({ entidad, tipo = 'centro' }: Props) {
                 </div>
 
                 <div className="datos-image-container">
-                    <img
-                        src={`/storage/${entidad.imagen}?v=${Date.now()}`}
-                        alt={entidad.nombre}
-                    />
+                    {entidad.imagen ? (
+                        <img
+                            src={`/storage/${entidad.imagen}?v=${Date.now()}`}
+                            alt="Foto de la entidad"
+                        />
+                    ) : (
+                        <div className="no-foto-placeholder">
+                            <span>No tiene foto</span>
+                        </div>
+                    )}
                 </div>
 
                 {centroDatos && (

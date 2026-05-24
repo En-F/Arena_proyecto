@@ -41,7 +41,7 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('admin'),
             'dni' => '67182280Q',
             'telefono' => '111111111',
-            'stripe_customer_id' => 'cus_Admin' . Str::random(10), // ID de cliente inventado
+            'stripe_customer_id' => 'cus_Admin' . Str::random(10), 
             'created_at' => now(),
             'fecha_inicio_plataforma' => now(),
             'activo' => true
@@ -153,6 +153,7 @@ class DatabaseSeeder extends Seeder
             'tipo' => 'basica',
             'precio' => 24.90,
             'periodo' => 'mes',
+            'descuento' => 0,
             'descripcion' => json_encode([
                 'Acceso 8:00 a 14:00',
                 'Máximo 3 reservas semanales',
@@ -162,10 +163,11 @@ class DatabaseSeeder extends Seeder
             'created_at' => now(),
         ]);
 
-        $tarifa_2 =DB::table('tarifas')->insertGetId([
+        $tarifa_2 = DB::table('tarifas')->insertGetId([
             'tipo' => 'premium',
             'precio' => 44.90,
             'periodo' => 'mes',
+            'descuento' => 0,
             'descripcion' => json_encode([
                 'Acceso 24/7',
                 'Reservas ilimitadas',
@@ -175,10 +177,26 @@ class DatabaseSeeder extends Seeder
             'created_at' => now(),
         ]);
 
-        $tarifa_4 =DB::table('tarifas')->insertGetId([
+        $tarifa_3 = DB::table('tarifas')->insertGetId([
+            'tipo' => 'premium',
+            'precio' => 44.90, 
+            'periodo' => 'año',
+            'descuento' => 20, 
+            'descripcion' => json_encode([
+                'Todo lo del plan Premium',
+                'Ahorro del 20% incluido',
+                'Matrícula gratuita'
+            ]),
+            'centro_id' => $centro_1,
+            'created_at' => now(),
+        ]);
+
+
+        $tarifa_4 = DB::table('tarifas')->insertGetId([
             'tipo' => 'basica',
             'precio' => 14.90,
             'periodo' => 'mes',
+            'descuento' => 0,
             'descripcion' => json_encode([
                 'Acceso 8:00 a 14:00',
                 'Máximo 2 reservas semanales'
@@ -187,13 +205,15 @@ class DatabaseSeeder extends Seeder
             'created_at' => now(),
         ]);
 
-        $tarifa_5 =DB::table('tarifas')->insertGetId([
+        $tarifa_5 = DB::table('tarifas')->insertGetId([
             'tipo' => 'estandar',
             'precio' => 24.90,
-            'periodo' => 'mes',
+            'periodo' => 'trimestre',
+            'descuento' => 10, 
             'descripcion' => json_encode([
-                'Acceso 8:00 a 12:00 y de 16:00 a 18:00',
-                'Máximo 4 reservas semanales'
+                'Acceso mañana y tarde',
+                'Máximo 4 reservas semanales',
+                'Pago cada 3 meses'
             ]),
             'centro_id' => $centro_2,
             'created_at' => now(),

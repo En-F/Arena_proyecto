@@ -5,6 +5,8 @@ namespace App\Http\Requests\tarifas;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+
 
 class UpdateTarifaRequest extends FormRequest
 {
@@ -38,16 +40,21 @@ class UpdateTarifaRequest extends FormRequest
                 'required',
                 'string',
             ],
-            'precio' => [
-                'required',
-                'numeric',
-                'decimal:0,2',
-                'min:0',
-            ],
-            'periodo' => [
+            'periodo' => [ 
                 'required',
                 'string',
-                'regex:/^[a-zA-ZÀ-ÿ]+$/'
+                Rule::in(['mes', 'trimestre', 'semestre', 'año']), 
+            ],
+            'precio' => [
+                'required',
+                'numeric',   
+                'min:0.01',
+            ],
+            'descuento' => [
+                'required',
+                'integer',
+                'min:0',
+                'max:99'
             ],
             'descripcion' => [
                 'required',

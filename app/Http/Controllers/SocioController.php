@@ -54,7 +54,21 @@ class SocioController extends Controller
                 }
         }
 
-    
+        $multiplicador = [
+            'mes' => 1,
+            'trimestre' => 3,
+            'semestre' => 6,
+            'año' => 12
+        ];
+
+        $meses = $multiplicador[$tarifa->periodo];
+        $precioTotalBruto = $tarifa->precio * $meses;
+
+        $descuentoDecimal = $tarifa->descuento / 100;
+
+        $precioFinalEuros = $precioTotalBruto * (1 - $descuentoDecimal);
+
+        $precioEnCentimos = (int) round($precioFinalEuros * 100);
 
         $params = [
             'line_items' => [[
@@ -64,8 +78,11 @@ class SocioController extends Controller
                         'name' => "Cuota Mensual: {$tarifa->tipo}",
                         'description' => "Centro: {$centro->nombre}",
                     ],
-                    'unit_amount' => $tarifa->precio * 100,
-                    'recurring' => ['interval' => 'month'],
+                    'unit_amount' => $precioEnCentimos,
+                    'recurring' => [
+                        'interval' => ($tarifa->periodo === 'año') ? 'year' : 'month',
+                        'interval_count' => ($tarifa->periodo === 'año') ? 1 : $meses,
+                    ],
                 ],
                 'quantity' => 1,
             ]],

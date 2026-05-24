@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('tipo');
             $table->decimal('precio', 8, 2);
-            $table->string('periodo');
+            $table->string('periodo')->default('mes');
             $table->text('descripcion');
+            $table->integer('descuento')->default(0);
             $table->foreignId('centro_id')->constrained('centros')->onDelete('cascade');
             $table->timestamps();
         });

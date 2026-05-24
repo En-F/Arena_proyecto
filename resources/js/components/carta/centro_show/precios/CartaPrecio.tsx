@@ -10,6 +10,8 @@ interface Props {
     precio: number;
     descripcion: string[];
     periodo: string;
+    descuento: number;
+    centro_id: number;
 }
 
 export default function CartaPrecio({
@@ -18,25 +20,50 @@ export default function CartaPrecio({
     precio,
     descripcion,
     periodo,
+    descuento,
     centro_id,
 }: Props) {
     const tipoNormalizado = tipo.toLowerCase();
     const [isHovered, setIsHovered] = useState(false);
     const { auth } = usePage().props as any;
+
     const is_admin = auth.user?.is_admin || false;
     const is_jefe = auth.user?.is_jefe || false;
+
     const CentroActual = auth.user?.centros?.find(
-        (cen) => cen.id === centro_id,
+        (cen: any) => cen.id === centro_id,
     );
     const TarifaActiva = CentroActual?.pivot?.tarifa_id === id;
+
+    const multiplicadores: { [key: string]: number } = {
+        mes: 1,
+        trimestre: 3,
+        semestre: 6,
+        año: 12,
+    };
+
+    const meses = multiplicadores[periodo] || 1;
+    const totalBruto = precio * meses;
+    const ahorro = totalBruto * (descuento / 100);
+    const precioFinal = totalBruto - ahorro;
 
     return (
         <div
             className={`pricing-card card-${tipoNormalizado} ${TarifaActiva ? 'tarifa-activa' : ''}`}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
-            style={isHovered ? { transform: 'translateY(-5px)' } : {}}
+            style={
+                isHovered
+                    ? { transform: 'translateY(-5px)', position: 'relative' }
+                    : { position: 'relative' }
+            }
         >
+            {descuento > 0 && (
+                <div className="badge-descuento-superior">
+                    -{Math.round(descuento)}%
+                </div>
+            )}
+
             {(is_admin || is_jefe) && (
                 <Button
                     className="pricing-edit-button"
@@ -51,12 +78,18 @@ export default function CartaPrecio({
             )}
 
             <div className="pricing-card-header">
-                <h2>{tipo}</h2>
+                <h2 className="font-bold uppercase">{tipo}</h2>
                 <div className="precio">
                     <span className="precio-término">€</span>
-                    {precio}
+                    {precioFinal.toFixed(2)}
                 </div>
-                <span className="precio-periodo">/{periodo}</span>
+                <span className="precio-periodo">pago único / {periodo}</span>
+
+                {descuento > 0 && (
+                    <div className="text-sm line-through opacity-50">
+                        Antes: {totalBruto.toFixed(2)}€
+                    </div>
+                )}
             </div>
 
             <div className="pricing-card-body">

@@ -10,6 +10,8 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Http\Requests\centros\StoreCentroRequest;
 use App\Http\Requests\centros\UpdateCentroRequest;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Storage;
+
 
 
 
@@ -155,6 +157,14 @@ class CentroController extends Controller
     public function destroy(Centro $centro)
     {
         $this->authorize('delete', $centro);
+
+        if ($curso->imagen) {
+            if (Storage::disk('public')->exists($curso->imagen)) {
+                Storage::disk('public')->delete($curso->imagen);
+            }
+        }
+        $centro->deleted();
+        return redirect()->route('inicio.index');
     }
     public function buscar(Request $request)
     {

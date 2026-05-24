@@ -21,8 +21,17 @@ export default function Create({ centros }: Props) {
             tipo: 'basica',
             periodo: 'mes',
             descripcion: '',
+            descuento: 0,
             centro_id: centros.length > 0 ? centros[0].id : '',
         });
+
+    const esMensual = data.periodo === 'mes';
+    const multiplicadores = {
+        mes: 1,
+        trimestre: 3,
+        semestre: 6,
+        año: 12,
+    };
 
     const handle = (e: React.FormEvent) => {
         e.preventDefault();
@@ -31,13 +40,11 @@ export default function Create({ centros }: Props) {
         let tieneErrores = false;
         const regexSoloLetras = /^[a-zA-ZÀ-ÿ\s]+$/;
 
-        if (!data.precio || isNaN(Number(data.precio))) {
-            setError('precio', 'Introduce un precio válido.');
+        if (!data.precio) {
+            setError('precio', 'El precio es obligatorio.');
             tieneErrores = true;
-        }
-
-        if (!data.periodo || !regexSoloLetras.test(data.periodo)) {
-            setError('periodo', 'El periodo solo puede contener letras.');
+        } else if (isNaN(Number(data.precio)) || Number(data.precio) <= 0) {
+            setError('precio', 'Introduce un precio numérico superior a 0.');
             tieneErrores = true;
         }
 
@@ -48,6 +55,11 @@ export default function Create({ centros }: Props) {
 
         if (!data.centro_id) {
             setError('centro_id', 'Debes seleccionar un centro.');
+            tieneErrores = true;
+        }
+
+        if (Number(data.descuento) < 0 || Number(data.descuento) > 100) {
+            setError('descuento', 'El descuento debe estar entre 0 y 100.');
             tieneErrores = true;
         }
 
@@ -127,13 +139,14 @@ export default function Create({ centros }: Props) {
 
                         <div className="cn-row">
                             <div className="cn-field">
-                                <label className="cn-label">Precio (€)</label>
+                                <label className="cn-label">
+                                    Precio Base Mensual (€)
+                                </label>
                                 <Input
                                     type="number"
                                     name="precio"
-                                    value={data.precio}
                                     step="0.01"
-                                    min="0"
+                                    value={data.precio}
                                     placeholder="0.00"
                                     onChange={(e) =>
                                         setData('precio', e.target.value)
@@ -141,31 +154,118 @@ export default function Create({ centros }: Props) {
                                     className="cn-input"
                                 />
                                 {errors.precio && (
-                                    <span className="mt-1 text-xs text-red-500">
+                                    <span className="text-xs text-red-500">
                                         {errors.precio}
                                     </span>
                                 )}
                             </div>
 
+                            {!esMensual && data.precio && (
+                                <div className="cn-field flex items-end pb-3">
+                                    <div className="rounded border border-blue-200 bg-blue-50 p-3 text-sm text-blue-700 shadow-sm">
+                                        <p className="mb-1 font-semibold">
+                                            Resumen del Plan:
+                                        </p>
+                                        <ul className="ml-4 list-disc space-y-1">
+                                            <li>
+                                                Subtotal (
+                                                {multiplicadores[data.periodo]}{' '}
+                                                meses):
+                                                <strong>
+                                                    {' '}
+                                                    {(
+                                                        Number(data.precio) *
+                                                        multiplicadores[
+                                                            data.periodo
+                                                        ]
+                                                    ).toFixed(2)}
+                                                    €
+                                                </strong>
+                                            </li>
+                                            <li>
+                                                Descuento aplicado:
+                                                <strong className="text-green-600">
+                                                    {' '}
+                                                    -{data.descuento}%
+                                                </strong>
+                                            </li>
+                                            <hr className="my-1 border-blue-200" />
+                                            <li className="text-base">
+                                                Precio final del periodo:
+                                                <strong className="text-blue-900">
+                                                    {(
+                                                        Number(data.precio) *
+                                                        multiplicadores[
+                                                            data.periodo
+                                                        ] *
+                                                        (1 -
+                                                            Number(
+                                                                data.descuento,
+                                                            ) /
+                                                                100)
+                                                    ).toFixed(2)}
+                                                    €
+                                                </strong>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            )}
+
                             <div className="cn-field">
-                                <label className="cn-label">Periodo</label>
-                                <Input
-                                    type="text"
+                                <label className="cn-label">
+                                    Periodo de Cobro
+                                </label>
+                                <select
                                     name="periodo"
-                                    value={data.periodo}
-                                    onChange={(e) =>
-                                        setData('periodo', e.target.value)
-                                    }
                                     className="cn-input"
-                                    placeholder="Ej: mes, trimestre, año"
+                                    value={data.periodo}
+                                    onChange={(e) => {
+                                        const val = e.target.value;
+                                        setData({
+                                            ...data,
+                                            periodo: val,
+                                            descuento:
+                                                val === 'mes'
+                                                    ? 0
+                                                    : data.descuento,
+                                        });
+                                    }}
+                                >
+                                    <option value="mes">Mensual</option>
+                                    <option value="trimestre">
+                                        Trimestral
+                                    </option>
+                                    <option value="semestre">Semestral</option>
+                                    <option value="año">Anual</option>
+                                </select>
+                            </div>
+                            <div className="cn-field">
+                                <label className="cn-label">
+                                    Descuento %{' '}
+                                    {esMensual && '(Solo para periodos largos)'}
+                                </label>
+                                <Input
+                                    type="number"
+                                    name="descuento"
+                                    value={data.descuento}
+                                    min="0"
+                                    max="100"
+                                    disabled={esMensual}
+                                    onChange={(e) =>
+                                        setData('descuento', e.target.value)
+                                    }
+                                    className={`cn-input ${esMensual ? 'bg-gray-100 opacity-50' : ''}`}
+                                    placeholder="0"
                                 />
-                                {errors.periodo && (
-                                    <span className="mt-1 text-xs text-red-500">
-                                        {errors.periodo}
+                                {errors.descuento && (
+                                    <span className="text-xs text-red-500">
+                                        {errors.descuento}
                                     </span>
                                 )}
                             </div>
                         </div>
+                        <div className="cn-row"></div>
 
                         <hr className="cn-divider" />
 

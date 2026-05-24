@@ -5,6 +5,7 @@ namespace App\Http\Requests\tarifas;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 
 class StoreTarifaRequest extends FormRequest
@@ -35,14 +36,19 @@ class StoreTarifaRequest extends FormRequest
             ],
             'precio' => [
                 'required',
-                'numeric',
-                'decimal:0,2',
+                'numeric',   
+                'min:0.01',
+            ],
+            'descuento' => [
+                'required',
+                'integer',
                 'min:0',
+                'max:99'
             ],
             'periodo' => [
                 'required',
                 'string',
-                'regex:/^[a-zA-ZÀ-ÿ]+$/'
+                Rule::in(['mes', 'trimestre', 'semestre', 'año'])
             ],
             'descripcion' => [
                 'required',
