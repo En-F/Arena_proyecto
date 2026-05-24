@@ -184,4 +184,8 @@ class SocioController extends Controller
             return redirect()->route('inicio.index');
         });
     }
+    public function cancelado(Request $request)
+    {
+        return redirect()->route('inicio.index');
+    }
 }

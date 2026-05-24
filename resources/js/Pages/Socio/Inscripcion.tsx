@@ -14,6 +14,9 @@ interface Centro {
     id: number;
     nombre: string;
     tarifas: Tarifa[];
+    periodo: string;
+    tipo: string;
+    descuento: number;
 }
 
 interface Props {
@@ -196,11 +199,24 @@ export default function InscripcionForm({
                                         <option value="">
                                             Selecciona Tarifa
                                         </option>
-                                        {tarifasFiltradas.map((t) => (
-                                            <option key={t.id} value={t.id}>
-                                                {t.tipo} - {t.precio}€
-                                            </option>
-                                        ))}
+                                        {tarifasFiltradas.map((t) => {
+                                            const meses =
+                                                t.periodo === 'trimestre'
+                                                    ? 3
+                                                    : t.periodo === 'semestre'
+                                                      ? 6
+                                                      : 1;
+                                            const precioMensual =
+                                                (t.precio / meses) *
+                                                (1 - t.descuento / 100);
+                                            return (
+                                                <option key={t.id} value={t.id}>
+                                                    {t.tipo.toUpperCase()} -{' '}
+                                                    {precioMensual.toFixed(2)}
+                                                    €/mes
+                                                </option>
+                                            );
+                                        })}
                                     </select>
                                     {errors.tarifa_id && (
                                         <p className="mt-1 text-[10px] text-red-500">

@@ -12,6 +12,8 @@ interface Props {
     periodo: string;
     descuento: number;
     centro_id: number;
+    selected?: boolean;
+    onSelect?: () => void;
 }
 
 export default function CartaPrecio({
@@ -22,6 +24,8 @@ export default function CartaPrecio({
     periodo,
     descuento,
     centro_id,
+    selected,
+    onSelect,
 }: Props) {
     const tipoNormalizado = tipo.toLowerCase();
     const [isHovered, setIsHovered] = useState(false);
