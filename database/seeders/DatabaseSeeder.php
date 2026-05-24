@@ -530,14 +530,22 @@ class DatabaseSeeder extends Seeder
         ],
         ]);
 
-        //SESION
+
         $sesion_1 = DB::table('sesiones')->insertGetId([
-            'actividad_id' => $actividad_1,
-            'horario_id' => $horario_1,
-            'centro_id' => $centro_1,
-            'capacidad' => 20,
-            'fecha' => '18/05/2026',
-            'curso_id' => $curso_1
+            'fecha'        => '2026-06-01', 
+            'capacidad'    => 20,
+            'centro_id'    => 1,            
+            'curso_id'     => 1,            
+            'actividad_id' => 1,           
+            'horario_id'   => 1,            
+            'estado'       => true,
+        ]);
+
+
+        DB::table('reservas')->insert([
+            'user_id'=> $usuario_1,
+            'sesion_id' => $sesion_1,
+            'estado' => 'Confirmada'
         ]);
 
     }

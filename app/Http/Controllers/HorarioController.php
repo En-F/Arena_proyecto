@@ -10,6 +10,7 @@ use App\Models\Curso;
 use App\Models\User;
 use App\Models\Centro;
 use App\Models\Sesion;
+use App\Models\Reserva;
 use App\Models\Actividad;
 
 
@@ -24,17 +25,22 @@ class HorarioController extends Controller
         $usuario = Auth::user();
 
         $query = User::with('centros');
+        $reservasQuery = Reserva::with(['user', 'sesion.actividad']);
 
         if($usuario?->Admin()){
             $centrosVisibles = Centro::where('es_activo', true)->with(['cursos.actividades'])->get();
         } elseif($usuario?->Jefe()){
 
-            $id_centros = $usuario->centros->pluck('id')->toArray();
+           $id_centros = $usuario->centros->pluck('id')->toArray();
 
            $centrosVisibles = Centro::whereIn('id', $id_centros)
             ->where('es_activo', true)
             ->with(['cursos.actividades'])
             ->get();
+
+            $reservasQuery->whereHas('sesion', function($q) use ($id_centros) {
+                $q->whereIn('centro_id', $id_centros);
+            });
 
         } else {
             abort(403);
@@ -47,7 +53,8 @@ class HorarioController extends Controller
         return Inertia::render('Horario/index', [
             'horarios' => Horario::all(),
             'sesiones' => $sesiones,
-            'centros'  => $centrosVisibles
+            'centros'  => $centrosVisibles,
+            'reservas' => $reservasQuery->get()
         ]);
 
     }
@@ -74,12 +81,7 @@ class HorarioController extends Controller
      */
     public function destroy(Horario $horario)
     {
-        if ($horario->estado) {
-            return back();
-        }
-
         $horario->delete();
-
         return redirect()->route('horarios.index');
     }
 }

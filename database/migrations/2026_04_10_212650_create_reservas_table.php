@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('sesion_id')->constrained('sesiones')->onDelete('cascade');
-            $table->string('estado')->default(true);
+            $table->string('estado')->default('Confirmada');
             $table->timestamps();
         });
     }

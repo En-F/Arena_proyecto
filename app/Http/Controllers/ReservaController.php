@@ -8,6 +8,7 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Curso;
 use App\Models\Centro;
+use App\Models\Sesion;
 use App\Models\Actividad;
 
 class ReservaController extends Controller
@@ -48,32 +49,36 @@ class ReservaController extends Controller
             })->get()
         : Curso::all();
 
-        $actividades = $query->get();
-
+        $querySesiones = Sesion::with(['actividad', 'horario', 'centro','curso'])
+            ->withCount('reservas');
+        
+        
         if ($centroSeleccionado) {
-        $query->whereHas('cursos', function ($q) use ($centroSeleccionado) {
-            $q->whereHas('centros', function ($q2) use ($centroSeleccionado) {
-                $q2->where('centros.id', $centroSeleccionado);
-            });
-        });
+            $querySesiones->where('centro_id', $centroSeleccionado);
         }
-
+            
         if ($cursoSeleccionado) {
-            $query->whereHas('cursos', function ($q) use ($cursoSeleccionado) {
-                $q->where('cursos.id', $cursoSeleccionado)
-                ->where('cursos.es_activo', true);
-            });
+            $querySesiones->where('curso_id', $cursoSeleccionado);
         }
+       
+        $sesiones = $querySesiones->get();
+
+        $sesionesAgrupadas = $sesiones->groupBy(function($item) {
+            try {
+                $fechaLimpia = str_replace('/', '-', $item->fecha);
+                return \Carbon\Carbon::parse($fechaLimpia)->format('Y-m-d');
+            } catch (\Exception $e) {
+                return 'error';
+            }
+        });
 
         return Inertia::render('Reserva/index', [
-            'actividades'        => $query->get(),
+            'sesionesAgrupadas'  => $sesionesAgrupadas,
             'centros'            => $centros_visibles,
             'cursos'             => $cursos,
-            'centroSeleccionado' => $centroSeleccionado ? (int) $centroSeleccionado : null,
-            'cursoSeleccionado'  => $cursoSeleccionado  ? (int) $cursoSeleccionado  : null,
-            'estaAutenticado'    => (bool) $usuario,
+            'centroSeleccionado' => (int) $centroSeleccionado,
+            'cursoSeleccionado'  => $cursoSeleccionado ? (int) $cursoSeleccionado : null,
             'esAdmin'            => $esAdmin,
-            'sinCentro'          => false, 
         ]);
     }
 
@@ -93,13 +98,6 @@ class ReservaController extends Controller
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Reserva $reserva)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -123,5 +121,20 @@ class ReservaController extends Controller
     public function destroy(Reserva $reserva)
     {
         //
+    }
+
+    public function misreservas()
+    {
+        $usuario = Auth::user();
+
+        $reservas = $usuario->reservas() 
+            ->with(['sesion.actividad', 'sesion.centro', 'sesion.horario'])
+            ->latest()
+            ->get();
+
+        return Inertia::render('Historial/mis-reservas', [
+            'reservas' => $reservas,
+            'usuario'  => $usuario->name
+        ]);
     }
 }

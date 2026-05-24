@@ -10,39 +10,39 @@ import { edit as editSecurity } from '@/routes/security';
 import type { NavItem } from '@/types';
 import { route } from 'ziggy-js';
 
-const sidebarNavItems: NavItem[] = [
-    {
-        title: 'Perfil',
-        href: edit(),
-        icon: null,
-    },
-    {
-        title: 'Seguridad',
-        href: editSecurity(),
-        icon: null,
-    },
-    {
-        title: 'Historial de reservas',
-        href: '/Historia/show',
-        icon: null,
-    },
-    {
-        title: 'Generación QR',
-        href: '/settings/UserQr',
-        icon: null,
-    },
-    {
-        title: 'Mis Suscripciones',
-        href: route('stripe.portal'),
-        icon: null,
-    },
-];
-
 export default function SettingsLayout({ children }: PropsWithChildren) {
     const { isCurrentOrParentUrl } = useCurrentUrl();
     const { auth } = usePage().props as any;
     const is_admin = auth.user?.is_admin;
     const is_jefe = auth.user?.is_jefe;
+
+    const sidebarNavItems: NavItem[] = [
+        {
+            title: 'Perfil',
+            href: edit(),
+            icon: null,
+        },
+        {
+            title: 'Seguridad',
+            href: editSecurity(),
+            icon: null,
+        },
+        {
+            title: 'Historial de reservas',
+            href: route('mis-reservas'),
+            icon: null,
+        },
+        {
+            title: 'Generación QR',
+            href: '/settings/UserQr',
+            icon: null,
+        },
+        {
+            title: 'Mis Suscripciones',
+            href: route('stripe.portal'),
+            icon: null,
+        },
+    ];
 
     const menuFiltrado = sidebarNavItems.filter((item) => {
         if ((is_admin || is_jefe) && item.title === 'Mis Suscripciones') {

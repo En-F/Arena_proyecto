@@ -34,4 +34,5 @@ class Sesion extends Model
     {
         return $this->hasMany(Reserva::class);
     }
+
 }

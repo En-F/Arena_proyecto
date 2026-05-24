@@ -1,354 +1,374 @@
 import React, { useState } from 'react';
-import { usePage, Link } from '@inertiajs/react';
+import { Head, router, usePage } from '@inertiajs/react';
+import { ChevronLeft, ChevronRight, Clock, MapPin, Users } from 'lucide-react';
+import DatePicker, { registerLocale } from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { es } from 'date-fns/locale/es';
+registerLocale('es', es);
 
-export default function ScheduleWeekly() {
+interface Actividad {
+    id: number;
+    nombre: string;
+    descripcion?: string;
+    imagen?: string;
+}
+
+interface Horario {
+    id: number;
+    dia: string;
+    hora_inicio: string;
+    hora_fin: string;
+}
+
+interface Centro {
+    id: number;
+    nombre: string;
+    direccion?: string;
+}
+
+interface Curso {
+    id: number;
+    nombre: string;
+}
+
+interface Sesion {
+    id: number;
+    fecha: string;
+    capacidad: number;
+    centro_id: number;
+    curso_id?: number;
+    actividad: Actividad;
+    horario: Horario;
+    centro: Centro;
+    curso?: Curso;
+    reservas_count: number;
+}
+
+interface SesionesAgrupadas {
+    [key: string]: Sesion[];
+}
+
+interface Props {
+    sesionesAgrupadas: SesionesAgrupadas;
+    centros: Centro[];
+    cursos: Curso[];
+    centroSeleccionado: number | null;
+    cursoSeleccionado: number | null;
+    esAdmin: boolean;
+}
+
+export default function Index({
+    sesionesAgrupadas,
+    centros,
+    cursos,
+    centroSeleccionado,
+    cursoSeleccionado,
+}: Props) {
+    const [fechaReferencia, setFechaReferencia] = useState(new Date());
     const { auth } = usePage().props as any;
     const is_admin = auth.user?.is_admin || false;
     const is_jefe = auth.user?.is_jefe || false;
 
-    const [currentWeekOffset, setCurrentWeekOffset] = useState(0);
-    const [selectedCenter, setSelectedCenter] = useState('centro-sur');
-    const [selectedCourse, setSelectedCourse] = useState('principiante');
+    const obtenerDiasSemana = (ref: Date) => {
+        const dias = [];
+        const actual = new Date(ref);
 
-    const activities = [
-        {
-            id: 1,
-            name: 'FULL BODY',
-            time: '07:15 - 08:15',
-            instructor: 'Carlos Mendez',
-            capacity: 25,
-            registered: 22,
-            day: 'lunes',
-        },
-        {
-            id: 2,
-            name: 'BICICLETA',
-            time: '07:15 - 09:15',
-            instructor: 'María López',
-            capacity: 30,
-            registered: 28,
-            day: 'martes',
-        },
-        {
-            id: 3,
-            name: 'PILATES',
-            time: '09:00 - 10:00',
-            instructor: 'Ana Torres',
-            capacity: 20,
-            registered: 17,
-            day: 'martes',
-        },
-        {
-            id: 4,
-            name: 'PISCINA',
-            time: '07:15 - 08:15',
-            instructor: 'Juan García',
-            capacity: 20,
-            registered: 18,
-            day: 'miércoles',
-        },
-        {
-            id: 5,
-            name: 'GIMANSIO',
-            time: '07:15 - 09:15',
-            instructor: 'Roberto Silva',
-            capacity: 40,
-            registered: 35,
-            day: 'miércoles',
-        },
-        {
-            id: 6,
-            name: 'DANZA',
-            time: '18:00 - 19:00',
-            instructor: 'Sofía Blanco',
-            capacity: 25,
-            registered: 23,
-            day: 'miércoles',
-        },
-        {
-            id: 7,
-            name: 'MOVILIDAD ARTICULAR',
-            time: '07:15 - 09:00',
-            instructor: 'Rosa Martínez',
-            capacity: 15,
-            registered: 15,
-            day: 'jueves',
-        },
-        {
-            id: 8,
-            name: 'FÚTBOL',
-            time: '10:15 - 11:15',
-            instructor: 'Diego Ruiz',
-            capacity: 22,
-            registered: 20,
-            day: 'jueves',
-        },
-        {
-            id: 9,
-            name: 'FULL BODY',
-            time: '07:15 - 08:15',
-            instructor: 'Carlos Mendez',
-            capacity: 25,
-            registered: 24,
-            day: 'viernes',
-        },
-        {
-            id: 10,
-            name: 'BALONCESTO',
-            time: '07:15 - 08:15',
-            instructor: 'Miguel Fernández',
-            capacity: 20,
-            registered: 16,
-            day: 'viernes',
-        },
-        {
-            id: 11,
-            name: 'YOGA',
-            time: '08:30 - 09:30',
-            instructor: 'Laura Sánchez',
-            capacity: 18,
-            registered: 12,
-            day: 'lunes',
-        },
-        {
-            id: 12,
-            name: 'PISCINA',
-            time: '07:15 - 08:15',
-            instructor: 'Juan García',
-            capacity: 20,
-            registered: 19,
-            day: 'lunes',
-        },
-    ];
+        const diaSemana = actual.getDay();
+        const difereciaDia =
+            actual.getDate() - diaSemana + (diaSemana === 0 ? -6 : 1);
+        actual.setDate(difereciaDia);
 
-    const days = [
-        { key: 'lunes', name: 'Lunes', date: '20 Nov' },
-        { key: 'martes', name: 'Martes', date: '21 Nov' },
-        { key: 'miércoles', name: 'Miércoles', date: '22 Nov' },
-        { key: 'jueves', name: 'Jueves', date: '23 Nov' },
-        { key: 'viernes', name: 'Viernes', date: '24 Nov' },
-    ];
+        for (let i = 0; i < 5; i++) {
+            const dia = new Date(actual);
+            dia.setDate(actual.getDate() + i);
 
-    const previousWeek = () => setCurrentWeekOffset((prev) => prev - 1);
-    const nextWeek = () => setCurrentWeekOffset((prev) => prev + 1);
+            const año = dia.getFullYear();
+            const mes = String(dia.getMonth() + 1).padStart(2, '0');
+            const diaMes = String(dia.getDate()).padStart(2, '0');
+            const fechaSql = `${año}-${mes}-${diaMes}`;
 
-    const getWeekLabel = () => {
-        const startDate = new Date(2024, 10, 20 + currentWeekOffset * 7);
-        const weekStart = startDate.getDate();
-        const monthName = startDate
-            .toLocaleString('es-ES', { month: 'short' })
-            .replace('.', '');
-        return `Semana ${weekStart} - ${weekStart + 4} ${monthName.charAt(0).toUpperCase() + monthName.slice(1)}`;
+            dias.push({
+                nombre: dia.toLocaleDateString('es-ES', { weekday: 'long' }),
+                numero: dia.getDate(),
+                mes: dia.toLocaleDateString('es-ES', { month: 'short' }),
+                fechaSql: fechaSql,
+            });
+        }
+        return dias;
     };
 
-    const getDayActivities = (dayKey) => {
-        return activities.filter((a) => a.day === dayKey);
+    const diasSemana = obtenerDiasSemana(fechaReferencia);
+
+    const irSemanaSiguiente = () => {
+        const nuevaFecha = new Date(fechaReferencia);
+        nuevaFecha.setDate(fechaReferencia.getDate() + 7);
+        setFechaReferencia(nuevaFecha);
     };
 
-    const handleReserve = (activityId) => {
-        console.log(
-            `Reservado: Actividad ${activityId}, Centro: ${selectedCenter}, Curso: ${selectedCourse}`,
+    const irSemanaAnterior = () => {
+        const nuevaFecha = new Date(fechaReferencia);
+        nuevaFecha.setDate(fechaReferencia.getDate() - 7);
+        setFechaReferencia(nuevaFecha);
+    };
+
+    const handleCentroChange = (e) => {
+        const id = e.target.value;
+        router.get(
+            route('reservas.index'),
+            { centro_id: id },
+            { preserveState: true },
+        );
+    };
+
+    const handleCursoChange = (e) => {
+        const id = e.target.value;
+        router.get(
+            route('reservas.index'),
+            {
+                centro_id: centroSeleccionado,
+                curso_id: id,
+            },
+            { preserveState: true },
         );
     };
 
     return (
-        <div className="min-h-screen bg-white p-8">
-            <div className="mx-auto max-w-7xl">
-                <div className="mb-8 text-center">
-                    <h1
-                        className="mb-2 text-5xl font-bold text-black"
-                        style={{ fontFamily: 'Georgia, serif' }}
-                    >
-                        Horario
-                    </h1>
-                    <p className="text-lg text-gray-600">
-                        Visualiza todas las actividades de la semana y reserva
-                        tu lugar
+        <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+            <Head title="Reservas de Sesiones" />
+
+            <div className="mx-auto mb-10 max-w-7xl">
+                <h1 className="mb-6 text-center text-3xl font-black tracking-tighter text-gray-900 uppercase">
+                    Horario de Actividades
+                </h1>
+
+                <div className="flex flex-wrap justify-center gap-4 rounded-2xl p-4">
+                    <div className="flex flex-col">
+                        <label className="text-black-400 ml-1 text-[17px] font-bold uppercase">
+                            Centro Deportivo
+                        </label>
+                        <select
+                            value={centroSeleccionado || ''}
+                            onChange={handleCentroChange}
+                            className="rounded-xl border-none bg-gray-50 p-3 text-sm font-medium focus:ring-2 focus:ring-blue-500"
+                        >
+                            {centros.map((c) => (
+                                <option key={c.id} value={c.id}>
+                                    {c.nombre}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <div className="flex flex-col">
+                        <label className="text-black-400 ml-1 text-[17px] font-bold uppercase">
+                            Curso / Nivel
+                        </label>
+                        <select
+                            value={cursoSeleccionado || ''}
+                            onChange={handleCursoChange}
+                            className="rounded-xl border-none bg-gray-50 p-3 text-sm text-[17px] font-medium focus:ring-2 focus:ring-blue-500"
+                        >
+                            <option value="">Todos los cursos</option>
+                            {cursos.map((cur) => (
+                                <option key={cur.id} value={cur.id}>
+                                    {cur.nombre}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div className="mx-auto mb-6 flex max-w-7xl items-center justify-between rounded-2xl bg-blue-600 p-4 text-white shadow-lg">
+                <button
+                    onClick={irSemanaAnterior}
+                    className="rounded-full p-2 transition hover:bg-blue-500"
+                >
+                    <ChevronLeft size={28} />
+                </button>
+
+                <div className="text-center">
+                    <p className="text-xl font-bold uppercase opacity-80">
+                        Semana actual — {fechaReferencia.getFullYear()}
                     </p>
+
+                    <h2 className="text-lg font-black">
+                        {diasSemana[0].numero} {diasSemana[0].mes} —{' '}
+                        {diasSemana[4].numero} {diasSemana[4].mes}
+                    </h2>
                 </div>
 
-                <div className="mb-8 flex flex-wrap items-end justify-center gap-6">
-                    <div className="flex flex-col gap-2">
-                        <label className="text-xs font-semibold tracking-wider text-gray-500 uppercase">
-                            Centro
-                        </label>
-                        <select
-                            value={selectedCenter}
-                            onChange={(e) => setSelectedCenter(e.target.value)}
-                            className="w-56 cursor-pointer rounded-lg border-2 border-gray-300 bg-white px-4 py-3 text-base font-medium text-gray-900 transition-all hover:border-gray-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 focus:outline-none"
-                        >
-                            <option value="centro-sur">
-                                Centro Sur - Plaza Mayor
-                            </option>
-                            <option value="centro-norte">
-                                Centro Norte - Avenida Principal
-                            </option>
-                            <option value="centro-este">
-                                Centro Este - Zona Industrial
-                            </option>
-                            <option value="centro-oeste">
-                                Centro Oeste - Centro Histórico
-                            </option>
-                        </select>
-                    </div>
+                <button
+                    onClick={irSemanaSiguiente}
+                    className="rounded-full p-2 transition hover:bg-blue-500"
+                >
+                    <ChevronRight size={28} />
+                </button>
+            </div>
 
-                    <div className="flex flex-col gap-2">
-                        <label className="text-xs font-semibold tracking-wider text-gray-500 uppercase">
-                            Curso
-                        </label>
-                        <select
-                            value={selectedCourse}
-                            onChange={(e) => setSelectedCourse(e.target.value)}
-                            className="w-56 cursor-pointer rounded-lg border-2 border-gray-300 bg-white px-4 py-3 text-base font-medium text-gray-900 transition-all hover:border-gray-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 focus:outline-none"
-                        >
-                            <option value="principiante">
-                                Nivel Principiante
-                            </option>
-                            <option value="intermedio">Nivel Intermedio</option>
-                            <option value="avanzado">Nivel Avanzado</option>
-                        </select>
-                    </div>
-                </div>
+            <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 md:grid-cols-5">
+                {diasSemana.map((dia) => (
+                    <div key={dia.fechaSql} className="space-y-4">
+                        <div className="rounded-xl border-b-4 border-blue-400 bg-white p-3 text-center shadow-sm">
+                            <h3 className="text-sm font-black text-gray-800 uppercase">
+                                {dia.nombre}
+                            </h3>
+                            <p className="text-xs font-bold text-gray-400">
+                                {dia.numero} {dia.mes}
+                            </p>
+                        </div>
 
-                <div className="mb-8 flex items-center justify-center gap-8">
-                    <button
-                        onClick={previousWeek}
-                        className="cursor-pointer p-2 text-2xl text-gray-500 transition-colors hover:text-gray-900"
-                    >
-                        ❮
-                    </button>
-                    <div className="w-56 text-center text-lg font-semibold text-gray-900">
-                        {getWeekLabel()}
-                    </div>
-                    <button
-                        onClick={nextWeek}
-                        className="cursor-pointer p-2 text-2xl text-gray-500 transition-colors hover:text-gray-900"
-                    >
-                        ❯
-                    </button>
-                </div>
+                        <div className="flex flex-col gap-4">
+                            {sesionesAgrupadas[dia.fechaSql]?.length > 0 ? (
+                                sesionesAgrupadas[dia.fechaSql].map(
+                                    (sesion) => {
+                                        const disponibles =
+                                            sesion.capacidad -
+                                            sesion.reservas_count;
+                                        const estaLleno = disponibles <= 0;
 
-                <div className="grid grid-cols-5 gap-6 gap-y-8">
-                    {days.map((day, index) => {
-                        const startDate = new Date(
-                            2024,
-                            10,
-                            20 + currentWeekOffset * 7,
-                        );
-                        const currentDate = startDate.getDate() + index;
-                        const monthName = startDate
-                            .toLocaleString('es-ES', { month: 'short' })
-                            .replace('.', '');
-                        const dayActivities = getDayActivities(day.key);
+                                        return (
+                                            <div
+                                                key={sesion.id}
+                                                className="group rounded-3xl border border-gray-100 bg-white p-5 shadow-sm transition-all hover:shadow-xl"
+                                            >
+                                                <div className="mb-3 flex items-start justify-between">
+                                                    <h4 className="text-lg leading-tight font-black text-gray-800 uppercase transition-colors group-hover:text-blue-600">
+                                                        {
+                                                            sesion.actividad
+                                                                .nombre
+                                                        }
+                                                    </h4>
+                                                </div>
 
-                        return (
-                            <div
-                                key={day.key}
-                                className="rounded-xl border-2 border-gray-300 bg-gray-50 p-6"
-                            >
-                                <div className="mb-4 border-b-2 border-gray-300 pb-4 text-center">
-                                    <div className="text-lg font-bold text-gray-900">
-                                        {day.name}
-                                    </div>
-                                    <div className="mt-1 text-sm text-gray-600">
-                                        {currentDate} {monthName}
-                                    </div>
-                                </div>
+                                                <div className="mb-4 inline-block rounded-md bg-blue-50 px-2 py-1 text-[10px] font-bold text-blue-700">
+                                                    CURSO:{' '}
+                                                    {sesion.curso?.nombre ||
+                                                        'Abierto'}
+                                                </div>
 
-                                <div className="space-y-4">
-                                    {dayActivities.length > 0 ? (
-                                        dayActivities.map((activity) => {
-                                            const spotsLeft =
-                                                activity.capacity -
-                                                activity.registered;
-                                            const isFull = spotsLeft === 0;
-
-                                            return (
-                                                <div
-                                                    key={activity.id}
-                                                    className="group relative overflow-hidden rounded-lg border-2 border-gray-300 bg-white p-4 transition-all duration-300 hover:border-gray-400 hover:shadow-md"
-                                                >
-                                                    <div className="absolute top-0 right-0 left-0 h-1 bg-gradient-to-r from-blue-500 to-purple-500" />
-
-                                                    <div className="pt-2">
-                                                        <div className="mb-2 font-bold text-gray-900">
-                                                            {activity.name}
-                                                        </div>
-
-                                                        <div className="mb-1 flex items-center gap-2 text-sm text-gray-600">
-                                                            <span>🕐</span>
-                                                            <span>
-                                                                {activity.time}
-                                                            </span>
-                                                        </div>
-
-                                                        <div className="mb-1 flex items-center gap-2 text-sm text-gray-600">
-                                                            <span>👤</span>
-                                                            <span>
-                                                                {
-                                                                    activity.instructor
-                                                                }
-                                                            </span>
-                                                        </div>
-
-                                                        <div className="mb-3 flex items-center gap-2 text-sm text-gray-600">
-                                                            <span>👥</span>
-                                                            <span>
-                                                                {
-                                                                    activity.registered
-                                                                }
-                                                                /
-                                                                {
-                                                                    activity.capacity
-                                                                }
-                                                            </span>
-                                                        </div>
-
-                                                        <div className="mb-3">
-                                                            <span
-                                                                className={`inline-block rounded-md px-3 py-1 text-xs font-bold ${
-                                                                    isFull
-                                                                        ? 'bg-red-100 text-red-900'
-                                                                        : 'bg-green-100 text-green-900'
-                                                                }`}
-                                                            >
-                                                                {isFull
-                                                                    ? 'LLENO'
-                                                                    : `${spotsLeft} disponibles`}
-                                                            </span>
-                                                        </div>
-
-                                                        <button
-                                                            onClick={() =>
-                                                                handleReserve(
-                                                                    activity.id,
-                                                                )
-                                                            }
-                                                            disabled={isFull}
-                                                            className={`w-full rounded-lg py-2 text-sm font-bold transition-all duration-200 ${
-                                                                isFull
-                                                                    ? 'cursor-not-allowed bg-gray-300 text-gray-600'
-                                                                    : 'bg-blue-600 text-white hover:bg-blue-700 active:scale-95'
-                                                            }`}
-                                                        >
-                                                            {isFull
-                                                                ? 'Sin disponibilidad'
-                                                                : 'Reservar'}
-                                                        </button>
+                                                <div className="mb-5 space-y-2">
+                                                    <div className="flex items-center gap-2 text-xs font-medium text-gray-500">
+                                                        <Clock
+                                                            size={14}
+                                                            className="text-blue-400"
+                                                        />
+                                                        {sesion.horario.hora_inicio.slice(
+                                                            0,
+                                                            5,
+                                                        )}{' '}
+                                                        -{' '}
+                                                        {sesion.horario.hora_fin.slice(
+                                                            0,
+                                                            5,
+                                                        )}
+                                                    </div>
+                                                    <div className="flex items-center gap-2 text-xs font-medium text-gray-500">
+                                                        <MapPin
+                                                            size={14}
+                                                            className="text-blue-400"
+                                                        />
+                                                        {sesion.centro.nombre}
+                                                    </div>
+                                                    <div className="flex items-center gap-2 text-xs font-medium text-gray-500">
+                                                        <Users
+                                                            size={14}
+                                                            className="text-blue-400"
+                                                        />
+                                                        {sesion.reservas_count}{' '}
+                                                        / {sesion.capacidad}{' '}
+                                                        inscritos
                                                     </div>
                                                 </div>
-                                            );
-                                        })
-                                    ) : (
-                                        <div className="py-8 text-center text-gray-500">
-                                            Sin actividades
-                                        </div>
-                                    )}
+
+                                                <div
+                                                    className={`mb-3 rounded-xl py-1.5 text-center text-[10px] font-black ${
+                                                        estaLleno
+                                                            ? 'bg-red-50 text-red-500'
+                                                            : 'bg-green-50 text-green-600'
+                                                    }`}
+                                                >
+                                                    {estaLleno
+                                                        ? 'CUPOS AGOTADOS'
+                                                        : `${disponibles} PLAZAS LIBRES`}
+                                                </div>
+
+                                                <button
+                                                    disabled={estaLleno}
+                                                    className={`w-full rounded-2xl py-3 text-xs font-bold tracking-widest uppercase transition-all ${
+                                                        estaLleno
+                                                            ? 'cursor-not-allowed bg-gray-100 text-gray-400'
+                                                            : 'bg-gray-900 text-white hover:bg-blue-600 hover:shadow-lg active:scale-95'
+                                                    }`}
+                                                >
+                                                    {estaLleno
+                                                        ? 'Sin plazas'
+                                                        : 'Reservar ahora'}
+                                                </button>
+
+                                                {(is_admin || is_jefe) && (
+                                                    <>
+                                                        <button
+                                                            onClick={() =>
+                                                                router.get(
+                                                                    route(
+                                                                        'sesiones.edit',
+                                                                        sesion.id,
+                                                                    ),
+                                                                )
+                                                            }
+                                                            className="mt-2 w-full rounded-2xl border-2 border-dashed border-gray-300 py-2 text-xs font-bold text-gray-500 uppercase transition-all hover:border-blue-500 hover:bg-blue-50 hover:text-blue-600"
+                                                        >
+                                                            Editar Sesión
+                                                        </button>
+
+                                                        <button
+                                                            onClick={() => {
+                                                                if (
+                                                                    confirm(
+                                                                        '¿Estás seguro de eliminar esta sesión?',
+                                                                    )
+                                                                ) {
+                                                                    router.delete(
+                                                                        route(
+                                                                            'sesiones.destroy',
+                                                                            sesion.id,
+                                                                        ),
+                                                                    );
+                                                                }
+                                                            }}
+                                                            disabled={
+                                                                sesion.reservas_count >
+                                                                0
+                                                            }
+                                                            className={`mt-2 w-full rounded-2xl border-2 py-2 text-xs font-bold uppercase transition-all ${
+                                                                sesion.reservas_count >
+                                                                0
+                                                                    ? 'cursor-not-allowed border-gray-200 bg-gray-50 text-gray-300'
+                                                                    : 'border-transparent bg-red-50 text-red-600 hover:bg-red-600 hover:text-white'
+                                                            }`}
+                                                        >
+                                                            {sesion.reservas_count >
+                                                            0
+                                                                ? 'No se puede borrar (con inscritos)'
+                                                                : 'Eliminar Sesión'}
+                                                        </button>
+                                                    </>
+                                                )}
+                                            </div>
+                                        );
+                                    },
+                                )
+                            ) : (
+                                <div className="rounded-3xl border-2 border-dashed border-gray-200 py-10 text-center">
+                                    <p className="text-xs font-bold text-gray-300 uppercase">
+                                        No hay clases
+                                    </p>
                                 </div>
-                            </div>
-                        );
-                    })}
-                </div>
+                            )}
+                        </div>
+                    </div>
+                ))}
             </div>
         </div>
     );

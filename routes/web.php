@@ -175,6 +175,12 @@ Route::resource('reservas', ReservaController::class)->only(['index', 'show']);
 Route::resource('valoraciones', ValoracionController::class)->only(['index']);
 
 Route::middleware('auth')->group(function () {
+
+    //Mis Reservas
+    Route::get('/historial-reserva', [ReservaController::class, 'misreservas'])
+    ->name('mis-reservas');
+
+    
     Route::post('/logout', [ControlController::class, 'logout'])->name('logout');
     Route::get('/profile/history', [ProfileController::class, 'history'])->name('profile.history');
 

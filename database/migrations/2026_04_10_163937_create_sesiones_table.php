@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('sesiones', function (Blueprint $table) {
             $table->id();
             $table->foreignId('horario_id')->constrained('horarios')->onDelete('cascade');
-            $table->foreignId('centro_id')->constrained('cursos')->onDelete('cascade');
+            $table->foreignId('centro_id')->constrained('centros')->onDelete('cascade');
             $table->foreignId('actividad_id')->constrained('actividades')->onDelete('cascade');
             $table->foreignId('curso_id')->constrained('cursos')->onDelete('cascade');
             $table->integer('capacidad');

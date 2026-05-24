@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
-import { Head, useForm } from '@inertiajs/react';
+import { Head, router, useForm } from '@inertiajs/react';
 import Button from '@/components/Layouts/Button';
+import DatePicker, { registerLocale } from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { es } from 'date-fns/locale/es';
+registerLocale('es', es);
 
 interface Horario {
     id: number;
@@ -39,16 +43,27 @@ interface Sesion {
     estado: boolean;
 }
 
+interface Reserva {
+    id: number;
+    user_id: number;
+    sesion_id: number;
+    estado: string;
+    user?: { name: string; email: string };
+    sesion?: { fecha: string; actividad?: { nombre: string } };
+}
+
 interface Props {
     horarios: Horario[];
     centros: Centro[];
     sesiones: Sesion[];
+    reservas: Reserva[];
 }
 
-export default function AdminHorarioIndex({
+export default function HorarioIndex({
     horarios,
     centros = [],
     sesiones = [],
+    reservas = [],
 }: Props) {
     const [activeTab, setActiveTab] = useState('ver');
 
@@ -106,7 +121,7 @@ export default function AdminHorarioIndex({
                 '¿Estás seguro de que deseas eliminar este bloque de horario? Esta acción no se puede deshacer.',
             )
         ) {
-            formHorario.delete(route('horarios.destroy', id), {});
+            formHorario.delete(route('horarios.destroy', id));
         }
     };
 
@@ -154,6 +169,10 @@ export default function AdminHorarioIndex({
         e.preventDefault();
         formSesion.clearErrors();
 
+        const ahora = new Date();
+        const hoyStr = ahora.toISOString().split('T')[0];
+        const horaActual = ahora.getHours() + ':' + ahora.getMinutes();
+
         let tieneErrores = false;
         if (!formSesion.data.centro_id) {
             formSesion.setError('centro_id', 'El centro es obligatorio.');
@@ -170,6 +189,22 @@ export default function AdminHorarioIndex({
         if (!formSesion.data.horario_id) {
             formSesion.setError('horario_id', 'El horario es obligatorio.');
             tieneErrores = true;
+        } else {
+            const horarioObj = horarios.find(
+                (h) => String(h.id) === String(formSesion.data.horario_id),
+            );
+
+            if (horarioObj) {
+                if (formSesion.data.fecha === hoyStr) {
+                    if (horarioObj.hora_inicio <= horaActual) {
+                        formSesion.setError(
+                            'horario_id',
+                            `Para hoy, el horario debe ser posterior a la hora actual (${horaActual}).`,
+                        );
+                        tieneErrores = true;
+                    }
+                }
+            }
         }
 
         if (!formSesion.data.capacidad || formSesion.data.capacidad <= 0) {
@@ -242,60 +277,69 @@ export default function AdminHorarioIndex({
                                 Horarios
                             </h2>
                             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-                                {horarios.map((horario) => (
-                                    <div
-                                        key={horario.id}
-                                        className="relative rounded-xl border-2 border-gray-100 bg-white p-5 shadow-sm transition-all hover:border-gray-200"
-                                    >
-                                        <div className="flex items-center justify-between">
-                                            <span className="rounded-md bg-blue-50 px-2.5 py-1 text-xs font-black tracking-wider text-blue-700 uppercase">
-                                                {horario.dia}
-                                            </span>
-                                            {horario.estado ? (
-                                                <span className="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-0.5 text-xs font-medium text-green-700 ring-1 ring-green-600/20 ring-inset">
-                                                    <span className="h-1.5 w-1.5 rounded-full bg-green-500"></span>
-                                                    Activo
-                                                </span>
-                                            ) : (
-                                                <span className="inline-flex items-center gap-1 rounded-full bg-red-50 px-2 py-0.5 text-xs font-medium text-red-700 ring-1 ring-red-600/20 ring-inset">
-                                                    <span className="h-1.5 w-1.5 rounded-full bg-red-500"></span>
-                                                    Inactivo
-                                                </span>
-                                            )}
-                                        </div>
+                                {horarios.map((horario) => {
+                                    const tieneSesionAsignada = sesiones.some(
+                                        (s) =>
+                                            String(s.horario.id) ===
+                                            String(horario.id),
+                                    );
 
-                                        <div className="mt-4 text-sm font-semibold text-gray-700">
-                                            🕒{' '}
-                                            {horario.hora_inicio
-                                                .split(':')
-                                                .slice(0, 2)
-                                                .join(':')}{' '}
-                                            -{' '}
-                                            {horario.hora_fin
-                                                .split(':')
-                                                .slice(0, 2)
-                                                .join(':')}
-                                        </div>
+                                    return (
+                                        <div
+                                            key={horario.id}
+                                            className="relative rounded-xl border-2 border-gray-100 bg-white p-5 shadow-sm transition-all hover:border-gray-200"
+                                        >
+                                            <div className="flex items-center justify-between">
+                                                <span className="rounded-md bg-blue-50 px-2.5 py-1 text-xs font-black tracking-wider text-blue-700 uppercase">
+                                                    {horario.dia}
+                                                </span>
 
-                                        <div className="minimum-h-[32px] mt-4 flex justify-end border-t border-gray-100 pt-3">
-                                            {!horario.estado && (
-                                                <Button
-                                                    onClick={() =>
-                                                        handleDeleteHorario(
-                                                            horario.id,
-                                                        )
-                                                    }
-                                                    disabled={
-                                                        formHorario.processing
-                                                    }
-                                                    className="inline-flex items-center gap-1 text-xs font-bold text-red-600 transition-colors hover:text-red-800 disabled:opacity-50"
-                                                >
-                                                    Eliminar
-                                                </Button>
-                                            )}
+                                                {tieneSesionAsignada ? (
+                                                    <span className="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-0.5 text-xs font-medium text-green-700 ring-1 ring-green-600/20 ring-inset">
+                                                        <span className="h-1.5 w-1.5 rounded-full bg-green-500"></span>
+                                                        En Uso
+                                                    </span>
+                                                ) : (
+                                                    <span className="inline-flex items-center gap-1 rounded-full bg-red-50 px-2 py-0.5 text-xs font-medium text-red-700 ring-1 ring-red-600/20 ring-inset">
+                                                        <span className="h-1.5 w-1.5 rounded-full bg-red-500"></span>
+                                                        Disponible
+                                                    </span>
+                                                )}
+                                            </div>
+
+                                            <div className="mt-4 text-sm font-semibold text-gray-700">
+                                                🕒{' '}
+                                                {horario.hora_inicio
+                                                    .split(':')
+                                                    .slice(0, 2)
+                                                    .join(':')}{' '}
+                                                -{' '}
+                                                {horario.hora_fin
+                                                    .split(':')
+                                                    .slice(0, 2)
+                                                    .join(':')}
+                                            </div>
+
+                                            <div className="minimum-h-[32px] mt-4 flex justify-end border-t border-gray-100 pt-3">
+                                                {!tieneSesionAsignada && (
+                                                    <Button
+                                                        onClick={() =>
+                                                            handleDeleteHorario(
+                                                                horario.id,
+                                                            )
+                                                        }
+                                                        disabled={
+                                                            formHorario.processing
+                                                        }
+                                                        className="inline-flex items-center gap-1 text-xs font-bold text-red-600 transition-colors hover:text-red-800 disabled:opacity-50"
+                                                    >
+                                                        Eliminar
+                                                    </Button>
+                                                )}
+                                            </div>
                                         </div>
-                                    </div>
-                                ))}
+                                    );
+                                })}
                             </div>
                         </div>
                     )}
@@ -316,7 +360,13 @@ export default function AdminHorarioIndex({
                                                 {sesion.horario.dia}
                                             </span>
                                             <span className="text-xs font-semibold text-gray-500">
-                                                📅 {sesion.fecha}
+                                                📅{' '}
+                                                {new Date(
+                                                    sesion.fecha.replace(
+                                                        /-/g,
+                                                        '/',
+                                                    ),
+                                                ).toLocaleDateString('es-ES')}
                                             </span>
                                         </div>
 
@@ -518,6 +568,11 @@ export default function AdminHorarioIndex({
                                             </option>
                                         ))}
                                     </select>
+                                    {formSesion.errors.centro_id && (
+                                        <p className="mt-1 text-xs font-medium text-red-600">
+                                            {formSesion.errors.centro_id}
+                                        </p>
+                                    )}
                                 </div>
 
                                 <div>
@@ -550,6 +605,11 @@ export default function AdminHorarioIndex({
                                             </option>
                                         ))}
                                     </select>
+                                    {formSesion.errors.curso_id && (
+                                        <p className="mt-1 text-xs font-medium text-red-600">
+                                            {formSesion.errors.curso_id}
+                                        </p>
+                                    )}
                                 </div>
 
                                 <div>
@@ -578,24 +638,49 @@ export default function AdminHorarioIndex({
                                             </option>
                                         ))}
                                     </select>
+                                    {formSesion.errors.actividad_id && (
+                                        <p className="mt-1 text-xs font-medium text-red-600">
+                                            {formSesion.errors.actividad_id}
+                                        </p>
+                                    )}
                                 </div>
                                 <div>
                                     <label className="mb-1 block text-sm font-semibold text-gray-700">
                                         Fecha de la Sesión
                                     </label>
-                                    <input
-                                        type="date"
-                                        value={formSesion.data.fecha}
-                                        onChange={(e) =>
+                                    <DatePicker
+                                        selected={
+                                            formSesion.data.fecha
+                                                ? new Date(
+                                                      formSesion.data.fecha,
+                                                  )
+                                                : null
+                                        }
+                                        onChange={(date: Date) => {
+                                            const yyyy = date.getFullYear();
+                                            const mm = String(
+                                                date.getMonth() + 1,
+                                            ).padStart(2, '0');
+                                            const dd = String(
+                                                date.getDate(),
+                                            ).padStart(2, '0');
                                             formSesion.setData(
                                                 'fecha',
-                                                e.target.value,
-                                            )
-                                        }
-                                        className="w-full rounded-lg border-gray-300 p-3 shadow-sm focus:border-purple-500"
+                                                `${yyyy}-${mm}-${dd}`,
+                                            );
+                                        }}
+                                        locale="es"
+                                        dateFormat="dd/MM/yyyy"
+                                        minDate={new Date()}
+                                        placeholderText="Selecciona un día"
+                                        className={`w-full rounded-lg border-2 p-3 shadow-sm ${
+                                            formSesion.errors.fecha
+                                                ? 'border-red-500'
+                                                : 'border-gray-300'
+                                        }`}
                                     />
                                     {formSesion.errors.fecha && (
-                                        <p className="mt-1 text-xs text-red-500">
+                                        <p className="mt-1 text-xs font-medium text-red-600">
                                             {formSesion.errors.fecha}
                                         </p>
                                     )}
@@ -644,7 +729,7 @@ export default function AdminHorarioIndex({
                                         )}
                                     </select>
                                     {formSesion.errors.horario_id && (
-                                        <p className="mt-1 text-xs text-red-500">
+                                        <p className="mt-1 text-xs font-medium text-red-600">
                                             {formSesion.errors.horario_id}
                                         </p>
                                     )}
@@ -666,7 +751,7 @@ export default function AdminHorarioIndex({
                                         className={`w-full rounded-lg border-gray-300 p-3 shadow-sm focus:border-purple-500 ${formSesion.errors.capacidad ? 'border-red-500' : ''}`}
                                     />
                                     {formSesion.errors.capacidad && (
-                                        <span className="mt-1 block text-xs text-red-500">
+                                        <span className="mt-1 text-xs font-medium text-red-600">
                                             {formSesion.errors.capacidad}
                                         </span>
                                     )}
@@ -697,10 +782,97 @@ export default function AdminHorarioIndex({
                     )}
 
                     {activeTab === 'reservas' && (
-                        <div className="overflow-x-auto">
-                            <p className="text-sm text-gray-500">
-                                Mostrando el listado de reservas activas...
-                            </p>
+                        <div className="overflow-x-auto rounded-3xl border border-gray-100 bg-white p-6 shadow-sm">
+                            <h2 className="mb-6 text-xl font-bold text-gray-800">
+                                Listado de Reservas
+                            </h2>
+                            <table className="w-full border-collapse text-left">
+                                <thead>
+                                    <tr className="border-b border-gray-100">
+                                        <th className="px-2 py-4 text-xs font-black text-gray-400 uppercase">
+                                            Usuario
+                                        </th>
+                                        <th className="px-2 py-4 text-xs font-black text-gray-400 uppercase">
+                                            Sesión / Actividad
+                                        </th>
+                                        <th className="px-2 py-4 text-xs font-black text-gray-400 uppercase">
+                                            Fecha
+                                        </th>
+                                        <th className="px-2 py-4 text-xs font-black text-gray-400 uppercase">
+                                            Estado
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-gray-50">
+                                    {reservas.length > 0 ? (
+                                        reservas.map((reserva) => (
+                                            <tr
+                                                key={reserva.id}
+                                                className="group transition-colors hover:bg-gray-50"
+                                            >
+                                                <td className="px-2 py-4">
+                                                    <div className="flex flex-col">
+                                                        <span className="text-sm font-black text-gray-800 uppercase">
+                                                            {reserva.user
+                                                                ?.name || 'N/A'}
+                                                        </span>
+                                                        <span className="text-[10px] font-medium text-gray-400">
+                                                            {
+                                                                reserva.user
+                                                                    ?.email
+                                                            }
+                                                        </span>
+                                                    </div>
+                                                </td>
+
+                                                <td className="px-2 py-4">
+                                                    <span className="text-sm font-bold text-blue-600 uppercase">
+                                                        {reserva.sesion
+                                                            ?.actividad
+                                                            ?.nombre || 'Clase'}
+                                                    </span>
+                                                </td>
+
+                                                <td className="px-2 py-4 text-sm font-bold text-gray-600">
+                                                    {reserva.sesion?.fecha
+                                                        ? new Date(
+                                                              reserva.sesion.fecha.replace(
+                                                                  /-/g,
+                                                                  '/',
+                                                              ),
+                                                          ).toLocaleDateString(
+                                                              'es-ES',
+                                                          )
+                                                        : 'Sin fecha'}
+                                                </td>
+
+                                                <td className="px-2 py-4">
+                                                    <span
+                                                        className={`inline-block rounded-full px-3 py-1 text-[10px] font-black uppercase ${
+                                                            reserva.estado
+                                                                ? 'bg-green-100 text-green-700'
+                                                                : 'bg-red-100 text-red-700'
+                                                        }`}
+                                                    >
+                                                        {reserva.estado
+                                                            ? 'Confirmada'
+                                                            : 'Cancelada'}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    ) : (
+                                        <tr>
+                                            <td
+                                                colSpan={4}
+                                                className="py-12 text-center text-sm font-bold tracking-widest text-gray-300 uppercase"
+                                            >
+                                                No hay reservas registradas
+                                            </td>
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </table>
                         </div>
                     )}
                 </div>
