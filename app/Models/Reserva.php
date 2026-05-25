@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Reserva extends Model
 {
-    protected $fillable = ['user_id', 'sesion_id', 'estado'];
+    protected $fillable = ['user_id', 'sesion_id', 'estado','fecha'];
 
     public function user()
     {

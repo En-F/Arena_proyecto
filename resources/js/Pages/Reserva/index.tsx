@@ -4,6 +4,9 @@ import { ChevronLeft, ChevronRight, Clock, MapPin, Users } from 'lucide-react';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { es } from 'date-fns/locale/es';
+import Button from '@/components/Layouts/Button';
+import { route } from 'ziggy-js';
+
 registerLocale('es', es);
 
 interface Actividad {
@@ -42,6 +45,7 @@ interface Sesion {
     centro: Centro;
     curso?: Curso;
     reservas_count: number;
+    reservas_exists: boolean;
 }
 
 interface SesionesAgrupadas {
@@ -180,12 +184,12 @@ export default function Index({
             </div>
 
             <div className="mx-auto mb-6 flex max-w-7xl items-center justify-between rounded-2xl bg-blue-600 p-4 text-white shadow-lg">
-                <button
+                <Button
                     onClick={irSemanaAnterior}
                     className="rounded-full p-2 transition hover:bg-blue-500"
                 >
                     <ChevronLeft size={28} />
-                </button>
+                </Button>
 
                 <div className="text-center">
                     <p className="text-xl font-bold uppercase opacity-80">
@@ -198,12 +202,12 @@ export default function Index({
                     </h2>
                 </div>
 
-                <button
+                <Button
                     onClick={irSemanaSiguiente}
                     className="rounded-full p-2 transition hover:bg-blue-500"
                 >
                     <ChevronRight size={28} />
-                </button>
+                </Button>
             </div>
 
             <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 md:grid-cols-5">
@@ -293,22 +297,62 @@ export default function Index({
                                                         : `${disponibles} PLAZAS LIBRES`}
                                                 </div>
 
-                                                <button
-                                                    disabled={estaLleno}
-                                                    className={`w-full rounded-2xl py-3 text-xs font-bold tracking-widest uppercase transition-all ${
-                                                        estaLleno
+                                                <Button
+                                                    disabled={
+                                                        estaLleno ||
+                                                        is_admin ||
+                                                        is_jefe ||
+                                                        sesion.reservas_exists
+                                                    }
+                                                    href={
+                                                        estaLleno ||
+                                                        is_admin ||
+                                                        is_jefe ||
+                                                        sesion.reservas_exists
+                                                            ? undefined
+                                                            : route(
+                                                                  'proceso.reserva.create',
+                                                                  {
+                                                                      sesion: sesion.id,
+                                                                  },
+                                                              )
+                                                    }
+                                                    className={`flex w-full items-center justify-center rounded-2xl py-3 text-xs font-bold tracking-widest uppercase transition-all ${
+                                                        estaLleno ||
+                                                        is_admin ||
+                                                        is_jefe ||
+                                                        sesion.reservas_exists
                                                             ? 'cursor-not-allowed bg-gray-100 text-gray-400'
                                                             : 'bg-gray-900 text-white hover:bg-blue-600 hover:shadow-lg active:scale-95'
                                                     }`}
                                                 >
-                                                    {estaLleno
-                                                        ? 'Sin plazas'
-                                                        : 'Reservar ahora'}
-                                                </button>
+                                                    {estaLleno ? (
+                                                        'Sin plazas'
+                                                    ) : is_admin || is_jefe ? (
+                                                        'Solo para socios'
+                                                    ) : sesion.reservas_exists ? (
+                                                        <span className="flex items-center gap-2">
+                                                            <svg
+                                                                className="h-4 w-4"
+                                                                fill="currentColor"
+                                                                viewBox="0 0 20 20"
+                                                            >
+                                                                <path
+                                                                    fillRule="evenodd"
+                                                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                                                    clipRule="evenodd"
+                                                                />
+                                                            </svg>
+                                                            Ya reservado
+                                                        </span>
+                                                    ) : (
+                                                        'Reservar ahora'
+                                                    )}
+                                                </Button>
 
                                                 {(is_admin || is_jefe) && (
                                                     <>
-                                                        <button
+                                                        <Button
                                                             onClick={() =>
                                                                 router.get(
                                                                     route(
@@ -320,9 +364,9 @@ export default function Index({
                                                             className="mt-2 w-full rounded-2xl border-2 border-dashed border-gray-300 py-2 text-xs font-bold text-gray-500 uppercase transition-all hover:border-blue-500 hover:bg-blue-50 hover:text-blue-600"
                                                         >
                                                             Editar Sesión
-                                                        </button>
+                                                        </Button>
 
-                                                        <button
+                                                        <Button
                                                             onClick={() => {
                                                                 if (
                                                                     confirm(
@@ -352,7 +396,7 @@ export default function Index({
                                                             0
                                                                 ? 'No se puede borrar (con inscritos)'
                                                                 : 'Eliminar Sesión'}
-                                                        </button>
+                                                        </Button>
                                                     </>
                                                 )}
                                             </div>

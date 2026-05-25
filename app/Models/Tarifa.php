@@ -6,12 +6,22 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tarifa extends Model
 {
-    protected $fillable = ['titulo', 'precio', 'descripcion', 'centro_id', 'periodo','tipo','descuento'];
+    protected $fillable = [
+        'titulo',
+        'precio',
+        'centro_id',
+        'periodo',
+        'tipo',
+        'hora_inicio',
+        'hora_fin',
+        'reservas_semanales',
+    ];
 
     protected $casts = [
-        'descripcion' => 'array',
         'precio' => 'decimal:2',
-        'descuento' => 'integer'
+        'descuento' => 'integer',
+        'hora_inicio' => 'datetime:H:i',
+        'hora_fin' => 'datetime:H:i'
     ];
 
     public function centro()

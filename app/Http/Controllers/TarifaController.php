@@ -63,9 +63,8 @@ class TarifaController extends Controller
      */
     public function store(StoreTarifaRequest $request)
     {
-        $datos = $request->validated();
 
-        $datos['descripcion'] = array_map('trim', explode(',', $request->descripcion));
+        $datos = $request->validated();
 
         Tarifa::create($datos);
 
@@ -79,9 +78,6 @@ class TarifaController extends Controller
     {
 
         $datos = $request->validated();
-        
-
-        $datos['descripcion'] = array_map('trim', explode(',', $request->descripcion));
 
         $tarifa->update($datos);
 
@@ -112,7 +108,7 @@ class TarifaController extends Controller
      */
     public function update(UpdateTarifaRequest $request, Tarifa $tarifa)
     {
-        $this->authorize('update', $tarifa);    
+        $this->authorize('update', $tarifa);
 
         $datos = $request->validated();
 
@@ -144,8 +140,8 @@ class TarifaController extends Controller
 
     public function buscar(Request $request) {
 
-        $usuario = Auth::user();    
-        $nombreCentro = $request->query('centro'); 
+        $usuario = Auth::user();
+        $nombreCentro = $request->query('centro');
 
         if (empty($nombreCentro)) {
             return response()->json([
@@ -168,11 +164,11 @@ class TarifaController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => $tarifas->isEmpty() 
-                ? "No se han encontrado tarifas para el centro '$nombreCentro'" 
+            'message' => $tarifas->isEmpty()
+                ? "No se han encontrado tarifas para el centro '$nombreCentro'"
                 : "Mostrando tarifas del centro '$nombreCentro'",
             'data' => $tarifas
         ]);
-       
+
     }
 }

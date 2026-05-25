@@ -1,10 +1,10 @@
 import React from 'react';
 import { Head, router, Link } from '@inertiajs/react';
-import { Calendar, MapPin, Clock, Trash2, ChevronLeft } from 'lucide-react';
+import { Calendar, MapPin, Clock, Trash2 } from 'lucide-react';
 
 interface Reserva {
     id: number;
-    estado: string;
+    estado: string; // "confirmada" o "cancelada"
     sesion: {
         fecha: string;
         actividad: { nombre: string };
@@ -18,7 +18,7 @@ interface Props {
     usuario: string;
 }
 
-export default function MisReservas({ reservas = [], usuario }: Props) {
+export default function MisReservas({ reservas, usuario }: Props) {
     const handleCancelar = (id: number) => {
         if (confirm('¿Estás seguro de que deseas cancelar esta reserva?')) {
             router.delete(route('reservas.destroy', id));
@@ -35,11 +35,8 @@ export default function MisReservas({ reservas = [], usuario }: Props) {
                         Historial Personal
                     </p>
                     <h1 className="text-4xl font-black tracking-tight text-gray-900 uppercase">
-                        Mis Clases <span className="text-blue-600">.</span>
+                        Mis Reservas
                     </h1>
-                    <p className="mt-2 text-sm font-medium text-gray-500">
-                        Gestiona tus inscripciones para {usuario}
-                    </p>
                 </header>
 
                 <div className="space-y-4">
@@ -47,60 +44,54 @@ export default function MisReservas({ reservas = [], usuario }: Props) {
                         reservas.map((reserva) => (
                             <div
                                 key={reserva.id}
-                                className="group flex flex-col items-center justify-between gap-6 rounded-3xl border border-gray-100 bg-white p-6 shadow-sm transition-all hover:shadow-md md:flex-row"
+                                className={`group flex flex-col items-center justify-between gap-6 rounded-3xl border border-gray-100 bg-white p-6 shadow-sm transition-all hover:shadow-md md:flex-row ${
+                                    reserva.estado === 'cancelada' ? 'opacity-60 grayscale-[0.5]' : ''
+                                }`}
                             >
                                 <div className="space-y-3 text-center md:text-left">
-                                    <div className="inline-block rounded-lg bg-blue-50 px-3 py-1 text-[10px] font-black text-blue-600 uppercase">
-                                        Confirmada
+                                    <div className={`inline-block rounded-lg px-3 py-1 text-[10px] font-black uppercase ${
+                                        reserva.estado === 'confirmada'
+                                        ? 'bg-blue-50 text-blue-600'
+                                        : 'bg-gray-100 text-gray-500'
+                                    }`}>
+                                        {reserva.estado}
                                     </div>
+
                                     <h3 className="text-2xl leading-none font-black text-gray-800 uppercase">
                                         {reserva.sesion.actividad.nombre}
                                     </h3>
 
                                     <div className="flex flex-wrap justify-center gap-4 text-xs font-bold text-gray-400 uppercase md:justify-start">
                                         <div className="flex items-center gap-1.5">
-                                            <Calendar
-                                                size={14}
-                                                className="text-blue-400"
-                                            />
-                                            {new Date(
-                                                reserva.sesion.fecha.replace(
-                                                    /-/g,
-                                                    '/',
-                                                ),
-                                            ).toLocaleDateString('es-ES', {
-                                                weekday: 'short',
-                                                day: 'numeric',
-                                                month: 'short',
+                                            <Calendar size={14} className="text-blue-400" />
+                                            {new Date(reserva.sesion.fecha.replace(/-/g, '/')).toLocaleDateString('es-ES', {
+                                                weekday: 'short', day: 'numeric', month: 'short',
                                             })}
                                         </div>
                                         <div className="flex items-center gap-1.5">
-                                            <Clock
-                                                size={14}
-                                                className="text-blue-400"
-                                            />
-                                            {reserva.sesion.horario.hora_inicio.slice(
-                                                0,
-                                                5,
-                                            )}
+                                            <Clock size={14} className="text-blue-400" />
+                                            {reserva.sesion.horario.hora_inicio.slice(0, 5)}
                                         </div>
                                         <div className="flex items-center gap-1.5">
-                                            <MapPin
-                                                size={14}
-                                                className="text-blue-400"
-                                            />
+                                            <MapPin size={14} className="text-blue-400" />
                                             {reserva.sesion.centro.nombre}
                                         </div>
                                     </div>
                                 </div>
 
-                                <button
-                                    onClick={() => handleCancelar(reserva.id)}
-                                    className="flex w-full items-center justify-center gap-2 rounded-2xl bg-red-50 px-6 py-4 text-xs font-black text-red-600 uppercase transition-all hover:bg-red-600 hover:text-white active:scale-95 md:w-auto"
-                                >
-                                    <Trash2 size={16} />
-                                    Cancelar
-                                </button>
+                                {reserva.estado === 'confirmada' ? (
+                                    <button
+                                        onClick={() => handleCancelar(reserva.id)}
+                                        className="flex w-full items-center justify-center gap-2 rounded-2xl bg-red-50 px-6 py-4 text-xs font-black text-red-600 uppercase transition-all hover:bg-red-600 hover:text-white active:scale-95 md:w-auto"
+                                    >
+                                        <Trash2 size={16} />
+                                        Cancelar
+                                    </button>
+                                ) : (
+                                    <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest border-2 border-gray-100 rounded-2xl px-6 py-4 italic">
+                                        Reserva Anulada
+                                    </div>
+                                )}
                             </div>
                         ))
                     ) : (
@@ -111,12 +102,6 @@ export default function MisReservas({ reservas = [], usuario }: Props) {
                             <p className="text-sm font-black tracking-widest text-gray-400 uppercase">
                                 No tienes clases reservadas
                             </p>
-                            <Link
-                                href="/"
-                                className="mt-6 inline-block text-xs font-black text-blue-600 uppercase underline decoration-2 underline-offset-4"
-                            >
-                                Ver clases disponibles
-                            </Link>
                         </div>
                     )}
                 </div>

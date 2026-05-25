@@ -849,13 +849,15 @@ export default function HorarioIndex({
                                                 <td className="px-2 py-4">
                                                     <span
                                                         className={`inline-block rounded-full px-3 py-1 text-[10px] font-black uppercase ${
-                                                            reserva.estado
+                                                            reserva.estado ===
+                                                            'confirmada'
                                                                 ? 'bg-green-100 text-green-700'
                                                                 : 'bg-red-100 text-red-700'
                                                         }`}
                                                     >
-                                                        {reserva.estado
-                                                            ? 'Confirmada'
+                                                        {reserva.estado ===
+                                                        'confirmada'
+                                                            ? ' Asistirá'
                                                             : 'Cancelada'}
                                                     </span>
                                                 </td>

@@ -25,7 +25,7 @@ class HorarioController extends Controller
         $usuario = Auth::user();
 
         $query = User::with('centros');
-        $reservasQuery = Reserva::with(['user', 'sesion.actividad']);
+        $reservasQuery = Reserva::with(['user', 'sesion.actividad', 'sesion.horario', 'sesion.centro']);
 
         if($usuario?->Admin()){
             $centrosVisibles = Centro::where('es_activo', true)->with(['cursos.actividades'])->get();
@@ -47,14 +47,19 @@ class HorarioController extends Controller
         }
 
         $sesiones = Sesion::with(['horario', 'centro', 'actividad', 'curso'])
+            ->withCount(['reservas' => function($q) {
+                $q->where('estado', 'confirmada');
+            }])
             ->latest()
             ->get();
+
+        $reservas = $reservasQuery->orderBy('created_at', 'desc')->get();
 
         return Inertia::render('Horario/index', [
             'horarios' => Horario::all(),
             'sesiones' => $sesiones,
             'centros'  => $centrosVisibles,
-            'reservas' => $reservasQuery->get()
+            'reservas' => $reservas
         ]);
 
     }

@@ -32,7 +32,7 @@ class SesionController extends Controller
         return redirect()->route('horarios.index');
     }
 
-    public function edit(Sesion $sesion) 
+    public function edit(Sesion $sesion)
     {
         $usuario_logeado = Auth::user();
 
@@ -64,13 +64,12 @@ class SesionController extends Controller
     {
         $this->authorize('delete', $sesion);
 
-        if ($sesion->reservas()->count() > 0) {
-            return redirect()->back()->withErrors([
-                'error' => 'No se puede eliminar la sesión porque ya tiene usuarios inscritos.'
-            ]);
-        }
+        $reservasActivas = $sesion->reservas()
+            ->where('estado', 'confirmada')->count();
 
-        $sesion->reservas()->delete();
+        if ($reservasActivas > 0) {
+            return redirect()->back()->with('error', 'No se puede eliminar la sesión: aún tiene usuarios con plaza reservada.');
+        }
 
         $sesion->delete();
 

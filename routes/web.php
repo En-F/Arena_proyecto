@@ -133,7 +133,7 @@ Route::middleware(['auth', 'role:admin,jefe'])->group(function () {
     Route::resource('centros', CentroController::class)->only(['edit', 'update']);
 
     // Reservas (Gestión)
-    Route::resource('reservas', ReservaController::class)->except(['index', 'show']);
+    Route::resource('reservas', ReservaController::class)->except(['index', 'show','store','create']);
 
     // Sesiones
     Route::resource('sesiones', SesionController::class)->parameters([
@@ -180,7 +180,19 @@ Route::middleware('auth')->group(function () {
     Route::get('/historial-reserva', [ReservaController::class, 'misreservas'])
     ->name('mis-reservas');
 
-    
+    //Reservas
+    Route::get('/realizar-reserva/{sesion}', [ReservaController::class, 'create'])
+        ->name('proceso.reserva.create');
+
+    Route::post('/realizar-reserva/{sesion}', [ReservaController::class, 'store'])
+        ->name('proceso.reserva.store');
+
+    Route::post('/realizar-reserva/{sesion}', [ReservaController::class, 'store'])
+    ->name('proceso.reserva.store');;
+
+    Route::delete('/reservas/{reserva}', [ReservaController::class, 'destroy'])
+        ->name('reservas.destroy');
+
     Route::post('/logout', [ControlController::class, 'logout'])->name('logout');
     Route::get('/profile/history', [ProfileController::class, 'history'])->name('profile.history');
 

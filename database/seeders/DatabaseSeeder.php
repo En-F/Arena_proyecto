@@ -41,7 +41,7 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('admin'),
             'dni' => '67182280Q',
             'telefono' => '111111111',
-            'stripe_customer_id' => 'cus_Admin' . Str::random(10), 
+            'stripe_customer_id' => 'cus_Admin' . Str::random(10),
             'created_at' => now(),
             'fecha_inicio_plataforma' => now(),
             'activo' => true
@@ -59,17 +59,6 @@ class DatabaseSeeder extends Seeder
             'activo' => true
         ]);
 
-        $usuario_1 = DB::table('users')->insertGetId([
-            'name' => 'usuario1',
-            'email' => 'usuario1@usuario1.com',
-            'password' => Hash::make('usuario1'),
-            'dni' => '83589575P',
-            'telefono' => '987654321',
-            'stripe_customer_id' => 'cus_User1' . Str::random(10),
-            'created_at' => now(),
-            'fecha_inicio_plataforma' => now(),
-            'activo' => true
-        ]);
 
 
         //Tipos
@@ -154,25 +143,21 @@ class DatabaseSeeder extends Seeder
             'precio' => 24.90,
             'periodo' => 'mes',
             'descuento' => 0,
-            'descripcion' => json_encode([
-                'Acceso 8:00 a 14:00',
-                'Máximo 3 reservas semanales',
-                'Solo días laborables'
-            ]),
+            'hora_inicio' => '14:00:00',
+            'hora_fin' => '20:00:00',
+            'reservas_semanales' => 3,
             'centro_id' => $centro_1,
             'created_at' => now(),
         ]);
 
         $tarifa_2 = DB::table('tarifas')->insertGetId([
             'tipo' => 'estandar',
-            'precio' => 65.00, 
+            'precio' => 65.00,
             'periodo' => 'trimestre',
-            'descuento' => 10, 
-            'descripcion' => json_encode([
-                'Acceso Mañana y Tarde',
-                'Máximo 6 reservas semanales',
-                'Pago único cada 3 meses'
-            ]),
+            'descuento' => 10,
+            'hora_inicio' => '09:00:00',
+            'hora_fin' => '15:00:00',
+            'reservas_semanales' => 6,
             'centro_id' => $centro_1,
             'created_at' => now(),
         ]);
@@ -181,26 +166,22 @@ class DatabaseSeeder extends Seeder
             'tipo' => 'premium',
             'precio' => 120.00,
             'periodo' => 'semestre',
-            'descuento' => 20, 
-            'descripcion' => json_encode([
-                'Acceso Total 24/7',
-                'Reservas ilimitadas',
-                'Pago único cada 6 meses'
-            ]),
+            'descuento' => 20,
+            'hora_inicio' => '00:00:00',
+            'hora_fin' => '23:59:59',
+            'reservas_semanales' => 99,
             'centro_id' => $centro_1,
             'created_at' => now(),
         ]);
-
 
         $tarifa_4 = DB::table('tarifas')->insertGetId([
             'tipo' => 'basica',
             'precio' => 14.90,
             'periodo' => 'mes',
             'descuento' => 0,
-            'descripcion' => json_encode([
-                'Acceso 8:00 a 14:00',
-                'Máximo 2 reservas semanales'
-            ]),
+            'hora_inicio' => '11:30:00',
+            'hora_fin' => '14:00:00',
+            'reservas_semanales' => 2,
             'centro_id' => $centro_2,
             'created_at' => now(),
         ]);
@@ -209,12 +190,10 @@ class DatabaseSeeder extends Seeder
             'tipo' => 'estandar',
             'precio' => 24.90,
             'periodo' => 'trimestre',
-            'descuento' => 10, 
-            'descripcion' => json_encode([
-                'Acceso mañana y tarde',
-                'Máximo 4 reservas semanales',
-                'Pago cada 3 meses'
-            ]),
+            'descuento' => 10,
+            'hora_inicio' => '07:30:00',
+            'hora_fin' => '18:00:00',
+            'reservas_semanales' => 4,
             'centro_id' => $centro_2,
             'created_at' => now(),
         ]);
@@ -420,14 +399,14 @@ class DatabaseSeeder extends Seeder
         //Horarios
         $horario_1= DB::table('horarios')->insertGetId([
             'dia' => 'Lunes',
-            'hora_inicio'=> '08:00',
-            'hora_fin' => '14:30',
+            'hora_inicio'=> '17:00',
+            'hora_fin' => '18:30',
         ]);
 
         $horario_1= DB::table('horarios')->insertGetId([
             'dia' => 'Martes',
-            'hora_inicio'=> '08:00',
-            'hora_fin' => '14:30',
+            'hora_inicio'=> '15:00',
+            'hora_fin' => '20:30',
             'estado' => true
         ]);
 
@@ -467,38 +446,17 @@ class DatabaseSeeder extends Seeder
                 'user_id'        => $jefe,
                 'fecha_alta'     => Carbon::now(),
                 'fecha_inicio'   => Carbon::now(),
-                'stripe_id'      => 'sub_test_' . Str::random(24), 
+                'stripe_id'      => 'sub_test_' . Str::random(24),
                 'tarifa_id'      => null,
-                'status'         => 'active', 
-                'activo'         => true,
-            ],
-            [
-                'centro_id'      => $centro_1,
-                'user_id'        => $usuario_1,
-                'fecha_alta'     => Carbon::now(),
-                'fecha_inicio'   => Carbon::now(),
-                'stripe_id'      => 'sub_test_' . Str::random(24),
-                'tarifa_id'      => $tarifa_1,
                 'status'         => 'active',
                 'activo'         => true,
             ],
-            [
-                'centro_id'      => $centro_2,
-                'user_id'        => $usuario_1,
-                'fecha_alta'     => Carbon::now()->subDays(2),
-                'fecha_inicio'   => Carbon::now()->subMonth(),
-                'stripe_id'      => 'sub_test_' . Str::random(24),
-                'tarifa_id'      => $tarifa_4,
-                'status'         => 'active',
-                'activo'         => true,
-            ]
         ]);
 
         // Roles de usuario
         DB::table('usuario_rol')->insert([
             ['user_id' => $admin, 'rol_id' => $rol_1, 'created_at' => now()],
             ['user_id' => $jefe, 'rol_id' => $rol_2, 'created_at' => now()],
-            ['user_id' => $usuario_1, 'rol_id' => $rol_3, 'created_at' => now()],
         ]);
 
         // Instalaciones del centro
@@ -532,23 +490,15 @@ class DatabaseSeeder extends Seeder
 
 
         $sesion_1 = DB::table('sesiones')->insertGetId([
-            'fecha'        => '2026-06-01', 
+            'fecha'        => '2026-06-01',
             'capacidad'    => 20,
-            'centro_id'    => 1,            
-            'curso_id'     => 1,            
-            'actividad_id' => 1,           
-            'horario_id'   => 1,            
+            'centro_id'    => 1,
+            'curso_id'     => 1,
+            'actividad_id' => 1,
+            'horario_id'   => 1,
             'estado'       => true,
         ]);
 
-
-        DB::table('reservas')->insert([
-            'user_id'=> $usuario_1,
-            'sesion_id' => $sesion_1,
-            'estado' => 'Confirmada'
-        ]);
-
     }
-
 
 }

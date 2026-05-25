@@ -1,4 +1,4 @@
-import { Pencil } from 'lucide-react';
+import { Pencil, Clock, CalendarDays } from 'lucide-react';
 import React, { useState } from 'react';
 import '../../../../../css/centro/show.css';
 import { usePage } from '@inertiajs/react';
@@ -8,7 +8,9 @@ interface Props {
     id: number;
     tipo: string;
     precio: number;
-    descripcion: string[];
+    hora_inicio: string;
+    hora_fin: string;
+    reservas_semanales: number;
     periodo: string;
     descuento: number;
     centro_id: number;
@@ -20,12 +22,12 @@ export default function CartaPrecio({
     id,
     tipo,
     precio,
-    descripcion,
+    hora_inicio,
+    hora_fin,
+    reservas_semanales,
     periodo,
     descuento,
     centro_id,
-    selected,
-    onSelect,
 }: Props) {
     const tipoNormalizado = tipo.toLowerCase();
     const [isHovered, setIsHovered] = useState(false);
@@ -50,6 +52,8 @@ export default function CartaPrecio({
     const totalBruto = precio * meses;
     const ahorro = totalBruto * (descuento / 100);
     const precioFinal = totalBruto - ahorro;
+
+    const fTime = (t: string) => t?.substring(0, 5) || '00:00';
 
     return (
         <div
@@ -98,9 +102,18 @@ export default function CartaPrecio({
 
             <div className="pricing-card-body">
                 <ul className="pricing-descripcion">
-                    {descripcion.map((des, i) => (
-                        <li key={i}>{des}</li>
-                    ))}
+                    <li className="flex items-center gap-2">
+                        <Clock size={16} className="text-current opacity-70" />
+                        <span>Acceso: {fTime(hora_inicio)} a {fTime(hora_fin)}</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                        <CalendarDays size={16} className="text-current opacity-70" />
+                        <span>
+                            {reservas_semanales >= 90
+                                ? 'Reservas ilimitadas'
+                                : `Máx. ${reservas_semanales} reservas / sem`}
+                        </span>
+                    </li>
                 </ul>
 
                 <Button

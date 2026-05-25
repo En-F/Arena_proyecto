@@ -23,8 +23,8 @@ services:
     volumes:
       - ./bind9/config:/etc/bind
     ports:
-      - '53:53/udp'
-      - '53:53/tcp'
+      - '1053:53/udp'
+      - '1053:53/tcp'
     networks:
       laravel_net:
         ipv4_address: 172.25.0.53
