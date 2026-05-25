@@ -104,10 +104,15 @@ export default function CartaPrecio({
                 <ul className="pricing-descripcion">
                     <li className="flex items-center gap-2">
                         <Clock size={16} className="text-current opacity-70" />
-                        <span>Acceso: {fTime(hora_inicio)} a {fTime(hora_fin)}</span>
+                        <span>
+                            Acceso: {fTime(hora_inicio)} a {fTime(hora_fin)}
+                        </span>
                     </li>
                     <li className="flex items-center gap-2">
-                        <CalendarDays size={16} className="text-current opacity-70" />
+                        <CalendarDays
+                            size={16}
+                            className="text-current opacity-70"
+                        />
                         <span>
                             {reservas_semanales >= 90
                                 ? 'Reservas ilimitadas'
@@ -116,20 +121,22 @@ export default function CartaPrecio({
                     </li>
                 </ul>
 
-                <Button
-                    className={`pricing-button ${TarifaActiva ? 'button-disabled' : ''}`}
-                    href={
-                        TarifaActiva
-                            ? '#'
-                            : route('socio.create', {
-                                  centro_id: centro_id,
-                                  tarifa_id: id,
-                              })
-                    }
-                    disabled={TarifaActiva}
-                >
-                    {TarifaActiva ? 'Suscrito' : 'Suscribirse'}
-                </Button>
+                {!(is_admin || is_jefe) && (
+                    <Button
+                        className={`pricing-button ${TarifaActiva ? 'button-disabled' : ''}`}
+                        href={
+                            TarifaActiva
+                                ? '#'
+                                : route('socio.create', {
+                                      centro_id: centro_id,
+                                      tarifa_id: id,
+                                  })
+                        }
+                        disabled={TarifaActiva}
+                    >
+                        {TarifaActiva ? 'Suscrito' : 'Suscribirse'}
+                    </Button>
+                )}
             </div>
         </div>
     );

@@ -59,7 +59,7 @@ export default function Inicio({ centros, noticias, cursos }: Props) {
                         Cursos Deportivos
                     </h2>
                     <div className="grid-centros">
-                        {cursos.slice(0, 4).map((curso) => (
+                        {cursos.slice(0, 3).map((curso) => (
                             <Cartagenerica
                                 key={curso.id}
                                 id={curso.id}
