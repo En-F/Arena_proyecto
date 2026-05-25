@@ -238,9 +238,11 @@ class ReservaController extends Controller
         $usuario = Auth::user();
 
         $reservas = $usuario->reservas()
-            ->with(['sesion.actividad', 'sesion.centro', 'sesion.horario'])
-            ->latest()
-            ->get();
+        ->with(['sesion' => function($q) {
+            $q->withTrashed();
+        }, 'sesion.actividad', 'sesion.centro', 'sesion.horario'])
+        ->latest()
+        ->get();
 
         return Inertia::render('Historial/mis-reservas', [
             'reservas' => $reservas,
