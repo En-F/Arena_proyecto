@@ -25,7 +25,14 @@ class HorarioController extends Controller
         $usuario = Auth::user();
 
         $query = User::with('centros');
-        $reservasQuery = Reserva::with(['user', 'sesion.actividad', 'sesion.horario', 'sesion.centro']);
+       $reservasQuery = Reserva::with([
+            'user', 
+            'sesion' => function($q) {
+                $q->withTrashed(); 
+            }, 
+            'sesion.actividad', 
+            'sesion.horario'
+        ]);
 
         if($usuario?->Admin()){
             $centrosVisibles = Centro::where('es_activo', true)->with(['cursos.actividades'])->get();

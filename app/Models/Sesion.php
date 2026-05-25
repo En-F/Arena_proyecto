@@ -1,11 +1,14 @@
 <?php
 
 namespace App\Models;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Sesion extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'sesiones';
 
     protected $fillable = ['horario_id', 'centro_id', 'actividad_id', 'curso_id', 'capacidad', 'fecha'];
