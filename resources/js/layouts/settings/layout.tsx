@@ -45,12 +45,14 @@ export default function SettingsLayout({ children }: PropsWithChildren) {
     ];
 
     const menuFiltrado = sidebarNavItems.filter((item) => {
-        if (
-            ((is_admin || is_jefe) && item.title === 'Mis Suscripciones') ||
-            item.title === 'Historial de reservas' ||
-            item.title === 'Generación QR'
-        ) {
-            return false;
+        if (is_admin || is_jefe) {
+            if (
+                item.title === 'Mis Suscripciones' ||
+                item.title === 'Historial de reservas' ||
+                item.title === 'Generación QR'
+            ) {
+                return false;
+            }
         }
         return true;
     });

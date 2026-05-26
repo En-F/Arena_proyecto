@@ -28,6 +28,7 @@ class ActividadController extends Controller
     {
         $usuario = Auth::user();
         $esAdmin = $usuario?->Admin() ?? false;
+        $esJefe = $usuario?->Jefe() ?? false;
 
         if ($usuario && !$esAdmin && $usuario->centros->isNotEmpty()) {
             $centros_visibles = $usuario->centros;
@@ -48,7 +49,7 @@ class ActividadController extends Controller
         
         $query = Actividad::with(['cursos', 'tipo']);
 
-        if (!$esAdmin) {
+        if (!$esAdmin && !$esJefe) {
             $query->where('es_activo', true);
         }
 
@@ -91,16 +92,28 @@ class ActividadController extends Controller
             'esAdmin'            => $esAdmin,
             'sinCentro'          => false, 
         ]);
-        }
+    }
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
+        $usuario_logeado = Auth::user();
+
+        if ($usuario_logeado->Admin()) {
+            $cursos = Curso::all();
+        } elseif ($usuario_logeado->Jefe()) {
+            $cursos = Curso::whereHas('centros', function($query) use ($usuario_logeado) {
+                $query->whereIn('centro_id', $usuario_logeado->centros->pluck('id'));
+            })->get();
+        } else {
+            $cursos = [];
+        }
+
         return Inertia::render('Actividad/create', [
             'tipos' => Tipo::all(),
-            'cursos' => Curso::all(),
+            'cursos' => $cursos,
         ]);
     }
 

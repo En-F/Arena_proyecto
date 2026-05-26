@@ -81,7 +81,7 @@ export default function Inicio({ centros, noticias, cursos }: Props) {
                 <section className="section-noticias pb-20">
                     <h2 className="title-black">Últimas Noticias</h2>
                     <div className="noticia-container">
-                        {noticias.map((noticia) => (
+                        {noticias.slice(0, 3).map((noticia) => (
                             <CartaNoticia
                                 key={noticia.id}
                                 id={noticia.id}

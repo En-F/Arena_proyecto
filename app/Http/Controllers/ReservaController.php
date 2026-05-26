@@ -52,7 +52,7 @@ class ReservaController extends Controller
             }])
             ->withExists(['reservas' => function ($q) use ($usuarioId) {
                 $q->where('user_id', $usuarioId)
-                ->where('estado', 'confirmada'); 
+                ->where('estado', 'confirmada');
             }]);
 
         if ($centroSeleccionado) {
@@ -74,6 +74,13 @@ class ReservaController extends Controller
             }
         });
 
+        $reservas = Reserva::with(['user', 'sesion.actividad', 'sesion.centro', 'sesion.curso'])
+        ->when(!$esAdmin, function($q) use ($usuarioId) {
+            return $q->where('user_id', $usuarioId);
+        })
+        ->latest()
+        ->get();
+
         return Inertia::render('Reserva/index', [
             'sesionesAgrupadas'  => $sesionesAgrupadas,
             'centros'            => $centros_visibles,
@@ -81,6 +88,7 @@ class ReservaController extends Controller
             'centroSeleccionado' => $centroSeleccionado ? (int) $centroSeleccionado : null,
             'cursoSeleccionado'  => $cursoSeleccionado ? (int) $cursoSeleccionado : null,
             'esAdmin'            => $esAdmin,
+            'reservas'           => $reservas,
         ]);
     }
 
@@ -91,13 +99,18 @@ class ReservaController extends Controller
     {
         $usuario = Auth::user();
 
-        $inscripcion = Inscripcion::where('user_id', $usuario->id)
+        if (!$usuario->activo) {
+            return redirect()->route('reservas.index')
+                ->with('error', 'Tu cuenta está inactiva. Por favor, regulariza tu suscripción.');
+        }
+
+        $inscripcion = Inscripcion::where('user_id', $usuario->id)->where('activo', true)
         ->where('centro_id', $sesion->centro_id)->first();
 
         if (!$inscripcion) {
             return redirect()->route('reservas.index')
             ->with('error', 'No tienes una suscripción activa para este centro.');
-            }
+        }
 
 
         $tarifa = Tarifa::find($inscripcion->tarifa_id);
@@ -105,17 +118,29 @@ class ReservaController extends Controller
         $inicioSesion = Carbon::parse($sesion->horario->hora_inicio)->format('H:i');
         $inicioTarifa = Carbon::parse($tarifa->hora_inicio)->format('H:i');
         $finTarifa    = Carbon::parse($tarifa->hora_fin)->format('H:i');
+        $inicioSemana = now()->startOfWeek();
+        $finSemana    = now()->endOfWeek();
 
         if ($inicioSesion < $inicioTarifa || $inicioSesion > $finTarifa) {
             return redirect()->route('reservas.index')
-                ->with('error', "Tu tarifa ({$tarifa->nombre}) no permite reservar a las {$inicioSesion}.");
-            }
+                ->with('error', "Tu tarifa ({$tarifa->tipo}) no permite reservar a las {$inicioSesion}.");
+        }
+
+        $reservasEsteCentroEstaSemana = Reserva::where('user_id', $usuario->id)
+            ->where('estado', 'confirmada')
+            ->whereBetween('created_at', [$inicioSemana, $finSemana])
+            ->whereHas('sesion', function ($query) use ($sesion) {
+                $query->where('centro_id', $sesion->centro_id);
+            })
+            ->count();
 
 
         return inertia('Reserva/create', [
             'sesion' => $sesion->load(['actividad', 'horario', 'centro']),
             'tarifa' => $tarifa,
-            'usuario' => $usuario
+            'usuario' => $usuario,
+            'reservas_actuales' => $reservasEsteCentroEstaSemana,
+            'limite_reservas'   => $tarifa->reservas_semanales
         ]);
 
     }
@@ -129,6 +154,7 @@ class ReservaController extends Controller
 
         $inscripcion = Inscripcion::where('user_id', $usuario->id)
             ->where('centro_id', $sesion->centro_id)
+            ->where('activo', true)
             ->first();
 
         if (!$inscripcion) {
@@ -173,14 +199,17 @@ class ReservaController extends Controller
         $inicioSemana = now()->startOfWeek();
         $finSemana    = now()->endOfWeek();
 
-        $reservasEstaSemana = Reserva::where('user_id', $usuario->id)
-            ->whereBetween('created_at', [$inicioSemana, $finSemana])
+        $reservasEsteCentroEstaSemana = Reserva::where('user_id', $usuario->id)
             ->where('estado', 'confirmada')
+            ->whereBetween('created_at', [$inicioSemana, $finSemana]) 
+            ->whereHas('sesion', function ($query) use ($sesion) {
+                $query->where('centro_id', $sesion->centro_id);
+            })
             ->count();
 
-        if ($reservasEstaSemana >= $tarifa->reservas_semanales) {
+        if ($reservasEsteCentroEstaSemana >= $tarifa->reservas_semanales) {
             return redirect()->route('reservas.index')
-                ->with('error', 'Has alcanzado el límite de 3 reservas para esta semana. ¡Deja algo para los demás!');
+                ->with('error', "Has alcanzado tu límite de {$tarifa->reservas_semanales} reservas semanales en el centro {$sesion->centro->nombre}.");
         }
 
         $reserva = Reserva::where('user_id', $usuario->id)
@@ -203,7 +232,6 @@ class ReservaController extends Controller
 
         return redirect()->route('mis-reservas')
         ->with('success', '¡Reserva confirmada! Te hemos guardado el sitio.');
-
     }
 
 
@@ -220,14 +248,15 @@ class ReservaController extends Controller
 
         $fechaSesion = Carbon::parse($reserva->sesion->fecha)->format('Y-m-d');
         $horaInicio = $reserva->sesion->horario->hora_inicio;
-        
-        $momentoInicio = Carbon::parse("$fechaSesion $horaInicio");
 
-        if (now()->diffInMinutes($momentoInicio, false) < 60) {
+        $momentoInicio = Carbon::parse($reserva->sesion->fecha)
+        ->setTimeFromTimeString($reserva->sesion->horario->hora_inicio);
+
+        if (now()->addHour()->isAfter($momentoInicio)) {
             return redirect()->back()->with('error', 'No puedes cancelar con menos de 1 hora de antelación.');
         }
 
-    $reserva->update(['estado' => 'cancelada']);
+        $reserva->update(['estado' => 'cancelada']);
 
         return redirect()->route('mis-reservas')
             ->with('success', 'Reserva cancelada correctamente');

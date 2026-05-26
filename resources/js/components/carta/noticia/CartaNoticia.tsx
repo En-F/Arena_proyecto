@@ -1,5 +1,7 @@
 import { Link } from '@inertiajs/react';
+import '../../../../css/carta/carta_actividad.css';
 import '../../../../css/carta/carta_noticia.css';
+
 import { useEffect, useState } from 'react';
 
 interface Props {
@@ -46,7 +48,6 @@ export default function CartaNoticia({
                     src={`/storage/${imagen}?v=${timestamp}`}
                     alt={titulo}
                     className="news-img"
-                    suppressHydrationWarning={true}
                 />
             </div>
             <h4>{titulo}</h4>

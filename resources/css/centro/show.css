@@ -15,9 +15,10 @@ body {
     padding: 30px;
     margin-bottom: 40px;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
-    align-items: center;
+    /* Usamos minmax para que el texto no colapse el lateral */
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 30px;
+    align-items: start; /* Alineamos arriba para que si hay mucho texto no se mueva la imagen */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     border: 2px solid #667eea;
 }
@@ -109,7 +110,6 @@ body {
 .location-info {
     display: flex;
     align-items: flex-start;
-    gap: 12px;
     background: #f0f4ff;
     padding: 15px;
     border-radius: 8px;

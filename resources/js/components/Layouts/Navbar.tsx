@@ -5,144 +5,205 @@ import '../../../css/button.css';
 import { useEffect, useState } from 'react';
 
 const Navbar = () => {
-    const [menuAbierto, setMenuAbierto] = useState(false);
+    const [menuAdminAbierto, setMenuAdminAbierto] = useState(false);
+    const [hamburguesaAbierta, setHamburguesaAbierta] = useState(false);
     const { auth } = usePage().props;
     const tieneCentro = (auth.user?.centros?.length ?? 0) > 0;
 
     useEffect(() => {
-        setMenuAbierto(false);
+        setMenuAdminAbierto(false);
+        setHamburguesaAbierta(false);
     }, [auth.user?.id]);
 
     return (
         <nav className="navbar">
             <div className="nav-content">
-                <div className="logo">
-                    <Link href={'/inicio'}>
-                        <img src="/storage/otros/logo.jpg" alt="Arena" />
-                    </Link>
+                <div className="nav-left">
+                    <div className="logo">
+                        <Link href={'/inicio'}>
+                            <img src="/storage/otros/logo.jpg" alt="Arena" />
+                        </Link>
+                    </div>
+
+                    <button
+                        className="menu-hamburguesa"
+                        onClick={() =>
+                            setHamburguesaAbierta(!hamburguesaAbierta)
+                        }
+                    >
+                        {hamburguesaAbierta ? '✕' : '☰'}
+                    </button>
+
+                    <div
+                        className={`nav-links ${hamburguesaAbierta ? 'activo' : ''}`}
+                    >
+                        <Link
+                            href={'/centros'}
+                            onClick={() => setHamburguesaAbierta(false)}
+                        >
+                            Centros
+                        </Link>
+                        <Link
+                            href={'/actividades'}
+                            onClick={() => setHamburguesaAbierta(false)}
+                        >
+                            Actividades
+                        </Link>
+                        <Link
+                            href={'/cursos'}
+                            onClick={() => setHamburguesaAbierta(false)}
+                        >
+                            Cursos
+                        </Link>
+                        <Link
+                            href={'/reservas'}
+                            onClick={() => setHamburguesaAbierta(false)}
+                        >
+                            Reservas
+                        </Link>
+                    </div>
                 </div>
-                <div className="nav-links">
-                    <Link href={'/centros'}>Centros</Link>
-                    <Link href={'/actividades'}>Actividades</Link>
-                    <Link href={'/cursos'}>Cursos</Link>
-                    <Link href={'/reservas'}>Reservas</Link>
-                </div>
-                <div className="botones-acceso">
-                    {auth.user ? (
-                        <div className="flex items-center gap-4">
-                            {!auth.user.is_admin &&
-                                !auth.user.is_jefe &&
-                                !tieneCentro && (
-                                    <Link href={route('socio.create')}>
-                                        <Button className="boton-socio">
-                                            Hazte Socio
+
+                <div className="nav-right">
+                    <div className="botones-acceso">
+                        {auth.user ? (
+                            <div className="user-actions-container">
+                                {!auth.user.is_admin &&
+                                    !auth.user.is_jefe &&
+                                    !tieneCentro && (
+                                        <Link href={route('socio.create')}>
+                                            <Button className="boton-socio">
+                                                Hazte Socio
+                                            </Button>
+                                        </Link>
+                                    )}
+
+                                <Link href="/settings/profile">
+                                    <Button className="boton-perfil-user">
+                                        <img
+                                            src="/storage/otros/persona.jpg"
+                                            alt="User"
+                                            className="icono-perfil"
+                                        />
+                                        <span className="user-name">
+                                            {auth.user.name}
+                                        </span>
+                                    </Button>
+                                </Link>
+
+                                {(auth.user.is_admin || auth.user.is_jefe) && (
+                                    <div className="admin-menu-wrapper">
+                                        <Button
+                                            onClick={() =>
+                                                setMenuAdminAbierto(
+                                                    !menuAdminAbierto,
+                                                )
+                                            }
+                                            className="btn-panel-control"
+                                        >
+                                            <span className="panel-text-visible">
+                                                Panel
+                                            </span>
+                                            <span className="icon-flecha">
+                                                {menuAdminAbierto ? '✕' : '▾'}
+                                            </span>
                                         </Button>
-                                    </Link>
-                                )}
 
-                            <Link href="/settings/profile">
-                                <Button className="boton-login-logeado">
-                                    <img
-                                        src="/storage/otros/persona.jpg"
-                                        alt="Usuario"
-                                        className="icono-login-logeado"
-                                    />
-                                    {auth.user.name}
-                                </Button>
-                            </Link>
-                            {(auth.user.is_admin || auth.user.is_jefe) && (
-                                <Button
-                                    onClick={() => setMenuAbierto(!menuAbierto)}
-                                    className="boton-perfil-control flex items-center"
-                                >
-                                    <span className="text-xs font-bold uppercase">
-                                        Panel de control
-                                    </span>
-                                    <span className="ml-4 text-xl leading-none">
-                                        {menuAbierto ? '✕' : '☰'}
-                                    </span>
-                                </Button>
-                            )}
-                            {menuAbierto && (
-                                <div className="absolute top-full right-0 z-50 mt-2 w-56 origin-top-right animate-in rounded-2xl border border-blue-100 bg-white p-2 shadow-2xl duration-200 fade-in zoom-in">
-                                    <div className="mb-2 px-3 py-1 text-[10px] font-black tracking-widest text-slate-400 uppercase">
-                                        Administración
+                                        {menuAdminAbierto && (
+                                            <div className="dropdown-admin">
+                                                <div className="dropdown-header">
+                                                    Administración
+                                                </div>
+                                                <Link
+                                                    href="/tarifas"
+                                                    className="dropdown-item"
+                                                    onClick={() =>
+                                                        setMenuAdminAbierto(
+                                                            false,
+                                                        )
+                                                    }
+                                                >
+                                                    💰 Tarifas
+                                                </Link>
+                                                <Link
+                                                    href="/valoraciones"
+                                                    className="dropdown-item"
+                                                    onClick={() =>
+                                                        setMenuAdminAbierto(
+                                                            false,
+                                                        )
+                                                    }
+                                                >
+                                                    ⭐ Valoraciones
+                                                </Link>
+                                                <Link
+                                                    href="/instalaciones"
+                                                    className="dropdown-item"
+                                                    onClick={() =>
+                                                        setMenuAdminAbierto(
+                                                            false,
+                                                        )
+                                                    }
+                                                >
+                                                    🏟️ Instalaciones
+                                                </Link>
+                                                <div className="dropdown-divider"></div>
+                                                <Link
+                                                    href="/usuarios"
+                                                    className="dropdown-item"
+                                                    onClick={() =>
+                                                        setMenuAdminAbierto(
+                                                            false,
+                                                        )
+                                                    }
+                                                >
+                                                    👥 Usuarios
+                                                </Link>
+                                                <Link
+                                                    href="/horarios"
+                                                    className="dropdown-item"
+                                                    onClick={() =>
+                                                        setMenuAdminAbierto(
+                                                            false,
+                                                        )
+                                                    }
+                                                >
+                                                    🗓️ Horarios
+                                                </Link>
+                                                <div className="dropdown-divider"></div>
+                                                <Link
+                                                    method="post"
+                                                    as="button"
+                                                    href={route('logout')}
+                                                    className="dropdown-item logout-text"
+                                                >
+                                                    ✕ Cerrar Sesión
+                                                </Link>
+                                            </div>
+                                        )}
                                     </div>
-
-                                    <Link
-                                        href="/tarifas"
-                                        className="flex w-full items-center rounded-xl px-3 py-3 text-sm font-bold text-slate-700 transition-colors hover:bg-blue-50 hover:text-blue-700"
-                                        onClick={() => setMenuAbierto(false)}
-                                    >
-                                        💰 Tarifas
-                                    </Link>
-
-                                    <Link
-                                        href="/valoraciones"
-                                        className="flex w-full items-center rounded-xl px-3 py-3 text-sm font-bold text-slate-700 transition-colors hover:bg-blue-50 hover:text-blue-700"
-                                        onClick={() => setMenuAbierto(false)}
-                                    >
-                                        ⭐ Valoraciones
-                                    </Link>
-
-                                    <Link
-                                        href="/instalaciones"
-                                        className="flex w-full items-center rounded-xl px-3 py-3 text-sm font-bold text-slate-700 transition-colors hover:bg-blue-50 hover:text-blue-700"
-                                        onClick={() => setMenuAbierto(false)}
-                                    >
-                                        🏟️ Instalaciones
-                                    </Link>
-
-                                    <div className="my-2 border-t border-slate-100"></div>
-
-                                    <Link
-                                        href="/usuarios"
-                                        className="flex w-full items-center rounded-xl px-3 py-3 text-sm font-bold text-slate-700 transition-colors hover:bg-blue-50 hover:text-blue-700"
-                                        onClick={() => setMenuAbierto(false)}
-                                    >
-                                        👥 Usuarios
-                                    </Link>
-
-                                    <Link
-                                        href="/horarios"
-                                        className="flex w-full items-center rounded-xl px-3 py-3 text-sm font-bold text-slate-700 transition-colors hover:bg-blue-50 hover:text-blue-700"
-                                        onClick={() => setMenuAbierto(false)}
-                                    >
-                                        🗓️ Gestionar el Horario de Reservas
-                                    </Link>
-
-                                    <div className="my-2 border-t border-slate-100"></div>
-
-                                    <Link
-                                        method="post"
-                                        as="button"
-                                        href={route('logout')}
-                                        className="flex w-full items-center rounded-xl px-3 py-3 text-sm font-bold text-red-600 transition-colors hover:bg-red-50"
-                                    >
-                                        ✕ Cerrar Sesión
-                                    </Link>
-                                </div>
-                            )}
-                        </div>
-                    ) : (
-                        <>
-                            <Link href="/register">
-                                <Button className="boton register">
-                                    Registrarse
-                                </Button>
-                            </Link>
-                            <Link href="/login">
-                                <Button className="boton login">
-                                    <img
-                                        src="/storage/otros/persona.jpg"
-                                        alt="Usuario"
-                                        className="icono-login"
-                                    />
-                                    Iniciar sesión
-                                </Button>
-                            </Link>
-                        </>
-                    )}
+                                )}
+                            </div>
+                        ) : (
+                            <div className="guest-actions">
+                                <Link href="/register">
+                                    <Button className="btn-nav btn-register">
+                                        Registrarse
+                                    </Button>
+                                </Link>
+                                <Link href="/login">
+                                    <Button className="btn-nav btn-login">
+                                        <img
+                                            src="/storage/otros/persona.jpg"
+                                            alt="Login"
+                                            className="icono-login-btn"
+                                        />
+                                        <span>Iniciar sesión</span>
+                                    </Button>
+                                </Link>
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
         </nav>

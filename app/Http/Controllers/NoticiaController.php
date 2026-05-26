@@ -156,7 +156,7 @@ class NoticiaController extends Controller
      */
     public function destroy(Noticia $noticia)
     {
-        $this->authorize('delete', $curso);
+        $this->authorize('delete', $noticia);
 
         if ($noticia->imagen) {
             Storage::disk('public')->delete($noticia->imagen);

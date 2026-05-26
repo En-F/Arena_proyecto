@@ -1,13 +1,15 @@
 .noticia-container {
     display: flex;
-    align-items: center;
+    flex-wrap: wrap;
+    align-items: stretch;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.1);
     padding: 2rem 1rem;
-    border-radius: 10px;
-    margin: 0 auto;
+    border-radius: 15px;
+    margin: 20px auto;
     width: 100%;
-    max-width: 1200px;
+    max-width: 1300px;
+    gap: 20px;
     box-sizing: border-box;
 }
 
@@ -16,35 +18,34 @@
     display: flex;
     flex-direction: column;
     background: white;
-    color: black;
-    border-radius: 10px;
-    padding: 1.2rem;
-    width: 250px;
-    margin: 10px;
+    color: #333;
+    border-radius: 12px;
+    width: 260px;
+    min-height: 244;
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
+        transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+        box-shadow 0.3s ease;
     text-decoration: none;
     box-sizing: border-box;
 }
 
 .news-card-inactivo {
-    border: 2px solid red;
+    border: 2px solid #ff4d4d;
+    opacity: 0.8;
 }
 
 .news-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
-    background-color: var(--fondo_noticia);
+    transform: translateY(-10px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
 }
 
 .news-img-wrapper {
     width: 100%;
-    height: 150px;
+    height: 160px;
     overflow: hidden;
-    border-radius: 8px;
+    background-color: #f0f0f0;
     flex-shrink: 0;
 }
 
@@ -52,62 +53,58 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.3s ease;
+    object-position: center;
+    display: block;
+    transition: transform 0.5s ease;
 }
 
 .news-card:hover .news-img {
-    transform: scale(1.05);
+    transform: scale(1.1);
 }
 
 .news-card h4 {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     font-weight: 700;
-    margin: 0.8rem 0 0.5rem 0;
+    margin: 1rem;
     color: #1a1a1a;
-    line-height: 1.3;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
-.news-card p,
-.news-card-inactivo p {
-    font-size: 0.85rem;
-    color: #555;
-    line-height: 1.5;
-    margin: 0;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
-.title-black-centro {
+    line-height: 1.4;
     text-align: center;
-    font-size: clamp(1.8rem, 5vw, 2.5rem);
-    color: var(--text-principal);
-    font-family: 'Compaq';
-    margin-bottom: 1.5rem;
-    padding: 0 1rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.centro-item {
+    text-decoration: none;
 }
 
 @media (max-width: 1024px) {
     .noticia-container {
-        flex-wrap: wrap;
-        gap: 20px;
+        gap: 15px;
+    }
+    .news-card,
+    .carta-crear {
+        width: 220px;
     }
 }
 
 @media (max-width: 768px) {
     .noticia-container {
         padding: 1rem;
+        gap: 10px;
     }
-
     .news-card,
-    .news-card-inactivo {
-        width: calc(50% - 20px);
-        min-width: 220px;
+    .carta-crear {
+        width: calc(50% - 15px);
+        min-width: 160px;
+        min-height: 280px;
+    }
+    .news-img-wrapper {
+        height: 130px;
+    }
+    .news-card h4 {
+        font-size: 0.95rem;
     }
 }
 
@@ -115,66 +112,15 @@
     .noticia-container {
         flex-direction: column;
         align-items: center;
-        margin: 0;
     }
-
     .news-card,
-    .news-card-inactivo {
-        width: 100%;
+    .carta-crear {
+        width: 90%;
         max-width: 320px;
-        margin: 10px 0;
+        min-height: auto;
+        margin-bottom: 10px;
     }
-
     .news-img-wrapper {
         height: 180px;
     }
-
-    .admin-actions-container {
-        gap: 20px;
-        flex-direction: column;
-    }
-
-    .title-black-centro {
-        font-size: 1.8rem;
-    }
-}
-
-.carta-crear {
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    background-color: transparent;
-
-    border: 2.5px dashed #aaa;
-
-    box-shadow: none;
-
-    transition:
-        border-color 0.3s ease,
-        background-color 0.3s ease;
-}
-
-.carta-crear:hover {
-    border-color: #0070f3;
-
-    background-color: rgba(0, 112, 243, 0.05);
-}
-
-.carta-crear-plus {
-    font-size: 3rem;
-
-    color: #aaa;
-
-    line-height: 1;
-
-    transition: color 0.3s ease;
-
-    user-select: none;
-}
-
-.centro-item:hover .carta-crear-plus {
-    color: #0070f3;
 }

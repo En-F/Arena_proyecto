@@ -6,6 +6,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { es } from 'date-fns/locale/es';
 import Button from '@/components/Layouts/Button';
 import { route } from 'ziggy-js';
+import { Link } from '@inertiajs/react';
 
 registerLocale('es', es);
 
@@ -69,14 +70,13 @@ export default function Index({
     cursoSeleccionado,
 }: Props) {
     const [fechaReferencia, setFechaReferencia] = useState(new Date());
-    const { auth } = usePage().props as any;
+    const { auth, flash } = usePage().props as any;
     const is_admin = auth.user?.is_admin || false;
     const is_jefe = auth.user?.is_jefe || false;
 
     const obtenerDiasSemana = (ref: Date) => {
         const dias = [];
         const actual = new Date(ref);
-
         const diaSemana = actual.getDay();
         const difereciaDia =
             actual.getDate() - diaSemana + (diaSemana === 0 ? -6 : 1);
@@ -85,7 +85,6 @@ export default function Index({
         for (let i = 0; i < 5; i++) {
             const dia = new Date(actual);
             dia.setDate(actual.getDate() + i);
-
             const año = dia.getFullYear();
             const mes = String(dia.getMonth() + 1).padStart(2, '0');
             const diaMes = String(dia.getDate()).padStart(2, '0');
@@ -94,7 +93,7 @@ export default function Index({
             dias.push({
                 nombre: dia.toLocaleDateString('es-ES', { weekday: 'long' }),
                 numero: dia.getDate(),
-                mes: dia.toLocaleDateString('es-ES', { month: 'short' }),
+                mes: dia.toLocaleDateString('es-ES', { month: 'long' }),
                 fechaSql: fechaSql,
             });
         }
@@ -128,10 +127,7 @@ export default function Index({
         const id = e.target.value;
         router.get(
             route('reservas.index'),
-            {
-                centro_id: centroSeleccionado,
-                curso_id: id,
-            },
+            { centro_id: centroSeleccionado, curso_id: id },
             { preserveState: true },
         );
     };
@@ -144,6 +140,12 @@ export default function Index({
                 <h1 className="mb-6 text-center text-3xl font-black tracking-tighter text-gray-900 uppercase">
                     Horario de Actividades
                 </h1>
+                {flash?.error && (
+                    <div className="mb-4 alert flex items-center gap-2 border-l-4 border-red-500 bg-red-100 p-4 alert-error text-red-800 shadow-lg">
+                        <span className="text-lg font-bold">⚠️</span>
+                        <span className="font-bold">{flash.error}</span>
+                    </div>
+                )}
 
                 <div className="flex flex-wrap justify-center gap-4 rounded-2xl p-4">
                     <div className="flex flex-col">
@@ -165,12 +167,12 @@ export default function Index({
 
                     <div className="flex flex-col">
                         <label className="text-black-400 ml-1 text-[17px] font-bold uppercase">
-                            Curso / Nivel
+                            Curso
                         </label>
                         <select
                             value={cursoSeleccionado || ''}
                             onChange={handleCursoChange}
-                            className="rounded-xl border-none bg-gray-50 p-3 text-sm text-[17px] font-medium focus:ring-2 focus:ring-blue-500"
+                            className="rounded-xl border-none bg-gray-50 p-3 text-sm font-medium focus:ring-2 focus:ring-blue-500"
                         >
                             <option value="">Todos los cursos</option>
                             {cursos.map((cur) => (
@@ -180,6 +182,16 @@ export default function Index({
                             ))}
                         </select>
                     </div>
+                    {(is_admin || is_jefe) && (
+                        <Link
+                            href={route('horarios.index')}
+                            className="enlace-corto"
+                        >
+                            <div className="img-card-container-reserva carta-crear">
+                                <span className="carta-crear-plus">+</span>
+                            </div>
+                        </Link>
+                    )}
                 </div>
             </div>
 
@@ -190,18 +202,15 @@ export default function Index({
                 >
                     <ChevronLeft size={28} />
                 </Button>
-
                 <div className="text-center">
                     <p className="text-xl font-bold uppercase opacity-80">
-                        Semana actual — {fechaReferencia.getFullYear()}
+                        Semana actual — Año({fechaReferencia.getFullYear()})
                     </p>
-
                     <h2 className="text-lg font-black">
                         {diasSemana[0].numero} {diasSemana[0].mes} —{' '}
                         {diasSemana[4].numero} {diasSemana[4].mes}
                     </h2>
                 </div>
-
                 <Button
                     onClick={irSemanaSiguiente}
                     className="rounded-full p-2 transition hover:bg-blue-500"
@@ -217,9 +226,6 @@ export default function Index({
                             <h3 className="text-sm font-black text-gray-800 uppercase">
                                 {dia.nombre}
                             </h3>
-                            <p className="text-xs font-bold text-gray-400">
-                                {dia.numero} {dia.mes}
-                            </p>
                         </div>
 
                         <div className="flex flex-col gap-4">
@@ -230,6 +236,13 @@ export default function Index({
                                             sesion.capacidad -
                                             sesion.reservas_count;
                                         const estaLleno = disponibles <= 0;
+
+                                        const ahora = new Date();
+                                        const fechaHoraSesion = new Date(
+                                            `${sesion.fecha}T${sesion.horario.hora_inicio}`,
+                                        );
+                                        const estaFinalizada =
+                                            fechaHoraSesion < ahora;
 
                                         return (
                                             <div
@@ -272,39 +285,55 @@ export default function Index({
                                                             size={14}
                                                             className="text-blue-400"
                                                         />
-                                                        {sesion.centro.nombre}
+                                                        Lugar:{' '}
+                                                        <span className="font-bold text-gray-700">
+                                                            {
+                                                                sesion.centro
+                                                                    .nombre
+                                                            }
+                                                        </span>
                                                     </div>
                                                     <div className="flex items-center gap-2 text-xs font-medium text-gray-500">
                                                         <Users
                                                             size={14}
                                                             className="text-blue-400"
                                                         />
-                                                        {sesion.reservas_count}{' '}
-                                                        / {sesion.capacidad}{' '}
-                                                        inscritos
+                                                        Capacidad:{' '}
+                                                        <span className="font-bold text-gray-700">
+                                                            {
+                                                                sesion.reservas_count
+                                                            }{' '}
+                                                            / {sesion.capacidad}
+                                                        </span>
                                                     </div>
                                                 </div>
 
                                                 <div
                                                     className={`mb-3 rounded-xl py-1.5 text-center text-[10px] font-black ${
-                                                        estaLleno
-                                                            ? 'bg-red-50 text-red-500'
-                                                            : 'bg-green-50 text-green-600'
+                                                        estaFinalizada
+                                                            ? 'bg-gray-100 text-gray-400'
+                                                            : estaLleno
+                                                              ? 'bg-red-50 text-red-500'
+                                                              : 'bg-green-50 text-green-600'
                                                     }`}
                                                 >
-                                                    {estaLleno
-                                                        ? 'CUPOS AGOTADOS'
-                                                        : `${disponibles} PLAZAS LIBRES`}
+                                                    {estaFinalizada
+                                                        ? 'SESIÓN FINALIZADA'
+                                                        : estaLleno
+                                                          ? 'CUPOS AGOTADOS'
+                                                          : `${disponibles} PLAZAS LIBRES`}
                                                 </div>
 
                                                 <Button
                                                     disabled={
+                                                        estaFinalizada ||
                                                         estaLleno ||
                                                         is_admin ||
                                                         is_jefe ||
                                                         sesion.reservas_exists
                                                     }
                                                     href={
+                                                        estaFinalizada ||
                                                         estaLleno ||
                                                         is_admin ||
                                                         is_jefe ||
@@ -318,6 +347,7 @@ export default function Index({
                                                               )
                                                     }
                                                     className={`flex w-full items-center justify-center rounded-2xl py-3 text-xs font-bold tracking-widest uppercase transition-all ${
+                                                        estaFinalizada ||
                                                         estaLleno ||
                                                         is_admin ||
                                                         is_jefe ||
@@ -326,32 +356,19 @@ export default function Index({
                                                             : 'bg-gray-900 text-white hover:bg-blue-600 hover:shadow-lg active:scale-95'
                                                     }`}
                                                 >
-                                                    {estaLleno ? (
-                                                        'Sin plazas'
-                                                    ) : is_admin || is_jefe ? (
-                                                        'Solo para socios'
-                                                    ) : sesion.reservas_exists ? (
-                                                        <span className="flex items-center gap-2">
-                                                            <svg
-                                                                className="h-4 w-4"
-                                                                fill="currentColor"
-                                                                viewBox="0 0 20 20"
-                                                            >
-                                                                <path
-                                                                    fillRule="evenodd"
-                                                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                                                    clipRule="evenodd"
-                                                                />
-                                                            </svg>
-                                                            Ya reservado
-                                                        </span>
-                                                    ) : (
-                                                        'Reservar ahora'
-                                                    )}
+                                                    {estaFinalizada
+                                                        ? 'Finalizada'
+                                                        : estaLleno
+                                                          ? 'Sin plazas'
+                                                          : is_admin || is_jefe
+                                                            ? 'Solo para socios'
+                                                            : sesion.reservas_exists
+                                                              ? 'Ya reservado'
+                                                              : 'Reservar ahora'}
                                                 </Button>
 
                                                 {(is_admin || is_jefe) && (
-                                                    <>
+                                                    <div className="mt-3 flex flex-col gap-2 border-t pt-3">
                                                         <Button
                                                             onClick={() =>
                                                                 router.get(
@@ -361,43 +378,31 @@ export default function Index({
                                                                     ),
                                                                 )
                                                             }
-                                                            className="mt-2 w-full rounded-2xl border-2 border-dashed border-gray-300 py-2 text-xs font-bold text-gray-500 uppercase transition-all hover:border-blue-500 hover:bg-blue-50 hover:text-blue-600"
+                                                            className="w-full rounded-xl border-2 border-dashed border-gray-200 py-2 text-[10px] font-bold text-gray-400 hover:border-blue-400 hover:text-blue-500"
                                                         >
                                                             Editar Sesión
                                                         </Button>
-
                                                         <Button
-                                                            onClick={() => {
-                                                                if (
-                                                                    confirm(
-                                                                        '¿Estás seguro de eliminar esta sesión?',
-                                                                    )
-                                                                ) {
-                                                                    router.delete(
-                                                                        route(
-                                                                            'sesiones.destroy',
-                                                                            sesion.id,
-                                                                        ),
-                                                                    );
-                                                                }
-                                                            }}
+                                                            onClick={() =>
+                                                                confirm(
+                                                                    '¿Borrar sesión?',
+                                                                ) &&
+                                                                router.delete(
+                                                                    route(
+                                                                        'sesiones.destroy',
+                                                                        sesion.id,
+                                                                    ),
+                                                                )
+                                                            }
                                                             disabled={
                                                                 sesion.reservas_count >
                                                                 0
                                                             }
-                                                            className={`mt-2 w-full rounded-2xl border-2 py-2 text-xs font-bold uppercase transition-all ${
-                                                                sesion.reservas_count >
-                                                                0
-                                                                    ? 'cursor-not-allowed border-gray-200 bg-gray-50 text-gray-300'
-                                                                    : 'border-transparent bg-red-50 text-red-600 hover:bg-red-600 hover:text-white'
-                                                            }`}
+                                                            className="w-full rounded-xl bg-red-50 py-2 text-[10px] font-bold text-red-500 hover:bg-red-500 hover:text-white disabled:opacity-30"
                                                         >
-                                                            {sesion.reservas_count >
-                                                            0
-                                                                ? 'No se puede borrar (con inscritos)'
-                                                                : 'Eliminar Sesión'}
+                                                            Eliminar
                                                         </Button>
-                                                    </>
+                                                    </div>
                                                 )}
                                             </div>
                                         );

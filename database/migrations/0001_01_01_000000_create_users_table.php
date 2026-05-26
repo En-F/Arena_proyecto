@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('telefono')->nullable();
             $table->boolean('activo')->default(true);
             $table->timestamp('fecha_inicio_plataforma')->nullable();
-            $table->string('stripe_customer_id')->unique();
+            $table->string('stripe_customer_id')->unique()->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

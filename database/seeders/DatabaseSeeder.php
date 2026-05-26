@@ -76,10 +76,10 @@ class DatabaseSeeder extends Seeder
         ]);
 
 
-        // --- CENTROS ---
+        // --- CENTROS ORIGINALES ---
         $centro_1 = DB::table('centros')->insertGetId([
             'nombre' => 'Ok+',
-            'descripcion' => 'Centro deportivo con dos piscinas dos piscinas de 25 metros , ambas con climatización , gimnasio remodelado y amplias zonas  para practicar deportes tanto de bicileta,baile,bachata,tambien una zona de crosfit y por ultimo zona de actividdaes al aire libre.',
+            'descripcion' => 'Centro deportivo con dos piscinas de 25 metros, ambas con climatización, gimnasio remodelado y amplias zonas para practicar deportes tanto de bicicleta, baile, bachata, zona de crossfit y actividades al aire libre.',
             'direccion' => 'Av. de la Rondeña, 11540 Sanlúcar de Barrameda, Cádiz',
             'telefono' => '657804438',
             'email' => 'info-sanlucar@okeymas.es',
@@ -90,7 +90,7 @@ class DatabaseSeeder extends Seeder
 
         $centro_2 = DB::table('centros')->insertGetId([
             'nombre' => 'Gimnasio Core Fitness',
-            'descripcion' => 'Un gimnasio equipado con las últimas máquinas de entrenamiento y un equipo de entrenadores profesionales con piscina .',
+            'descripcion' => 'Un gimnasio equipado con las últimas máquinas de entrenamiento y un equipo de entrenadores profesionales con piscina.',
             'direccion' => 'Av. de la Rondeña, S/N',
             'telefono' => '657 80 44 38',
             'email' => 'info-sanlucar@gmail.es'
@@ -116,6 +116,30 @@ class DatabaseSeeder extends Seeder
             'created_at' => now(),
         ]);
         DB::table('centros')->where('id', $centro_4)->update(['imagen' => "centros/{$centro_4}.jpg"]);
+
+        $centro_5 = DB::table('centros')->insertGetId([
+            'nombre' => 'Aqua Sports Club',
+            'descripcion' => 'Centro especializado en deportes acuáticos. Contamos con piscina olímpica, piscina para entrenamientos de natación sincronizada, zona de aguas termales y spa acuático. Entrenadores certificados en todas las disciplinas acuáticas.',
+            'direccion' => 'Calle Náutica, 25, Puerto de Santa María',
+            'telefono' => '956123456',
+            'email' => 'info@aquasports.es',
+            'latitud' => 36.59,
+            'longitud' => -6.23,
+            'created_at' => now(),
+        ]);
+        DB::table('centros')->where('id', $centro_5)->update(['imagen' => "centros/{$centro_5}.jpg"]);
+
+        $centro_7 = DB::table('centros')->insertGetId([
+            'nombre' => 'Wellness & Balance Studio',
+            'descripcion' => 'Centro holístico dedicado al bienestar integral. Especializados en yoga, pilates, meditación, aromaterapia y masajes terapéuticos. Ambiente tranquilo y relajante con instructores certificados internacionalmente.',
+            'direccion' => 'Plaza del Zen, 5, Sanlúcar de Barrameda',
+            'telefono' => '657654321',
+            'email' => 'info@wellnessbalance.es',
+            'latitud' => 36.77,
+            'longitud' => -6.35,
+            'created_at' => now(),
+        ]);
+        DB::table('centros')->where('id', $centro_7)->update(['imagen' => "centros/{$centro_7}.jpg"]);
 
 
 
@@ -201,6 +225,7 @@ class DatabaseSeeder extends Seeder
                 'created_at' => now(),
             ],
         ]);
+
         DB::table('valoraciones')->insert([
             [
                 'titulo' => 'Material de primera',
@@ -223,34 +248,99 @@ class DatabaseSeeder extends Seeder
                 'comentario' => 'El instructor es un profesional. He aprendido más en un mes aquí que en un año en otros sitios.',
                 'puntuacion' => 5,
                 'centro_id' => $centro_4,
+                'user_id' => $jefe,
+                'created_at' => now(),
+            ],
+        ]);
+
+        DB::table('valoraciones')->insert([
+            [
+                'titulo' => 'Paraíso acuático',
+                'comentario' => 'Las instalaciones de natación son impresionantes. La piscina olímpica es perfecta y el personal es muy atento.',
+                'puntuacion' => 5,
+                'centro_id' => $centro_5,
+                'user_id' => $jefe,
+                'created_at' => now(),
+            ],
+            [
+                'titulo' => 'Excelente para natación',
+                'comentario' => 'Mejor que muchos centros de natación que he probado. Los entrenadores saben realmente enseñar.',
+                'puntuacion' => 5,
+                'centro_id' => $centro_5,
+                'user_id' => $admin,
+                'created_at' => now(),
+            ],
+            [
+                'titulo' => 'Muy buenas aguas termales',
+                'comentario' => 'La zona de spa y aguas termales es relajante. Perfecto para recuperarse después del entrenamiento.',
+                'puntuacion' => 4,
+                'centro_id' => $centro_5,
                 'user_id' => $admin,
                 'created_at' => now(),
             ],
         ]);
 
 
+        // Reseñas Centro 7 (Wellness & Balance)
+        DB::table('valoraciones')->insert([
+            [
+                'titulo' => 'Santuario de paz',
+                'comentario' => 'El ambiente es increíblemente relajante. Las clases de yoga cambiarán tu perspectiva. Muy profesional.',
+                'puntuacion' => 5,
+                'centro_id' => $centro_7,
+                'user_id' => $admin,
+                'created_at' => now(),
+            ],
+            [
+                'titulo' => 'Equilibrio perfecto',
+                'comentario' => 'Combinan perfectamente yoga, pilates y meditación. Es lo que necesitaba para mi bienestar mental.',
+                'puntuacion' => 5,
+                'centro_id' => $centro_7,
+                'user_id' => $jefe,
+                'created_at' => now(),
+            ],
+            [
+                'titulo' => 'Masajes terapéuticos excelentes',
+                'comentario' => 'Los masajistas son expertos. Junto con las clases, es el lugar perfecto para recuperarse del estrés.',
+                'puntuacion' => 5,
+                'centro_id' => $centro_7,
+                'user_id' => $admin,
+                'created_at' => now(),
+            ],
+        ]);
 
-        //Tarfias
-        $tarifa_1 = DB::table('tarifas')->insertGetId(['tipo' => 'Basica', 'precio' => 24.90, 'periodo' => 'mes', 'descuento' => 0, 'hora_inicio' => '14:00:00', 'hora_fin' => '20:00:00', 'reservas_semanales' => 3, 'centro_id' => $centro_1, 'created_at' => now()]);
+
+        //--- TARIFAS ---
+        // Centro 1 (Ok+) - 3 tarifas
+        $tarifa_1 = DB::table('tarifas')->insertGetId(['tipo' => 'Basica', 'precio' => 24.90, 'periodo' => 'mes', 'descuento' => 0, 'hora_inicio' => '19:00:00', 'hora_fin' => '23:59:00', 'reservas_semanales' => 3, 'centro_id' => $centro_1, 'created_at' => now()]);
         $tarifa_2 = DB::table('tarifas')->insertGetId(['tipo' => 'Estandar', 'precio' => 45.00, 'periodo' => 'mes', 'descuento' => 10, 'hora_inicio' => '07:00:00', 'hora_fin' => '22:00:00', 'reservas_semanales' => 5, 'centro_id' => $centro_1, 'created_at' => now()]);
         $tarifa_3 = DB::table('tarifas')->insertGetId(['tipo' => 'Premium', 'precio' => 80.00, 'periodo' => 'mes', 'descuento' => 20, 'hora_inicio' => '00:00:00', 'hora_fin' => '23:59:59', 'reservas_semanales' => 99, 'centro_id' => $centro_1, 'created_at' => now()]);
+        
+        // Centro 2 (Core Fitness) - 3 tarifas
         $tarifa_4 = DB::table('tarifas')->insertGetId(['tipo' => 'Basica', 'precio' => 19.90, 'periodo' => 'mes', 'descuento' => 5, 'hora_inicio' => '07:00:00', 'hora_fin' => '12:00:00', 'reservas_semanales' => 2, 'centro_id' => $centro_2, 'created_at' => now()]);
         $tarifa_5 = DB::table('tarifas')->insertGetId(['tipo' => 'Estandar', 'precio' => 29.90, 'periodo' => 'mes', 'descuento' => 0, 'hora_inicio' => '10:00:00', 'hora_fin' => '18:00:00', 'reservas_semanales' => 3, 'centro_id' => $centro_2, 'created_at' => now()]);
         $tarifa_6 = DB::table('tarifas')->insertGetId(['tipo' => 'Premium', 'precio' => 75.00, 'periodo' => 'mes', 'descuento' => 15, 'hora_inicio' => '00:00:00', 'hora_fin' => '23:59:59', 'reservas_semanales' => 15, 'centro_id' => $centro_2, 'created_at' => now()]);
+        
+        // Centro 3 (La Marina) - 3 tarifas
         $tarifa_7 = DB::table('tarifas')->insertGetId(['tipo' => 'Premium', 'precio' => 99.00, 'periodo' => 'mes', 'descuento' => 25, 'hora_inicio' => '07:00:00', 'hora_fin' => '22:00:00', 'reservas_semanales' => 20, 'centro_id' => $centro_3, 'created_at' => now()]);
         $tarifa_8 = DB::table('tarifas')->insertGetId(['tipo' => 'Estandar', 'precio' => 39.90, 'periodo' => 'mes', 'descuento' => 0, 'hora_inicio' => '08:00:00', 'hora_fin' => '21:00:00', 'reservas_semanales' => 6, 'centro_id' => $centro_3, 'created_at' => now()]);
         $tarifa_9 = DB::table('tarifas')->insertGetId(['tipo' => 'Basica', 'precio' => 22.00, 'periodo' => 'mes', 'descuento' => 0, 'hora_inicio' => '12:00:00', 'hora_fin' => '17:00:00', 'reservas_semanales' => 2, 'centro_id' => $centro_3, 'created_at' => now()]);
-        $tarifa_10 = DB::table('tarifas')->insertGetId(['tipo' => 'Premium', 'precio' => 120.00, 'periodo' => 'trimestre', 'descuento' => 30, 'hora_inicio' => '00:00:00', 'hora_fin' => '23:59:59', 'reservas_semanales' => 50, 'centro_id' => $centro_1, 'created_at' => now()]);
         
-        // --- TARIFAS ELITE PERFORMANCE CENTER ---
-        $tarifa_11 = DB::table('tarifas')->insertGetId(['tipo' => 'Basica', 'precio' => 35.00, 'periodo' => 'mes', 'descuento' => 0, 'hora_inicio' => '06:00:00', 'hora_fin' => '13:00:00', 'reservas_semanales' => 4, 'centro_id' => $centro_4, 'created_at' => now()]);
-        $tarifa_12 = DB::table('tarifas')->insertGetId(['tipo' => 'Estandar', 'precio' => 65.00, 'periodo' => 'mes', 'descuento' => 12, 'hora_inicio' => '06:00:00', 'hora_fin' => '22:00:00', 'reservas_semanales' => 8, 'centro_id' => $centro_4, 'created_at' => now()]);
-        $tarifa_13 = DB::table('tarifas')->insertGetId(['tipo' => 'Premium', 'precio' => 140.00, 'periodo' => 'mes', 'descuento' => 25, 'hora_inicio' => '00:00:00', 'hora_fin' => '23:59:59', 'reservas_semanales' => 99, 'centro_id' => $centro_4, 'created_at' => now()]);
+        // Centro 4 (Elite Performance) - 3 tarifas
+        $tarifa_10 = DB::table('tarifas')->insertGetId(['tipo' => 'Basica', 'precio' => 35.00, 'periodo' => 'mes', 'descuento' => 0, 'hora_inicio' => '06:00:00', 'hora_fin' => '13:00:00', 'reservas_semanales' => 4, 'centro_id' => $centro_4, 'created_at' => now()]);
+        $tarifa_11 = DB::table('tarifas')->insertGetId(['tipo' => 'Estandar', 'precio' => 65.00, 'periodo' => 'mes', 'descuento' => 12, 'hora_inicio' => '06:00:00', 'hora_fin' => '22:00:00', 'reservas_semanales' => 8, 'centro_id' => $centro_4, 'created_at' => now()]);
+        $tarifa_12 = DB::table('tarifas')->insertGetId(['tipo' => 'Premium', 'precio' => 140.00, 'periodo' => 'mes', 'descuento' => 25, 'hora_inicio' => '00:00:00', 'hora_fin' => '23:59:59', 'reservas_semanales' => 99, 'centro_id' => $centro_4, 'created_at' => now()]);
+
+        // Centro 5 (Aqua Sports) - 3 tarifas
+        $tarifa_13 = DB::table('tarifas')->insertGetId(['tipo' => 'Basica', 'precio' => 28.00, 'periodo' => 'mes', 'descuento' => 5, 'hora_inicio' => '07:00:00', 'hora_fin' => '14:00:00', 'reservas_semanales' => 3, 'centro_id' => $centro_5, 'created_at' => now()]);
+        $tarifa_14 = DB::table('tarifas')->insertGetId(['tipo' => 'Estandar', 'precio' => 49.90, 'periodo' => 'mes', 'descuento' => 10, 'hora_inicio' => '07:00:00', 'hora_fin' => '20:00:00', 'reservas_semanales' => 6, 'centro_id' => $centro_5, 'created_at' => now()]);
+        $tarifa_15 = DB::table('tarifas')->insertGetId(['tipo' => 'Premium', 'precio' => 95.00, 'periodo' => 'mes', 'descuento' => 20, 'hora_inicio' => '00:00:00', 'hora_fin' => '23:59:59', 'reservas_semanales' => 99, 'centro_id' => $centro_5, 'created_at' => now()]);
 
 
-        
-
-
+        // Centro 7 (Wellness & Balance) - 3 tarifas
+        $tarifa_19 = DB::table('tarifas')->insertGetId(['tipo' => 'Basica', 'precio' => 25.00, 'periodo' => 'mes', 'descuento' => 0, 'hora_inicio' => '09:00:00', 'hora_fin' => '14:00:00', 'reservas_semanales' => 3, 'centro_id' => $centro_7, 'created_at' => now()]);
+        $tarifa_20 = DB::table('tarifas')->insertGetId(['tipo' => 'Estandar', 'precio' => 45.00, 'periodo' => 'mes', 'descuento' => 10, 'hora_inicio' => '09:00:00', 'hora_fin' => '20:00:00', 'reservas_semanales' => 5, 'centro_id' => $centro_7, 'created_at' => now()]);
+        $tarifa_21 = DB::table('tarifas')->insertGetId(['tipo' => 'Premium', 'precio' => 85.00, 'periodo' => 'mes', 'descuento' => 20, 'hora_inicio' => '08:00:00', 'hora_fin' => '21:00:00', 'reservas_semanales' => 99, 'centro_id' => $centro_7, 'created_at' => now()]);
 
 
         $instalacion_1 = DB::table('instalaciones')->insertGetId([
@@ -299,9 +389,12 @@ class DatabaseSeeder extends Seeder
         DB::table('instalaciones')->where('id', $instalacion_11)->update(['imagen' => "instalaciones/ic-{$instalacion_11}.png"]);
 
 
+
+
+
         $actividad_1 = DB::table('actividades')->insertGetId([
             'nombre' => 'Natación',
-            'descripcion' => 'Disciplina acuática integral que combina resistencia y fuerza. Ideal para fortalecer el sistema cardiovascular en un entorno de bajo impacto articular.',            'nivel' => 'Medio',
+            'descripcion' => 'Disciplina acuática integral que combina resistencia y fuerza. Ideal para fortalecer el sistema cardiovascular en un entorno de bajo impacto articular.',
             'nivel' => 'intermedio',
             'tipo_id' => $tipo_1
         ]);
@@ -360,9 +453,6 @@ class DatabaseSeeder extends Seeder
 
         $actividad_9 = DB::table('actividades')->insertGetId(['nombre' => 'Yoga', 'descripcion' => 'Equilibrio y paz mental.', 'nivel' => 'facil', 'tipo_id' => $tipo_3, 'created_at' => now()]);
         DB::table('actividades')->where('id', $actividad_9)->update(['imagen' => "actividades/{$actividad_9}.jpg"]);
-
-
-        // --- ACTIVIDADES ADICIONALES (10 nuevas) ---
 
         $actividad_10 = DB::table('actividades')->insertGetId([
             'nombre' => 'Boxeo',
@@ -433,7 +523,7 @@ class DatabaseSeeder extends Seeder
         // --- NOTICIAS ---
         $noticia_1 = DB::table('noticias')->insertGetId([
             'titulo' => 'Nueva piscina olímpica en la ciudad',
-            'contenido' => 'La ciudad celebra la inauguración de una infraestructura acuática sin precedentes. Esta piscina olímpica de 50 metros cuenta con sistemas de cronometraje Omega de última generación y un sistema de filtración por microclima que garantiza la pureza del agua sin el uso excesivo de químicos. Diseñada para competiciones internacionales, el recinto ofrece gradas para 500 espectadores y zonas de recuperación térmica para atletas de alto rendimiento. Un hito que posiciona a nuestra comunidad como el epicentro de la natación competitiva.'    ,
+            'contenido' => 'La ciudad celebra la inauguración de una infraestructura acuática sin precedentes. Esta piscina olímpica de 50 metros cuenta con sistemas de cronometraje Omega de última generación y un sistema de filtración por microclima que garantiza la pureza del agua sin el uso excesivo de químicos. Diseñada para competiciones internacionales, el recinto ofrece gradas para 500 espectadores y zonas de recuperación térmica para atletas de alto rendimiento. Un hito que posiciona a nuestra comunidad como el epicentro de la natación competitiva.',
             'user_id' => $admin,
             'created_at' => now(),
             'centro_id' => $centro_2,
@@ -451,6 +541,75 @@ class DatabaseSeeder extends Seeder
         ]);
         DB::table('noticias')->where('id', $noticia_2)->update(['imagen' => "noticias/{$noticia_2}.jpg"]);
 
+        $noticia_3 = DB::table('noticias')->insertGetId([
+            'titulo' => 'Primer Gran Torneo de Pádel de Primavera',
+            'contenido' => 'Abrimos las inscripciones para el torneo más esperado de la temporada. Nuestras pistas de cristal panorámicas acogerán a más de 100 parejas en distintas categorías. Habrá premios valorados en más de 2.000€, welcome pack para todos los participantes y zona de chill-out con DJ y foodtrucks para disfrutar del tercer tiempo. ¡Demuestra tu nivel en la pista!',
+            'user_id' => $admin,
+            'created_at' => now(),
+            'centro_id' => $centro_1,
+            'fecha' => Carbon::now()->subDays(4)->format('Y-m-d')
+        ]);
+        DB::table('noticias')->where('id', $noticia_3)->update(['imagen' => "noticias/{$noticia_3}.jpg"]);
+
+        $noticia_4 = DB::table('noticias')->insertGetId([
+            'titulo' => 'Masterclass Inmersiva de Yoga y Mindfulness',
+            'contenido' => 'Conecta cuerpo y mente en nuestra nueva sala zen inmersiva. Este próximo fin de semana organizaremos una masterclass de Vinyasa Yoga de 2 horas impartida por instructores internacionales. La sesión estará acompañada de aromaterapia, cuencos tibetanos y una proyección envolvente para llevar tu estado de relajación y flexibilidad al siguiente nivel.',
+            'user_id' => $admin,
+            'created_at' => now(),
+            'centro_id' => $centro_2,
+            'fecha' => Carbon::now()->subDays(6)->format('Y-m-d')
+        ]);
+        DB::table('noticias')->where('id', $noticia_4)->update(['imagen' => "noticias/{$noticia_4}.jpg"]);
+
+        $noticia_5 = DB::table('noticias')->insertGetId([
+            'titulo' => 'Renovación Total de la Zona de Spinning',
+            'contenido' => '¡A pedaleo limpio! Hemos actualizado completamente nuestra sala de ciclo indoor con 40 nuevas bicicletas de última generación con medidores de potencia integrados. Las nuevas pantallas gigantes te permitirán recorrer virtualmente puertos de montaña míticos del Tour de Francia mientras mides tu rendimiento cardiovascular con la máxima precisión.',
+            'user_id' => $admin,
+            'created_at' => now(),
+            'centro_id' => $centro_3 ?? $centro_1, // Fallback por si no tienes $centro_3
+            'fecha' => Carbon::now()->subDays(9)->format('Y-m-d')
+        ]);
+        DB::table('noticias')->where('id', $noticia_5)->update(['imagen' => "noticias/{$noticia_5}.jpg"]);
+
+        $noticia_6 = DB::table('noticias')->insertGetId([
+            'titulo' => 'Nuevo Servicio de Nutrición Deportiva Avanzada',
+            'contenido' => 'El rendimiento no solo se forja en el gimnasio, también en la cocina. Inauguramos nuestro gabinete de nutrición deportiva. Contamos con tecnología de bioimpedancia para analizar tu composición corporal al detalle y crear planes nutricionales 100% personalizados, ya sea para pérdida de grasa, hipertrofia o mejora del rendimiento aeróbico.',
+            'user_id' => $admin,
+            'created_at' => now(),
+            'centro_id' => $centro_1,
+            'fecha' => Carbon::now()->subDays(12)->format('Y-m-d')
+        ]);
+        DB::table('noticias')->where('id', $noticia_6)->update(['imagen' => "noticias/{$noticia_6}.jpg"]);
+
+        $noticia_7 = DB::table('noticias')->insertGetId([
+            'titulo' => 'Academia Infantil de Artes Marciales',
+            'contenido' => 'Inculcamos valores de disciplina, respeto y superación desde pequeños. Nuestra nueva academia infantil ofrece clases de judo y taekwondo para niños de 5 a 12 años. Impartidas por cinturones negros titulados, estas sesiones están diseñadas para mejorar la psicomotricidad y la confianza de los más jóvenes en un entorno seguro y divertido.',
+            'user_id' => $admin,
+            'created_at' => now(),
+            'centro_id' => $centro_2,
+            'fecha' => Carbon::now()->subDays(15)->format('Y-m-d')
+        ]);
+        DB::table('noticias')->where('id', $noticia_7)->update(['imagen' => "noticias/{$noticia_7}.jpg"]);
+
+        $noticia_8 = DB::table('noticias')->insertGetId([
+            'titulo' => 'Club de Running: Preparación para la Media Maratón',
+            'contenido' => '¿Tu objetivo es cruzar la meta? Únete a nuestro nuevo Club de Running oficial. Organizamos salidas grupales guiadas por las mejores rutas de la ciudad, sesiones de técnica de carrera en pista y entrenamientos de fuerza específicos para evitar lesiones. Incluye planificación semanal adaptada a todos los niveles, desde debutantes hasta sub-1:30h.',
+            'user_id' => $admin,
+            'created_at' => now(),
+            'centro_id' => $centro_3 ?? $centro_2,
+            'fecha' => Carbon::now()->subDays(18)->format('Y-m-d')
+        ]);
+        DB::table('noticias')->where('id', $noticia_8)->update(['imagen' => "noticias/{$noticia_8}.jpg"]);
+
+        $noticia_9 = DB::table('noticias')->insertGetId([
+            'titulo' => 'Ampliación de Horarios Ininterrumpidos',
+            'contenido' => '¡Se acabaron las excusas! Escuchando las peticiones de nuestros socios, ampliamos nuestro horario de apertura. A partir del próximo mes, las instalaciones estarán disponibles desde las 6:00 AM hasta las 23:30 PM de lunes a viernes, y fines de semana hasta las 21:00. Más flexibilidad para que adaptes el entrenamiento a tu dinámico ritmo de vida.',
+            'user_id' => $admin,
+            'created_at' => now(),
+            'centro_id' => $centro_1,
+            'fecha' => Carbon::now()->subDays(20)->format('Y-m-d')
+        ]);
+        DB::table('noticias')->where('id', $noticia_9)->update(['imagen' => "noticias/{$noticia_9}.jpg"]);
 
 
 
@@ -483,7 +642,6 @@ class DatabaseSeeder extends Seeder
         $curso_9 = DB::table('cursos')->insertGetId(['nombre' => 'Fuerza Extrema', 'descripcion' => 'Powerlifting, Crossfit y Calistenia.', 'created_at' => now()]);
         $curso_10 = DB::table('cursos')->insertGetId(['nombre' => 'Fitness de Combate', 'descripcion' => 'Quema de grasa mediante movimientos de lucha.', 'created_at' => now()]);
 
-        
         for ($i = 4; $i <= 10; $i++) {
             DB::table('cursos')->where('id', ${"curso_$i"})->update(['imagen' => "cursos/".${"curso_$i"}.".jpg"]);
         }
@@ -539,110 +697,95 @@ class DatabaseSeeder extends Seeder
         // YOGA Y PILATES
         $video_10 = DB::table('videos')->insertGetId([
             'titulo'=> 'Yoga para principiantes - 30 minutos',
-            'url'=> 'https://www.youtube.com/watch?v=9vPi-aSmXnE'
+            'url'=> 'https://www.youtube.com/watch?v=DFiO6LA5IIc&pp=ygULeW9nYSAzMCBtaW4%3D'
         ]);
 
         $video_11 = DB::table('videos')->insertGetId([
             'titulo'=> 'Pilates Básico - Fortalecimiento core',
-            'url'=> 'https://www.youtube.com/watch?v=EUfBwF9M-TQ'
+            'url'=> 'https://www.youtube.com/watch?v=jzH0c_Zq7Ug&pp=ygUPUGlsYXRlcyBCw6FzaWNv'
         ]);
 
         $video_12 = DB::table('videos')->insertGetId([
             'titulo'=> 'Yoga Vinyasa - Flujo dinámico',
-            'url'=> 'https://www.youtube.com/watch?v=OMOFfAFj2gE'
+            'url'=> 'https://www.youtube.com/watch?v=ORZqGpZguD0&pp=ygUMWW9nYSBWaW55YXNh'
         ]);
 
         // CROSSFIT Y FUERZA
         $video_13 = DB::table('videos')->insertGetId([
-            'titulo'=> 'Crossfit - Entrenamiento WOD completo',
-            'url'=> 'https://www.youtube.com/watch?v=l6PVgPlU1_s'
+            'titulo'=> 'Crossfit - Entrenamiento en casa',
+            'url'=> 'https://www.youtube.com/watch?v=R7fUPxmQlU4&pp=ygUaRW50cmVuYW1pZW50byBXT0QgY29tcGxldG8%3D'
         ]);
 
         $video_14 = DB::table('videos')->insertGetId([
             'titulo'=> 'Calistenia - Domina tu peso corporal',
-            'url'=> 'https://www.youtube.com/watch?v=qWd2vDSuYnU'
+            'url'=> 'https://www.youtube.com/watch?v=PpeH3Tj3nm0&pp=ygUKQ2FsaXN0ZW5pYQ%3D%3D'
         ]);
 
         $video_15 = DB::table('videos')->insertGetId([
             'titulo'=> 'Body Pump - Entrenamiento con barras',
-            'url'=> 'https://www.youtube.com/watch?v=Eu1L2VEIBvI'
+            'url'=> 'https://www.youtube.com/watch?v=KyewQ_22X6s&pp=ygUJQm9keSBQdW1w'
         ]);
 
         // BOXEO Y ARTES MARCIALES
         $video_16 = DB::table('videos')->insertGetId([
             'titulo'=> 'Boxeo - Técnica de golpeo básica',
-            'url'=> 'https://www.youtube.com/watch?v=kn9reFqW61k'
+            'url'=> 'https://www.youtube.com/watch?v=B_YHSnEHKJU&pp=ygUiQm94ZW8gLSBUw6ljbmljYSBkZSBnb2xwZW8gYsOhc2ljYdIHCQkECwGHKiGM7w%3D%3D'
         ]);
 
         $video_17 = DB::table('videos')->insertGetId([
             'titulo'=> 'Kickboxing - Tutorial completo',
-            'url'=> 'https://www.youtube.com/watch?v=VXp6IvJhFxU'
+            'url'=> 'https://www.youtube.com/watch?v=Vevc8bHctTQ&pp=ygUTS2lja2JveGluZyBhcHJlbmRlcg%3D%3D'
         ]);
 
         $video_18 = DB::table('videos')->insertGetId([
             'titulo'=> 'Artes marciales mixtas - Técnicas',
-            'url'=> 'https://www.youtube.com/watch?v=2LLfQ9Xd4B8'
+            'url'=> 'https://www.youtube.com/watch?v=3WRCGl-wPl0&pp=ygUfQXJ0ZXMgbWFyY2lhbGVzIG1peHRhcyBhcHJlbmRlctIHCQkECwGHKiGM7w%3D%3D'
         ]);
 
-        // CICLISMO Y SPINNING
-        $video_19 = DB::table('videos')->insertGetId([
-            'titulo'=> 'Spinning Pro - Sesión intensiva',
-            'url'=> 'https://www.youtube.com/watch?v=8SvQ8-EAg6w'
-        ]);
 
         $video_20 = DB::table('videos')->insertGetId([
             'titulo'=> 'Ciclismo outdoor - Técnica de pedalada',
-            'url'=> 'https://www.youtube.com/watch?v=F8P6AaOQM2U'
+            'url'=> 'https://www.youtube.com/watch?v=Lxii6TdpAmw&pp=ygUUVMOpY25pY2EgZGUgcGVkYWxhZGE%3D'
         ]);
 
         // DEPORTES DE EQUIPO
         $video_21 = DB::table('videos')->insertGetId([
             'titulo'=> 'Fútbol - Técnica de pase y tiro',
-            'url'=> 'https://www.youtube.com/watch?v=Lw3FjLMGfMU'
+            'url'=> 'https://www.youtube.com/watch?v=yLz_5shPGL0&pp=ygUhRsO6dGJvbCAtIFTDqWNuaWNhIGRlIHBhc2UgeSB0aXJv'
         ]);
 
         $video_22 = DB::table('videos')->insertGetId([
             'titulo'=> 'Baloncesto - Fundamentos del juego',
-            'url'=> 'https://www.youtube.com/watch?v=FCQcj5-qhC8'
+            'url'=> 'https://www.youtube.com/watch?v=5F_HNvP0nZY&pp=ygUiQmFsb25jZXN0byAtIEZ1bmRhbWVudG9zIGRlbCBqdWVnbw%3D%3D'
         ]);
 
         $video_23 = DB::table('videos')->insertGetId([
             'titulo'=> 'Pádel - Técnicas y estrategia',
-            'url'=> 'https://www.youtube.com/watch?v=8J5q0nQtKN0'
+            'url'=> 'https://www.youtube.com/watch?v=HH_c-E0b-9M&pp=ygUfUMOhZGVsIC0gVMOpY25pY2FzIHkgZXN0cmF0ZWdpYQ%3D%3D'
         ]);
 
         $video_24 = DB::table('videos')->insertGetId([
             'titulo'=> 'Tenis - Técnica de saque y golpeo',
-            'url'=> 'https://www.youtube.com/watch?v=bxLhSHo-rmo'
+            'url'=> 'https://www.youtube.com/watch?v=kQ6zcfxI-2g&pp=ygUiVGVuaXMgLSBUw6ljbmljYSBkZSBzYXF1ZSB5IGdvbHBlbw%3D%3D'
         ]);
 
         // CARDIO Y DANZA
         $video_25 = DB::table('videos')->insertGetId([
             'titulo'=> 'Zumba - Coreografía para principiantes',
-            'url'=> 'https://www.youtube.com/watch?v=Jv-J8lEaM7I'
+            'url'=> 'https://www.youtube.com/watch?v=mdK0OfyE5l8&pp=ygUnWnVtYmEgLSBDb3Jlb2dyYWbDrWEgcGFyYSBwcmluY2lwaWFudGVz'
         ]);
 
         $video_26 = DB::table('videos')->insertGetId([
             'titulo'=> 'Atletismo - Técnica de carrera',
-            'url'=> 'https://www.youtube.com/watch?v=7gLkW9FxCEA'
+            'url'=> 'https://youtu.be/T6DgTuc4lRY?si=gpLStuEmz2jLBCqx'
         ]);
 
         $video_27 = DB::table('videos')->insertGetId([
             'titulo'=> 'Entrenamiento de potencia - Sprint',
-            'url'=> 'https://www.youtube.com/watch?v=Nt2YR81HKxc'
+            'url'=> 'https://www.youtube.com/watch?v=eTn_hgP85k4&pp=ygUkRW50cmVuYW1pZW50byBkZSBwb3RlbmNpYSAtIFNwcmludCcs'
         ]);
 
-        //Horarios
-        $horario_1 = DB::table('horarios')->insertGetId(['dia' => 'Lunes', 'hora_inicio' => '07:00', 'hora_fin' => '08:30', 'estado' => true, 'created_at' => now()]);
-        $horario_2 = DB::table('horarios')->insertGetId(['dia' => 'Martes', 'hora_inicio' => '09:00', 'hora_fin' => '10:30', 'estado' => true, 'created_at' => now()]);
-        $horario_3 = DB::table('horarios')->insertGetId(['dia' => 'Miércoles', 'hora_inicio' => '11:00', 'hora_fin' => '12:30', 'estado' => true, 'created_at' => now()]);
-        $horario_4 = DB::table('horarios')->insertGetId(['dia' => 'Jueves', 'hora_inicio' => '14:00', 'hora_fin' => '15:30', 'estado' => true, 'created_at' => now()]);
-        $horario_5 = DB::table('horarios')->insertGetId(['dia' => 'Viernes', 'hora_inicio' => '16:00', 'hora_fin' => '17:30', 'estado' => true, 'created_at' => now()]);
-        $horario_6 = DB::table('horarios')->insertGetId(['dia' => 'Sábado', 'hora_inicio' => '10:00', 'hora_fin' => '13:00', 'estado' => true, 'created_at' => now()]);
-        $horario_7 = DB::table('horarios')->insertGetId(['dia' => 'Lunes', 'hora_inicio' => '18:00', 'hora_fin' => '19:30', 'estado' => true, 'created_at' => now()]);
-        $horario_8 = DB::table('horarios')->insertGetId(['dia' => 'Martes', 'hora_inicio' => '20:00', 'hora_fin' => '21:30', 'estado' => true, 'created_at' => now()]);
-        $horario_9 = DB::table('horarios')->insertGetId(['dia' => 'Miércoles', 'hora_inicio' => '21:30', 'hora_fin' => '23:00', 'estado' => true, 'created_at' => now()]);
-        $horario_10 = DB::table('horarios')->insertGetId(['dia' => 'Jueves', 'hora_inicio' => '08:00', 'hora_fin' => '12:00', 'estado' => true, 'created_at' => now()]);
+        
 
 
 
@@ -676,11 +819,9 @@ class DatabaseSeeder extends Seeder
             ['video_id' => $video_15, 'videoable_id' => $actividad_13, 'videoable_type' => 'App\Models\Actividad', 'created_at' => now()],
             
             // Spinning
-            ['video_id' => $video_19, 'videoable_id' => $actividad_14, 'videoable_type' => 'App\Models\Actividad', 'created_at' => now()],
             
             // Ciclismo
             ['video_id' => $video_20, 'videoable_id' => $actividad_2, 'videoable_type' => 'App\Models\Actividad', 'created_at' => now()],
-            ['video_id' => $video_19, 'videoable_id' => $curso_5, 'videoable_type' => 'App\Models\Curso', 'created_at' => now()],
             
             // Fútbol
             ['video_id' => $video_21, 'videoable_id' => $actividad_3, 'videoable_type' => 'App\Models\Actividad', 'created_at' => now()],
@@ -724,51 +865,72 @@ class DatabaseSeeder extends Seeder
 
         // Relación Centro - Curso
         DB::table('centro_curso')->insert([
+            // Centro 1 (Ok+)
             ['centro_id' => $centro_1, 'curso_id' => $curso_1, 'created_at' => now()], // Aguas al aire Libre
             ['centro_id' => $centro_1, 'curso_id' => $curso_6, 'created_at' => now()], // Potencia Máxima
 
+            // Centro 2 (Core Fitness)
             ['centro_id' => $centro_2, 'curso_id' => $curso_2, 'created_at' => now()], // Yoga para principiantes
             ['centro_id' => $centro_2, 'curso_id' => $curso_4, 'created_at' => now()], // Deportes de Equipo
 
+            // Centro 3 (La Marina)
             ['centro_id' => $centro_3, 'curso_id' => $curso_3, 'created_at' => now()], // Entrenamiento funcional
             ['centro_id' => $centro_3, 'curso_id' => $curso_5, 'created_at' => now()], // Triatlón Prep
 
+            // Centro 4 (Elite Performance)
             ['centro_id' => $centro_4, 'curso_id' => $curso_8, 'created_at' => now()], // Artes Marciales Mixtas
             ['centro_id' => $centro_4, 'curso_id' => $curso_9, 'created_at' => now()], // Fuerza Extrema
+
+            // Centro 5 (Aqua Sports)
+            ['centro_id' => $centro_5, 'curso_id' => $curso_1, 'created_at' => now()], // Aguas al aire Libre
+            ['centro_id' => $centro_5, 'curso_id' => $curso_5, 'created_at' => now()], // Triatlón Prep
+
+
+            // Centro 7 (Wellness & Balance)
+            ['centro_id' => $centro_7, 'curso_id' => $curso_2, 'created_at' => now()], // Yoga para principiantes
+            ['centro_id' => $centro_7, 'curso_id' => $curso_7, 'created_at' => now()], // Flexibilidad Total
         ]);
+
         // Relación Actividad - Curso
+       // --- ASIGNACIÓN DE ACTIVIDADES A CURSOS/CENTROS (4 POR CENTRO) ---
+        // --- ASIGNACIÓN DE ACTIVIDADES A CURSOS (Tabla pivot: actividad_curso) ---
         DB::table('actividad_curso')->insert([
-            // Curso 1 (Aguas): Natación + Waterpolo
-            ['curso_id' => $curso_1, 'actividad_id' => $actividad_1, 'created_at' => now()],
-            ['curso_id' => $curso_1, 'actividad_id' => $actividad_7, 'created_at' => now()],
+            // Curso 1 (Generalmente asociado a Centro 1 y 5)
+            ['curso_id' => $curso_1, 'actividad_id' => $actividad_1],  // Natación
+            ['curso_id' => $curso_1, 'actividad_id' => $actividad_2],  // Ciclismo
+            ['curso_id' => $curso_1, 'actividad_id' => $actividad_8],  // Crossfit
+            ['curso_id' => $curso_1, 'actividad_id' => $actividad_12], // Zumba
 
-            // Curso 2 (Yoga): Yoga + Pilates
-            ['curso_id' => $curso_2, 'actividad_id' => $actividad_9, 'created_at' => now()],
-            ['curso_id' => $curso_2, 'actividad_id' => $actividad_5, 'created_at' => now()],
+            // Curso 2 (Generalmente asociado a Centro 2 y 7)
+            ['curso_id' => $curso_2, 'actividad_id' => $actividad_1],  // Natación
+            ['curso_id' => $curso_2, 'actividad_id' => $actividad_13], // Body Pump
+            ['curso_id' => $curso_2, 'actividad_id' => $actividad_5],  // Pilates
+            ['curso_id' => $curso_2, 'actividad_id' => $actividad_9],  // Yoga
 
-            // Curso 3 (Funcional): Crossfit + Body Pump
-            ['curso_id' => $curso_3, 'actividad_id' => $actividad_8, 'created_at' => now()],
-            ['curso_id' => $curso_3, 'actividad_id' => $actividad_13, 'created_at' => now()],
+            // Curso 3 (Generalmente asociado a Centro 3)
+            ['curso_id' => $curso_3, 'actividad_id' => $actividad_3],  // Fútbol
+            ['curso_id' => $curso_3, 'actividad_id' => $actividad_6],  // Baloncesto
+            ['curso_id' => $curso_3, 'actividad_id' => $actividad_11], // Tenis
+            ['curso_id' => $curso_3, 'actividad_id' => $actividad_15], // Pádel
 
-            // Curso 4 (Equipo): Fútbol + Baloncesto
-            ['curso_id' => $curso_4, 'actividad_id' => $actividad_3, 'created_at' => now()],
-            ['curso_id' => $curso_4, 'actividad_id' => $actividad_6, 'created_at' => now()],
+            // Curso 4 (Generalmente asociado a Centro 2)
+            ['curso_id' => $curso_4, 'actividad_id' => $actividad_13], // Body Pump
+            ['curso_id' => $curso_4, 'actividad_id' => $actividad_2],  // Ciclismo
+            ['curso_id' => $curso_4, 'actividad_id' => $actividad_16], // Calistenia
+            ['curso_id' => $curso_4, 'actividad_id' => $actividad_8],  // Crossfit
 
-            // Curso 5 (Triatlón): Ciclismo + Atletismo
-            ['curso_id' => $curso_5, 'actividad_id' => $actividad_2, 'created_at' => now()],
-            ['curso_id' => $curso_5, 'actividad_id' => $actividad_4, 'created_at' => now()],
+            // Curso 5 (Generalmente asociado a Centro 3 y 5)
+            ['curso_id' => $curso_5, 'actividad_id' => $actividad_7],  // Waterpolo
+            ['curso_id' => $curso_5, 'actividad_id' => $actividad_14], // Spinning Pro
+            ['curso_id' => $curso_5, 'actividad_id' => $actividad_1],  // Natación
+            ['curso_id' => $curso_5, 'actividad_id' => $actividad_3],  // Fútbol
 
-            // Curso 6 (Potencia): Crossfit + Calistenia
-            ['curso_id' => $curso_6, 'actividad_id' => $actividad_8, 'created_at' => now()],
-            ['curso_id' => $curso_6, 'actividad_id' => $actividad_16, 'created_at' => now()],
+            // Curso 7 (Generalmente asociado a Centro 7)
+            ['curso_id' => $curso_7, 'actividad_id' => $actividad_9],  // Yoga
+            ['curso_id' => $curso_7, 'actividad_id' => $actividad_5],  // Pilates
+            ['curso_id' => $curso_7, 'actividad_id' => $actividad_12], // Zumba
+            ['curso_id' => $curso_7, 'actividad_id' => $actividad_10], // Boxeo
 
-            // Curso 8 (Artes Marciales): Boxeo + Calistenia
-            ['curso_id' => $curso_8, 'actividad_id' => $actividad_10, 'created_at' => now()],
-            ['curso_id' => $curso_8, 'actividad_id' => $actividad_16, 'created_at' => now()],
-
-            // Curso 9 (Fuerza Extrema): Body Pump + Calistenia
-            ['curso_id' => $curso_9, 'actividad_id' => $actividad_13, 'created_at' => now()],
-            ['curso_id' => $curso_9, 'actividad_id' => $actividad_16, 'created_at' => now()],
         ]);
 
         // Inscripciones
@@ -792,22 +954,34 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // Instalaciones del centro
-       DB::table('centro_instalacion')->insert([
-            ['centro_id' => $centro_1, 'instalacion_id' => $instalacion_1, 'created_at' => now()], 
-            ['centro_id' => $centro_1, 'instalacion_id' => $instalacion_3, 'created_at' => now()], 
-            ['centro_id' => $centro_1, 'instalacion_id' => $instalacion_6, 'created_at' => now()], 
+        DB::table('centro_instalacion')->insert([
+            // Centro 1 (Ok+)
+            ['centro_id' => $centro_1, 'instalacion_id' => $instalacion_1, 'created_at' => now()],  // Gimnasio
+            ['centro_id' => $centro_1, 'instalacion_id' => $instalacion_3, 'created_at' => now()],  // Yoga
+            ['centro_id' => $centro_1, 'instalacion_id' => $instalacion_6, 'created_at' => now()],  // Crossfit
 
-            ['centro_id' => $centro_2, 'instalacion_id' => $instalacion_4, 'created_at' => now()], 
-            ['centro_id' => $centro_2, 'instalacion_id' => $instalacion_7, 'created_at' => now()],  
-            ['centro_id' => $centro_2, 'instalacion_id' => $instalacion_9, 'created_at' => now()], 
+            // Centro 2 (Core Fitness)
+            ['centro_id' => $centro_2, 'instalacion_id' => $instalacion_4, 'created_at' => now()],  // Piscina
+            ['centro_id' => $centro_2, 'instalacion_id' => $instalacion_7, 'created_at' => now()],  // Ciclo Indoor
+            ['centro_id' => $centro_2, 'instalacion_id' => $instalacion_9, 'created_at' => now()],  // Boxeo
 
-            ['centro_id' => $centro_3, 'instalacion_id' => $instalacion_2, 'created_at' => now()], 
-            ['centro_id' => $centro_3, 'instalacion_id' => $instalacion_5, 'created_at' => now()], 
-            ['centro_id' => $centro_3, 'instalacion_id' => $instalacion_10, 'created_at' => now()], 
+            // Centro 3 (La Marina)
+            ['centro_id' => $centro_3, 'instalacion_id' => $instalacion_2, 'created_at' => now()],  // Fútbol
+            ['centro_id' => $centro_3, 'instalacion_id' => $instalacion_5, 'created_at' => now()],  // Pádel
+            ['centro_id' => $centro_3, 'instalacion_id' => $instalacion_10, 'created_at' => now()], // Tenis
 
-            ['centro_id' => $centro_4, 'instalacion_id' => $instalacion_9, 'created_at' => now()],  
-            ['centro_id' => $centro_4, 'instalacion_id' => $instalacion_6, 'created_at' => now()],  
-            ['centro_id' => $centro_4, 'instalacion_id' => $instalacion_11, 'created_at' => now()], 
+            // Centro 4 (Elite Performance)
+            ['centro_id' => $centro_4, 'instalacion_id' => $instalacion_9, 'created_at' => now()],  // Boxeo
+            ['centro_id' => $centro_4, 'instalacion_id' => $instalacion_6, 'created_at' => now()],  // Crossfit
+            ['centro_id' => $centro_4, 'instalacion_id' => $instalacion_11, 'created_at' => now()], // Spa
+
+            // Centro 5 (Aqua Sports)
+            ['centro_id' => $centro_5, 'instalacion_id' => $instalacion_4, 'created_at' => now()],  // Piscina Climatizada
+            ['centro_id' => $centro_5, 'instalacion_id' => $instalacion_11, 'created_at' => now()], // Spa
+
+            // Centro 7 (Wellness & Balance)
+            ['centro_id' => $centro_7, 'instalacion_id' => $instalacion_3, 'created_at' => now()],  // Sala de Yoga
+            ['centro_id' => $centro_7, 'instalacion_id' => $instalacion_11, 'created_at' => now()], // Spa
         ]);
 
         //Beneficios
@@ -936,95 +1110,225 @@ class DatabaseSeeder extends Seeder
                 'created_at'   => now(), 'updated_at' => now()
             ],
             [
-                'beneficio_id' => $b5, // Fuerza Muscular
+                'beneficio_id' => $b5,
                 'curso_id'     => $curso_8,
                 'created_at'   => now(), 'updated_at' => now()
             ],
             [
-                'beneficio_id' => $b7, // Coordinación y Equilibrio
+                'beneficio_id' => $b7,
                 'curso_id'     => $curso_8,
                 'created_at'   => now(), 'updated_at' => now()
             ],
             [
-                'beneficio_id' => $b3, // Pérdida de Peso
+                'beneficio_id' => $b3,
                 'curso_id'     => $curso_8,
                 'created_at'   => now(), 'updated_at' => now()
             ],
 
-            // Curso 9: Fuerza Extrema (Body Pump + Calistenia)
+            // Curso 9: Fuerza Extrema
             [
-                'beneficio_id' => $b5, // Fuerza Muscular
+                'beneficio_id' => $b5,
                 'curso_id'     => $curso_9,
                 'created_at'   => now(), 'updated_at' => now()
             ],
             [
-                'beneficio_id' => $b9, // Postura Corporal
+                'beneficio_id' => $b9,
                 'curso_id'     => $curso_9,
                 'created_at'   => now(), 'updated_at' => now()
             ],
             [
-                'beneficio_id' => $b3, // Pérdida de Peso
+                'beneficio_id' => $b3,
                 'curso_id'     => $curso_9,
                 'created_at'   => now(), 'updated_at' => now()
             ],
 
-            // Curso 10: Fitness de Combate (Boxeo + Zumba)
+            // Curso 10: Fitness de Combate
             [
-                'beneficio_id' => $b1, // Resistencia Cardiovascular
+                'beneficio_id' => $b1,
                 'curso_id'     => $curso_10,
                 'created_at'   => now(), 'updated_at' => now()
             ],
             [
-                'beneficio_id' => $b3, // Pérdida de Peso
+                'beneficio_id' => $b3,
                 'curso_id'     => $curso_10,
                 'created_at'   => now(), 'updated_at' => now()
             ],
             [
-                'beneficio_id' => $b4, // Reducción de Estrés
+                'beneficio_id' => $b4,
                 'curso_id'     => $curso_10,
                 'created_at'   => now(), 'updated_at' => now()
             ],
         ]);
 
 
-        $configuracion_cursos = [
-        $curso_1  => [$centro_1, $actividad_1, $actividad_7],  // Aguas: Natación, Waterpolo
-        $curso_2  => [$centro_2, $actividad_9, $actividad_5],  // Yoga: Yoga, Pilates
-        $curso_3  => [$centro_3, $actividad_8, $actividad_13], // Funcional: Crossfit, Body Pump
-        $curso_4  => [$centro_2, $actividad_3, $actividad_6],  // Equipo: Fútbol, Basket
-        $curso_5  => [$centro_3, $actividad_2, $actividad_4],  // Triatlón: Ciclismo, Atletismo
-        $curso_6  => [$centro_1, $actividad_8, $actividad_16], // Potencia: Crossfit, Calistenia
-        $curso_7  => [$centro_2, $actividad_9, $actividad_5],  // Flexibilidad: Yoga, Pilates
-        $curso_8  => [$centro_4, $actividad_10, $actividad_16],// MMA: Boxeo, Calistenia
-        $curso_9  => [$centro_4, $actividad_13, $actividad_16],// Fuerza: Body Pump, Calistenia
-        $curso_10 => [$centro_4, $actividad_10, $actividad_12],// Combate: Boxeo, Zumba
-    ];
+        // --- HORARIOS (Reutilizamos los mismos) ---
+        $horario_1 = DB::table('horarios')->insertGetId(['dia' => 'Lunes', 'hora_inicio' => '07:00', 'hora_fin' => '08:30', 'estado' => true, 'created_at' => now()]);
+        $horario_2 = DB::table('horarios')->insertGetId(['dia' => 'Martes', 'hora_inicio' => '09:00', 'hora_fin' => '10:30', 'estado' => true, 'created_at' => now()]);
+        $horario_3 = DB::table('horarios')->insertGetId(['dia' => 'Miércoles', 'hora_inicio' => '11:00', 'hora_fin' => '12:30', 'estado' => true, 'created_at' => now()]);
+        $horario_4 = DB::table('horarios')->insertGetId(['dia' => 'Jueves', 'hora_inicio' => '14:00', 'hora_fin' => '15:30', 'estado' => true, 'created_at' => now()]);
+        $horario_5 = DB::table('horarios')->insertGetId(['dia' => 'Viernes', 'hora_inicio' => '16:00', 'hora_fin' => '17:30', 'estado' => true, 'created_at' => now()]);
+        $horario_6 = DB::table('horarios')->insertGetId(['dia' => 'Lunes', 'hora_inicio' => '10:00', 'hora_fin' => '13:00', 'estado' => true, 'created_at' => now()]);
+        $horario_7 = DB::table('horarios')->insertGetId(['dia' => 'Lunes', 'hora_inicio' => '18:00', 'hora_fin' => '19:30', 'estado' => true, 'created_at' => now()]);
+        $horario_8 = DB::table('horarios')->insertGetId(['dia' => 'Martes', 'hora_inicio' => '20:00', 'hora_fin' => '21:30', 'estado' => true, 'created_at' => now()]);
+        $horario_9 = DB::table('horarios')->insertGetId(['dia' => 'Miércoles', 'hora_inicio' => '21:30', 'hora_fin' => '23:00', 'estado' => true, 'created_at' => now()]);
+        $horario_10 = DB::table('horarios')->insertGetId(['dia' => 'Jueves', 'hora_inicio' => '08:00', 'hora_fin' => '12:00', 'estado' => true, 'created_at' => now()]);
+        $horario_11 = DB::table('horarios')->insertGetId(['dia' => 'Viernes', 'hora_inicio' => '18:00', 'hora_fin' => '22:00', 'estado' => true, 'created_at' => now()]);
+        $horario_12 = DB::table('horarios')->insertGetId(['dia' => 'Viernes', 'hora_inicio' => '17:00', 'hora_fin' => '17:30', 'estado' => true, 'created_at' => now()]);
+        $horario_13 = DB::table('horarios')->insertGetId(['dia' => 'Jueves', 'hora_inicio' => '08:00', 'hora_fin' => '09:30', 'estado' => true, 'created_at' => now()]);
+        $horario_14 = DB::table('horarios')->insertGetId(['dia' => 'Martes', 'hora_inicio' => '10:00', 'hora_fin' => '11:30', 'estado' => true, 'created_at' => now()]);
+        $horario_15 = DB::table('horarios')->insertGetId(['dia' => 'Lunes', 'hora_inicio' => '15:00', 'hora_fin' => '16:30', 'estado' => true, 'created_at' => now()]);
 
-    foreach ($configuracion_cursos as $cursoId => $datos) {
-        $centroId = $datos[0];
-        $acts = [$datos[1], $datos[2]];
 
-        for ($i = 0; $i < 7; $i++) {
-            $fecha = Carbon::create(2026, 5, 25)->addDays($i)->format('Y-m-d');
-            
-            $actividadId = $acts[$i % 2]; 
-            
-            // Asignamos un horario (del 1 al 10) rotando para que no coincidan todos a la misma hora
-            $horarioId = ${"horario_" . (($i + $cursoId) % 10 + 1)};
+        $horario_noche_ok = DB::table('horarios')->insertGetId([
+            'dia' => 'Martes', 'hora_inicio' => '20:30', 'hora_fin' => '23:40', 'estado' => true, 'created_at' => now()
+        ]);
 
-            DB::table('sesiones')->insert([
-                'fecha'        => $fecha,
-                'capacidad'    => rand(15, 25), // Capacidad aleatoria para dar realismo
-                'centro_id'    => $centroId,
-                'curso_id'     => $cursoId,
-                'actividad_id' => $actividadId,
-                'horario_id'   => $horarioId,
-                'estado'       => true,
-                'created_at'   => now(),
-            ]);
+        // ==========================================
+        // 2. CONFIGURACIÓN Y GENERACIÓN GENERAL
+        // ==========================================
+        // 1. INSERCIÓN DE HORARIOS (Lunes a Viernes)
+        $horario_1 = DB::table('horarios')->insertGetId(['dia' => 'Lunes', 'hora_inicio' => '07:00', 'hora_fin' => '08:30', 'estado' => true, 'created_at' => now()]);
+        $horario_2 = DB::table('horarios')->insertGetId(['dia' => 'Martes', 'hora_inicio' => '09:00', 'hora_fin' => '10:30', 'estado' => true, 'created_at' => now()]);
+        $horario_3 = DB::table('horarios')->insertGetId(['dia' => 'Miércoles', 'hora_inicio' => '11:00', 'hora_fin' => '12:30', 'estado' => true, 'created_at' => now()]);
+        $horario_4 = DB::table('horarios')->insertGetId(['dia' => 'Jueves', 'hora_inicio' => '14:00', 'hora_fin' => '15:30', 'estado' => true, 'created_at' => now()]);
+        $horario_5 = DB::table('horarios')->insertGetId(['dia' => 'Viernes', 'hora_inicio' => '16:00', 'hora_fin' => '17:30', 'estado' => true, 'created_at' => now()]);
+        $horario_6 = DB::table('horarios')->insertGetId(['dia' => 'Lunes', 'hora_inicio' => '10:00', 'hora_fin' => '13:00', 'estado' => true, 'created_at' => now()]);
+        $horario_7 = DB::table('horarios')->insertGetId(['dia' => 'Lunes', 'hora_inicio' => '18:00', 'hora_fin' => '19:30', 'estado' => true, 'created_at' => now()]);
+        $horario_8 = DB::table('horarios')->insertGetId(['dia' => 'Martes', 'hora_inicio' => '20:00', 'hora_fin' => '21:30', 'estado' => true, 'created_at' => now()]);
+        $horario_9 = DB::table('horarios')->insertGetId(['dia' => 'Miércoles', 'hora_inicio' => '21:30', 'hora_fin' => '23:00', 'estado' => true, 'created_at' => now()]);
+        $horario_10 = DB::table('horarios')->insertGetId(['dia' => 'Jueves', 'hora_inicio' => '08:00', 'hora_fin' => '12:00', 'estado' => true, 'created_at' => now()]);
+        $horario_11 = DB::table('horarios')->insertGetId(['dia' => 'Viernes', 'hora_inicio' => '18:00', 'hora_fin' => '22:00', 'estado' => true, 'created_at' => now()]);
+        $horario_12 = DB::table('horarios')->insertGetId(['dia' => 'Viernes', 'hora_inicio' => '17:00', 'hora_fin' => '17:30', 'estado' => true, 'created_at' => now()]);
+        $horario_13 = DB::table('horarios')->insertGetId(['dia' => 'Jueves', 'hora_inicio' => '08:00', 'hora_fin' => '09:30', 'estado' => true, 'created_at' => now()]);
+        $horario_14 = DB::table('horarios')->insertGetId(['dia' => 'Martes', 'hora_inicio' => '10:00', 'hora_fin' => '11:30', 'estado' => true, 'created_at' => now()]);
+        $horario_15 = DB::table('horarios')->insertGetId(['dia' => 'Lunes', 'hora_inicio' => '15:00', 'hora_fin' => '16:30', 'estado' => true, 'created_at' => now()]);
+
+        $horario_noche_ok = DB::table('horarios')->insertGetId([
+            'dia' => 'Martes', 'hora_inicio' => '20:30', 'hora_fin' => '23:40', 'estado' => true, 'created_at' => now()
+        ]);
+
+        // ==========================================
+        // 2. CONFIGURACIÓN Y GENERACIÓN GENERAL
+        // ==========================================
+        $hoy = Carbon::create(2026, 5, 26);
+        
+        $config_centros_cursos = [
+            $centro_1 => [$curso_1, $curso_6],
+            $centro_2 => [$curso_2, $curso_4],
+            $centro_3 => [$curso_3, $curso_5],
+            $centro_4 => [$curso_8, $curso_9],
+            $centro_5 => [$curso_1, $curso_5],
+            $centro_7 => [$curso_2, $curso_7],
+        ];
+
+        $horarios_disponibles = [
+            $horario_1, $horario_2, $horario_3, $horario_4, $horario_5,
+            $horario_6, $horario_7, $horario_8, $horario_9, $horario_10,
+            $horario_11, $horario_12, $horario_13, $horario_14, $horario_15
+        ];
+
+        $sesion_counter = 0;
+
+        foreach ($config_centros_cursos as $centro_id => $cursos) {
+            foreach ($cursos as $curso_id) {
+                $actividades_curso = DB::table('actividad_curso')->where('curso_id', $curso_id)->pluck('actividad_id')->toArray();
+
+                if (count($actividades_curso) > 0) {
+                    $dias_generados = 0;
+                    $intento_dia = 0;
+
+                    // Generamos 5 sesiones pero saltando fines de semana
+                    while ($dias_generados < 5) {
+                        $fecha_temp = $hoy->copy()->addDays($intento_dia);
+                        
+                        // Si es Sábado (6) o Domingo (0), no insertamos y pasamos al siguiente día
+                        if (!$fecha_temp->isWeekend()) {
+                            DB::table('sesiones')->insert([
+                                'fecha'        => $fecha_temp->format('Y-m-d'),
+                                'capacidad'    => rand(12, 25),
+                                'centro_id'    => $centro_id,
+                                'curso_id'     => $curso_id,
+                                'actividad_id' => $actividades_curso[$sesion_counter % count($actividades_curso)],
+                                'horario_id'   => $horarios_disponibles[$sesion_counter % count($horarios_disponibles)],
+                                'estado'       => true,
+                                'created_at'   => now(),
+                                'updated_at'   => now(),
+                            ]);
+                            $dias_generados++;
+                            $sesion_counter++;
+                        }
+                        $intento_dia++;
+                    }
+                }
+            }
         }
-    }
 
-    }
+        // ==========================================
+        // 3. SESIONES EXTRA: CENTRO OK+ (LUNES A VIERNES)
+        // ==========================================
+        $reparto_ok = [
+            '2026-05-25' => 1, // Lunes
+            '2026-05-26' => 2, // Martes
+            '2026-05-27' => 3, // Miércoles
+            '2026-05-28' => 1, // Jueves
+            '2026-05-29' => 2, // Viernes
+        ];
 
+        $acts_ok = DB::table('actividad_curso')->where('curso_id', $curso_1)->pluck('actividad_id')->toArray();
+
+        if (count($acts_ok) > 0) {
+            foreach ($reparto_ok as $fecha_rep => $cantidad) {
+                // Validación extra: solo insertar si no es fin de semana
+                if (!Carbon::parse($fecha_rep)->isWeekend()) {
+                    for ($j = 0; $j < $cantidad; $j++) {
+                        DB::table('sesiones')->insert([
+                            'fecha'        => $fecha_rep,
+                            'capacidad'    => 20,
+                            'centro_id'    => $centro_1,
+                            'curso_id'     => $curso_1, 
+                            'actividad_id' => $acts_ok[$j % count($acts_ok)],
+                            'horario_id'   => $horario_noche_ok,
+                            'estado'       => true,
+                            'created_at'   => now(),
+                            'updated_at'   => now(),
+                        ]);
+                    }
+                }
+            }
+        }
+
+        // ==========================================
+        // 4. SESIONES EXTRA: ELITE PERFORMANCE (CENTRO 4)
+        // ==========================================
+        $reparto_elite = [
+            '2026-05-25' => 1, '2026-05-26' => 2, '2026-05-27' => 1, '2026-05-28' => 2, '2026-05-29' => 1,
+        ];
+
+        $acts_elite = DB::table('actividad_curso')->whereIn('curso_id', [$curso_8, $curso_9])->pluck('actividad_id')->toArray();
+        $horarios_elite = [$horario_8, $horario_10, $horario_11, $horario_4];
+
+        if (count($acts_elite) > 0) {
+            $e_counter = 0;
+            foreach ($reparto_elite as $fecha_e => $cantidad) {
+                if (!Carbon::parse($fecha_e)->isWeekend()) {
+                    for ($k = 0; $k < $cantidad; $k++) {
+                        DB::table('sesiones')->insert([
+                            'fecha'        => $fecha_e,
+                            'capacidad'    => rand(10, 15),
+                            'centro_id'    => $centro_4,
+                            'curso_id'     => ($k % 2 == 0) ? $curso_8 : $curso_9,
+                            'actividad_id' => $acts_elite[$e_counter % count($acts_elite)],
+                            'horario_id'   => $horarios_elite[$e_counter % count($horarios_elite)],
+                            'estado'       => true,
+                            'created_at'   => now(),
+                            'updated_at'   => now(),
+                        ]);
+                        $e_counter++;
+                    }
+                }
+            }
+        }
+    
+        
+    }
 }

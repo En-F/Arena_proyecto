@@ -1,5 +1,5 @@
 import React from 'react';
-import { Head, router, Link } from '@inertiajs/react';
+import { Head, router, Link, usePage } from '@inertiajs/react';
 import { Calendar, MapPin, Clock, Trash2, AlertCircle } from 'lucide-react';
 
 interface Reserva {
@@ -20,6 +20,7 @@ interface Props {
 }
 
 export default function MisReservas({ reservas, usuario }: Props) {
+    const { flash } = usePage().props as any;
     const handleCancelar = (id: number) => {
         if (confirm('¿Estás seguro de que deseas cancelar esta reserva?')) {
             router.delete(route('reservas.destroy', id));
@@ -29,6 +30,23 @@ export default function MisReservas({ reservas, usuario }: Props) {
     return (
         <div className="min-h-screen bg-gray-50 px-4 py-12">
             <Head title={`Reservas de ${usuario}`} />
+            {flash.error && (
+                <div className="mb-4 rounded-lg border border-red-200 bg-red-100 p-4 text-sm text-red-700 shadow-sm">
+                    <div className="flex items-center">
+                        <span className="mr-2 font-bold">⚠️ Error:</span>
+                        {flash.error}
+                    </div>
+                </div>
+            )}
+
+            {flash.success && (
+                <div className="mb-4 rounded-lg border border-green-200 bg-green-100 p-4 text-sm text-green-700 shadow-sm">
+                    <div className="flex items-center">
+                        <span className="mr-2 font-bold">✅ ¡Hecho!:</span>
+                        {flash.success}
+                    </div>
+                </div>
+            )}
 
             <div className="mx-auto max-w-3xl">
                 <header className="mb-10">

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Centro;
 use App\Models\User;
 use App\Models\Rol;
+use App\Models\Inscripcion;
 use App\Http\Requests\BuscarUsuarioRequest;
 use App\Http\Requests\usuarios\UpdateUsuarioRequest;
 use Illuminate\Support\Facades\DB;
@@ -115,7 +116,7 @@ class UsuarioController extends Controller
             });
         }
 
-        if ($request->filled('activo')) { 
+        if ($request->filled('activo')) {
             $query->where('activo', $request->boolean('activo'));
         }
 
@@ -144,14 +145,14 @@ class UsuarioController extends Controller
      */
     public function edit(User $usuario)
     {
-        
+
         $usuarioLogueado = Auth::user();
         $usuarioAEditar = User::with(['roles', 'centros'])->findOrFail($usuario->id);
 
         if ($usuarioLogueado->Jefe()) {
             $misCentrosIds = $usuarioLogueado->centros->pluck('id')->toArray();
             $usuarioComparteCentro = $usuarioAEditar->centros()->whereIn('centros.id', $misCentrosIds)->exists();
-            
+
             if (!$usuarioComparteCentro) {
                 abort(403, 'No tienes permisos para editar usuarios fuera de tu centro.');
             }
@@ -185,7 +186,7 @@ class UsuarioController extends Controller
 
         if ($usuario->Admin()) {
             return redirect()->back()->with('error', 'No se puede eliminar a un administrador del sistema.');
-        } 
+        }
 
         $usuario->delete();
 
@@ -193,7 +194,7 @@ class UsuarioController extends Controller
 
     }
 
-    public function cambiarRol(Request $request, $id) 
+    public function cambiarRol(Request $request, $id)
 {
         $rol = Rol::where('rol', $request->nuevoRol)->firstOrFail();
         $usuario = User::findOrFail($id);
@@ -206,19 +207,27 @@ class UsuarioController extends Controller
     public function cambiarActivo(Request $request, $id)
     {
         $usuarioLogueado = Auth::user();
-        
+
         if ($usuarioLogueado->id == $id) {
             return back()->withErrors(['message' => 'No puedes desactivar tu propia cuenta']);
         }
 
-        $usuarioAModificar = User::findOrFail($id);
-        $usuarioAModificar->activo = $request->activo; 
-        $usuarioAModificar->save();
+        $tieneSuscripcionVigor = Inscripcion::where('user_id', $id)
+            ->where('activo', true)
+            ->exists();
+        if ($tieneSuscripcionVigor) {
+            return redirect()->back()->withErrors([
+                'activo' => 'Este usuario tiene una suscripción activa. Cancela la suscripción antes de cambiar su estado manualmente.'
+            ]);
+        }
 
+
+        $usuarioAModificar->activo = $request->activo;
+        $usuarioAModificar->save();
         return back()->with('success', 'Estado actualizado');
     }
 
-    public function portal() 
+    public function portal()
         {
             Stripe::setApiKey(env('STRIPE_SECRET'));
 

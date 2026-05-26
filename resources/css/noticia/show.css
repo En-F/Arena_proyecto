@@ -70,9 +70,11 @@
 }
 
 .noticia-header {
-    margin-bottom: 1.5rem;
     text-align: center;
-    padding: 0 1rem;
+    margin-bottom: 2rem;
+    max-width: 750px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .link-centro {
@@ -112,6 +114,16 @@
     max-width: 600px;
 }
 
+.descripcion-wrapper {
+    margin: 0 auto 3rem auto; /* Centra el bloque */
+    line-height: 1.8;
+    color: #444;
+    font-size: 1.15rem;
+    max-width: 650px; /* Al ser más estrecho, es mucho más fácil de leer */
+    text-align: justify; /* Opcional: para un look más limpio */
+    padding: 0 1rem; /* Margen de seguridad para móviles */
+}
+
 .noticia-fecha {
     font-family: 'Times New Roman', Times, serif;
     font-size: clamp(1.2rem, 4vw, 2rem);
@@ -119,7 +131,6 @@
     color: var(--muted);
     text-align: center;
 }
-
 
 @media (max-width: 1024px) {
     .hero-wrapper {

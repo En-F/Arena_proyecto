@@ -108,6 +108,31 @@
     user-select: none;
 }
 
-.centro-item:hover .carta-crear-plus {
+.carta-crear-reserva {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border: 2.5px dashed #aaa;
+    box-shadow: none;
+    transition:
+        border-color 0.3s ease,
+        background-color 0.3s ease;
+}
+
+.carta-crear-reserva:hover {
+    border-color: #0070f3;
+    background-color: rgba(0, 112, 243, 0.05);
+}
+
+.carta-crear-plus-reserva {
+    font-size: 3rem;
+    color: #aaa;
+    line-height: 1;
+    transition: color 0.3s ease;
+    user-select: none;
+}
+
+.centro-item:hover .carta-crear-plus.carta-crear-plus-reserva {
     color: #0070f3;
 }

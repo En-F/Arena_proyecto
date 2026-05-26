@@ -274,67 +274,80 @@ export default function HorarioIndex({
                     {activeTab === 'ver' && (
                         <div>
                             <h2 className="mb-6 text-xl font-bold text-gray-800">
-                                Horarios
+                                Horarios Disponibles
                             </h2>
                             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
                                 {horarios.map((horario) => {
-                                    const tieneSesionAsignada = sesiones.some(
-                                        (s) =>
-                                            String(s.horario.id) ===
-                                            String(horario.id),
-                                    );
+                                    // Usamos la propiedad 'estado' que enviamos desde el controlador
+                                    const estaActivo = horario.estado;
 
                                     return (
                                         <div
                                             key={horario.id}
-                                            className="relative rounded-xl border-2 border-gray-100 bg-white p-5 shadow-sm transition-all hover:border-gray-200"
+                                            className={`relative rounded-xl border-2 p-5 shadow-sm transition-all ${
+                                                estaActivo
+                                                    ? 'border-green-100 bg-white hover:border-green-200'
+                                                    : 'border-gray-100 bg-gray-50/50 hover:border-gray-200'
+                                            }`}
                                         >
                                             <div className="flex items-center justify-between">
-                                                <span className="rounded-md bg-blue-50 px-2.5 py-1 text-xs font-black tracking-wider text-blue-700 uppercase">
+                                                <span
+                                                    className={`rounded-md px-2.5 py-1 text-xs font-black tracking-wider uppercase ${
+                                                        estaActivo
+                                                            ? 'bg-green-100 text-green-700'
+                                                            : 'bg-gray-200 text-gray-600'
+                                                    }`}
+                                                >
                                                     {horario.dia}
                                                 </span>
 
-                                                {tieneSesionAsignada ? (
-                                                    <span className="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-0.5 text-xs font-medium text-green-700 ring-1 ring-green-600/20 ring-inset">
-                                                        <span className="h-1.5 w-1.5 rounded-full bg-green-500"></span>
+                                                {estaActivo ? (
+                                                    <span className="inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-0.5 text-xs font-medium text-green-700 ring-1 ring-green-600/20">
+                                                        <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-green-500"></span>
                                                         En Uso
                                                     </span>
                                                 ) : (
-                                                    <span className="inline-flex items-center gap-1 rounded-full bg-red-50 px-2 py-0.5 text-xs font-medium text-red-700 ring-1 ring-red-600/20 ring-inset">
-                                                        <span className="h-1.5 w-1.5 rounded-full bg-red-500"></span>
-                                                        Disponible
+                                                    <span className="inline-flex items-center gap-1 rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-500 ring-1 ring-gray-400/20">
+                                                        <span className="h-1.5 w-1.5 rounded-full bg-gray-400"></span>
+                                                        Sin Sesiones
                                                     </span>
                                                 )}
                                             </div>
 
-                                            <div className="mt-4 text-sm font-semibold text-gray-700">
-                                                🕒{' '}
+                                            <div className="mt-4 flex items-center gap-2 text-lg font-bold text-gray-800">
+                                                <span className="text-sm text-gray-400">
+                                                    🕒
+                                                </span>
                                                 {horario.hora_inicio
                                                     .split(':')
                                                     .slice(0, 2)
-                                                    .join(':')}{' '}
-                                                -{' '}
+                                                    .join(':')}
+                                                <span className="mx-1 text-gray-300">
+                                                    -
+                                                </span>
                                                 {horario.hora_fin
                                                     .split(':')
                                                     .slice(0, 2)
                                                     .join(':')}
                                             </div>
 
-                                            <div className="minimum-h-[32px] mt-4 flex justify-end border-t border-gray-100 pt-3">
-                                                {!tieneSesionAsignada && (
-                                                    <Button
+                                            <div className="mt-4 flex justify-end border-t border-gray-100 pt-3">
+                                                {!estaActivo ? (
+                                                    <button
                                                         onClick={() =>
                                                             handleDeleteHorario(
                                                                 horario.id,
                                                             )
                                                         }
-                                                        disabled={
-                                                            formHorario.processing
-                                                        }
-                                                        className="inline-flex items-center gap-1 text-xs font-bold text-red-600 transition-colors hover:text-red-800 disabled:opacity-50"
+                                                        className="text-xs font-bold text-red-600 transition-colors hover:text-red-800"
                                                     >
-                                                        Eliminar
-                                                    </Button>
+                                                        Eliminar bloque
+                                                    </button>
+                                                ) : (
+                                                    <span className="text-[10px] text-gray-400 italic">
+                                                        No se puede eliminar
+                                                        (tiene sesiones)
+                                                    </span>
                                                 )}
                                             </div>
                                         </div>

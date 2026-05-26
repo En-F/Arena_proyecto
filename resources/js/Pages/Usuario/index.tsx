@@ -38,7 +38,7 @@ interface Props {
 }
 
 export default function Index({ usuarios, centros, roles }: Props) {
-    const { auth } = usePage().props;
+    const { auth, errors: erroresServidor } = usePage().props;
     const is_admin = auth.user?.is_admin || false;
     const is_jefe = auth.user?.is_jefe || false;
     console.log(auth.user);
@@ -81,10 +81,16 @@ export default function Index({ usuarios, centros, roles }: Props) {
             {
                 onSuccess: () => {
                     setEditandoActivoId(null);
+                    setErrores([]);
                 },
-                onError: (errores) => {
-                    console.error('Error al cambiar estado:', errores);
+                onError: (err) => {
                     setEditandoActivoId(null);
+
+                    if (err.activo) {
+                        setErrores([{ campo: 'activo', mensaje: err.activo }]);
+
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
                 },
             },
         );
@@ -125,6 +131,7 @@ export default function Index({ usuarios, centros, roles }: Props) {
 
     useEffect(() => {
         const buscarAsincrono = async () => {
+            setMensajeSistema('');
             const erroresValidacion = validarFiltros(
                 filtroNombre,
                 filtroEmail,
@@ -219,6 +226,7 @@ export default function Index({ usuarios, centros, roles }: Props) {
                 setResultado([]);
             }
         };
+        setErrores([]);
         buscarAsincrono();
     }, [filtroNombre, filtroEmail, filtroDni, filtroCentro, filtroActivo]);
 
@@ -233,6 +241,15 @@ export default function Index({ usuarios, centros, roles }: Props) {
     let UsuariosMostrar = resultado.length > 0 ? resultado : usuarios;
 
     const limpiarFiltros = () => {
+        router.get(
+            route('usuarios.index'),
+            {},
+            {
+                preserveState: false,
+                preserveScroll: true,
+            },
+        );
+
         setFiltroNombre('');
         setFiltroEmail('');
         setFiltroDni('');
@@ -243,24 +260,43 @@ export default function Index({ usuarios, centros, roles }: Props) {
         setResultado([]);
     };
 
+    console.log('Errores de Inertia:', erroresServidor);
     return (
         <>
             <Head title="Gestión de Usuarios" />
             <h2 className="title-black">Gestión de Usuarios</h2>
-
-            {errores.length > 0 && (
-                <div className="mx-auto mb-4 alert max-w-[95%] items-start alert-error shadow-lg">
-                    <div className="flex flex-col gap-1">
-                        <h3 className="font-bold">Error en la búsqueda:</h3>
-                        <ul className="list-inside list-disc text-sm">
-                            {errores.map((error, index) => (
-                                <li key={index}>{error.mensaje}</li>
-                            ))}
-                        </ul>
-                    </div>
+            {erroresServidor && erroresServidor.activo && (
+                <div className="mx-auto mb-4 alert max-w-[95%] alert-error shadow-lg">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6 shrink-0 stroke-current"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                    </svg>
+                    <span className="font-bold">{erroresServidor.activo}</span>
                 </div>
             )}
 
+            {errores.length > 0 &&
+                (!erroresServidor || !erroresServidor.activo) && (
+                    <div className="mx-auto mb-4 alert max-w-[95%] items-start alert-error shadow-lg">
+                        <div className="flex flex-col gap-1">
+                            <h3 className="font-bold">Error en la búsqueda:</h3>
+                            <ul className="list-inside list-disc text-sm">
+                                {errores.map((error, index) => (
+                                    <li key={index}>{error.mensaje}</li>
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
+                )}
             {mensajeSistema && errores.length === 0 && (
                 <div className="mr-10 mb-4 ml-10 alert alert-success">
                     <svg

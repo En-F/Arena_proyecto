@@ -292,7 +292,9 @@ export default function Edit({ tipos, actividad, cursos }: Props) {
                                 className="cn-btn-save"
                                 disabled={processing}
                             >
-                                {processing ? 'Enviando...' : 'Guardar noticia'}
+                                {processing
+                                    ? 'Enviando...'
+                                    : 'Guardar actividad'}
                             </Button>
                         </div>
                     </div>

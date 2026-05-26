@@ -1,3 +1,4 @@
+
 import { Head, usePage } from '@inertiajs/react';
 import '../../../css/centro/inicio.css';
 import Button from '@/components/Layouts/Button';

@@ -187,9 +187,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/realizar-reserva/{sesion}', [ReservaController::class, 'store'])
         ->name('proceso.reserva.store');
 
-    Route::post('/realizar-reserva/{sesion}', [ReservaController::class, 'store'])
-    ->name('proceso.reserva.store');;
-
     Route::delete('/reservas/{reserva}', [ReservaController::class, 'destroy'])
         ->name('reservas.destroy');
 

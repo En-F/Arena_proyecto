@@ -1,5 +1,6 @@
 import { Head, Link, router, useForm, usePage } from '@inertiajs/react';
 import '../../../css/noticia/show.css';
+import '../../../css/centro/show.css';
 import Button from '@/components/Layouts/Button';
 import { route } from 'ziggy-js';
 
@@ -71,7 +72,7 @@ export default function Show({ noticia, centro }: Props) {
                         <h2 className="noticia-fecha">{noticia.fecha}</h2>
                     </div>
 
-                    <p className="descripcion-centros">
+                    <p className="descripcion-wrapper">
                         {noticia.contenido || 'Sin descripción disponible...'}
                     </p>
 
