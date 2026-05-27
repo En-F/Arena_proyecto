@@ -190,7 +190,7 @@
     align-items: center !important;
     justify-content: center !important;
     gap: 8px;
-    height: 40px;
+    height: 34px;
     border: none;
     cursor: pointer;
     white-space: nowrap; /* Evita que el texto se parta */
@@ -319,5 +319,23 @@
 
     .nav-right {
         margin-left: auto;
+    }
+    .btn-nav {
+        padding: 5px 12px !important; /* Mucho más estrechos */
+        height: 32px !important; /* Más bajitos */
+        font-size: 0.65rem !important; /* Letra más pequeña */
+        gap: 5px !important; /* Icono y texto más juntos */
+    }
+    .icono-login-btn {
+        width: 14px; /* Icono minúsculo para que quepa el texto */
+        height: 14px;
+    }
+    @media (max-width: 480px) {
+        .btn-login span {
+            display: none; /* Solo queda el icono de la personita */
+        }
+        .btn-nav {
+            padding: 6px 11px !important;
+        }
     }
 }

@@ -9,6 +9,8 @@ use App\Models\Rol;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\UsuarioRegistradoMail;
 
 class CreateNewUser implements CreatesNewUsers
 {
@@ -51,11 +53,13 @@ class CreateNewUser implements CreatesNewUsers
        $rol = Rol::where('rol', 'registrado')->first();
 
         if ($rol) {
-            $usuario->roles()->attach($rol->id); 
+            $usuario->roles()->attach($rol->id);
         }
 
+        Mail::to($usuario->email)->send(new UsuarioRegistradoMail($usuario));
+
         return $usuario;
-        
+
     }
     public function messages(): array
     {
@@ -65,5 +69,5 @@ class CreateNewUser implements CreatesNewUsers
             'password.regex' => 'La contraseña no cumple con los requisitos de seguridad.',
         ];
     }
-    
+
 }

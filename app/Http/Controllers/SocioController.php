@@ -12,6 +12,10 @@ use Inertia\Inertia;
 use Stripe\Stripe;
 use Stripe\Checkout\Session;
 use App\Http\Requests\StoreSocioRequest;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\UsuarioRegistradoMail;
+
+
 
 class SocioController extends Controller
 {
@@ -52,6 +56,7 @@ class SocioController extends Controller
                 if ($userExistente) {
                     $stripeCustomerId = $userExistente->stripe_customer_id;
                 }
+
         }
 
         $multiplicador = [
@@ -133,7 +138,7 @@ class SocioController extends Controller
         ]);
 
         $meta = $session->metadata;
-        $charge = $session->payment_intent->latest_charge ?? null;        
+        $charge = $session->payment_intent->latest_charge ?? null;
         $receiptUrl = null;
 
 
@@ -150,8 +155,8 @@ class SocioController extends Controller
                         'dni' => $meta->dni,
                         'telefono' => $meta->telefono,
                         'activo' => true,
-                        'stripe_customer_id' => $session->customer 
-                    ]);   
+                        'stripe_customer_id' => $session->customer
+                    ]);
                 } else {
                     $user = User::create([
                         'name'     => $meta->name,
@@ -161,13 +166,14 @@ class SocioController extends Controller
                         'password' => Hash::make($meta->password),
                         'activo'   => true,
                         'fecha_inicio_plataforma' => now(),
-                        'stripe_customer_id' => $session->customer                    
+                        'stripe_customer_id' => $session->customer
                     ]);
+                    $esNuevoUsuario = true;
                 }
             $user->roles()->sync([3]);
 
             Inscripcion::updateOrCreate(
-                ['stripe_id' => $session->subscription ?? $session->id], 
+                ['stripe_id' => $session->subscription ?? $session->id],
                 [
                     'user_id'      => $user->id,
                     'centro_id'    => $meta->centro_id,
@@ -180,6 +186,9 @@ class SocioController extends Controller
                 ]
             );
 
+            if ($esNuevoUsuario) {
+                Mail::to($user->email)->send(new UsuarioRegistradoMail($user));
+            }
             Auth::login($user);
             return redirect()->route('inicio.index');
         });

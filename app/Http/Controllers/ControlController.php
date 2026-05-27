@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\ContactoRecibidoMail;
+use Illuminate\Support\Facades\Log;
 
 class ControlController extends Controller
 {
@@ -43,59 +45,35 @@ class ControlController extends Controller
 
     }
 
-    public function historial()
-    {
-        // {
-        //     $usuario = Auth::user();
-        //     $hoy = Carbon::now();
-
-        //     // 1. Reservas que vendrán (hoy o después)
-        //     $proximas = $usuario->reservas()
-        //         ->with('centro')
-        //         ->where('fecha', '>=', $hoy->toDateString())
-        //         ->orderBy('fecha', 'asc')
-        //         ->get();
-
-        //     // 2. Reservas que ya pasaron
-        //     $pasadas = $usuario->reservas()
-        //         ->with('centro')
-        //         ->where('fecha', '<', $hoy->toDateString())
-        //         ->orderBy('fecha', 'desc')
-        //         ->get();
-
-        //     // Enviamos los datos a la vista de React
-        //     return Inertia::render('Settings/Historial', [
-        //         'proximas' => $proximas,
-        //         'pasadas' => $pasadas
-        //     ]);
-        // }
-    }
-
     public function contacto () {
-        return Inertia::render('Contacto/index');
+
+        $usuario = Auth::user();
+
+        return Inertia::render('Contacto/index', [
+            'user_auth' => $usuario ? [
+                'name'  => $usuario->name,
+                'email' => $usuario->email,
+            ] : null
+        ]);
     }
 
     public function enviarContacto(Request $request)
     {
-        $request->validate([
+        $datos = $request->validate([
             'nombre'  => 'required|string|max:100',
             'email'   => 'required|email',
-            'mensaje' => 'required|string|min:10',
+            'mensaje' => 'required|string|',
         ]);
 
-        $adminEmail = 'admin@admin.com';
+        $destinatarios = [
+            'admin@admin.com',
+            'jefe@admin.com'
+        ];
 
         try {
-            Mail::raw("Has recibido un nuevo mensaje de contacto:\n\n" .
-                "Nombre: {$request->nombre}\n" .
-                "Email: {$request->email}\n" .
-                "Mensaje: {$request->mensaje}",
-                function ($message) use ($adminEmail, $request) {
-                    $message->to($adminEmail)
-                            ->subject('NUEVO CONTACTO: ' . $request->nombre)
-                            ->from($request->email, $request->nombre);
-                }
-            );
+           Mail::to('admin@admin.com')
+            ->cc('jefe@admin.com')
+            ->send(new ContactoRecibidoMail($datos));
 
             return back();
 
